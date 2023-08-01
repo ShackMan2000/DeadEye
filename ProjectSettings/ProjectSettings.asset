@@ -196,8 +196,6 @@ PlayerSettings:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 11400000, guid: 9d1fd433bd95c074192e50fcc57d66eb, type: 2}
-  - {fileID: 11400000, guid: 8a55d9fccde00e440b9eac0099406cbe, type: 2}
-  - {fileID: -8389236078275147338, guid: 8ba3731994128cb42a46255e8a3c9894, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -217,7 +215,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.DefaultCompany.DeadEyeVR
+    Android: com.LudicrousDesigns.DeadEyeVR
     Standalone: com.Bearded-Ninja-Games.VR-Interaction-Framework
   buildNumber:
     Bratwurst: 0
