@@ -35,3 +35,4 @@ MonoBehaviour:
   insightPassthroughEnabled: 0
   _insightPassthroughSupport: 0
   systemSplashScreen: {fileID: 0}
+  systemSplashScreenType: 0

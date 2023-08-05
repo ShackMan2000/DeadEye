@@ -258,7 +258,7 @@ namespace TRavljen.UnitFormation.Demo
         /// Instantiates a new formation based on the current type with the new
         /// configurations applied from UI.
         /// </summary>
-        private void ReinstantiateFormation()
+        public void ReinstantiateFormation()
         {
             if (currentFormation is LineFormation)
             {

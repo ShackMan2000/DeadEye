@@ -7,7 +7,7 @@ public class DroneWhisperer : MonoBehaviour
 {
     public DeadeyeUnit deadeyeUnit;
 
-    private void Awake() {
+    private void Start() {
         deadeyeUnit.unitCount++;
         deadeyeUnit.MakeNewFriend(gameObject.transform);
     }

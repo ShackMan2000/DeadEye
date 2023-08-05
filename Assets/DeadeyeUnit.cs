@@ -119,20 +119,24 @@ namespace TRavljen.UnitFormation.Demo
                             if (units[index] == null)
                             {
                                 units.RemoveAll(unit => unit == null);
+                                ApplyCurrentUnitFormation();
                                 break;
+                                
                             }
                         }
 
-                    ApplyCurrentUnitFormation();
+                // ApplyCurrentUnitFormation;
 
-        }
+            }
+
+        
            /*    if (units.Count < unitCount)
             {
                MakeNewFriend(gameObject.transform);
 
-                ApplyCurrentUnitFormation();
+               
             }
-            else  if (units.Count > unitCount)
+              if (units.Count > unitCount)
             {
 
                 
@@ -146,13 +150,13 @@ namespace TRavljen.UnitFormation.Demo
  */
                
            
-           // ApplyCurrentUnitFormation();
+          
           //   if (units.Count > 0)
          //   {
                 //HandleMouseDrag();
         //    } 
             /* FindChildObjectsWithTag(transform, "DRONE");
-            ApplyCurrentUnitFormation(); */
+           */
 
             
         
@@ -188,7 +192,7 @@ namespace TRavljen.UnitFormation.Demo
             }
         }
 
-        private void ApplyCurrentUnitFormation()
+        public void ApplyCurrentUnitFormation()
         {
             var direction = LineRenderer.GetPosition(1) - LineRenderer.GetPosition(0);
 
@@ -293,7 +297,7 @@ namespace TRavljen.UnitFormation.Demo
         /// Instantiates a new formation based on the current type with the new
         /// configurations applied from UI.
         /// </summary>
-        private void ReinstantiateFormation()
+        public void ReinstantiateFormation()
         {
             if (currentFormation is LineFormation)
             {

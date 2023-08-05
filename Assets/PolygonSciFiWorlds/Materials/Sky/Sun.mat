@@ -46,7 +46,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Glow_Texture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 685feb2fdaa84d946a9c92cec5314c72, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -66,11 +66,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Planet_Texture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: a8ddce36d617998409e580c64361552f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Rim_Texture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 700d5d639323b03408165c4dd484dd9a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample0:
@@ -91,14 +91,14 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
-    - _Glow_Intensity: 2.35
+    - _Glow_Intensity: 10
     - _Metallic: 0
     - _Mode: 1
     - _OcclusionStrength: 1
-    - _Opacity: 0
+    - _Opacity: 0.201
     - _Parallax: 0.02
-    - _Planet_Light: 1.762
-    - _Rim_Intensity: 2.04
+    - _Planet_Light: 10
+    - _Rim_Intensity: 10
     - _SmoothnessTextureChannel: 0
     - _Soft_Blend_Switch: 0
     - _SpecularHighlights: 1
@@ -110,6 +110,6 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color_Tint: {r: 1, g: 0.8931034, b: 0.5441177, a: 0}
     - _EmissionColor: {r: 0.42322502, g: 0, b: 0.5735294, a: 1}
-    - _Glow_Tint: {r: 1, g: 0.64137924, b: 0, a: 0}
-    - _Planet_Tint: {r: 1, g: 0.821501, b: 0.5955882, a: 0}
+    - _Glow_Tint: {r: 1, g: 1, b: 1, a: 0}
+    - _Planet_Tint: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
