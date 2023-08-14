@@ -4,22 +4,26 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Laser
-  - EnemyLaser
-  - BLUE
-  - RED
-  - RING
-  - SCORE
-  - HEAD
-  - ActualLaser
-  - FORWARD
-  - HP
   - SLOMOZONE
+  - HP
+  - SCORE
+  - BLUE
+  - HEAD
+  - RED
+  - FORWARD
+  - ActualLaser
+  - EnemyLaser
+  - FxTemporaire
+  - UnitFormationController
+  - RING
+  - DRONE
   - LEFTTRIGGER
   - RIGHTTRIGGER
   - SIMPLETANDEMTRIGGER
-  - DRONE
-  - UnitFormationController
+  - Enemy
+  - SamplesInfoPanel
+  - RoomLight
+  - EnemySpawner
   layers:
   - Default
   - TransparentFX

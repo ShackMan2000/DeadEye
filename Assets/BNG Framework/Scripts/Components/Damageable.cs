@@ -15,10 +15,6 @@ namespace BNG {
         public float Health = 100;
         private float _startingHealth;
 
-        public AudioClip OptionalAudioClip;
-        
-        public AudioSource OptionalAudio;
-
         [Tooltip("If specified, this GameObject will be instantiated at this transform's position on death.")]
         public GameObject SpawnOnDeath;
 
@@ -87,10 +83,6 @@ namespace BNG {
         bool initialWasKinematic;
 
         private void Start() {
-            if (gameObject.GetComponent<AudioSource>() != null)
-            {
-                OptionalAudio = GetComponent<AudioSource>();
-            }
             _startingHealth = Health;
             rigid = GetComponent<Rigidbody>();
             if (rigid) {
@@ -133,10 +125,6 @@ namespace BNG {
         public virtual void DestroyThis() {
             Health = 0;
             destroyed = true;
-            if (OptionalAudio != null)
-                {
-                    OptionalAudio.PlayOneShot(OptionalAudioClip);
-                }
 
             // Activate
             foreach (var go in ActivateGameObjectsOnDeath) {
@@ -167,8 +155,6 @@ namespace BNG {
 
             // Invoke Callback Event
             if (onDestroyed != null) {
-                
-
                 onDestroyed.Invoke();
             }
 

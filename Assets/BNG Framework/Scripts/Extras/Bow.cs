@@ -12,24 +12,6 @@ namespace BNG {
     /// </summary>
     public class Bow : GrabbableEvents {
 
-         /// <summary>
-        /// DEADEYE ARROW SWAP TECH
-        /// </summary>
-        
-        public GameObject[] ArrowBody;
-        [Tooltip("Name of the Deadeye (blue/red) arrow prefab. Must be in a /Resources/ directory.")]
-        public string ArrowPrefabName = "BLUEArrow";
-        [Tooltip("bool that swaps when red or blue")]
-        public bool BLUE = true;
-        
-
-        public Material BlueMaterial;
-        public Material RedMaterial;
-        
-
-        /// <summary>
-        /// DEADEYE DONE
-        /// </summary>
 
         [Header("Bow Settings")]
 
@@ -53,9 +35,9 @@ namespace BNG {
         /// </summary>
         public bool CanGrabArrowFromKnock = true;
 
-    
-        
-       
+        [Tooltip("Name of the prefab used to create an arrow. Must be in a /Resources/ directory.")]
+        public string ArrowPrefabName = "Arrow2";
+
         [Tooltip("Arrow will rotate around this if bow is being held in right hand")]
         public Transform ArrowRestLeftHanded; // Arrow will rotate around this
 
@@ -142,8 +124,7 @@ namespace BNG {
 
             // Grab an arrow by holding trigger in grab area
             if (canGrabArrowFromKnock()) {
-                
-                
+
                 GameObject arrow = Instantiate(Resources.Load(ArrowPrefabName, typeof(GameObject))) as GameObject;
                 arrow.transform.position = ArrowKnock.transform.position;
                 arrow.transform.LookAt(getArrowRest());
@@ -156,9 +137,6 @@ namespace BNG {
                 g.AddControllerVelocityOnDrop = false;
 
                 GrabArrow(arrow.GetComponent<Arrow>());
-                    
-                
-                
             }
 
             // No arrow, lerp knock back to start
@@ -211,59 +189,31 @@ namespace BNG {
             return CanGrabArrow && getTriggerInput(hand) > 0.75f && !holdingArrow;
         }
 
-        //DEADEYE TRIGGER SWAP
-
         float getGrabArrowInput() {
             // If we are holding an arrow, check the arrow details for input
             if (arrowGrabber != null && arrowGrabbable != null) {
 
                 GrabButton grabButton = arrowGrabber.GetGrabButton(arrowGrabbable);
-                
-                 // Grip Controls
+
+                // Grip Controls
                 if (grabButton == GrabButton.Grip) {
                     return getGripInput(arrowGrabber.HandSide);
                 }
                 // Trigger
                 else if (grabButton == GrabButton.Trigger) {
-                    return getTriggerInput(arrowGrabber.HandSide); 
+                    return getTriggerInput(arrowGrabber.HandSide);
                 }
-
-               
             }
 
             return 0;
         }
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         float getGripInput(ControllerHand handSide) {
             if (handSide == ControllerHand.Left) {
-                foreach (GameObject obj in ArrowBody)
-                        {
-                            Renderer renderer = obj.GetComponent<Renderer>();
-                            
-                            if (renderer != null)
-                            {
-                                renderer.material = BlueMaterial;
-                            }
-                        }
-                    ArrowPrefabName = "BLUEArrow";
                 return input.LeftGrip;
-                
             }
             else if (handSide == ControllerHand.Right) {
-                foreach (GameObject obj in ArrowBody)
-                        {
-                            Renderer renderer = obj.GetComponent<Renderer>();
-                            
-                            if (renderer != null)
-                            {
-                                renderer.material = BlueMaterial;
-                            }
-                        }
-                    ArrowPrefabName = "BLUEArrow";
-
                 return input.RightGrip;
-                
             }
 
             return 0;
@@ -271,35 +221,9 @@ namespace BNG {
 
         float getTriggerInput(ControllerHand handSide) {
             if (handSide == ControllerHand.Left) {
-                 foreach (GameObject obj in ArrowBody)
-                        {
-                            Renderer renderer = obj.GetComponent<Renderer>();
-                            
-                            if (renderer != null)
-                            {
-                                renderer.material = RedMaterial;
-                            }
-                        }
-                    ArrowPrefabName = "REDArrow";
-                    
                 return input.LeftTrigger;
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
             }
             else if (handSide == ControllerHand.Right) {
-
-                foreach (GameObject obj in ArrowBody)
-                        {
-                            Renderer renderer = obj.GetComponent<Renderer>();
-                            
-                            if (renderer != null)
-                            {
-                                renderer.material = RedMaterial;
-                            }
-                        }
-                    ArrowPrefabName = "REDArrow";
-
                 return input.RightTrigger;
             }
 
@@ -523,8 +447,5 @@ namespace BNG {
         public float HapticAmplitude { get; set; }
         public float HapticFrequency { get; set; }
     }
- 
- }
- 
+}
 
- 

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8091776970705940154}
   - component: {fileID: 9051229348312674934}
   - component: {fileID: 8699611126733017620}
+  - component: {fileID: 1455988453113195131}
   m_Layer: 0
   m_Name: DEADEYE DRONE
   m_TagString: DRONE
@@ -26,6 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8091776970705940152}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -33,7 +35,6 @@ Transform:
   m_Children:
   - {fileID: 1504893783687820875}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &8091776970705940154
 NavMeshAgent:
@@ -43,7 +44,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8091776970705940152}
   m_Enabled: 1
-  m_AgentTypeID: -334000983
+  m_AgentTypeID: -1372625422
   m_Radius: 0.5
   m_Speed: 10
   m_Acceleration: 20
@@ -86,6 +87,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9e6372f7dc55431c8bef3376320f1f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1455988453113195131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8091776970705940152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b9e00debcdb80f42920770a1dd8ee51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1504893783687346899
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -94,21 +107,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8091776970705940153}
     m_Modifications:
-    - target: {fileID: 138358, guid: c042006ea75c95145a2d6a074ccef3da, type: 3}
-      propertyPath: m_TagString
-      value: RED
-      objectReference: {fileID: 0}
     - target: {fileID: 175176, guid: c042006ea75c95145a2d6a074ccef3da, type: 3}
       propertyPath: m_Name
       value: droneboi
-      objectReference: {fileID: 0}
-    - target: {fileID: 194224, guid: c042006ea75c95145a2d6a074ccef3da, type: 3}
-      propertyPath: m_Name
-      value: DRONE GUN
-      objectReference: {fileID: 0}
-    - target: {fileID: 478360, guid: c042006ea75c95145a2d6a074ccef3da, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 478360, guid: c042006ea75c95145a2d6a074ccef3da, type: 3}
       propertyPath: m_LocalPosition.x
@@ -150,81 +151,127 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9557796, guid: c042006ea75c95145a2d6a074ccef3da, type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 13783522, guid: c042006ea75c95145a2d6a074ccef3da, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 4a2bbc711d278624b97edfc09c9cf78f, type: 2}
-    - target: {fileID: 648288845538112384, guid: c042006ea75c95145a2d6a074ccef3da,
+    - target: {fileID: 2149469300394280653, guid: c042006ea75c95145a2d6a074ccef3da,
         type: 3}
-      propertyPath: thisIsBlue
-      value: 0
+      propertyPath: _defaultData
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b78e326a655a354883eb6f3a36070e7,
+        type: 2}
+    - target: {fileID: 2149469300394280653, guid: c042006ea75c95145a2d6a074ccef3da,
+        type: 3}
+      propertyPath: _canvasPrefab
+      value: 
+      objectReference: {fileID: 1926280506753864649, guid: dd88e50c89d53eb46abb5b1e73d9d025,
+        type: 3}
+    - target: {fileID: 2723000967260563538, guid: c042006ea75c95145a2d6a074ccef3da,
+        type: 3}
+      propertyPath: fireInterval
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2723000967260563538, guid: c042006ea75c95145a2d6a074ccef3da,
+        type: 3}
+      propertyPath: inaccuracyAngle
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3119854862183020987, guid: c042006ea75c95145a2d6a074ccef3da,
+        type: 3}
+      propertyPath: Health
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3119854862183020987, guid: c042006ea75c95145a2d6a074ccef3da,
+        type: 3}
+      propertyPath: DestroyDelay
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3119854862183020987, guid: c042006ea75c95145a2d6a074ccef3da,
+        type: 3}
+      propertyPath: SpawnOnDeath
+      value: 
+      objectReference: {fileID: 1134129239631916, guid: 7e48ba6b1b968764490bbc70b66e3fe1,
+        type: 3}
+    - target: {fileID: 3119854862183020987, guid: c042006ea75c95145a2d6a074ccef3da,
+        type: 3}
+      propertyPath: DestroyOnDeath
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3119854862183020987, guid: c042006ea75c95145a2d6a074ccef3da,
+        type: 3}
+      propertyPath: onDestroyed.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3119854862183020987, guid: c042006ea75c95145a2d6a074ccef3da,
+        type: 3}
+      propertyPath: onDestroyed.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3119854862183020987, guid: c042006ea75c95145a2d6a074ccef3da,
+        type: 3}
+      propertyPath: onDestroyed.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3119854862183020987, guid: c042006ea75c95145a2d6a074ccef3da,
         type: 3}
       propertyPath: onDestroyed.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 1455988453113195131}
+    - target: {fileID: 3119854862183020987, guid: c042006ea75c95145a2d6a074ccef3da,
+        type: 3}
+      propertyPath: onDestroyed.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
       objectReference: {fileID: 8699611126733017620}
+    - target: {fileID: 3119854862183020987, guid: c042006ea75c95145a2d6a074ccef3da,
+        type: 3}
+      propertyPath: onDestroyed.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3119854862183020987, guid: c042006ea75c95145a2d6a074ccef3da,
+        type: 3}
+      propertyPath: onDestroyed.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RemoveMyself
+      objectReference: {fileID: 0}
+    - target: {fileID: 3119854862183020987, guid: c042006ea75c95145a2d6a074ccef3da,
+        type: 3}
+      propertyPath: onDestroyed.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: DestroyMeDaddy
+      objectReference: {fileID: 0}
+    - target: {fileID: 3119854862183020987, guid: c042006ea75c95145a2d6a074ccef3da,
+        type: 3}
+      propertyPath: onDestroyed.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnitFormationFinder, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3119854862183020987, guid: c042006ea75c95145a2d6a074ccef3da,
+        type: 3}
+      propertyPath: onDestroyed.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: DestroyGameObject, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3119854862183020987, guid: c042006ea75c95145a2d6a074ccef3da,
+        type: 3}
+      propertyPath: onDestroyed.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3119854862183020987, guid: c042006ea75c95145a2d6a074ccef3da,
+        type: 3}
+      propertyPath: onDestroyed.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8332622269532202214, guid: c042006ea75c95145a2d6a074ccef3da,
+        type: 3}
+      propertyPath: m_UpdateRate
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8508615112749370645, guid: c042006ea75c95145a2d6a074ccef3da,
+        type: 3}
+      propertyPath: m_UpdateRate
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 194224, guid: c042006ea75c95145a2d6a074ccef3da,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4298542571759408759}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c042006ea75c95145a2d6a074ccef3da, type: 3}
---- !u!1 &1504893783687449699 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 194224, guid: c042006ea75c95145a2d6a074ccef3da,
-    type: 3}
-  m_PrefabInstance: {fileID: 1504893783687346899}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4298542571759408759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1504893783687449699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9faf720cfcacc7546a25b069727782c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 0}
-  shootPoint: {fileID: 1504893783687704007}
-  fireInterval: 1.5
-  inaccuracyAngle: 5
-  blueProjectile: {fileID: 298535018758749737, guid: 5fc64ebded3cd834ca80647c1997f498,
-    type: 3}
-  redProjectile: {fileID: 6811471231455483325, guid: 9b9fabda2db28bf40aa776b80b5a5dde,
-    type: 3}
-  colorGuy: {fileID: 2025876190526769491}
---- !u!4 &1504893783687704007 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 431892, guid: c042006ea75c95145a2d6a074ccef3da,
-    type: 3}
-  m_PrefabInstance: {fileID: 1504893783687346899}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1504893783687820875 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 478360, guid: c042006ea75c95145a2d6a074ccef3da,
     type: 3}
   m_PrefabInstance: {fileID: 1504893783687346899}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2025876190526769491 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 648288845538112384, guid: c042006ea75c95145a2d6a074ccef3da,
-    type: 3}
-  m_PrefabInstance: {fileID: 1504893783687346899}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31102f209dd8efa479aaf5e579f7174d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

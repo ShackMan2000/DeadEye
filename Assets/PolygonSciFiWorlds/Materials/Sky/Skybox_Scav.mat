@@ -11,7 +11,8 @@ Material:
   m_Shader: {fileID: 4800000, guid: 5bf71ed386e3cf04e82f69b4a5770277, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _UV_BASED_TOGGLE_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
@@ -72,7 +73,7 @@ Material:
     - _Distance: 2387.3
     - _Distance1: 144.7
     - _DstBlend: 0
-    - _Falloff: 1.2
+    - _Falloff: 1.3
     - _Falloff1: 0.6
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -80,21 +81,21 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _Offset: -966.7
+    - _Offset: 0
     - _Offset1: -19.97
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _UV_Based_Toggle: 0
+    - _UV_Based_Toggle: 1
     - _ZWrite: 1
     - __dirty: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorBottom: {r: 1, g: 0.85057473, b: 0.75, a: 1}
+    - _ColorBottom: {r: 0.7294118, g: 0.45882356, b: 0.2627451, a: 1}
     - _ColorBottom1: {r: 0.53647417, g: 0.09764275, b: 0.63235295, a: 0}
-    - _ColorTop: {r: 0.41960788, g: 0.65882355, b: 0.7176471, a: 0}
+    - _ColorTop: {r: 0.91194963, g: 0.9615688, b: 1, a: 0.6666667}
     - _ColorTop1: {r: 0, g: 1, b: 0.7517242, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

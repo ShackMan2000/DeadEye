@@ -4,15 +4,18 @@ using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
 using BNG;
+using TRavljen.UnitFormation.Demo;
 
 public class HPManager : MonoBehaviour
 {
     public float HP;
     public TMP_Text hpText;
     public UnityEvent GameOver;
-
-    public TimeController time;
+    public DeadeyeUnit UnitGuy;
+  //  public TimeController time;
     public GameObject[] Lasers;
+    public GameObject KillSpawner;
+    public GameObject[] Drones;
    /*  public bool Waiting;
     public float WaitingTime;
   
@@ -20,7 +23,7 @@ public class HPManager : MonoBehaviour
     private void Awake()
     {
         hpText = this.GetComponent<TMP_Text>();
-        HP = 3f;
+        HP = 5f;
         HPUpdate();
        /*  Waiting = false; */
     
@@ -39,7 +42,7 @@ public class HPManager : MonoBehaviour
 
     public void Hit() {
  /*    if (!Waiting){ */
-    {   /* Waiting = true; */
+       /* Waiting = true; */
         Lasers = GameObject.FindGameObjectsWithTag("ActualLaser");
         foreach (GameObject obj in Lasers)
         {
@@ -47,11 +50,28 @@ public class HPManager : MonoBehaviour
         }
                 HP = HP -1f;
         HPUpdate();
-        time.ResumeTime();
+       // time.ResumeTime();
      /*    WaitingTimeActivate(); */
     }
+
+    public void GameOverGuy()
+    {   
+         KillSpawner = GameObject.FindWithTag("EnemySpawner");
+        Drones = GameObject.FindGameObjectsWithTag("DRONE");
+        //UnitGuy = GameObject.FindWithTag("UnitFormationController").GetComponent<DeadeyeUnit>();
+        GameObject.Destroy(KillSpawner);
+        foreach (GameObject unit in Drones)
+        {
+            Destroy(unit);
+        }
+
+        HP = 5f;
+
+       // Drones.Clear(); // Clear the list after destroying all units
+
+       // UnitGuy.DestroyAllUnits();
     }
-    }
+        }
    /* public  System.Collections.IEnumerator WaitingTimeActivate()
     {
          yield return new WaitForSeconds(WaitingTime);

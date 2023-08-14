@@ -101,7 +101,7 @@ namespace TRavljen.UnitFormation.Demo
  */
       //  #endregion
 
-        private void Start()
+        private void Awake()
         {
             LineRenderer.enabled = false;
             SetUnitFormation(new LineFormation(unitSpacing));
@@ -119,10 +119,12 @@ namespace TRavljen.UnitFormation.Demo
                             if (units[index] == null)
                             {
                                 units.RemoveAll(unit => unit == null);
-                                ApplyCurrentUnitFormation();
+                                
                                 break;
                                 
                             }
+                           // ReinstantiateFormation();
+                           // ApplyCurrentUnitFormation();
                         }
 
                 // ApplyCurrentUnitFormation;
@@ -159,7 +161,28 @@ namespace TRavljen.UnitFormation.Demo
            */
 
             
-        
+         public void RemoveEnemy(GameObject enemyToRemove)
+    {
+        if (enemyToRemove == null)
+        {
+            Debug.LogWarning("Trying to remove a null enemy.");
+            return;
+        }
+
+        if (units.Contains(enemyToRemove))
+        {       
+            units.Remove(enemyToRemove);
+            unitCount--;
+            Destroy(enemyToRemove, 0.3f);
+            // You may also want to trigger your methods like ReinstatiateFormation and ApplyCurrentFormation here.
+            //ReinstantiateFormation();
+           // ApplyCurrentUnitFormation();
+        }
+        else
+        {
+            Debug.LogWarning("Enemy not found in the units list.");
+        }
+    }
 
         private void HandleMouseDrag()
         {
@@ -339,6 +362,17 @@ namespace TRavljen.UnitFormation.Demo
                     
                 }
         }
+
+        public void DestroyAllUnits()
+    {
+        foreach (GameObject unit in units)
+        {
+            Destroy(unit);
+        }
+
+        units.Clear(); // Clear the list after destroying all units
+    }
+        
 
  /*         void FindChildObjectsWithTag(Transform parent, string tag)
     {

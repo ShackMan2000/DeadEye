@@ -100,9 +100,9 @@ namespace BNG {
             if(!_slowingTime) {
 
                 // Make sure we aren't running a routine
-                //if(resumeRoutine != null) {
-                  //  StopCoroutine(resumeRoutine);
-            //    }
+                if(resumeRoutine != null) {
+                    StopCoroutine(resumeRoutine);
+                }
 
                 // Play Slow time clip
                 audioSource.clip = SlowTimeClip;
@@ -117,7 +117,6 @@ namespace BNG {
                 Time.fixedDeltaTime = originalFixedDelta * Time.timeScale;
 
                 _slowingTime = true;
-                resumeTimeRoutine();
             }
         }
 
@@ -125,30 +124,14 @@ namespace BNG {
         public void ResumeTime() {
             // toggled over; play audio cue
             // Don't resume until we're done playing the initial sound clip
-            if(_slowingTime &&!routineRunning)  {
+            if(_slowingTime && !audioSource.isPlaying && !routineRunning) {
 
                 resumeRoutine = resumeTimeRoutine();
                 StartCoroutine(resumeRoutine);
             }
-/* 
-            audioSource.clip = SpeedupTimeClip;
-            audioSource.Play();
-
-            InputBridge.Instance.VibrateController(0.1f, 0.2f, SpeedupTimeClip.length, ControllerHand.Left);
-
-            // Wait for a split second before resuming time again
-            yield return new WaitForSeconds(0f);
-
-            Time.timeScale = 1;
-            Time.fixedDeltaTime = originalFixedDelta; */
-         /*     _slowingTime = false; */
-           
-
-
         }
 
-       IEnumerator resumeTimeRoutine() {
-           
+        IEnumerator resumeTimeRoutine() {
             routineRunning = true;
 
             audioSource.clip = SpeedupTimeClip;
@@ -157,16 +140,14 @@ namespace BNG {
             InputBridge.Instance.VibrateController(0.1f, 0.2f, SpeedupTimeClip.length, ControllerHand.Left);
 
             // Wait for a split second before resuming time again
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.35f);
 
             Time.timeScale = 1;
             Time.fixedDeltaTime = originalFixedDelta;
 
             _slowingTime = false;
             routineRunning = false;
-        } 
+        }
     }
 }
-
-
 

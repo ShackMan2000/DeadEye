@@ -421,7 +421,7 @@ namespace BNG {
             }
 
             HeldItem.enabled = true;
-//            HeldItem.transform.parent = null;
+            HeldItem.transform.parent = null;
 
             // Play Unsnap sound
             if (HeldItem != null) {

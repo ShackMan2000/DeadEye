@@ -8,38 +8,48 @@ public class ScoreManager : MonoBehaviour
 {
     public float Score = 0f;
     public TMP_Text scoreText;
-    
+    public Text highScoreText; // Renamed to avoid confusion with the method name
+    public float highScoreNum;
+
     private void Awake()
     {
         scoreText = GameObject.FindWithTag("SCORE").GetComponent<TMP_Text>();
+        highScoreNum = PlayerPrefs.GetFloat("HighScore", 0f); // Load high score from player prefs
+        highScoreText.text = "High Score: " + highScoreNum.ToString();
     }
 
     public void Score10()
     {
-        Score = Score + 10f;
-        scoreText.text = ("Score: " + Score);
+        Score += 10f;
+        UpdateScoreText();
     }
+
     public void Score30()
     {
-        Score = Score + 30f;
-        scoreText.text = ("Score: " + Score);
-
+        Score += 30f;
+        UpdateScoreText();
     }
-     public void MinusScore()
-    {
-        Score = Score - 5f;
-        scoreText.text = ("Score: " + Score);
 
+    public void MinusScore()
+    {
+        Score -= 5f;
+        UpdateScoreText();
     }
 
     public void score(float newScore)
-
     {
         Score += newScore;
-        scoreText.text = ("Score: " + Score.ToString());
-        
+        UpdateScoreText();
     }
-    
-    
 
+    public void UpdateScoreText()
+    {
+        scoreText.text = "Score: " + Score.ToString();
+        if (Score > highScoreNum)
+        {
+            highScoreNum = Score;
+            highScoreText.text = "High Score: " + highScoreNum.ToString();
+            PlayerPrefs.SetFloat("HighScore", highScoreNum); // Save new high score to player prefs
+        }
+    }
 }

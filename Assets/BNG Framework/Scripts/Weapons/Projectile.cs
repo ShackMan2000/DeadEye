@@ -14,10 +14,6 @@ namespace BNG {
         private bool _checkRaycast;
         public float Damage = 25;
 
-        public bool DeadEye;
-
-        public HPManager HP;
-
         /// <summary>
         /// Add force to rigidbody on impact
         /// </summary>
@@ -26,11 +22,7 @@ namespace BNG {
         public LayerMask ValidLayers;
 
         public bool StickToObject = false;
-        private void Start()
 
-        {
-            if (DeadEye) { HP = GameObject.FindWithTag("HP").GetComponent<HPManager>(); }
-        }
         /// <summary>
         /// Minimum Z velocity required to register as an impact
         /// </summary>
@@ -48,7 +40,7 @@ namespace BNG {
             if (collision.collider.isTrigger) {
                 return;
             }
-            else {
+
             Rigidbody rb = GetComponent<Rigidbody>();
             if (rb && MinForceHit != 0) {
                 float zVel = System.Math.Abs(transform.InverseTransformDirection(rb.velocity).z);
@@ -70,7 +62,6 @@ namespace BNG {
             Damageable d = collision.collider.GetComponent<Damageable>();
             if (d) {
                 d.DealDamage(Damage, hitPosition, normal, true, gameObject, collision.collider.gameObject);
-               // if (DeadEye) {HP.Hit()}
 
                 if (onDealtDamageEvent != null) {
                     onDealtDamageEvent.Invoke();
@@ -80,18 +71,11 @@ namespace BNG {
             if (StickToObject) {
                 // tryStickToObject
             }
-           /* //  if (!DeadEye)
-            {
+            else {
+                // Done with this projectile
                 Destroy(this.gameObject);
-            } */
-            else  
-            {
-                Destroy(this.gameObject);
-            }
-              
             }
         }
-        
 
         public virtual void DoHitFX(Vector3 pos, Quaternion rot, Collider col) {
 

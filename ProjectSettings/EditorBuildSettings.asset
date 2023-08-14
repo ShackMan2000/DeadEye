@@ -24,17 +24,11 @@ EditorBuildSettings:
     path: Assets/BNG Framework/Scenes/Quest Demo.unity
     guid: eac0312c32df12949a47d07747a9d1cd
   - enabled: 0
-    path: Assets/DEADEYE MENU.unity
-    guid: 3768977dd9abfea40af20d336f4f8998
-  - enabled: 0
-    path: Assets/DEADEYE MAIN.unity
-    guid: 76bfe709b12f83a4ca3635ee42153a44
-  - enabled: 0
-    path: Assets/_DEADEYE PRIME.unity
-    guid: 62327f477094b7344a3c4fd92f52fe3d
-  - enabled: 1
-    path: Assets/DEADEYE BETA.unity
+    path: Assets/OLD DEADEYE SCENES/DEADEYE BETA.unity
     guid: 144c7782ac248df49a677d7ea3174cb7
+  - enabled: 1
+    path: Assets/_1_MAIN SCENE FOR DEADEYE.unity
+    guid: ed5ad3762c3f59d4b95c0728ce08065a
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 8a55d9fccde00e440b9eac0099406cbe,
       type: 2}
@@ -43,7 +37,7 @@ EditorBuildSettings:
     WebXR.Settings: {fileID: 11400000, guid: fe9659bb224bb054bb1dbca065d1d318, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 7c0d65f8139523c47a3ac0b1587ccdf6,
       type: 2}
-    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 8ba3731994128cb42a46255e8a3c9894,
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 8c87567ea7f6702418b9527e7cb32160,
       type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 8ad6ac11c19f9cb419d7e862f5900380,
       type: 2}
