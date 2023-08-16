@@ -109,6 +109,7 @@ namespace SpawnFactory
 
         #region Private Properties/Structs
         private bool canSpawn = true;
+        [SerializeField]
         private List<SpawnedMob> spawnedMobs = new List<SpawnedMob>();
         private bool playerNearby = false;
         private int wavesSpawned = 0;
@@ -128,7 +129,8 @@ namespace SpawnFactory
         private const string poolTagPrefix = "SpawnFactory";
         private List<ContinousSpawn> mobsForContinuous = new List<ContinousSpawn>();
         private bool isNewWave = false;
-        private int currentSpawnedCount = 0;
+        [SerializeField]
+        int currentSpawnedCount = 0;
         private List<SpawnedMob> mobsLateDisableKills = new List<SpawnedMob>();
         private string coroutineTag = "EnemySpawner";
         private bool allEnemiesDead = false;

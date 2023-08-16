@@ -71,6 +71,12 @@ public class HPManager : MonoBehaviour
 
        // UnitGuy.DestroyAllUnits();
     }
+
+    public void GameStartGuy()
+    {
+        HP = 5f;
+        HPUpdate();
+    }
         }
    /* public  System.Collections.IEnumerator WaitingTimeActivate()
     {

@@ -132,7 +132,7 @@ namespace BNG {
             input = InputBridge.Instance;
         }
 
-        public void Update() {
+        public void FixedUpdate() {
 
             CheckForGrabChange();
 

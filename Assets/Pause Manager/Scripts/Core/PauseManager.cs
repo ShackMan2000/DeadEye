@@ -362,7 +362,7 @@ namespace PauseManagement.Core
 
 		public void StopTime()
 		{
-			Time.timeScale = 0;
+			Time.timeScale = 0.05f;
 		}
 
 		public void ResetTimeDelayed(float time)

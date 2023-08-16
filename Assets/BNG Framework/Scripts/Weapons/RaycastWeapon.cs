@@ -259,6 +259,16 @@ namespace BNG {
             updateChamberedBullet();
         }
 
+        public void SwapToRaycast()
+        {
+            AlwaysFireProjectile = false;
+        }
+
+        public void SwapToLaser()
+        {
+            AlwaysFireProjectile = true;
+        }
+
         public override void OnTrigger(float triggerValue) {
 
 

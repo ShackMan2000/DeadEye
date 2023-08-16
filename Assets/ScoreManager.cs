@@ -10,6 +10,7 @@ public class ScoreManager : MonoBehaviour
     public TMP_Text scoreText;
     public Text highScoreText; // Renamed to avoid confusion with the method name
     public float highScoreNum;
+    public Text PauseScoreText;
 
     private void Awake()
     {
@@ -45,11 +46,19 @@ public class ScoreManager : MonoBehaviour
     public void UpdateScoreText()
     {
         scoreText.text = "Score: " + Score.ToString();
+        PauseScoreText.text = Score.ToString();
         if (Score > highScoreNum)
         {
             highScoreNum = Score;
             highScoreText.text = "High Score: " + highScoreNum.ToString();
             PlayerPrefs.SetFloat("HighScore", highScoreNum); // Save new high score to player prefs
         }
+
+    }
+
+    public void ScoreReset()
+    {
+        Score = 0f;
+        UpdateScoreText();
     }
 }

@@ -345,7 +345,7 @@ namespace TRavljen.UnitFormation.Demo
             }
         }
 
-        public void MakeNewFriend(Transform SpawnerLocation)
+        public void MakeNewFriend(Transform SpawnerLocation, GameObject ParentFriend)
         {
              for (int index = units.Count; index < unitCount; index++)
                 {
@@ -354,6 +354,8 @@ namespace TRavljen.UnitFormation.Demo
                     newFriend.transform.parent = gameObject.transform;
                     deadEyeColorGuy = newFriend.GetComponentInChildren<DeadEyeColorGuy>();
                     units.Insert(index, newFriend);
+
+                ParentFriend.transform.parent = newFriend.transform;
                     
                     deadEyeColorGuy.DeadEyeColorCheck(isBlue);
                     isBlue = !isBlue;

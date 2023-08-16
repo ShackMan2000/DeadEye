@@ -24,6 +24,9 @@ TagManager:
   - SamplesInfoPanel
   - RoomLight
   - EnemySpawner
+  - UnitFormationController2
+  - UnitFormationController3
+  - UnitFormationController4
   layers:
   - Default
   - TransparentFX

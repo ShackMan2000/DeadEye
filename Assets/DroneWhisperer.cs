@@ -7,10 +7,14 @@ public class DroneWhisperer : MonoBehaviour
 {
     public DeadeyeUnit deadeyeUnit;
 
-    private void Start() {
+    private void Start()
+    {
+
+        deadeyeUnit = GameObject.FindGameObjectWithTag("UnitFormationController").GetComponent<DeadeyeUnit>();
+
+
         deadeyeUnit.unitCount++;
-        deadeyeUnit.MakeNewFriend(gameObject.transform);
+        deadeyeUnit.MakeNewFriend(gameObject.transform, gameObject);
     }
 
-    
 }

@@ -5,13 +5,16 @@ public class InstantiateAndControl : MonoBehaviour
 {
     public GameObject objectToInstantiate;
     public float delayInSeconds = 2.0f;
-
+    [SerializeField]
     private GameObject instantiatedObject;
+    [SerializeField]
+    private GameObject Kiki;
 
     private void Awake()
     {
         // Wait for the specified delay and then instantiate the object
-        StartCoroutine(InstantiateWithDelay());
+        //StartCoroutine(InstantiateWithDelay());
+       // instantiatedObject = Instantiate(objectToInstantiate, transform.position, transform.rotation);
     }
 
     public IEnumerator InstantiateWithDelay()
@@ -25,6 +28,12 @@ public class InstantiateAndControl : MonoBehaviour
         if (instantiatedObject != null)
         {
             Destroy(instantiatedObject);
+            Kiki = GameObject.FindGameObjectWithTag("EnemySpawner");
+            if (Kiki != null)
+            {
+                Destroy(Kiki);
+            }
+
         }
     }
 

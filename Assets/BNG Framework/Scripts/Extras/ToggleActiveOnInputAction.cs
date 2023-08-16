@@ -11,7 +11,9 @@ namespace BNG {
     public class ToggleActiveOnInputAction : MonoBehaviour {
 
         public InputActionReference InputAction = default;
+
         public GameObject ToggleObject = default;
+     //   public GameObject ToggleObject2 = default;
 
         private void OnEnable() {
             InputAction.action.performed += ToggleActive;
@@ -24,6 +26,7 @@ namespace BNG {
         public void ToggleActive(InputAction.CallbackContext context) {
             if(ToggleObject) {
                 ToggleObject.SetActive(!ToggleObject.activeSelf);
+               // ToggleObject2.SetActive(!ToggleObject2.activeSelf);
             }
         }
     }

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 7
   colours:
-  - {r: 1, g: 1, b: 1, a: 1}
-  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0.98823535, g: 0.6745098, b: 0.41176474, a: 1}
+  - {r: 1, g: 0.27450982, b: 0, a: 1}
   sizes: []
-  font: {fileID: 11400000, guid: 771487ef4a9a6d841940ac945d21ee16, type: 2}
+  font: {fileID: 11400000, guid: 726487142007c434a9ad86ce9f9ec335, type: 2}
   bold: 0
   italic: 1
   underline: 0
