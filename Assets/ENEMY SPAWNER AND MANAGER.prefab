@@ -36624,7 +36624,7 @@ MonoBehaviour:
   - {x: 1.4592662, y: -1.3195198, z: 0.59182525}
   - {x: -0.43237692, y: 1.4594128, z: 1.0317924}
   - {x: -1.245021, y: 1.0146253, z: -0.5266925}
-  curEditorTab: 3
+  curEditorTab: 0
   mobs:
   - prefab: {fileID: 7855363585989963408}
     spawnRange: {x: 10, y: 10}
@@ -36675,6 +36675,12 @@ MonoBehaviour:
       - prefab: {fileID: 7971472778875005147, guid: 5efa9172976044175ad4651051bc1c92,
           type: 3}
         spawnRange: {x: 8, y: 8}
+      - prefab: {fileID: 298535018758749737, guid: 5fc64ebded3cd834ca80647c1997f498,
+          type: 3}
+        spawnRange: {x: 3, y: 8}
+      - prefab: {fileID: 6811471231455483325, guid: 9b9fabda2db28bf40aa776b80b5a5dde,
+          type: 3}
+        spawnRange: {x: 3, y: 8}
       timer: 0
     - mobs:
       - prefab: {fileID: 8415072885368438281, guid: 660276bc16117482ab0a67ce6c4e3a81,
@@ -36683,13 +36689,18 @@ MonoBehaviour:
       - prefab: {fileID: 7971472778875005147, guid: 5efa9172976044175ad4651051bc1c92,
           type: 3}
         spawnRange: {x: 8, y: 10}
+      - prefab: {fileID: 6811471231455483325, guid: 9b9fabda2db28bf40aa776b80b5a5dde,
+          type: 3}
+        spawnRange: {x: 5, y: 8}
+      - prefab: {fileID: 298535018758749737, guid: 5fc64ebded3cd834ca80647c1997f498,
+          type: 3}
+        spawnRange: {x: 5, y: 8}
       timer: 0
     - mobs:
       - prefab: {fileID: 8415072885368438281, guid: 660276bc16117482ab0a67ce6c4e3a81,
           type: 3}
         spawnRange: {x: 10, y: 10}
-      - prefab: {fileID: 7971472778875005147, guid: 5efa9172976044175ad4651051bc1c92,
-          type: 3}
+      - prefab: {fileID: 0}
         spawnRange: {x: 10, y: 10}
       timer: 0
     - mobs:
@@ -37055,11 +37066,10 @@ MonoBehaviour:
   currentWave:
   - prefab: {fileID: 8415072885368438281, guid: 660276bc16117482ab0a67ce6c4e3a81,
       type: 3}
-    spawnRange: {x: 4, y: 6}
-  - prefab: {fileID: 7971472778875005147, guid: 5efa9172976044175ad4651051bc1c92,
-      type: 3}
-    spawnRange: {x: 4, y: 8}
-  CurWaveTab: 1
+    spawnRange: {x: 10, y: 10}
+  - prefab: {fileID: 0}
+    spawnRange: {x: 10, y: 10}
+  CurWaveTab: 4
   editorWaves:
     keys: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f000000200000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f0000003000000031000000
     values:
@@ -37076,12 +37086,32 @@ MonoBehaviour:
         spawnRange: {x: 4, y: 8}
       timer: 0
     - mobs:
-      - prefab: {fileID: 7855363585989963408}
-        spawnRange: {x: 22, y: 30}
+      - prefab: {fileID: 8415072885368438281, guid: 660276bc16117482ab0a67ce6c4e3a81,
+          type: 3}
+        spawnRange: {x: 8, y: 8}
+      - prefab: {fileID: 7971472778875005147, guid: 5efa9172976044175ad4651051bc1c92,
+          type: 3}
+        spawnRange: {x: 8, y: 8}
+      - prefab: {fileID: 298535018758749737, guid: 5fc64ebded3cd834ca80647c1997f498,
+          type: 3}
+        spawnRange: {x: 3, y: 8}
+      - prefab: {fileID: 6811471231455483325, guid: 9b9fabda2db28bf40aa776b80b5a5dde,
+          type: 3}
+        spawnRange: {x: 3, y: 8}
       timer: 0
     - mobs:
-      - prefab: {fileID: 7855363585989963408}
-        spawnRange: {x: 13, y: 13}
+      - prefab: {fileID: 8415072885368438281, guid: 660276bc16117482ab0a67ce6c4e3a81,
+          type: 3}
+        spawnRange: {x: 8, y: 10}
+      - prefab: {fileID: 7971472778875005147, guid: 5efa9172976044175ad4651051bc1c92,
+          type: 3}
+        spawnRange: {x: 8, y: 10}
+      - prefab: {fileID: 6811471231455483325, guid: 9b9fabda2db28bf40aa776b80b5a5dde,
+          type: 3}
+        spawnRange: {x: 5, y: 8}
+      - prefab: {fileID: 298535018758749737, guid: 5fc64ebded3cd834ca80647c1997f498,
+          type: 3}
+        spawnRange: {x: 3, y: 8}
       timer: 0
     - mobs: []
       timer: 0
