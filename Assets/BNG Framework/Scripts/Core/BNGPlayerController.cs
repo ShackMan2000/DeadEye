@@ -151,20 +151,24 @@ namespace BNG {
             playerClimbing = GetComponentInChildren<PlayerClimbing>();
         }
 
-        void Update() {
+        void FixedUpdate()
+        {
 
             // Sanity check for camera
-            if (mainCamera == null && Camera.main != null) {
+            if (mainCamera == null && Camera.main != null)
+            {
                 mainCamera = Camera.main.transform;
             }
 
             isClimbing = playerClimbing != null && playerClimbing.GrippingAtLeastOneClimbable();
-            if (isClimbing != wasClimbing) {
+            if (isClimbing != wasClimbing)
+            {
                 OnClimbingChange();
             }
 
             // Update the Character Controller's Capsule Height to match our Camera position
-            if(ResizeCharacterHeightWithCamera) {
+            if (ResizeCharacterHeightWithCamera)
+            {
                 UpdateCharacterHeight();
             }
 
@@ -172,30 +176,31 @@ namespace BNG {
             UpdateCameraRigPosition();
 
             // JPTODO : Testing character height
-            if(playerClimbing != null && playerClimbing.GrippingAtLeastOneClimbable() && characterController != null) {
+            if (playerClimbing != null && playerClimbing.GrippingAtLeastOneClimbable() && characterController != null)
+            {
                 characterController.height = playerClimbing.ClimbingCapsuleHeight;
             }
 
-            if(playerClimbing != null && playerClimbing.GrippingAtLeastOneClimbable() && playerRigid != null) {
+            if (playerClimbing != null && playerClimbing.GrippingAtLeastOneClimbable() && playerRigid != null)
+            {
                 playerCapsule.height = playerClimbing.ClimbingCapsuleHeight;
             }
-			
+
             // After positioning the camera rig, we can update our main camera's height
             UpdateCameraHeight();
 
             CheckCharacterCollisionMove();
 
             // Align TrackingSpace with Camera
-            if (RotateCharacterWithCamera) {
+            if (RotateCharacterWithCamera)
+            {
                 RotateTrackingSpaceToCamera();
+
+
+                UpdateDistanceFromGround();
+
+                CheckPlayerElevationRespawn();
             }
-        }
-       
-        void FixedUpdate() {
-
-            UpdateDistanceFromGround();
-
-            CheckPlayerElevationRespawn();
         }
 
         /// <summary>

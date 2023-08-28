@@ -13,7 +13,7 @@ public class MoveAndReturn : MonoBehaviour
     private void Start()
     {
         originalPosition = transform.position;
-        targetPosition = targetLocation.position;
+        targetPosition = Camera.main.transform.position;
         StartCoroutine(MoveRoutine());
     }
 

@@ -1,16 +1,17 @@
 ManifestFileVersion: 0
-CRC: 3841235005
+CRC: 2202651380
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 7615a93ccb0901fa71846ab7a6f3226d
+    Hash: e1f06b9cc859054bc398cc8bb8610a55
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 4cd0a5558493b0679e071c141fc729a3
+    Hash: 2612ac43db082a73502ee80f2eceb73f
 HashAppended: 0
 ClassTypes:
 - Class: 28
   Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/FairyGUI/Examples/Resources/Icons/i7.png
 Dependencies: []

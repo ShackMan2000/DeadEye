@@ -23,7 +23,7 @@ public class HPManager : MonoBehaviour
     private void Awake()
     {
         hpText = this.GetComponent<TMP_Text>();
-        HP = 5f;
+        HP = 10f;
         HPUpdate();
        /*  Waiting = false; */
     
@@ -65,7 +65,7 @@ public class HPManager : MonoBehaviour
             Destroy(unit);
         }
 
-        HP = 5f;
+        HP = 10f;
 
        // Drones.Clear(); // Clear the list after destroying all units
 
@@ -74,7 +74,7 @@ public class HPManager : MonoBehaviour
 
     public void GameStartGuy()
     {
-        HP = 5f;
+        HP = 10f;
         HPUpdate();
     }
         }

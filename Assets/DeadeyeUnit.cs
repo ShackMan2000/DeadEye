@@ -64,6 +64,9 @@ namespace TRavljen.UnitFormation.Demo
       //  [SerializeField] private Text RectangleColumnCountText;
 
         [SerializeField] private GameObject UnitPrefab = null;
+        [SerializeField] private GameObject UnitPrefab2 = null;
+        [SerializeField] private GameObject UnitPrefab3 = null;
+        [SerializeField] private GameObject UnitPrefab4 = null;
 
         [SerializeField]
         public IFormation currentFormation;
@@ -363,6 +366,66 @@ namespace TRavljen.UnitFormation.Demo
                     ApplyCurrentUnitFormation();
                     
                 }
+        }
+
+        public void MakeNewFriend2(Transform SpawnerLocation, GameObject ParentFriend2)
+        {
+            for (int index = units.Count; index < unitCount; index++)
+            {
+                var newFriend2 = Instantiate(
+                    UnitPrefab2, SpawnerLocation.position, Quaternion.identity);
+                newFriend2.transform.parent = gameObject.transform;
+                deadEyeColorGuy = newFriend2.GetComponentInChildren<DeadEyeColorGuy>();
+                units.Insert(index, newFriend2);
+
+                ParentFriend2.transform.parent = newFriend2.transform;
+
+                deadEyeColorGuy.DeadEyeColorCheck(isBlue);
+                isBlue = !isBlue;
+
+                ApplyCurrentUnitFormation();
+
+            }
+        }
+
+        public void MakeNewFriend3(Transform SpawnerLocation, GameObject ParentFriend3)
+        {
+            for (int index = units.Count; index < unitCount; index++)
+            {
+                var newFriend3 = Instantiate(
+                    UnitPrefab3, SpawnerLocation.position, Quaternion.identity);
+                newFriend3.transform.parent = gameObject.transform;
+                deadEyeColorGuy = newFriend3.GetComponentInChildren<DeadEyeColorGuy>();
+                units.Insert(index, newFriend3);
+
+                ParentFriend3.transform.parent = newFriend3.transform;
+
+                deadEyeColorGuy.DeadEyeColorCheck(isBlue);
+                isBlue = !isBlue;
+
+                ApplyCurrentUnitFormation();
+
+            }
+        }
+
+        public void MakeNewFriend4(Transform SpawnerLocation, GameObject ParentFriend4)
+        {
+            for (int index = units.Count; index < unitCount; index++)
+            {
+                var newFriend4 = Instantiate(
+                    UnitPrefab4, SpawnerLocation.position, Quaternion.identity);
+                newFriend4.transform.parent = gameObject.transform;
+                deadEyeColorGuy = newFriend4.GetComponentInChildren<DeadEyeColorGuy>();
+                units.Insert(index, newFriend4);
+
+                ParentFriend4.transform.parent = newFriend4.transform;
+
+                deadEyeColorGuy.DeadEyeColorCheck(isBlue);
+                isBlue = !isBlue;
+
+                ApplyCurrentUnitFormation();
+
+            }
         }
 
         public void DestroyAllUnits()

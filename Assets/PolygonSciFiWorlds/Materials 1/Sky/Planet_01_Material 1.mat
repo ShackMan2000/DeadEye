@@ -11,8 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 511e821c788ce374e9310abe9316cdd5, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _SOFT_BLEND_SWITCH_ON
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - _ALPHATEST_ON
   - _EMISSION
@@ -79,7 +78,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Planet_Texture:
-        m_Texture: {fileID: 2800000, guid: b6204f059d33a5b4096e19632e1c7519, type: 3}
+        m_Texture: {fileID: 2800000, guid: e014b5a9de227b9488927bed56bde484, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Rim_Emissive:
@@ -87,7 +86,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Rim_Texture:
-        m_Texture: {fileID: 2800000, guid: 700d5d639323b03408165c4dd484dd9a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 78204ff12f1124f478bf66b4e04eb8a6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample0:
@@ -113,16 +112,16 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
-    - _Glow_Intensity: 8.83
+    - _Glow_Intensity: 10
     - _Metallic: 0
     - _Mode: 1
     - _OcclusionStrength: 1
     - _Opacity: 1
     - _Parallax: 0.02
-    - _Planet_Light: 1.88
-    - _Rim_Intensity: 1.54
+    - _Planet_Light: 10
+    - _Rim_Intensity: 10
     - _SmoothnessTextureChannel: 0
-    - _Soft_Blend_Switch: 1
+    - _Soft_Blend_Switch: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _TransAmbient: 0.2
@@ -140,6 +139,6 @@ Material:
     - _Color_Tint: {r: 0.74264705, g: 1, b: 0.84026366, a: 0}
     - _Color_Tint1: {r: 0.625, g: 0.625, b: 0.625, a: 0}
     - _EmissionColor: {r: 0.5735294, g: 0.29665318, b: 0, a: 1}
-    - _Glow_Tint: {r: 0.6886792, g: 0.05393155, b: 0, a: 1}
-    - _Planet_Tint: {r: 1, g: 0.4636674, b: 0, a: 1}
+    - _Glow_Tint: {r: 0.9716981, g: 0.50063944, b: 0, a: 1}
+    - _Planet_Tint: {r: 1, g: 0.18915503, b: 0.0047169924, a: 1}
   m_BuildTextureStacks: []

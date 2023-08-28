@@ -14,7 +14,7 @@ public class DepthWhisperer : MonoBehaviour
 
 
         deadeyeUnit.unitCount++;
-        deadeyeUnit.MakeNewFriend(gameObject.transform, gameObject);
+        deadeyeUnit.MakeNewFriend2(gameObject.transform, gameObject);
     }
 
 }
