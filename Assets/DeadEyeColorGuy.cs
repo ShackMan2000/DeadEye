@@ -6,8 +6,10 @@ public class DeadEyeColorGuy : MonoBehaviour
 {   
     [SerializeField]
     public bool thisIsBlue = true;
+    public bool thisIsWhite = false;
     public Material blueMaterial;
     public Material redMaterial;
+    public Material whiteMaterial;
 
    /*  private void OnEnable()
     {
@@ -22,20 +24,29 @@ public class DeadEyeColorGuy : MonoBehaviour
 
     public void DeadEyeColorCheck(bool isBlue)
     {
-        thisIsBlue = isBlue;
+        if(!thisIsWhite){
+             thisIsBlue = isBlue;
         UpdateTagAndMaterial();
+        }
+       
     }
     private void UpdateTagAndMaterial()
     {
-        if (thisIsBlue)
-        {
-            gameObject.tag = "BLUE";
-            ApplyMaterial(blueMaterial);
+        if (!thisIsWhite){
+            if (thisIsBlue)
+            {
+                gameObject.tag = "BLUE";
+                ApplyMaterial(blueMaterial);
+            }
+            else
+            {
+                gameObject.tag = "RED";
+                ApplyMaterial(redMaterial);
+            }
         }
-        else
-        {
-            gameObject.tag = "RED";
-            ApplyMaterial(redMaterial);
+        else {
+            gameObject.tag = "white";
+            ApplyMaterial(whiteMaterial);
         }
     }
 

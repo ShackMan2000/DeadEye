@@ -16,7 +16,7 @@ Material:
   - _NORMALMAP
   - _RECEIVE_SHADOWS_OFF
   m_InvalidKeywords: []
-  m_LightmapFlags: 0
+  m_LightmapFlags: 1
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -205,9 +205,9 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 0.98742133, b: 0.98742133, a: 1}
-    - _Color: {r: 1, g: 0.98742133, b: 0.98742133, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 0}
     - _Ground_Colour: {r: 0.2627451, g: 0.24313727, b: 0.24313727, a: 0}
     - _MaskedColorA: {r: 1, g: 0, b: 0, a: 1}
     - _MaskedColorB: {r: 0, g: 1, b: 0, a: 1}
