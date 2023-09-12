@@ -11,7 +11,8 @@ Material:
   m_Shader: {fileID: 4800000, guid: 511e821c788ce374e9310abe9316cdd5, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SOFT_BLEND_SWITCH_ON
   m_InvalidKeywords:
   - _ALPHATEST_ON
   - _EMISSION
@@ -121,7 +122,7 @@ Material:
     - _Planet_Light: 10
     - _Rim_Intensity: 10
     - _SmoothnessTextureChannel: 0
-    - _Soft_Blend_Switch: 0
+    - _Soft_Blend_Switch: 1
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _TransAmbient: 0.2
