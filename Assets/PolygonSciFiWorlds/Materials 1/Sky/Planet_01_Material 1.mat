@@ -113,7 +113,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
-    - _Glow_Intensity: 10
+    - _Glow_Intensity: 5.1
     - _Metallic: 0
     - _Mode: 1
     - _OcclusionStrength: 1
@@ -140,6 +140,6 @@ Material:
     - _Color_Tint: {r: 0.74264705, g: 1, b: 0.84026366, a: 0}
     - _Color_Tint1: {r: 0.625, g: 0.625, b: 0.625, a: 0}
     - _EmissionColor: {r: 0.5735294, g: 0.29665318, b: 0, a: 1}
-    - _Glow_Tint: {r: 0.9716981, g: 0.50063944, b: 0, a: 1}
-    - _Planet_Tint: {r: 1, g: 0.18915503, b: 0.0047169924, a: 1}
+    - _Glow_Tint: {r: 0.7735849, g: 0.106428996, b: 0, a: 1}
+    - _Planet_Tint: {r: 1, g: 0.083333336, b: 0, a: 1}
   m_BuildTextureStacks: []
