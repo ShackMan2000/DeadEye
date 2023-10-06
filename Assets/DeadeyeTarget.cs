@@ -11,8 +11,8 @@ public class DeadeyeTarget : MonoBehaviour
     public UnityEvent rightColorEvent;
     public ScoreManager scoreManager;
        
-    public float rightScore;
-    public float wrongScore;
+    public uint rightScore;
+    public uint wrongScore;
 
    
     

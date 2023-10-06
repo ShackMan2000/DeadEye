@@ -374,14 +374,6 @@
       },
       "url": "https://packages.unity.com"
     },
-    "nyc.scatter.depthkit.avpro": {
-      "version": "file:/Users/bmo/Downloads/Depthkit_Expansion_Package_Phase9_062223/depthkit.avpro",
-      "depth": 0,
-      "source": "local",
-      "dependencies": {
-        "nyc.scatter.depthkit.core": "0.12.0"
-      }
-    },
     "nyc.scatter.depthkit.core": {
       "version": "file:/Users/bmo/Downloads/Depthkit_Expansion_Package_Phase9_062223/depthkit.core",
       "depth": 0,

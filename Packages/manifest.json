@@ -23,7 +23,6 @@
     "com.unity.xr.interaction.toolkit": "2.5.1",
     "com.unity.xr.management": "4.4.0",
     "com.unity.xr.oculus": "4.0.0",
-    "nyc.scatter.depthkit.avpro": "file:/Users/bmo/Downloads/Depthkit_Expansion_Package_Phase9_062223/depthkit.avpro",
     "nyc.scatter.depthkit.core": "file:/Users/bmo/Downloads/Depthkit_Expansion_Package_Phase9_062223/depthkit.core",
     "nyc.scatter.depthkit.core.shadergraph": "file:/Users/bmo/Downloads/Depthkit_Expansion_Package_Phase9_062223/depthkit.core.shadergraph",
     "com.unity.modules.ai": "1.0.0",

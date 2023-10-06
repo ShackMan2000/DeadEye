@@ -6,38 +6,38 @@ using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
-    public float Score = 0f;
-    public TMP_Text scoreText;
+    public uint Score = 0;
+    public Text scoreText;
     public Text highScoreText; // Renamed to avoid confusion with the method name
     public float highScoreNum;
     public Text PauseScoreText;
 
     private void Awake()
     {
-        scoreText = GameObject.FindWithTag("SCORE").GetComponent<TMP_Text>();
+        scoreText = GameObject.FindWithTag("SCORE").GetComponent<Text>();
         highScoreNum = PlayerPrefs.GetFloat("HighScore", 0f); // Load high score from player prefs
         highScoreText.text = "High Score: " + highScoreNum.ToString();
     }
 
     public void Score10()
     {
-        Score += 10f;
+        Score += 10;
         UpdateScoreText();
     }
 
     public void Score30()
     {
-        Score += 30f;
+        Score += 30;
         UpdateScoreText();
     }
 
     public void MinusScore()
     {
-        Score -= 5f;
+        Score -= 5;
         UpdateScoreText();
     }
 
-    public void score(float newScore)
+    public void score(uint newScore)
     {
         Score += newScore;
         UpdateScoreText();
@@ -58,7 +58,7 @@ public class ScoreManager : MonoBehaviour
 
     public void ScoreReset()
     {
-        Score = 0f;
+        Score = 0;
         UpdateScoreText();
     }
 }
