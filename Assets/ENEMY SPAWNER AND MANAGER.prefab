@@ -176,6 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8972829257238871461}
   - component: {fileID: 4186553362876418815}
+  - component: {fileID: 6675955536725864022}
   m_Layer: 0
   m_Name: ENEMY SPAWNER AND MANAGER
   m_TagString: EnemySpawner
@@ -302,6 +303,33 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6675955536725864022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79941211609768612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6690c5176c013814b9b4d254480d966b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AwakeEventing:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!1 &164064064317908222
 GameObject:
   m_ObjectHideFlags: 0
@@ -30659,7 +30687,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6480595470134034818
 Transform:
   m_ObjectHideFlags: 0
@@ -82773,7 +82801,7 @@ PrefabInstance:
     - target: {fileID: 8415072885368438281, guid: 660276bc16117482ab0a67ce6c4e3a81,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -83936,6 +83964,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DepthDroneWhisperer
+      objectReference: {fileID: 0}
+    - target: {fileID: 1022611265577553595, guid: c12fcb887b5a7456a85d3cc377b67739,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2282142744881294372, guid: c12fcb887b5a7456a85d3cc377b67739,
         type: 3}

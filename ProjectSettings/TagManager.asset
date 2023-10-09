@@ -28,6 +28,8 @@ TagManager:
   - UnitFormationController3
   - UnitFormationController4
   - WHITE
+  - UIDraggable
+  - LEADERBOARD
   layers:
   - Default
   - TransparentFX

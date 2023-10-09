@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using TMPro;
 using BNG;
 using TRavljen.UnitFormation.Demo;
 
 public class HPManager : MonoBehaviour
 {
-    public float HP;
-    public TMP_Text hpText;
+    public int HP;
+    public Text hpText;
     public UnityEvent GameOver;
     public DeadeyeUnit UnitGuy;
   //  public TimeController time;
@@ -22,8 +23,8 @@ public class HPManager : MonoBehaviour
      */
     private void Awake()
     {
-        hpText = this.GetComponent<TMP_Text>();
-        HP = 10f;
+        hpText = this.GetComponent<Text>();
+        HP = 3;
         HPUpdate();
        /*  Waiting = false; */
     
@@ -32,7 +33,7 @@ public class HPManager : MonoBehaviour
     public void HPUpdate()
     {
     
-        hpText.text = ("HP: " + HP);
+        hpText.text = (""+HP);
 
         if (HP<=0)
         { 
@@ -48,7 +49,7 @@ public class HPManager : MonoBehaviour
         {
             Destroy(obj);
         }
-                HP = HP -1f;
+                HP--;
         HPUpdate();
        // time.ResumeTime();
      /*    WaitingTimeActivate(); */
@@ -65,7 +66,7 @@ public class HPManager : MonoBehaviour
             Destroy(unit);
         }
 
-        HP = 10f;
+        HP = 3;
 
        // Drones.Clear(); // Clear the list after destroying all units
 
@@ -74,7 +75,7 @@ public class HPManager : MonoBehaviour
 
     public void GameStartGuy()
     {
-        HP = 10f;
+        HP = 3;
         HPUpdate();
     }
         }

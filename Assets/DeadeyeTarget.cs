@@ -24,7 +24,7 @@ public class DeadeyeTarget : MonoBehaviour
     
    
 
-    private void Start()
+    private void Awake()
     {   
         scoreManager = GameObject.FindWithTag("SCORE").GetComponent<ScoreManager>();
         daddy = GetComponent<Damageable>();

@@ -66,7 +66,7 @@ namespace GameNative.Leaderboard
         #endregion
 
         #region Unity Methods
-        private void Awake()
+        private void Start()
         {
             // Set the HighscoreUI default values.
             _highscoreUI.ScrollDelay = _scrollDelay;
@@ -255,7 +255,7 @@ namespace GameNative.Leaderboard
 
                 return true;
             }
-
+            
             return false;
         }
 

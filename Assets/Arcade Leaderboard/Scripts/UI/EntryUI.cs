@@ -62,7 +62,7 @@ namespace GameNative.Leaderboard
         /// <summary>
         /// The players score.
         /// </summary>
-        private uint Score
+        public uint Score
         {
             get
             {
@@ -122,7 +122,7 @@ namespace GameNative.Leaderboard
 
         #region Unity Methods
         private void Update()
-        {
+        {   OVRInput.Update();
             float horizontalInput = Input.GetAxis("Horizontal");
             float verticalInput = Input.GetAxis("Vertical");
 
@@ -176,7 +176,7 @@ namespace GameNative.Leaderboard
 
                 _initials[_cursorIndex].text = _characters[_characterIndex].ToString();
             }
-            else if (Input.GetKeyDown(KeyCode.Return) || Countdown <= 0 || Input.GetKeyDown(KeyCode.Joystick1Button0))
+            else if (Input.GetKeyDown(KeyCode.Return) || Countdown <= 0 || OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger) || OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger))
             {
                 // Accept the input and notify the listeners.
                 if (OnEntryAdded != null)

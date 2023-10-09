@@ -7,10 +7,10 @@ public class WaitThenFireEvent : MonoBehaviour
     public UnityEvent delayedEvent;
     public UnityEvent instantEvent;
 
-    private void Awake()
+    private void Start()
     {
         // Use Invoke to delay the execution of the Unity event
-        instantEvent.Invoke();
+       // instantEvent.Invoke();
         Invoke("TriggerDelayedEvent", delayInSeconds);
         
     }
