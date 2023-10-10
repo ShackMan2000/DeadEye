@@ -36514,17 +36514,11 @@ MonoBehaviour:
       - prefab: {fileID: 8415072885368438281, guid: 660276bc16117482ab0a67ce6c4e3a81,
           type: 3}
         spawnRange: {x: 4, y: 4}
-      - prefab: {fileID: 1022611265577553595, guid: c12fcb887b5a7456a85d3cc377b67739,
-          type: 3}
-        spawnRange: {x: 0, y: 1}
       timer: 0
     - mobs:
       - prefab: {fileID: 8415072885368438281, guid: 660276bc16117482ab0a67ce6c4e3a81,
           type: 3}
         spawnRange: {x: 4, y: 6}
-      - prefab: {fileID: 1022611265577553595, guid: c12fcb887b5a7456a85d3cc377b67739,
-          type: 3}
-        spawnRange: {x: 0, y: 1}
       - prefab: {fileID: 1368707597506421713, guid: 7d4168ba8d3fe43a2a26235a957ad1e8,
           type: 3}
         spawnRange: {x: 0, y: 2}
@@ -36533,9 +36527,6 @@ MonoBehaviour:
       - prefab: {fileID: 8415072885368438281, guid: 660276bc16117482ab0a67ce6c4e3a81,
           type: 3}
         spawnRange: {x: 6, y: 6}
-      - prefab: {fileID: 1022611265577553595, guid: c12fcb887b5a7456a85d3cc377b67739,
-          type: 3}
-        spawnRange: {x: 0, y: 2}
       - prefab: {fileID: 1368707597506421713, guid: 7d4168ba8d3fe43a2a26235a957ad1e8,
           type: 3}
         spawnRange: {x: 3, y: 4}
@@ -36544,9 +36535,6 @@ MonoBehaviour:
       - prefab: {fileID: 8415072885368438281, guid: 660276bc16117482ab0a67ce6c4e3a81,
           type: 3}
         spawnRange: {x: 8, y: 8}
-      - prefab: {fileID: 1022611265577553595, guid: c12fcb887b5a7456a85d3cc377b67739,
-          type: 3}
-        spawnRange: {x: 0, y: 2}
       - prefab: {fileID: 1368707597506421713, guid: 7d4168ba8d3fe43a2a26235a957ad1e8,
           type: 3}
         spawnRange: {x: 3, y: 6}
@@ -37208,7 +37196,7 @@ MonoBehaviour:
   - prefab: {fileID: 1022611265577553595, guid: c12fcb887b5a7456a85d3cc377b67739,
       type: 3}
     spawnRange: {x: 0, y: 3}
-  CurWaveTab: 49
+  CurWaveTab: 4
   editorWaves:
     keys: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f000000200000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f0000003000000031000000
     values:

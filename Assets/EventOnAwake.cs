@@ -6,7 +6,7 @@ public class AwakeEvent : MonoBehaviour
 
     public UnityEvent AwakeEventing;
 
-    private void Awake()
+    private void Start()
     {
         // Check if there are subscribers to the event before firing it
         AwakeEventing.Invoke();
