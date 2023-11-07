@@ -187,7 +187,7 @@ MonoBehaviour:
   HitFXPrefab: {fileID: 6170577531909742187, guid: 487fdad144c21d64fbe5e7b24214cfc7,
     type: 3}
   Damage: 1
-  AddRigidForce: 1
+  AddRigidForce: 0.05
   ValidLayers:
     serializedVersion: 2
     m_Bits: 1537
@@ -395,7 +395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35a35525876b201479282aa3c5fae8d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DestroySeconds: 2
+  DestroySeconds: 3
 --- !u!82 &6928256637592488468
 AudioSource:
   m_ObjectHideFlags: 0

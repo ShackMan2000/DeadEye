@@ -10,8 +10,9 @@ public class DeadeyeTarget : MonoBehaviour
     public UnityEvent wrongColorEvent;
     public UnityEvent rightColorEvent;
     public ScoreManager scoreManager;
+    public MultiplierManager multiplierManager;
        
-    public uint rightScore;
+    public int rightScore;
     public uint wrongScore;
 
    
@@ -27,7 +28,9 @@ public class DeadeyeTarget : MonoBehaviour
     private void Awake()
     {   
         scoreManager = GameObject.FindWithTag("SCORE").GetComponent<ScoreManager>();
+        multiplierManager = GameObject.FindWithTag("SCORE").GetComponent<MultiplierManager>();
         daddy = GetComponent<Damageable>();
+        rightScore = (multiplierManager.multiplier) * (10);
        
         // Check if the component was found
        
@@ -49,10 +52,13 @@ public class DeadeyeTarget : MonoBehaviour
         if (collision.collider.CompareTag(gameObject.tag)) 
         {       
                 DynamicTextData data = GetComponent<Enemy>().textData;
-                daddy.DealDamage(rightScore);
+                daddy.DealDamage(10);
+                
                 rightColorEvent.Invoke();
-                scoreManager.score(rightScore);
-                DynamicTextManager.CreateText(collisionPoint, rightScore.ToString(), data);
+                multiplierManager.RegisterHit(true);
+            rightScore = (multiplierManager.multiplier) * (10);
+            //scoreManager.score(rightScore);
+            DynamicTextManager.CreateText(collisionPoint, rightScore.ToString(), data);
 
         } 
              
@@ -61,7 +67,8 @@ public class DeadeyeTarget : MonoBehaviour
         {
                 DynamicTextData data = GetComponent<Enemy>().textData;
                 wrongColorEvent.Invoke();
-                scoreManager.score(wrongScore);
+                //scoreManager.score(wrongScore);
+                multiplierManager.RegisterHit(false);
                 
                 DynamicTextManager.CreateText(collisionPoint, wrongScore.ToString(), data);
 

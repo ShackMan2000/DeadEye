@@ -111,7 +111,7 @@ namespace GameNative.Leaderboard
         /// <summary>
         /// Hides the leaderboard once the display has finished.
         /// </summary>
-        private void HandleOnDisplayFinished()
+        public void HandleOnDisplayFinished()
         {
             _highscoreUI.Hide();
 

@@ -585,7 +585,7 @@ MonoBehaviour:
       m_Calls: []
   scoreManager: {fileID: 0}
   rightScore: 10
-  wrongScore: -10
+  wrongScore: 4294967286
   daddy: {fileID: 0}
 --- !u!114 &839595529909579442
 MonoBehaviour:
@@ -1846,7 +1846,7 @@ MonoBehaviour:
       m_Calls: []
   scoreManager: {fileID: 0}
   rightScore: 10
-  wrongScore: -10
+  wrongScore: 0
   daddy: {fileID: 0}
 --- !u!114 &698255327086558281
 MonoBehaviour:

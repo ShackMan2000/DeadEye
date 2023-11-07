@@ -36479,7 +36479,7 @@ MonoBehaviour:
   - {x: 1.4592662, y: -1.3195198, z: 0.59182525}
   - {x: -0.43237692, y: 1.4594128, z: 1.0317924}
   - {x: -1.245021, y: 1.0146253, z: -0.5266925}
-  curEditorTab: 0
+  curEditorTab: 3
   mobs:
   - prefab: {fileID: 7855363585989963408}
     spawnRange: {x: 10, y: 10}
@@ -37941,11 +37941,11 @@ MonoBehaviour:
   LineRenderer: {fileID: 3852937985922450991}
   UnitPrefab: {fileID: 8091776970705940152, guid: 1a4c9d33640b343afa5f86460a100663,
     type: 3}
-  UnitPrefab2: {fileID: 2926789610617222634, guid: b877be67436f64d969ecd6b110618514,
+  UnitPrefab2: {fileID: 9017434365674305166, guid: 6ff8b9731385442ac9f9232490194629,
     type: 3}
   UnitPrefab3: {fileID: 8091776970705940152, guid: 153a5de33df574ac7a6cedf4cd31f7e6,
     type: 3}
-  UnitPrefab4: {fileID: 9017434365674305166, guid: 6ff8b9731385442ac9f9232490194629,
+  UnitPrefab4: {fileID: 2926789610617222634, guid: b877be67436f64d969ecd6b110618514,
     type: 3}
   deadEyeColorGuy: {fileID: 0}
   pivotInMiddle: 0

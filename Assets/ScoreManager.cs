@@ -21,8 +21,9 @@ public class ScoreManager : MonoBehaviour
         
         _leaderboard = GameObject.FindWithTag("LEADERBOARD").GetComponent<Leaderboard>();
         scoreText = GameObject.FindWithTag("SCORE").GetComponent<Text>();
-        highScoreNum = (uint)PlayerPrefs.GetInt("HighScore", 0); // Load high score from player prefs
+       // highScoreNum = (uint)PlayerPrefs.GetInt("HighScore", 0); // Load high score from player prefs
        // highScoreText.text = "High Score: " + highScoreNum.ToString();
+       
     }
 
     public void Score10()
@@ -59,14 +60,14 @@ public class ScoreManager : MonoBehaviour
 
     public void UpdateScoreText()
     {
-        scoreText.text =  Score.ToString();
-        PauseScoreText.text = Score.ToString();
-        if (Score > highScoreNum)
-        {
-            highScoreNum = Score;
+       // scoreText.text =  Score.ToString();
+        //PauseScoreText.text = Score.ToString();
+      //  if (Score > highScoreNum)
+      //  {
+     //       highScoreNum = Score;
             //highScoreText.text = "High Score: " + highScoreNum.ToString();
-            PlayerPrefs.SetInt("HighScore", (int)highScoreNum); // Save new high score to player prefs
-        }
+      //      PlayerPrefs.SetInt("HighScore", (int)highScoreNum); // Save new high score to player prefs
+     //   }
 
     }
 

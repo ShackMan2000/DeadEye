@@ -169,10 +169,85 @@ PrefabInstance:
       propertyPath: m_DynamicOccludee
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3846715380882272676, guid: 75f06204ab85c4253bbe43bcd19a8409,
+        type: 3}
+      propertyPath: wrongScore
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846715380882272676, guid: 75f06204ab85c4253bbe43bcd19a8409,
+        type: 3}
+      propertyPath: rightColorEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846715380882272676, guid: 75f06204ab85c4253bbe43bcd19a8409,
+        type: 3}
+      propertyPath: wrongColorEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846715380882272676, guid: 75f06204ab85c4253bbe43bcd19a8409,
+        type: 3}
+      propertyPath: rightColorEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846715380882272676, guid: 75f06204ab85c4253bbe43bcd19a8409,
+        type: 3}
+      propertyPath: wrongColorEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846715380882272676, guid: 75f06204ab85c4253bbe43bcd19a8409,
+        type: 3}
+      propertyPath: rightColorEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846715380882272676, guid: 75f06204ab85c4253bbe43bcd19a8409,
+        type: 3}
+      propertyPath: wrongColorEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846715380882272676, guid: 75f06204ab85c4253bbe43bcd19a8409,
+        type: 3}
+      propertyPath: rightColorEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RegisterHit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846715380882272676, guid: 75f06204ab85c4253bbe43bcd19a8409,
+        type: 3}
+      propertyPath: wrongColorEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RegisterHit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846715380882272676, guid: 75f06204ab85c4253bbe43bcd19a8409,
+        type: 3}
+      propertyPath: rightColorEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MultiplierManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846715380882272676, guid: 75f06204ab85c4253bbe43bcd19a8409,
+        type: 3}
+      propertyPath: wrongColorEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MultiplierManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846715380882272676, guid: 75f06204ab85c4253bbe43bcd19a8409,
+        type: 3}
+      propertyPath: rightColorEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846715380882272676, guid: 75f06204ab85c4253bbe43bcd19a8409,
+        type: 3}
+      propertyPath: rightColorEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846715380882272676, guid: 75f06204ab85c4253bbe43bcd19a8409,
+        type: 3}
+      propertyPath: wrongColorEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 4789531573524038629, guid: 75f06204ab85c4253bbe43bcd19a8409,
         type: 3}
       propertyPath: fireInterval
-      value: 3
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789531573524038629, guid: 75f06204ab85c4253bbe43bcd19a8409,
+        type: 3}
+      propertyPath: inaccuracyAngle
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 5185360101036547852, guid: 75f06204ab85c4253bbe43bcd19a8409,
         type: 3}

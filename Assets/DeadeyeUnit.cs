@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TRavljen.UnitFormation.Formations;
-using TRavljen.UnitFormation;
+//using TRavljen.UnitFormation;
 using UnityEngine.UI;
 
 namespace TRavljen.UnitFormation.Demo
