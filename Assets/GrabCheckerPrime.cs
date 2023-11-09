@@ -13,6 +13,7 @@ public class GrabCheckerPrime : MonoBehaviour
     public GameObject tut1;
     public GameObject tut2;
     
+    public GameObject tut3;
 
     public bool grabbed1;
     public bool grabbed2;
@@ -24,7 +25,7 @@ public class GrabCheckerPrime : MonoBehaviour
     {
        grabbed1 = false;
        grabbed2 = false;
-       
+       tut3.SetActive(false);
         grabbed1 = grabbo1.GetComponent<grabChecker>().Grabbed;
         grabbed2 = grabbo1.GetComponent<grabChecker>().Grabbed;
 
@@ -34,14 +35,32 @@ public class GrabCheckerPrime : MonoBehaviour
             tut2.SetActive(false);
             TheyGrabbedIt.Invoke();
         }
-        else {tut1.SetActive(false);}tut2.SetActive(true);TheyDontGrabbedIt.Invoke();}
+        else {tut1.SetActive(false);}tut2.SetActive(true);TheyDontGrabbedIt.Invoke();
+        
+        }
 
     // Update is called once per frame
-    void Update()
+  
+
+    public void Grab1()
     {
-        if (grabbed1 && grabbed2)
+        grabbed1 = true;
+    }
+
+    public void Grab2()
+    {
+        grabbed2 = true;   
+
+    }
+     void Update()
         {
-             TheyGrabbedIt.Invoke();
+            if (grabbed1 && grabbed2)
+        {   
+             tut1.SetActive(true);
+            tut2.SetActive(false);
+            TheyGrabbedIt.Invoke();
+             
         }
     }
+
 }
