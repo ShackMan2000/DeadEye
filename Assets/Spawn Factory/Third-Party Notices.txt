@@ -1,7 +1,0 @@
-This asset is governed by the Asset Store EULA; however, the following components are 
-governed by the licenses indicated below:
-
-A. UnityExtensions.ArrayDrawer
-MIT
-Copyright (c) 2019 Garett Bass
-https://github.com/garettbass/UnityExtensions.ArrayDrawer
