@@ -19,8 +19,8 @@ public class ScoreManager : MonoBehaviour
     private void Start()
     {
         
-        _leaderboard = GameObject.FindWithTag("LEADERBOARD").GetComponent<Leaderboard>();
-        scoreText = GameObject.FindWithTag("SCORE").GetComponent<Text>();
+      //  _leaderboard = GameObject.FindWithTag("LEADERBOARD").GetComponent<Leaderboard>();
+      //  scoreText = GameObject.FindWithTag("SCORE").GetComponent<Text>();
        // highScoreNum = (uint)PlayerPrefs.GetInt("HighScore", 0); // Load high score from player prefs
        // highScoreText.text = "High Score: " + highScoreNum.ToString();
        
