@@ -36,7 +36,7 @@ EditorBuildSettings:
     path: Assets/Scenes/_.DEADEYE._.unity
     guid: 8395a95f1a3954f61b21967773145488
   - enabled: 1
-    path: Assets/Scenes/Game.unity
+    path: Assets/Scenes/_.DEADEYE FINAL._.unity
     guid: f2f3adfc113ff4a2d9416932e56fd60d
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 8a55d9fccde00e440b9eac0099406cbe,
