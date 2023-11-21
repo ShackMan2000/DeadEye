@@ -189,7 +189,7 @@ MonoBehaviour:
   AddRigidForce: 1
   ValidLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1911
   StickToObject: 1
   MinForceHit: 0.001
   onDealtDamageEvent:
