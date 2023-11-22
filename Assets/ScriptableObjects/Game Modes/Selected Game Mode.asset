@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de1505183272ac1469e47e29801e0738, type: 3}
   m_Name: Selected Game Mode
   m_EditorClassIdentifier: 
-  <Mode>k__BackingField: {fileID: 0}
+  <Mode>k__BackingField: {fileID: 11400000, guid: f6242f432f1f2d347a865f82db602103,
+    type: 2}

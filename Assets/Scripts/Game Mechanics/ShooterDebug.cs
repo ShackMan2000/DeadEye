@@ -15,6 +15,7 @@ public class ShooterDebug : MonoBehaviour
     [SerializeField] Camera centerEyeCamera;
 
 
+    [SerializeField] WeaponType weaponType;
 
     void SpawnDebugBullet(Vector3 direction)
     {
@@ -43,6 +44,8 @@ public class ShooterDebug : MonoBehaviour
                 Vector3 direction = hit.point - transform.position;
                 
                 SpawnDebugBullet(direction.normalized);
+                
+                shooter.ShootBullet(transform.position, direction.normalized, weaponType);
             }
         
             
