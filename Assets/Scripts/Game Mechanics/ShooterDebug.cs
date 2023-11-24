@@ -45,7 +45,7 @@ public class ShooterDebug : MonoBehaviour
                 
                 SpawnDebugBullet(direction.normalized);
                 
-                shooter.ShootBullet(transform.position, direction.normalized, weaponType);
+                shooter.ShootAndDetermineTarget(transform.position, direction.normalized, weaponType);
             }
         
             
