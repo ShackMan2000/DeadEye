@@ -72,3 +72,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 Assets/Xternal/
 Assets/Plugins/Sirenix/
+Assets/UnityTechnologies/ParticlePack/TutorialInfo/Icons/ReadmeLogo.png.meta
+Assets/UnityTechnologies/ParticlePack/
