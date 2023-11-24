@@ -1,0 +1,3 @@
+[submodule "Assets/Scripts/ToolShack"]
+	path = Assets/Scripts/ToolShack
+	url = https://github.com/ShackMan2000/ToolShack.git
