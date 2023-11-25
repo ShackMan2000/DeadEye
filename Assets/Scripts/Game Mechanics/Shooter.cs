@@ -32,6 +32,10 @@ public class Shooter : MonoBehaviour
             {
                 OnHitObjectNotShootable(hit.point, hit.normal);
             }
+            else
+            {
+                shotReceiver.GetShot(weaponType);
+            }
         }
 
         OnShotFired?.Invoke();

@@ -4,19 +4,27 @@ using UnityEngine;
 
 public class ShotReceiver : MonoBehaviour
 {
-    public List<WeaponType> DamagedBy  = new List<WeaponType>();
-    
-    public List<WeaponType> MustBeDestroyedBy  = new List<WeaponType>();
+    public List<WeaponType> DamagedBy = new List<WeaponType>();
 
+    public List<WeaponType> MustBeDestroyedBy = new List<WeaponType>();
+
+    public event Action<bool> OnDestroyedByCorrectWeapon = delegate { };
+
+    public bool IsDestroyed;
     
     
-    //public event Action OnDestroyedByCorrectWeapon = delegate {  };
+    // might be useful later to get shot multiple times
+    public void GetShot(WeaponType weaponType) => ShootAndDestroy(weaponType);
     
-    
-    // might just want to make this a component and implement the logic so it's the same for all of them
-    public bool DestroyedByCorrectWeapon(WeaponType weaponType)
+
+    public void ShootAndDestroy(WeaponType weaponType)
     {
-        return MustBeDestroyedBy.Contains(weaponType);
-    }
+        bool destroyedByCorrectWeapon = MustBeDestroyedBy.Contains(weaponType);
 
+
+        OnDestroyedByCorrectWeapon(destroyedByCorrectWeapon);
+
+
+        IsDestroyed = true;
+    }
 }
