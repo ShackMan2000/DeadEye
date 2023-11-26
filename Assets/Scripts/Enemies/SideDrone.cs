@@ -9,6 +9,8 @@ public class SideDrone : MonoBehaviour
     [SerializeField] Material burnMaterial;
     static readonly int Burn = Shader.PropertyToID("_Burn");
 
+    public Vector3 StartPositionLocal { get; set; }
+
     public void GetHitByLaser(Vector3 laserDirection, DroneSettings settings)
     {
         StartCoroutine(GetBurnedUpRoutine(laserDirection, settings));

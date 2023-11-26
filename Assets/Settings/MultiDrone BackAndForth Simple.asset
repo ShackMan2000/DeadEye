@@ -12,10 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc4f08fd59684b93bc7b1caa7bab1e88, type: 3}
   m_Name: MultiDrone BackAndForth Simple
   m_EditorClassIdentifier: 
+  LaserPivotRotation: 45
   LaserExpansionTime: 0.2
   LaserStayTime: 1
   LaserShrinkTime: 0.2
-  BackAndForthSpeed: 0.4
+  BackAndForthSpeed: 0
   BackAndForthDistance: 3.86
   LaserKnockbackSpeed: 14
   LaserKnockbackTime: 0.6
+  PlacementAxis: {x: 1, y: 1, z: 0}
+  PlacementDistance: 1.64
+  RotationAxis: {x: 1, y: 1, z: 0}
+  RotationSpeed: 88

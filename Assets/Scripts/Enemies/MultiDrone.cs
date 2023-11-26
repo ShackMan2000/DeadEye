@@ -6,11 +6,8 @@ using UnityEngine;
 
 public class MultiDrone : MonoBehaviour
 {
-    // 
+    // drone should be aligned perpendicular to the player
 
-    // drone should be aligned perependicularly to the player
-
-// account for laser being thicker than the raycast
     [SerializeField] ShotReceiver coreShotReceiver;
 
 
@@ -22,16 +19,30 @@ public class MultiDrone : MonoBehaviour
     [SerializeField] List<Renderer> laserRenderers;
 
     [SerializeField] List<SideDrone> sideDrones;
+
+    [SerializeField] Renderer coreRender;
+    [SerializeField] Material burnMaterial;
+    
+    [SerializeField] Transform laserPivot;
+
     static readonly int AlphaReveal = Shader.PropertyToID("_AlphaReveal");
 
+
+    Coroutine showLasersRoutine;
 
     bool freezeSideDrones = false;
     // must have a side thing[s], that is only damageable and destructable by the laser
 
     // need this because freezing and unfreezing the side drones should use same time.time
     float totalTimePassed = 0;
+    static readonly int Burn = Shader.PropertyToID("_Burn");
 
     // spawn new core...
+
+    void Awake()
+    {
+        SetSideDronesAndLaserPositions();
+    }
 
     void OnEnable()
     {
@@ -43,13 +54,36 @@ public class MultiDrone : MonoBehaviour
         coreShotReceiver.OnDestroyedByCorrectWeapon -= SpawnLasers;
     }
 
+    
+    
+    [Button]
+    void SetSideDronesAndLaserPositions()
+    {
+        // for now assuming only 1 or 2 side drones, so just alternate between left and right
+        float placementDirection = 1f;
 
+        foreach (SideDrone sideDrone in sideDrones)
+        {
+            placementDirection *= -1f;
+
+            Vector3 startPosition = settings.PlacementAxis * settings.PlacementDistance * placementDirection;
+            sideDrone.transform.localPosition = startPosition;
+            sideDrone.StartPositionLocal = startPosition;
+        }
+        
+        // rotate laster pivot on Z axis
+        laserPivot.Rotate(Vector3.forward, settings.LaserPivotRotation, Space.Self);
+        laserPivot.localRotation = Quaternion.Euler(0, 0, settings.LaserPivotRotation);
+    }
+
+    
+    
+    
     [Button]
     void SpawnLasers(bool correctWeapon)
     {
-        StartCoroutine(ShowLasersRoutine());
-        
-        
+        showLasersRoutine = StartCoroutine(ShowLasersRoutine());
+
 
         int sideDronesHit = 0;
         foreach (Transform laser in lasers)
@@ -75,15 +109,37 @@ public class MultiDrone : MonoBehaviour
 
         if (sideDronesHit > 0)
         {
-            sideDrones.Clear();
+            StartCoroutine(BurnCoreRoutine());
         }
+    }
+
+    IEnumerator BurnCoreRoutine()
+    {
+        coreRender.material = burnMaterial;
+
+        float timePassed = 0;
+        float burnTime = settings.LaserExpansionTime + settings.LaserStayTime;
+        while (timePassed < burnTime)
+        {
+            timePassed += Time.deltaTime;
+            float t = timePassed / burnTime;
+            coreRender.material.SetFloat(Burn, t);
+            yield return null;
+        }
+
+        if (showLasersRoutine != null)
+        {
+            StopCoroutine(showLasersRoutine);
+        }
+
+        gameObject.SetActive(false);
     }
 
 
     IEnumerator ShowLasersRoutine()
     {
         freezeSideDrones = true;
-        
+
         float timePassed = 0;
 
         while (timePassed < settings.LaserExpansionTime)
@@ -126,24 +182,33 @@ public class MultiDrone : MonoBehaviour
     {
         if (!freezeSideDrones)
         {
+        totalTimePassed += Time.deltaTime;
             MoveSideDrones();
+            RotateSideDrones();
         }
     }
 
     void MoveSideDrones()
     {
-        totalTimePassed += Time.deltaTime;
         float sineWave = Mathf.Sin(totalTimePassed * settings.BackAndForthSpeed);
 
-        
 
         foreach (SideDrone sideDrone in sideDrones)
         {
             float newZ = sineWave * settings.BackAndForthDistance;
-            sideDrone.transform.localPosition = new Vector3(sideDrone.transform.localPosition.x, sideDrone.transform.localPosition.y, newZ);
+            sideDrone.transform.localPosition = new Vector3(sideDrone.StartPositionLocal.x, sideDrone.StartPositionLocal.y, newZ);
+        }
+    }
+    
+    void RotateSideDrones()
+    {
+        foreach (SideDrone sideDrone in sideDrones)
+        {
+            sideDrone.transform.RotateAround(transform.position, settings.RotationAxis, settings.RotationSpeed * totalTimePassed);
         }
     }
 
-    // move back and forth in sine wave
-    // make a debug check if they are aligned, change color or something...
+    
+
+  
 }
