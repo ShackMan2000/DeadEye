@@ -23,6 +23,14 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _af_rec136:
+        m_Texture: {fileID: 2800000, guid: c74786fd2f2d66b40a1cdc27c3fb2a9e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -38,10 +46,16 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _Float0: 0.729
+    - _AlphaReveal: 0
+    - _Float0: 9.72
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _SparksScale: 1.24
+    - _SparksScrollSpeedmmmm: -3
+    - _TotalLength: 3
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _MainColor: {r: 3.2529612, g: 0.09098429, b: 0, a: 1}
+    - _Sparkcolor: {r: 11.984314, g: 3.9084375, b: 0, a: 0}
   m_BuildTextureStacks: []
