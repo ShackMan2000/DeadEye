@@ -22,11 +22,15 @@ public class MultiDrone : MonoBehaviour
 
     [SerializeField] Renderer coreRender;
     [SerializeField] Material burnMaterial;
-    
+
     [SerializeField] Transform laserPivot;
+
+    [SerializeField] Transform player;
 
     static readonly int AlphaReveal = Shader.PropertyToID("_AlphaReveal");
 
+
+    [SerializeField] bool isLaunchDrone;
 
     Coroutine showLasersRoutine;
 
@@ -54,8 +58,7 @@ public class MultiDrone : MonoBehaviour
         coreShotReceiver.OnDestroyedByCorrectWeapon -= SpawnLasers;
     }
 
-    
-    
+
     [Button]
     void SetSideDronesAndLaserPositions()
     {
@@ -69,16 +72,18 @@ public class MultiDrone : MonoBehaviour
             Vector3 startPosition = settings.PlacementAxis * settings.PlacementDistance * placementDirection;
             sideDrone.transform.localPosition = startPosition;
             sideDrone.StartPositionLocal = startPosition;
+
+
+            //for launch drone
+            sideDrone.transform.localPosition += settings.SideDroneMovementAxisWorld * settings.SideDronePlaceBehind;
         }
-        
+
         // rotate laster pivot on Z axis
         laserPivot.Rotate(Vector3.forward, settings.LaserPivotRotation, Space.Self);
         laserPivot.localRotation = Quaternion.Euler(0, 0, settings.LaserPivotRotation);
     }
 
-    
-    
-    
+
     [Button]
     void SpawnLasers(bool correctWeapon)
     {
@@ -180,11 +185,20 @@ public class MultiDrone : MonoBehaviour
 
     void Update()
     {
-        if (!freezeSideDrones)
+        if (isLaunchDrone)
         {
-        totalTimePassed += Time.deltaTime;
-            MoveSideDrones();
-            RotateSideDrones();
+            MoveAsLaunchDrone();
+        }
+        else
+        {
+            transform.LookAt(player);
+
+            if (!freezeSideDrones)
+            {
+                totalTimePassed += Time.deltaTime;
+                MoveSideDrones();
+                RotateSideDrones();
+            }
         }
     }
 
@@ -199,7 +213,7 @@ public class MultiDrone : MonoBehaviour
             sideDrone.transform.localPosition = new Vector3(sideDrone.StartPositionLocal.x, sideDrone.StartPositionLocal.y, newZ);
         }
     }
-    
+
     void RotateSideDrones()
     {
         foreach (SideDrone sideDrone in sideDrones)
@@ -208,7 +222,14 @@ public class MultiDrone : MonoBehaviour
         }
     }
 
-    
 
-  
+    void MoveAsLaunchDrone()
+    {
+        transform.position += settings.MovementAxisWorld * settings.MovementSpeed * Time.deltaTime;
+
+        foreach (SideDrone sideDrone in sideDrones)
+        {
+            sideDrone.transform.position += settings.SideDroneMovementAxisWorld * settings.SideDroneMovementSpeed * Time.deltaTime;
+        }
+    }
 }

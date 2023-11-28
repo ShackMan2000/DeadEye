@@ -9,11 +9,11 @@ public class DroneSettings : ScriptableObject
     
     // maybe use inheritance if it becomes too much, e.g. one for the multidrone
 
+    [InfoBox("Core")] 
+    public float MovementSpeed;
+    public Vector3 MovementAxisWorld = Vector3.forward; 
     
-    // movement speed
-    // for multi drone distance of side drones
-    // what kind of movement and the speed
-    //
+    
     [InfoBox("Laser")] 
     public float LaserPivotRotation;
     public float LaserExpansionTime = 0.2f;
@@ -35,6 +35,12 @@ public class DroneSettings : ScriptableObject
     
     public Vector3 RotationAxis = Vector3.up;
     public float RotationSpeed = 1f;
+    
+    
+    //only for testing the launch drone
+    public float SideDroneMovementSpeed;
+    public Vector3 SideDroneMovementAxisWorld = Vector3.back; 
+    public float SideDronePlaceBehind = 1f;
 
 
 }

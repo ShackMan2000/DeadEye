@@ -7,13 +7,14 @@ public class ShooterDebug : MonoBehaviour
     [SerializeField] GameObject debugBulletPrefab;
 
     [SerializeField] float bulletSpeed = 2f;
-    
+
     [SerializeField] Shooter shooter;
 
     List<BulletData> activeBullets = new List<BulletData>();
 
     [SerializeField] Camera centerEyeCamera;
 
+    [SerializeField] bool useDebugBullets;
 
     [SerializeField] WeaponType weaponType;
 
@@ -21,13 +22,13 @@ public class ShooterDebug : MonoBehaviour
     {
         GameObject bullet = Instantiate(debugBulletPrefab, transform);
         bullet.transform.position = transform.position;
-        
+
         BulletData bulletData = new BulletData();
-        
+
         bulletData.Bullet = bullet;
         bulletData.Direction = direction;
         bulletData.Speed = bulletSpeed;
-        
+
         activeBullets.Add(bulletData);
     }
 
@@ -42,14 +43,16 @@ public class ShooterDebug : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 Vector3 direction = hit.point - transform.position;
-                
-                SpawnDebugBullet(direction.normalized);
-                
+
+                if (useDebugBullets)
+                {
+                    SpawnDebugBullet(direction.normalized);
+                }
+
                 shooter.ShootAndDetermineTarget(transform.position, direction.normalized, weaponType);
             }
-        
-            
         }
+
         foreach (BulletData bulletData in activeBullets)
         {
             bulletData.MoveBullet(Time.deltaTime);
@@ -67,7 +70,5 @@ public class ShooterDebug : MonoBehaviour
         {
             Bullet.transform.position += Direction * Speed * deltaTime;
         }
-        
-        
     }
 }
