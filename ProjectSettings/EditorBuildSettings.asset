@@ -36,7 +36,7 @@ EditorBuildSettings:
     path: Assets/Scenes/_.DEADEYE._.unity
     guid: 8395a95f1a3954f61b21967773145488
   - enabled: 1
-    path: Assets/Scenes/_.DEADEYE FINAL._.unity
+    path: Assets/Scenes/Game.unity
     guid: f2f3adfc113ff4a2d9416932e56fd60d
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 8a55d9fccde00e440b9eac0099406cbe,
@@ -44,7 +44,7 @@ EditorBuildSettings:
     Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: 2ec24d39f7b5ac84aad7e5df7b4fd3ea,
       type: 2}
     WebXR.Settings: {fileID: 11400000, guid: fe9659bb224bb054bb1dbca065d1d318, type: 2}
-    com.unity.input.settings: {fileID: 11400000, guid: 7c0d65f8139523c47a3ac0b1587ccdf6,
+    com.unity.input.settings: {fileID: 11400000, guid: 4a75bf4d0a4dd5f499104146e117307b,
       type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 8c87567ea7f6702418b9527e7cb32160,
       type: 2}
