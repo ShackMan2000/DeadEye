@@ -14,6 +14,7 @@ public class EnemyMovement : MonoBehaviour
 
     bool isMoving;
 
+    [SerializeField] float distanceToReachTarget = 0.1f;
 
     [SerializeField] float zOffset;
 
@@ -65,8 +66,10 @@ public class EnemyMovement : MonoBehaviour
         }
     }
     
-    [SerializeField] float distanceToReachTarget = 0.1f;
 
+    // for now could also make a method that if it hasn't reached a checkpoint in x seconds, pick the next one. 
+    // or even if distance to checkpoint is not decreasing enough since the last second, it's stuck and should pick the next one
+    
     void Move()
     {
         float movementSpeed = settings.MovementSpeed * Time.deltaTime;
