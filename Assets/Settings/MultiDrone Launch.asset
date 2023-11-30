@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MultiDrone Launch
   m_EditorClassIdentifier: 
   MovementSpeed: 0.8
-  MovementAxisWorld: {x: 0, y: 0, z: 1}
+  RotationSpeed: 0.0001
   LaserPivotRotation: 0
   LaserExpansionTime: 0.2
   LaserStayTime: 1
@@ -24,8 +24,8 @@ MonoBehaviour:
   LaserKnockbackTime: 0.6
   PlacementAxis: {x: 1, y: 0, z: 0}
   PlacementDistance: 1.97
-  RotationAxis: {x: 1, y: 1, z: 0}
-  RotationSpeed: 0
+  RotationAxis: {x: 0, y: 1, z: 0}
+  SideDronesRotationSpeed: 105.3
   SideDroneMovementSpeed: 1.5
   SideDroneMovementAxisWorld: {x: 0, y: 0, z: -1}
   SideDronePlaceBehind: -9.8

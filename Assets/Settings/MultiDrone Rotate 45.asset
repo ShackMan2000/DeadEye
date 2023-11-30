@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc4f08fd59684b93bc7b1caa7bab1e88, type: 3}
   m_Name: MultiDrone Rotate 45
   m_EditorClassIdentifier: 
-  MovementSpeed: 2
-  RotationSpeed: 20
+  MovementSpeed: 3.19
+  RotationSpeed: 2.19
   LaserPivotRotation: 45
   LaserExpansionTime: 0.2
   LaserStayTime: 1
