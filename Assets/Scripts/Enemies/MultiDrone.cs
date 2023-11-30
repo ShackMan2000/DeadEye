@@ -10,8 +10,7 @@ public class MultiDrone : MonoBehaviour
 
     [SerializeField] ShotReceiver coreShotReceiver;
 
-
-    [SerializeField] DroneSettings settings;
+    [SerializeField] EnemySettings settings;
 
     [SerializeField] float laserDistance = 10f;
 
@@ -24,13 +23,12 @@ public class MultiDrone : MonoBehaviour
     [SerializeField] Material burnMaterial;
 
     [SerializeField] Transform laserPivot;
+    [SerializeField] Transform pivot;
 
     [SerializeField] Transform player;
 
     static readonly int AlphaReveal = Shader.PropertyToID("_AlphaReveal");
 
-
-    [SerializeField] bool isLaunchDrone;
 
     Coroutine showLasersRoutine;
 
@@ -185,20 +183,13 @@ public class MultiDrone : MonoBehaviour
 
     void Update()
     {
-        if (isLaunchDrone)
-        {
-            MoveAsLaunchDrone();
-        }
-        else
-        {
-            transform.LookAt(player);
+        pivot.LookAt(player);
 
-            if (!freezeSideDrones)
-            {
-                totalTimePassed += Time.deltaTime;
-                MoveSideDrones();
-                RotateSideDrones();
-            }
+        if (!freezeSideDrones)
+        {
+            totalTimePassed += Time.deltaTime;
+            MoveSideDrones();
+            RotateSideDrones();
         }
     }
 
@@ -218,18 +209,7 @@ public class MultiDrone : MonoBehaviour
     {
         foreach (SideDrone sideDrone in sideDrones)
         {
-            sideDrone.transform.RotateAround(transform.position, settings.RotationAxis, settings.RotationSpeed * totalTimePassed);
-        }
-    }
-
-
-    void MoveAsLaunchDrone()
-    {
-        transform.position += settings.MovementAxisWorld * settings.MovementSpeed * Time.deltaTime;
-
-        foreach (SideDrone sideDrone in sideDrones)
-        {
-            sideDrone.transform.position += settings.SideDroneMovementAxisWorld * settings.SideDroneMovementSpeed * Time.deltaTime;
+            sideDrone.transform.RotateAround(pivot.position, settings.RotationAxis, settings.SideDronesRotationSpeed * totalTimePassed);
         }
     }
 }

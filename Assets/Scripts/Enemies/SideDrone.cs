@@ -11,14 +11,14 @@ public class SideDrone : MonoBehaviour
 
     public Vector3 StartPositionLocal { get; set; }
 
-    public void GetHitByLaser(Vector3 laserDirection, DroneSettings settings)
+    public void GetHitByLaser(Vector3 laserDirection, EnemySettings settings)
     {
         StartCoroutine(GetBurnedUpRoutine(laserDirection, settings));
         
     }
     
     
-    IEnumerator GetBurnedUpRoutine(Vector3 laserDirection, DroneSettings settings)
+    IEnumerator GetBurnedUpRoutine(Vector3 laserDirection, EnemySettings settings)
     {
         float time = 0;
         

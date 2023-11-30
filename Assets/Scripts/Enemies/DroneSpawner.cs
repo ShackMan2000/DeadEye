@@ -8,7 +8,7 @@ public class DroneSpawner : MonoBehaviour
 
 
     [ShowInInspector]
-    Dictionary<DroneSettings, Vector3> spawnPositions;
+    Dictionary<EnemySettings, Vector3> spawnPositions;
 
     
     

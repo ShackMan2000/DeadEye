@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc4f08fd59684b93bc7b1caa7bab1e88, type: 3}
   m_Name: MultiDrone Rotate 45
   m_EditorClassIdentifier: 
-  MovementSpeed: 0
-  MovementAxisWorld: {x: 0, y: 0, z: 1}
+  MovementSpeed: 2
+  RotationSpeed: 20
   LaserPivotRotation: 45
   LaserExpansionTime: 0.2
   LaserStayTime: 1
@@ -25,7 +25,7 @@ MonoBehaviour:
   PlacementAxis: {x: 1, y: 1, z: 0}
   PlacementDistance: 1.32
   RotationAxis: {x: 1, y: 1, z: 0}
-  RotationSpeed: 88
-  SideDroneMovementSpeed: 0
+  SideDronesRotationSpeed: 1
+  SideDroneMovementSpeed: 88
   SideDroneMovementAxisWorld: {x: 0, y: 0, z: -1}
   SideDronePlaceBehind: 0
