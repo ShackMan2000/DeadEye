@@ -5,14 +5,12 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
 using BNG;
-using TRavljen.UnitFormation.Demo;
 
 public class HPManager : MonoBehaviour
 {
     public int HP;
     public Text hpText;
     public UnityEvent GameOver;
-    public DeadeyeUnit UnitGuy;
   //  public TimeController time;
     public GameObject[] Lasers;
     public GameObject KillSpawner;
