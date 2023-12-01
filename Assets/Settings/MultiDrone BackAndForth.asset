@@ -13,19 +13,20 @@ MonoBehaviour:
   m_Name: MultiDrone BackAndForth
   m_EditorClassIdentifier: 
   MovementSpeed: 0
-  MovementAxisWorld: {x: 0, y: 0, z: 1}
+  RotationSpeed: 0
+  minWaveLevel: 0
   LaserPivotRotation: 0
   LaserExpansionTime: 0.2
   LaserStayTime: 1
   LaserShrinkTime: 0.2
-  BackAndForthSpeed: 1.06
+  BackAndForthSpeed: 0
   BackAndForthDistance: 2.45
   LaserKnockbackSpeed: 14
   LaserKnockbackTime: 0.6
   PlacementAxis: {x: 1, y: 0, z: 0}
   PlacementDistance: 1.67
-  RotationAxis: {x: 1, y: 1, z: 0}
-  RotationSpeed: 0
+  RotationAxis: {x: 0, y: 1, z: 0}
+  SideDronesRotationSpeed: 53.48
   SideDroneMovementSpeed: 0
   SideDroneMovementAxisWorld: {x: 0, y: 0, z: -1}
   SideDronePlaceBehind: 1

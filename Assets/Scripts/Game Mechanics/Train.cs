@@ -7,38 +7,49 @@ using UnityEngine;
 
 public class Train : MonoBehaviour
 {
-
     [SerializeField] DOTweenPath trainPath;
-    
+
     [SerializeField] Transform trainTransform;
 
     [SerializeField] GameObject gateEffects;
-    
-    Vector3 _startPosition;
-    Quaternion _startRotation;
 
-    
+    [SerializeField] bool quickSpawnTrain;
+
     public float MovementDuration => trainPath.duration;
 
-    void Awake()
+
+    void Start()
     {
-        _startPosition = trainTransform.position;
-        _startRotation = trainTransform.rotation;
+#if !UNITY_EDITOR
+       QuickSpawnTrainDEBUG = false;
+#endif
     }
 
     [Button]
     public void SpawnTrain()
     {
-        trainTransform.gameObject.SetActive(true);
-        gateEffects.SetActive(true);
-        trainPath.DOPlay();
+        if (quickSpawnTrain)
+        {
+            Tween tween = trainPath.GetTween();
+            tween.timeScale = 100;
+            Debug.Log("Quick spawn train, duration: " + trainPath.duration);
+            trainPath.DOPlay();
+        }
+        else
+        {
+            trainTransform.gameObject.SetActive(true);
+            gateEffects.SetActive(true);
+            trainPath.DOPlay();
+        }
+        
+        Debug.Log("Quick spawn train, duration: " + trainPath.duration);
     }
-
     
+
+
     [Button]
     void ResetTrain()
     {
         trainPath.DORewind();
     }
-
 }
