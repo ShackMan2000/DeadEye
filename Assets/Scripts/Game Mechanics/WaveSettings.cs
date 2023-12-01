@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptables")]
+[CreateAssetMenu(menuName = "WaveSettings")]
 public class WaveSettings : ScriptableObject
 {
 
