@@ -6,7 +6,16 @@ using UnityEngine;
 public class MuzzleFlash : MonoBehaviour
 {
     [SerializeField] ParticleSystem muzzleFlashParticleSystem;
+    // main particle system
+    [SerializeField] ParticleSystem muzzleFlashSparksParticleSystem;
 
+    [SerializeField] ParticleSystem.MainModule mainModule;
+
+
+    void Awake()
+    {
+        mainModule = muzzleFlashParticleSystem.main;
+    }
 
     void OnEnable()
     {
@@ -18,10 +27,11 @@ public class MuzzleFlash : MonoBehaviour
         Shooter.OnShotFired -= SpawnMuzzleFlash;
     }
 
-    void SpawnMuzzleFlash()
+    void SpawnMuzzleFlash(WeaponType weaponType)
     {
         if (muzzleFlashParticleSystem != null)
         {
+            mainModule.startColor = weaponType.Color;
             muzzleFlashParticleSystem.Play();
         }
         else

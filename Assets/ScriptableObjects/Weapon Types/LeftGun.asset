@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: LeftGun
   m_EditorClassIdentifier: 
   Name: 
+  Color: {r: 0, g: 0.08704996, b: 1, a: 1}

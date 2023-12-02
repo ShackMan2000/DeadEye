@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ShooterDebug : MonoBehaviour
 {
@@ -16,7 +17,17 @@ public class ShooterDebug : MonoBehaviour
 
     [SerializeField] bool useDebugBullets;
 
-    [SerializeField] WeaponType weaponType;
+    [FormerlySerializedAs("weaponType")] [SerializeField] WeaponType leftWeapon;
+    [SerializeField] WeaponType rightWeapon;
+    
+    WeaponType currentWeapon;
+
+
+    void Awake()
+    {
+        currentWeapon = rightWeapon;
+    }
+
 
     void SpawnDebugBullet(Vector3 direction)
     {
@@ -49,13 +60,19 @@ public class ShooterDebug : MonoBehaviour
                     SpawnDebugBullet(direction.normalized);
                 }
 
-                shooter.ShootAndDetermineTarget(transform.position, direction.normalized, weaponType);
+                shooter.ShootAndDetermineTarget(transform.position, direction.normalized, currentWeapon);
             }
         }
 
         foreach (BulletData bulletData in activeBullets)
         {
             bulletData.MoveBullet(Time.deltaTime);
+        }
+        
+        // switch weapon on space bar
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            currentWeapon = currentWeapon == leftWeapon ? rightWeapon : leftWeapon;
         }
     }
 

@@ -11,7 +11,7 @@ public class Shooter : MonoBehaviour
     // public static event Action<Vector3, Vector3> OnShootBulletStartToInfiniteDirection = delegate { };
 
     
-    public static event Action OnShotFired = delegate { };
+    public static event Action<WeaponType> OnShotFired = delegate { };
     
     public static event Action<Vector3, Vector3> OnHitObjectNotShootable = delegate { };
     public void ShootAndDetermineTarget(Vector3 startPosition, Vector3 direction, WeaponType weaponType)
@@ -38,7 +38,7 @@ public class Shooter : MonoBehaviour
             }
         }
 
-        OnShotFired?.Invoke();
+        OnShotFired?.Invoke(weaponType);
         Debug.Log("Fired a shot with  " + weaponType + " and hit " + hitObject + " which has a shot receiver of " + shotReceiver);
     }
 }

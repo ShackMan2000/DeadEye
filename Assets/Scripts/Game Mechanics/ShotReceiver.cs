@@ -35,10 +35,7 @@ public class ShotReceiver : MonoBehaviour
 
      void GetDestroyed(bool correctWeapon)
     {
-
-
         OnDestroyedByCorrectWeapon(correctWeapon);
-
 
         IsDestroyed = true;
         ShootingBlocked = true;
