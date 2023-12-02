@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc4f08fd59684b93bc7b1caa7bab1e88, type: 3}
   m_Name: DroneBall Simple
   m_EditorClassIdentifier: 
-  MovementSpeed: 0.8
-  RotationSpeed: 0.0001
+  MovementSpeed: 4.18
+  RotationSpeed: 2.89
+  minWaveLevel: 0
+  MovementTypes: 00000000
   LaserPivotRotation: 0
   LaserExpansionTime: 0.2
   LaserStayTime: 1

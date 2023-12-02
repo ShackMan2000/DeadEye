@@ -206,8 +206,6 @@ public class MultiDrone : MonoBehaviour
 
     void RotateSideDrones()
     {
-        
-        
         foreach (SideDrone sideDrone in sideDrones)
         {
             sideDrone.transform.RotateAround(pivot.position, settings.RotationAxis, settings.SideDronesRotationSpeed * totalTimePassed);

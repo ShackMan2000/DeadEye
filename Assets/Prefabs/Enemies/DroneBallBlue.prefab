@@ -61,7 +61,7 @@ Transform:
   m_GameObject: {fileID: 3786675415580583039}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 14.408461, y: -4.072335, z: 0.40907383}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -80,6 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ab125be01da457d944dfbbb824ed4f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movement: {fileID: 5762438037454262552}
 --- !u!114 &5762438037454262552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,8 +93,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e811e85c8bbb4928a994314d81aeff27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 0}
   checkPoints: {fileID: 0}
+  playerPosition: {fileID: 11400000, guid: a9f4db12f8b21d94fbc84b69ba8393ac, type: 2}
+  pivot: {fileID: 6812498480241206417}
   distanceToReachTarget: 0.1
   zOffset: 0
 --- !u!135 &3398824298847136087

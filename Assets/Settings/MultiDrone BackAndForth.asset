@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc4f08fd59684b93bc7b1caa7bab1e88, type: 3}
   m_Name: MultiDrone BackAndForth
   m_EditorClassIdentifier: 
-  MovementSpeed: 0
-  RotationSpeed: 0
+  MovementSpeed: 2
+  RotationSpeed: 40
   minWaveLevel: 0
+  MovementTypes: 02000000
   LaserPivotRotation: 0
   LaserExpansionTime: 0.2
   LaserStayTime: 1

@@ -24,6 +24,8 @@ public class WaveController : MonoBehaviour
 
     List<PrefabsWithSettingsOptions> enemyOptionsForCurrentWave;
 
+    [SerializeField] List<CheckPointsList> checkPointsLists;
+    
     // for spawning tripplets etc. could disable the interval but add it to the max so the next one won't spawn too fast
 
     [SerializeField] GameObject testEnemy;
@@ -41,6 +43,7 @@ public class WaveController : MonoBehaviour
     [Button]
     void InitializeWave()
     {
+        enemiesToSpawnCurrentWave = settings.EnemyCountBase + settings.EnemyCountIncreasePerLevel * currentWaveIndex;
         StartCoroutine(InitializeWaveRoutine());
     }
 
@@ -59,27 +62,8 @@ public class WaveController : MonoBehaviour
         activeEnemies = new List<EnemyBase>();
 
         
-        // could  do some extra stuff, like spawn a lot of balls and have them move to a position each, that would look cool.
-        
-        // have them move in trains, especially having a left and right train moving at the same time.
+      
 
-        // start simple, spawnCounter, spawn one after another
-        // give each enemy a path and if random or follow the path
-        // later use multiple paths
-        // or give them a point and they just linger there.
-
-
-        // next is calculate who is going to shoot
-
-
-        // spawn enemies and add them to the list
-        // add a listener to each enemy when they get destroyed
-
-
-        // need some kind of movement for the enemies, could just use a rotation for now, something related to depth
-
-
-        // depth enemies will have special movement, either rotating around each other on special axis or linear back and forth
     }
 
     void CreateEnemyOptionsForCurrentWave()
@@ -136,10 +120,16 @@ public class WaveController : MonoBehaviour
 
     void SpawnEnemy()
     {
-        EnemyBase newEnemy = Instantiate(enemyOptionsForCurrentWave[Random.Range(0, enemyOptionsForCurrentWave.Count)].EnemyPrefab);    
+        int randomIndex = Random.Range(0, enemyOptionsForCurrentWave.Count);
+        EnemyBase newEnemy = Instantiate(enemyOptionsForCurrentWave[randomIndex].EnemyPrefab);    
         newEnemy.transform.SetParent(transform);
         newEnemy.transform.position = spawnMarker.position;
         activeEnemies.Add(newEnemy);
+        
+        
+        newEnemy.Initialize(enemyOptionsForCurrentWave[randomIndex].SettingsOptions[0], checkPointsLists[0]);
+      
+        
             
         enemiesToSpawnCurrentWave--;
         if (enemiesToSpawnCurrentWave <= 0)

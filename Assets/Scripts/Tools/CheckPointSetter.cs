@@ -22,7 +22,7 @@ public class CheckPointSetter : MonoBehaviour
         }
 
 #if UNITY_EDITOR
-        UnityEditor.EditorUtility.SetDirty(this);
+        UnityEditor.EditorUtility.SetDirty(checkPointsList);
 #endif
     }
 
