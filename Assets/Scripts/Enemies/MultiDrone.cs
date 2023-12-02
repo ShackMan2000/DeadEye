@@ -25,7 +25,7 @@ public class MultiDrone : MonoBehaviour
     [SerializeField] Transform laserPivot;
     [SerializeField] Transform pivot;
 
-    [SerializeField] Transform player;
+    [SerializeField] PlayerPosition playerPosition;
 
     static readonly int AlphaReveal = Shader.PropertyToID("_AlphaReveal");
 
@@ -208,7 +208,8 @@ public class MultiDrone : MonoBehaviour
     {
         foreach (SideDrone sideDrone in sideDrones)
         {
-            sideDrone.transform.RotateAround(pivot.position, settings.RotationAxis, settings.SideDronesRotationSpeed * totalTimePassed);
+            sideDrone.transform.RotateAround(pivot.position, pivot.transform.up, settings.SideDronesRotationSpeed * totalTimePassed);
+            sideDrone.transform.LookAt(playerPosition.Position);
         }
     }
 }

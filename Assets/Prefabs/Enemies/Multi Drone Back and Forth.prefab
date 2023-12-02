@@ -974,7 +974,7 @@ MonoBehaviour:
   burnMaterial: {fileID: 2100000, guid: 976805f7b0fb6f349b4921eaab235e13, type: 2}
   laserPivot: {fileID: 7390823047953419940}
   pivot: {fileID: 2319525784022488479}
-  player: {fileID: 0}
+  playerPosition: {fileID: 11400000, guid: a9f4db12f8b21d94fbc84b69ba8393ac, type: 2}
 --- !u!1 &7810895995684979874
 GameObject:
   m_ObjectHideFlags: 0
