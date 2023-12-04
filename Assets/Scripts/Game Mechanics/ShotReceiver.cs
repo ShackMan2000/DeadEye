@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ShotReceiver : MonoBehaviour
 {
     public List<WeaponType> DamagedBy = new List<WeaponType>();
 
-    public List<WeaponType> MustBeDestroyedBy = new List<WeaponType>();
+    [FormerlySerializedAs("MustBeDestroyedBy")] public List<WeaponType> CorrectWeaponsToGetShot = new List<WeaponType>();
+    
 
     public event Action<bool> OnShotByCorrectWeapon = delegate { };
-    public event Action<bool> OnDestroyedByCorrectWeapon = delegate { };
 
     public bool IsDestroyed;
 
     public bool ShootingBlocked;
 
-    // might be useful later to get shot multiple times
+    public bool GetsDestroyedWhenShot;
+
+    // ball drones get destroyed with one shot, depth drones just need even and get blocked for another shot.
+    
     public void GetShot(WeaponType weaponType)
     {
         if (ShootingBlocked)
@@ -28,16 +32,17 @@ public class ShotReceiver : MonoBehaviour
 
         OnShotByCorrectWeapon(shotByCorrectWeapon);
 
-        // for now only have one shot -> destroy, but might change
-        GetDestroyed(weaponType);
+        if(GetsDestroyedWhenShot)
+        {
+            GetDestroyed(weaponType);
+        }
     }
 
 
      void GetDestroyed(bool correctWeapon)
     {
-        OnDestroyedByCorrectWeapon(correctWeapon);
-
         IsDestroyed = true;
         ShootingBlocked = true;
+        gameObject.SetActive(false);
     }
 }

@@ -48,12 +48,12 @@ public class MultiDrone : MonoBehaviour
 
     void OnEnable()
     {
-        coreShotReceiver.OnDestroyedByCorrectWeapon += SpawnLasers;
+        coreShotReceiver.OnShotByCorrectWeapon += SpawnLasers;
     }
 
     void OnDisable()
     {
-        coreShotReceiver.OnDestroyedByCorrectWeapon -= SpawnLasers;
+        coreShotReceiver.OnShotByCorrectWeapon -= SpawnLasers;
     }
 
 

@@ -134,10 +134,11 @@ MonoBehaviour:
   DamagedBy:
   - {fileID: 11400000, guid: a996b2b426834944496a5628720e9cfb, type: 2}
   - {fileID: 11400000, guid: a934da441be51aa45941237a7fa5bd16, type: 2}
-  MustBeDestroyedBy:
+  CorrectWeaponsToGetShot:
   - {fileID: 11400000, guid: a996b2b426834944496a5628720e9cfb, type: 2}
   IsDestroyed: 0
   ShootingBlocked: 0
+  GetsDestroyedWhenShot: 1
 --- !u!1 &5426870498433382247
 GameObject:
   m_ObjectHideFlags: 0
