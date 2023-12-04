@@ -12,14 +12,11 @@ public class ShotReceiver : MonoBehaviour
 
     public event Action<bool> OnShotByCorrectWeapon = delegate { };
 
-    public bool IsDestroyed;
-
+ 
     public bool ShootingBlocked;
 
-    public bool GetsDestroyedWhenShot;
-
     // ball drones get destroyed with one shot, depth drones just need even and get blocked for another shot.
-    
+            
     public void GetShot(WeaponType weaponType)
     {
         if (ShootingBlocked)
@@ -31,18 +28,8 @@ public class ShotReceiver : MonoBehaviour
         bool shotByCorrectWeapon = DamagedBy.Contains(weaponType);
 
         OnShotByCorrectWeapon(shotByCorrectWeapon);
-
-        if(GetsDestroyedWhenShot)
-        {
-            GetDestroyed(weaponType);
-        }
     }
 
 
-     void GetDestroyed(bool correctWeapon)
-    {
-        IsDestroyed = true;
-        ShootingBlocked = true;
-        gameObject.SetActive(false);
-    }
+
 }

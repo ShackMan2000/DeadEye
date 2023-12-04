@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class MultiDrone : MonoBehaviour
 {
-    // drone should be aligned perpendicular to the player
+    [SerializeField] EnemyBase enemyBase;
 
     [SerializeField] ShotReceiver coreShotReceiver;
 
@@ -48,12 +48,12 @@ public class MultiDrone : MonoBehaviour
 
     void OnEnable()
     {
-        coreShotReceiver.OnShotByCorrectWeapon += SpawnLasers;
+        enemyBase.OnShotCorrectly += SpawnLasers;
     }
 
     void OnDisable()
     {
-        coreShotReceiver.OnShotByCorrectWeapon -= SpawnLasers;
+        enemyBase.OnShotCorrectly -= SpawnLasers;
     }
 
 
@@ -99,8 +99,12 @@ public class MultiDrone : MonoBehaviour
             {
                 if (hit.collider.gameObject.TryGetComponent(out SideDrone sideDrone))
                 {
-                    sideDronesHit++;
-                    sideDrone.GetHitByLaser(laser.forward, settings);
+                    // to not hit other drones' side drones
+                    if (sideDrones.Contains(sideDrone))
+                    {
+                        sideDronesHit++;
+                        sideDrone.GetHitByLaser(laser.forward, settings);
+                    }
                 }
             }
         }
@@ -141,6 +145,8 @@ public class MultiDrone : MonoBehaviour
 
     IEnumerator ShowLasersRoutine()
     {
+        coreShotReceiver.ShootingBlocked = true;
+        
         freezeSideDrones = true;
 
         float timePassed = 0;
@@ -183,7 +189,6 @@ public class MultiDrone : MonoBehaviour
 
     void Update()
     {
-
         if (!freezeSideDrones)
         {
             totalTimePassed += Time.deltaTime;

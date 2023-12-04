@@ -14,11 +14,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a934da441be51aa45941237a7fa5bd16,
         type: 2}
+    - target: {fileID: -4919076386129175705, guid: 8dabb27a437907a45a267748c9002cc7,
+        type: 3}
+      propertyPath: CorrectWeaponsToGetShot.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a934da441be51aa45941237a7fa5bd16,
+        type: 2}
     - target: {fileID: 246705672227632708, guid: 8dabb27a437907a45a267748c9002cc7,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 4a2bbc711d278624b97edfc09c9cf78f, type: 2}
+    - target: {fileID: 1630283835777933682, guid: 8dabb27a437907a45a267748c9002cc7,
+        type: 3}
+      propertyPath: DestroyedWithOneShot
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3786675415580583039, guid: 8dabb27a437907a45a267748c9002cc7,
         type: 3}
       propertyPath: m_Name

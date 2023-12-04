@@ -137,4 +137,12 @@ public class WaveController : MonoBehaviour
             isSpawning = false;
         }
     }
+
+
+
+    [Button]
+    void DestroyRandomEnemy()
+    {
+        
+    }
 }

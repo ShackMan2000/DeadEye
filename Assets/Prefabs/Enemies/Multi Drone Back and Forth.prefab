@@ -797,9 +797,7 @@ MonoBehaviour:
   CorrectWeaponsToGetShot:
   - {fileID: 11400000, guid: a996b2b426834944496a5628720e9cfb, type: 2}
   - {fileID: 11400000, guid: a934da441be51aa45941237a7fa5bd16, type: 2}
-  IsDestroyed: 0
   ShootingBlocked: 0
-  GetsDestroyedWhenShot: 0
 --- !u!1 &7046078143160338933
 GameObject:
   m_ObjectHideFlags: 0
@@ -882,6 +880,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement: {fileID: 6118846312569771990}
+  shotReceiver: {fileID: 4623916047565726922}
+  DestroyedWithOneShot: 0
 --- !u!114 &6118846312569771990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -911,6 +911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fef2d967705b4babb11ac74f40cb0109, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyBase: {fileID: 0}
   coreShotReceiver: {fileID: 4623916047565726922}
   settings: {fileID: 11400000, guid: 377a95ac4c374694a90336a7c66f2689, type: 2}
   laserDistance: 10
