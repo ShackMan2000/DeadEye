@@ -82,7 +82,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 5762438037454262552}
   shotReceiver: {fileID: -4919076386129175705}
-  DestroyedWithOneShot: 1
+  GetsDestroyedByGunshot: 1
 --- !u!114 &5762438037454262552
 MonoBehaviour:
   m_ObjectHideFlags: 0

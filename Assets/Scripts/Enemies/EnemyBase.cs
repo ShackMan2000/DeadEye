@@ -6,28 +6,29 @@ using UnityEngine;
 
 public class EnemyBase : MonoBehaviour
 {
-
     // could do the settings directly in here, a list of options
     // would need a bool first so wave controller can check if there is any option avaialble for this wave
 
     [ShowInInspector] EnemySettings settings;
-    
+
     [SerializeField] EnemyMovement movement;
 
     [SerializeField] ShotReceiver shotReceiver;
 
-    public bool DestroyedWithOneShot;
-    
-    public event Action<bool> OnShotCorrectly = delegate { };
-    public static event Action<bool> OnAnyEnemyShotCorrectly  = delegate { };
+    public bool GetsDestroyedByGunshot;
+
+    public event Action OnShotByAnyWeapon = delegate { };
     public static event Action<Vector3> OnSpawnExplosion = delegate { };
+
+    public static event Action<EnemySettings> OnAnyEnemyDestroyedCorrectly = delegate { };
+    public static event Action<EnemySettings> OnAnyEnemyShotByMistake = delegate { };
 
     void OnEnable()
     {
         shotReceiver.OnShotByCorrectWeapon += OnShotByCorrectWeapon;
         shotReceiver.ShootingBlocked = false;
     }
-    
+
     void OnDisable()
     {
         shotReceiver.OnShotByCorrectWeapon -= OnShotByCorrectWeapon;
@@ -35,14 +36,24 @@ public class EnemyBase : MonoBehaviour
 
     void OnShotByCorrectWeapon(bool correctWeapon)
     {
-        if (DestroyedWithOneShot)
+        if (GetsDestroyedByGunshot)
         {
+            if (correctWeapon)
+            {
+                OnAnyEnemyDestroyedCorrectly(settings);
+            }
+            else
+            {
+                OnAnyEnemyShotByMistake(settings);
+            }
+
+
             GetDestroyed(correctWeapon);
-            shotReceiver.ShootingBlocked = true;
         }
-        
-        OnShotCorrectly(correctWeapon);
-        OnAnyEnemyShotCorrectly(correctWeapon);
+
+        // the issue is that the drone here has nothing to do with getting shot by the correct weapon, it's all about the timing.
+        // and the drone 
+        OnShotByAnyWeapon();
     }
 
     public void Initialize(EnemySettings settingsOption, CheckPointsList checkPointsList)
@@ -50,13 +61,22 @@ public class EnemyBase : MonoBehaviour
         settings = settingsOption;
         movement.Initialize(settings, checkPointsList);
     }
-    
-    
+
+    public void RaiseShotByMistakeEvent()
+    {
+        OnAnyEnemyShotByMistake(settings);
+    }
+
+    public void RaiseDestroyedByCorrectWeaponEvent()
+    {
+        OnAnyEnemyDestroyedCorrectly(settings);
+    }
+
+
     void GetDestroyed(bool correctWeapon)
     {
+        shotReceiver.ShootingBlocked = true;
         OnSpawnExplosion(transform.position);
         gameObject.SetActive(false);
     }
 }
-
-

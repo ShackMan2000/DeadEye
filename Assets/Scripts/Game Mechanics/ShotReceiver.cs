@@ -25,7 +25,7 @@ public class ShotReceiver : MonoBehaviour
         }
             
             
-        bool shotByCorrectWeapon = DamagedBy.Contains(weaponType);
+        bool shotByCorrectWeapon = CorrectWeaponsToGetShot.Contains(weaponType);
 
         OnShotByCorrectWeapon(shotByCorrectWeapon);
     }

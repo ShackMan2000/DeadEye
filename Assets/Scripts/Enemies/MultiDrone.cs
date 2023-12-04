@@ -48,12 +48,12 @@ public class MultiDrone : MonoBehaviour
 
     void OnEnable()
     {
-        enemyBase.OnShotCorrectly += SpawnLasers;
+        enemyBase.OnShotByAnyWeapon += SpawnLasers;
     }
 
     void OnDisable()
     {
-        enemyBase.OnShotCorrectly -= SpawnLasers;
+        enemyBase.OnShotByAnyWeapon -= SpawnLasers;
     }
 
 
@@ -83,7 +83,7 @@ public class MultiDrone : MonoBehaviour
 
 
     [Button]
-    void SpawnLasers(bool correctWeapon)
+    void SpawnLasers()
     {
         showLasersRoutine = StartCoroutine(ShowLasersRoutine());
 
@@ -116,7 +116,12 @@ public class MultiDrone : MonoBehaviour
 
         if (sideDronesHit > 0)
         {
+            enemyBase.RaiseDestroyedByCorrectWeaponEvent();
             StartCoroutine(BurnCoreRoutine());
+        }
+        else
+        {
+            enemyBase.RaiseShotByMistakeEvent();
         }
     }
 
