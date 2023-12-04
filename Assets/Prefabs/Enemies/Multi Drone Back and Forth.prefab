@@ -911,7 +911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fef2d967705b4babb11ac74f40cb0109, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyBase: {fileID: 0}
+  enemyBase: {fileID: 5196567718266365334}
   coreShotReceiver: {fileID: 4623916047565726922}
   settings: {fileID: 11400000, guid: 377a95ac4c374694a90336a7c66f2689, type: 2}
   laserDistance: 10
