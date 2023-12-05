@@ -27,20 +27,20 @@ public class ScoreDisplay : MonoBehaviour
     
     void OnEnable()
     {
-      //  scoreController.OnScoreChanged += OnScoreChanged;
+        scoreController.OnScoreChanged += OnScoreChanged;
         scoreController.OnKillStreakChanged += OnKillStreakChanged;
     }
     
     void OnDisable()
     {
-     //   scoreController.OnScoreChanged -= OnScoreChanged;
+       scoreController.OnScoreChanged -= OnScoreChanged;
         scoreController.OnKillStreakChanged -= OnKillStreakChanged;
     }
     
     
-    void OnScoreChanged(int score)
+    void OnScoreChanged(float newScore)
     {
-        scoreText.text = score.ToString();
+        scoreText.text = newScore.ToString();
     }
     
     

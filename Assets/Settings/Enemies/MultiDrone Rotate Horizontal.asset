@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: MultiDrone Rotate Horizontal
   m_EditorClassIdentifier: 
   MovementSpeed: 0
-  MovementAxisWorld: {x: 0, y: 0, z: 1}
+  RotationSpeed: 88
+  pointsForKill: 50
+  minWaveLevel: 0
+  MovementTypes: 02000000
+  rotateTowardsPlayer: 1
   LaserPivotRotation: 0
   LaserExpansionTime: 0.2
   LaserStayTime: 1
@@ -25,7 +29,7 @@ MonoBehaviour:
   PlacementAxis: {x: 1, y: 0, z: 0}
   PlacementDistance: 1.14
   RotationAxis: {x: 0, y: 1, z: 0}
-  RotationSpeed: 88
+  SideDronesRotationSpeed: 1
   SideDroneMovementSpeed: 0
   SideDroneMovementAxisWorld: {x: 0, y: 0, z: -1}
   SideDronePlaceBehind: 1

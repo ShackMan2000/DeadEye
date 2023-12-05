@@ -12,26 +12,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e747bcb2120240abbc7c68496d9f817d, type: 3}
   m_Name: Wave Settings Normal
   m_EditorClassIdentifier: 
-  EnemyCountBase: 10
-  EnemyCountIncreasePerLevel: 2
-  EnemyCountMax: 50
   EnemySpawnIntervalBase: 2
   EnemySpawnIntervalDecreasePerLevel: 0.1
   EnemySpawnIntervalMin: 1
   EnemySpawnIntervalVarianceRelative: 0.147
-  AllEnemiesWithSettingsOptions:
-  - EnemyPrefab: {fileID: 1630283835777933682, guid: 8dabb27a437907a45a267748c9002cc7,
+  AllEnemiesOptions:
+  - EnemySettings: {fileID: 11400000, guid: 57a478a597c1b134c999897e5d273eab, type: 2}
+    EnemyPrefabNeutral: {fileID: 0}
+    EnemyPrefabLeft: {fileID: 1630283835777933682, guid: 8dabb27a437907a45a267748c9002cc7,
       type: 3}
-    SettingsOptions:
-    - {fileID: 11400000, guid: 657649d397d279745b6836a8195789a2, type: 2}
-  - EnemyPrefab: {fileID: 1883003357943888066, guid: c42168f20f1b5c640bb625764f9b8944,
+    EnemyPrefabRight: {fileID: 1883003357943888066, guid: c42168f20f1b5c640bb625764f9b8944,
       type: 3}
-    SettingsOptions:
-    - {fileID: 11400000, guid: 657649d397d279745b6836a8195789a2, type: 2}
-  - EnemyPrefab: {fileID: 5196567718266365334, guid: efb2a446c68dcaa458693eb98a4bf6fc,
+    MinimumWaveLevel: 0
+    SpawnAmountBase: 4
+    SpawnAmountIncreasePerLevel: 2
+    SpawnCountLeftCurrentWave: 0
+  - EnemySettings: {fileID: 11400000, guid: da5b322f5e172454dae94b7508591d01, type: 2}
+    EnemyPrefabNeutral: {fileID: 0}
+    EnemyPrefabLeft: {fileID: 1630283835777933682, guid: 8dabb27a437907a45a267748c9002cc7,
       type: 3}
-    SettingsOptions:
-    - {fileID: 11400000, guid: 377a95ac4c374694a90336a7c66f2689, type: 2}
+    EnemyPrefabRight: {fileID: 1883003357943888066, guid: c42168f20f1b5c640bb625764f9b8944,
+      type: 3}
+    MinimumWaveLevel: 0
+    SpawnAmountBase: 4
+    SpawnAmountIncreasePerLevel: 2
+    SpawnCountLeftCurrentWave: 0
+  - EnemySettings: {fileID: 11400000, guid: 377a95ac4c374694a90336a7c66f2689, type: 2}
+    EnemyPrefabNeutral: {fileID: 5196567718266365334, guid: efb2a446c68dcaa458693eb98a4bf6fc,
+      type: 3}
+    EnemyPrefabLeft: {fileID: 0}
+    EnemyPrefabRight: {fileID: 0}
+    MinimumWaveLevel: 0
+    SpawnAmountBase: 2
+    SpawnAmountIncreasePerLevel: 1
+    SpawnCountLeftCurrentWave: 0
+  - EnemySettings: {fileID: 11400000, guid: 84b19bbc9954502428a72299fc1f387d, type: 2}
+    EnemyPrefabNeutral: {fileID: 5196567718266365334, guid: efb2a446c68dcaa458693eb98a4bf6fc,
+      type: 3}
+    EnemyPrefabLeft: {fileID: 0}
+    EnemyPrefabRight: {fileID: 0}
+    MinimumWaveLevel: 0
+    SpawnAmountBase: 2
+    SpawnAmountIncreasePerLevel: 1
+    SpawnCountLeftCurrentWave: 0
   ShotIntervalBase: 5
   ShotIntervalDecreasePerLevel: 0.1
   ShotIntervalMin: 3

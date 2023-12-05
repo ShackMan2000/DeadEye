@@ -7,14 +7,15 @@ using UnityEngine;
 public class EnemySettings : ScriptableObject
 {
     
-    
     public float MovementSpeed;
     public float RotationSpeed;
     
+    public float pointsForKill = 10f;
  
     public int minWaveLevel;
    
     public List<EnemyMovementType>  MovementTypes;
+    public bool rotateTowardsPlayer = true;
 
 
     [InfoBox("Laser")] 
@@ -22,7 +23,7 @@ public class EnemySettings : ScriptableObject
     public float LaserExpansionTime = 0.2f;
     public float LaserStayTime = 1f;
     public float LaserShrinkTime = 0.2f;
-    
+
     
     
     [InfoBox("SideDrone")]

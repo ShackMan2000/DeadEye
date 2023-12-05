@@ -8,7 +8,7 @@ public class ScoreController : MonoBehaviour
 {
 
 
-    public int Score;
+    public float Score;
     public int KillStreak;
         
     [SerializeField] ScoreSettings scoreSettings;
@@ -16,7 +16,7 @@ public class ScoreController : MonoBehaviour
    
     [SerializeField] ScoreMulti currentMulti;
     
-    public event Action<int> OnScoreChanged = delegate { };
+    public event Action<float> OnScoreChanged = delegate { };
     public event Action<int> OnKillStreakChanged = delegate { };
 
 
@@ -47,7 +47,7 @@ public class ScoreController : MonoBehaviour
     void OnAnyEnemyDestroyedCorrectly(EnemySettings enemySettings)
     {
         KillStreak++;
-        Score++;
+        Score += enemySettings.pointsForKill;
         
         UpdateScoreMulti();
         OnScoreChanged(Score);
