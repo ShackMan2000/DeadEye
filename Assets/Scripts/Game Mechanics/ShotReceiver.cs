@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 
 public class ShotReceiver : MonoBehaviour
 {
-    public List<WeaponType> DamagedBy = new List<WeaponType>();
+  //  public List<WeaponType> DamagedBy = new List<WeaponType>();
 
     [FormerlySerializedAs("MustBeDestroyedBy")] public List<WeaponType> CorrectWeaponsToGetShot = new List<WeaponType>();
     
