@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc4f08fd59684b93bc7b1caa7bab1e88, type: 3}
   m_Name: MultiDrone Rotate Horizontal
   m_EditorClassIdentifier: 
-  MovementSpeed: 0
+  MovementSpeed: 3.81
   RotationSpeed: 88
   pointsForKill: 50
   minWaveLevel: 0

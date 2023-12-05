@@ -15,7 +15,7 @@ MonoBehaviour:
   EnemySpawnIntervalBase: 2
   EnemySpawnIntervalDecreasePerLevel: 0.1
   EnemySpawnIntervalMin: 1
-  EnemySpawnIntervalVarianceRelative: 0.147
+  EnemySpawnIntervalVarianceRelative: 0.321
   AllEnemiesOptions:
   - EnemySettings: {fileID: 11400000, guid: 57a478a597c1b134c999897e5d273eab, type: 2}
     EnemyPrefabNeutral: {fileID: 0}
@@ -55,7 +55,27 @@ MonoBehaviour:
     SpawnAmountBase: 2
     SpawnAmountIncreasePerLevel: 1
     SpawnCountLeftCurrentWave: 0
-  ShotIntervalBase: 5
-  ShotIntervalDecreasePerLevel: 0.1
+  - EnemySettings: {fileID: 11400000, guid: da5b322f5e172454dae94b7508591d01, type: 2}
+    EnemyPrefabNeutral: {fileID: 0}
+    EnemyPrefabLeft: {fileID: 1751295675167029071, guid: 09d2b14aadeaf874bbfb98ae1342613b,
+      type: 3}
+    EnemyPrefabRight: {fileID: 1894271655539967977, guid: c386ee678b7507e4ab48e8e9d5914165,
+      type: 3}
+    MinimumWaveLevel: 0
+    SpawnAmountBase: 1
+    SpawnAmountIncreasePerLevel: 1
+    SpawnCountLeftCurrentWave: 0
+  - EnemySettings: {fileID: 11400000, guid: 99d555d55450f624ba379e82b16365d9, type: 2}
+    EnemyPrefabNeutral: {fileID: 0}
+    EnemyPrefabLeft: {fileID: 1751295675167029071, guid: 09d2b14aadeaf874bbfb98ae1342613b,
+      type: 3}
+    EnemyPrefabRight: {fileID: 1894271655539967977, guid: c386ee678b7507e4ab48e8e9d5914165,
+      type: 3}
+    MinimumWaveLevel: 0
+    SpawnAmountBase: 1
+    SpawnAmountIncreasePerLevel: 1
+    SpawnCountLeftCurrentWave: 0
+  ShotIntervalBase: 6
+  ShotIntervalDecreasePerLevel: 0.2
   ShotIntervalMin: 3
   ShotIntervalVarianceRelative: 0.252

@@ -15,7 +15,7 @@ public class EnemySettings : ScriptableObject
     public int minWaveLevel;
    
     public List<EnemyMovementType>  MovementTypes;
-    public bool rotateTowardsPlayer = true;
+    public bool RotateTowardsPlayer = true;
 
 
     [InfoBox("Laser")] 

@@ -22,6 +22,9 @@ public class EnemyBase : MonoBehaviour
 
     public static event Action<EnemySettings> OnAnyEnemyDestroyedCorrectly = delegate { };
     public static event Action<EnemySettings> OnAnyEnemyShotByMistake = delegate { };
+    
+    public static event Action<EnemyBase,EnemyBase> OnAnyEnemyDestroyedPrefabType = delegate { };
+    public EnemyBase Prefab { get; set; }
 
     void OnEnable()
     {
@@ -73,10 +76,13 @@ public class EnemyBase : MonoBehaviour
     }
 
 
-    void GetDestroyed(bool correctWeapon)
+    public void GetDestroyed(bool correctWeapon = false)
     {
         shotReceiver.ShootingBlocked = true;
         OnSpawnExplosion(transform.position);
+        
+        OnAnyEnemyDestroyedPrefabType(this,Prefab);
+        
         gameObject.SetActive(false);
     }
 }

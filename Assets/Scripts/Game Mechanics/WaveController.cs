@@ -16,26 +16,39 @@ public class WaveController : MonoBehaviour
 
     [SerializeField] int currentWaveIndex;
 
-    [SerializeField] List<EnemyBase> activeEnemies;
-
-    [ShowInInspector]
-    Dictionary<SpawnSettings, int> enemiesToSpawnCurrentWave;
+    [ShowInInspector] Dictionary<SpawnSettings, int> enemiesToSpawnCurrentWave;
 
     [SerializeField] List<CheckPointsList> checkPointsLists;
 
+    [ShowInInspector] Dictionary<EnemyBase, List<EnemyBase>> inactiveEnemies = new Dictionary<EnemyBase, List<EnemyBase>>();
+    [ShowInInspector] Dictionary<EnemyBase, List<EnemyBase>> activeEnemies = new Dictionary<EnemyBase, List<EnemyBase>>();
+
     float timeTillNextSpawn;
-    
+
     float spawnIntervalCurrentWave;
 
     bool isSpawning;
 
+    
+    [SerializeField] bool DEBUGIncreaseHitbox;
 
-    
-    
-    
-    
-    
+    void OnEnable()
+    {
+        EnemyBase.OnAnyEnemyDestroyedPrefabType += OnEnemyDestroyedPrefabType;
+    }
+
+    void OnDisable()
+    {
+        EnemyBase.OnAnyEnemyDestroyedPrefabType -= OnEnemyDestroyedPrefabType;
+    }
+
     [Button]
+    void InitializeWaveDebug(bool increaseHitbox)
+    {
+        DEBUGIncreaseHitbox = increaseHitbox;
+        InitializeWave();
+    }
+
     void InitializeWave()
     {
         spawnIntervalCurrentWave = settings.EnemySpawnIntervalBase - settings.EnemySpawnIntervalDecreasePerLevel * currentWaveIndex;
@@ -46,7 +59,7 @@ public class WaveController : MonoBehaviour
     void CreateEnemiesToSpawnForCurrentWave()
     {
         enemiesToSpawnCurrentWave = new Dictionary<SpawnSettings, int>();
-        
+
         foreach (SpawnSettings spawnSettings in settings.AllEnemiesOptions)
         {
             if (spawnSettings.MinimumWaveLevel <= currentWaveIndex)
@@ -63,20 +76,16 @@ public class WaveController : MonoBehaviour
 
         yield return new WaitForSeconds(train.MovementDuration);
 
-        isSpawning  = true;
-        
-        activeEnemies = new List<EnemyBase>();
+        isSpawning = true;
     }
-    
-
 
 
     void Update()
     {
-        if(!isSpawning) return;
-        
+        if (!isSpawning) return;
+
         timeTillNextSpawn -= Time.deltaTime;
-        
+
         if (timeTillNextSpawn <= 0)
         {
             SpawnRandomEnemy();
@@ -84,49 +93,44 @@ public class WaveController : MonoBehaviour
         }
     }
 
-    
+
     void SpawnRandomEnemy()
     {
-        //int randomIndex = Random.Range(0, enemiesToSpawnCurrentWave.Count);
-        
-        // get random item from dictionary
         int randomIndex = Random.Range(0, enemiesToSpawnCurrentWave.Count);
 
-       SpawnSettings selectedSetting = enemiesToSpawnCurrentWave.ElementAt(randomIndex).Key;
-       
-       enemiesToSpawnCurrentWave[selectedSetting]--;
-         if (enemiesToSpawnCurrentWave[selectedSetting] <= 0)
-         {
-             enemiesToSpawnCurrentWave.Remove(selectedSetting);
-         }
+        SpawnSettings selectedSetting = enemiesToSpawnCurrentWave.ElementAt(randomIndex).Key;
+
+        enemiesToSpawnCurrentWave[selectedSetting]--;
+        if (enemiesToSpawnCurrentWave[selectedSetting] <= 0)
+        {
+            enemiesToSpawnCurrentWave.Remove(selectedSetting);
+        }
 
 
+        EnemyBase prefab;
+        if (selectedSetting.EnemyPrefabNeutral != null)
+        {
+            prefab = selectedSetting.EnemyPrefabNeutral;
+        }
+        else
+        {
+            prefab = Random.Range(0, 2) == 0 ? selectedSetting.EnemyPrefabLeft : selectedSetting.EnemyPrefabRight;
+        }
 
-         EnemyBase prefab;
-         if (selectedSetting.EnemyPrefabNeutral != null)
-         {
-             prefab = selectedSetting.EnemyPrefabNeutral;
-         }
-         else
-         {
-             prefab = Random.Range(0, 2) == 0 ? selectedSetting.EnemyPrefabLeft : selectedSetting.EnemyPrefabRight;
-         }
-         
-         if(prefab == null)
-         {
-             Debug.LogError("Trying to spawn a prefab but it's null");
-             return;
-         }
-         
-        EnemyBase newEnemy = Instantiate(prefab);    
+        if (prefab == null)
+        {
+            Debug.LogError("Trying to spawn a prefab but it's null");
+            return;
+        }
+
+
+        EnemyBase newEnemy = GetNewEnemy(prefab);
         newEnemy.transform.SetParent(transform);
         newEnemy.transform.position = spawnMarker.position;
-        activeEnemies.Add(newEnemy);
-        
-        
+
+
         newEnemy.Initialize(selectedSetting.EnemySettings, checkPointsLists[Random.Range(0, checkPointsLists.Count)]);
-      
-            Debug.Log("enemiestospawn: " + enemiesToSpawnCurrentWave.Count);
+
         if (enemiesToSpawnCurrentWave.Count == 0)
         {
             Debug.Log("wave finished");
@@ -135,10 +139,106 @@ public class WaveController : MonoBehaviour
     }
 
 
+    EnemyBase GetNewEnemy(EnemyBase prefab)
+    {
+        EnemyBase newEnemy = null;
+
+        if (inactiveEnemies.ContainsKey(prefab) && inactiveEnemies[prefab].Count > 0)
+        {
+            newEnemy = inactiveEnemies[prefab][0];
+            inactiveEnemies[prefab].RemoveAt(0);
+        }
+        else
+        {
+            newEnemy = Instantiate(prefab).GetComponent<EnemyBase>();
+            newEnemy.Prefab = prefab;
+
+            if (DEBUGIncreaseHitbox)
+            {
+                IncreaseHitBox(newEnemy);
+            }
+        }
+
+        if (!activeEnemies.ContainsKey(prefab))
+        {
+            activeEnemies.Add(prefab, new List<EnemyBase>());
+        }
+
+
+        activeEnemies[prefab].Add(newEnemy);
+
+        newEnemy.gameObject.SetActive(true);
+
+        return newEnemy;
+    }
+
+
+    void OnEnemyDestroyedPrefabType(EnemyBase destroyedEnemy, EnemyBase enemyPrefab)
+    {
+        if (activeEnemies.ContainsKey(enemyPrefab))
+        {
+            activeEnemies[enemyPrefab].Remove(destroyedEnemy);
+
+            if (!inactiveEnemies.ContainsKey(enemyPrefab))
+            {
+                inactiveEnemies.Add(enemyPrefab, new List<EnemyBase>());
+            }
+
+            inactiveEnemies[enemyPrefab].Add(destroyedEnemy);
+        }
+        else
+        {
+            Debug.LogError("An enemy was destroyed that was not in active enemies list, should never happen");
+        }
+
+        // check for all lists if they are empty, if so, wave is finished
+
+        bool waveFinished;
+
+
+        waveFinished = true;
+
+        foreach (KeyValuePair<EnemyBase, List<EnemyBase>> pair in activeEnemies)
+        {
+            if (pair.Value.Count > 0)
+            {
+                waveFinished = false;
+                break;
+            }
+        }
+
+        if (waveFinished) Debug.Log("wave finished");
+    }
+
+
+    void IncreaseHitBox(EnemyBase enemy)
+    {
+        float hitboxMultiplier = 2f;
+
+        // get all sphere colliders in enemy and children
+        List<SphereCollider> colliders = enemy.GetComponentsInChildren<SphereCollider>().ToList();
+
+        // check if main has collider too and add to list
+
+        var maincollider = enemy.GetComponent<SphereCollider>();
+
+        if (maincollider != null)
+            colliders.Add(maincollider);
+
+
+        foreach (var sphereCollider in colliders)
+        {
+            sphereCollider.radius *= hitboxMultiplier;
+        }
+    }
+
+
 
     [Button]
     void DestroyRandomEnemy()
     {
+        
+        
         
     }
 }

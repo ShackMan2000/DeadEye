@@ -73,7 +73,10 @@ public class EnemyMovement : MonoBehaviour
             Move();
         }
         
-        RotatePivotTowardsPlayer();
+        if(settings.RotateTowardsPlayer)
+        {
+            RotatePivotTowardsPlayer();
+        }
     }
 
 
