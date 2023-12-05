@@ -16,8 +16,8 @@ MonoBehaviour:
   RotationSpeed: 40
   pointsForKill: 30
   minWaveLevel: 0
-  MovementTypes: 02000000
-  rotateTowardsPlayer: 1
+  MovementType: 1
+  RotateTowardsPlayer: 1
   LaserPivotRotation: 0
   LaserExpansionTime: 0.2
   LaserStayTime: 1

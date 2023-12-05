@@ -12,7 +12,6 @@ public class EnemyMovement : MonoBehaviour
 
     [SerializeField] PlayerPosition playerPosition;
 
-    EnemyMovementType movementType;
 
     [SerializeField] Transform pivot;
 
@@ -29,14 +28,18 @@ public class EnemyMovement : MonoBehaviour
     public void Initialize(EnemySettings s, CheckPointsList checkPointsList, float zOffset = 0f)
     {
         settings = s;
-        movementType = settings.MovementTypes[Random.Range(0, settings.MovementTypes.Count)];
         
         checkPoints = checkPointsList;
         this.zOffset = zOffset;
         isMoving = true;
 
         currentTargetIndex = -1;
-        PickNextTarget();
+        
+        if(settings.MovementType == EnemyMovementType.FixedPath)
+        {
+            PickNextTarget();
+        }
+
     }
 
     void PickNextTarget()
@@ -49,12 +52,7 @@ public class EnemyMovement : MonoBehaviour
         }
 
      
-        if (movementType == EnemyMovementType.RandomPath || movementType == EnemyMovementType.MoveAndLinger)
-        {
-            currentTargetIndex = Random.Range(0, checkPoints.CheckPoints.Count);
-        }
-        else
-        {
+     
             currentTargetIndex++;
             if (currentTargetIndex >= checkPoints.CheckPoints.Count)
             {
@@ -62,7 +60,7 @@ public class EnemyMovement : MonoBehaviour
             }
 
             currentTarget = checkPoints.CheckPoints[currentTargetIndex];
-        }
+       
     }
 
 
@@ -93,14 +91,15 @@ public class EnemyMovement : MonoBehaviour
 
         if (Vector3.Distance(transform.position, currentTarget) < distanceToReachTarget)
         {
-            if (movementType == EnemyMovementType.MoveAndLinger)
+            if (settings.MovementType == EnemyMovementType.Linger)
             {
                 isMoving = false;
             }
-
+            else
             {
                 PickNextTarget();
             }
+            
         }
     }
     
@@ -118,12 +117,16 @@ public class EnemyMovement : MonoBehaviour
         isMoving = true;
         PickNextTarget();
     }
+
+    public void SetLingerPoint(Vector3 checkPoint)
+    {
+        currentTarget = checkPoint;
+    }
 }
 
 
 public enum EnemyMovementType
 {
     FixedPath,
-    RandomPath,
-    MoveAndLinger
+    Linger
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class EnemyBase : MonoBehaviour
@@ -9,7 +10,7 @@ public class EnemyBase : MonoBehaviour
     // could do the settings directly in here, a list of options
     // would need a bool first so wave controller can check if there is any option avaialble for this wave
 
-    [ShowInInspector] EnemySettings settings;
+    [FormerlySerializedAs("settings")] [ShowInInspector] public EnemySettings Settings;
 
     [SerializeField] EnemyMovement movement;
 
@@ -43,11 +44,11 @@ public class EnemyBase : MonoBehaviour
         {
             if (correctWeapon)
             {
-                OnAnyEnemyDestroyedCorrectly(settings);
+                OnAnyEnemyDestroyedCorrectly(Settings);
             }
             else
             {
-                OnAnyEnemyShotByMistake(settings);
+                OnAnyEnemyShotByMistake(Settings);
             }
 
 
@@ -61,18 +62,18 @@ public class EnemyBase : MonoBehaviour
 
     public void Initialize(EnemySettings settingsOption, CheckPointsList checkPointsList)
     {
-        settings = settingsOption;
-        movement.Initialize(settings, checkPointsList);
+        Settings = settingsOption;
+        movement.Initialize(Settings, checkPointsList);
     }
 
     public void RaiseShotByMistakeEvent()
     {
-        OnAnyEnemyShotByMistake(settings);
+        OnAnyEnemyShotByMistake(Settings);
     }
 
     public void RaiseDestroyedByCorrectWeaponEvent()
     {
-        OnAnyEnemyDestroyedCorrectly(settings);
+        OnAnyEnemyDestroyedCorrectly(Settings);
     }
 
 
@@ -84,5 +85,11 @@ public class EnemyBase : MonoBehaviour
         OnAnyEnemyDestroyedPrefabType(this,Prefab);
         
         gameObject.SetActive(false);
+    }
+
+    // this is getting messy, should all be in one method that initializes. 
+    public void SetLingerPoint(Vector3 checkPoint)
+    {
+        movement.SetLingerPoint(checkPoint);
     }
 }

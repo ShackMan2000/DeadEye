@@ -14,7 +14,7 @@ public class EnemySettings : ScriptableObject
  
     public int minWaveLevel;
    
-    public List<EnemyMovementType>  MovementTypes;
+    public EnemyMovementType  MovementType;
     public bool RotateTowardsPlayer = true;
 
 
