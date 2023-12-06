@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ae0be99e46b86674184a4d2cac834552, type: 2}
+  - {fileID: 2100000, guid: bb35a37ca89365444b6053752cca6b87, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -169,7 +169,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7b97a1b6ebc2944119bfe465cc470f4d, type: 2}
+  - {fileID: 2100000, guid: 976805f7b0fb6f349b4921eaab235e13, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -252,7 +252,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7b97a1b6ebc2944119bfe465cc470f4d, type: 2}
+  - {fileID: 2100000, guid: 976805f7b0fb6f349b4921eaab235e13, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -343,7 +343,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ae0be99e46b86674184a4d2cac834552, type: 2}
+  - {fileID: 2100000, guid: bb35a37ca89365444b6053752cca6b87, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -517,7 +517,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.2
+  m_Radius: 0.25
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6142967407008344198
 GameObject:
@@ -638,7 +638,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.2
+  m_Radius: 0.25
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6276532786283446206
 GameObject:
@@ -693,7 +693,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7b97a1b6ebc2944119bfe465cc470f4d, type: 2}
+  - {fileID: 2100000, guid: 976805f7b0fb6f349b4921eaab235e13, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -791,9 +791,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce8db96ba1d645239eb1b7e9b147dd3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamagedBy:
-  - {fileID: 11400000, guid: a996b2b426834944496a5628720e9cfb, type: 2}
-  - {fileID: 11400000, guid: a934da441be51aa45941237a7fa5bd16, type: 2}
   CorrectWeaponsToGetShot:
   - {fileID: 11400000, guid: a996b2b426834944496a5628720e9cfb, type: 2}
   - {fileID: 11400000, guid: a934da441be51aa45941237a7fa5bd16, type: 2}
@@ -879,9 +876,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ab125be01da457d944dfbbb824ed4f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Settings: {fileID: 0}
   movement: {fileID: 6118846312569771990}
   shotReceiver: {fileID: 4623916047565726922}
-  DestroyedWithOneShot: 0
+  GetsDestroyedByGunshot: 0
 --- !u!114 &6118846312569771990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -983,7 +981,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 471d0e6d2c2f76d4faa56455b9618c22,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.165203
+      value: 1.31
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 471d0e6d2c2f76d4faa56455b9618c22,
         type: 3}
@@ -1083,7 +1081,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 471d0e6d2c2f76d4faa56455b9618c22,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.165203
+      value: 1.31
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 471d0e6d2c2f76d4faa56455b9618c22,
         type: 3}

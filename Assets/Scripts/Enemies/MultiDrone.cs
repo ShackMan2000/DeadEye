@@ -111,7 +111,7 @@ public class MultiDrone : MonoBehaviour
 
         if (sideDronesHit > 0 && sideDronesHit != sideDrones.Count)
         {
-            Debug.LogError("Side drones hit is not 0 or equal to side drones count. Probably be an error because laser shout hit all or none");
+            Debug.LogError("Side drones hit is not 0 or equal to side drones count. Probably an error because laser should hit all or none");
         }
 
         if (sideDronesHit > 0)

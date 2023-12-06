@@ -7,6 +7,9 @@ using UnityEngine;
 /// </summary>
 public class Shooter : MonoBehaviour
 {
+
+    
+    
     // public static event Action<Vector3, Vector3> OnShootBulletStartToTarget = delegate { };
     // public static event Action<Vector3, Vector3> OnShootBulletStartToInfiniteDirection = delegate { };
 
@@ -41,4 +44,7 @@ public class Shooter : MonoBehaviour
         OnShotFired?.Invoke(weaponType);
         Debug.Log("Fired a shot with  " + weaponType + " and hit " + hitObject + " which has a shot receiver of " + shotReceiver);
     }
+
+
+ 
 }
