@@ -7,8 +7,6 @@ public class MuzzleFlash : MonoBehaviour
 {
     [SerializeField] ParticleSystem muzzleFlashParticleSystem;
 
-    // main particle system
-    [SerializeField] ParticleSystem muzzleFlashSparksParticleSystem;
 
     [SerializeField] ParticleSystem.MainModule mainModule;
 

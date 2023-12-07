@@ -56,6 +56,6 @@ Material:
     - _TotalLength: 3.38
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _MainColor: {r: 3.2529612, g: 0.09098429, b: 0, a: 1}
-    - _Sparkcolor: {r: 11.984314, g: 3.9084375, b: 0, a: 0}
+    - _MainColor: {r: 3.6874175, g: 0.1158351, b: 0, a: 1}
+    - _Sparkcolor: {r: 16, g: 3.723172, b: 0.39245415, a: 0}
   m_BuildTextureStacks: []

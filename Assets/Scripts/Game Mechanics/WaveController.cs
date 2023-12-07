@@ -54,7 +54,21 @@ public class WaveController : MonoBehaviour
         InitializeWave();
     }
 
-    void InitializeWave()
+
+    public void StartNewWaveGame()
+    {
+        currentWaveIndex = 1;
+        InitializeWave();
+    }
+    
+    public void StartNextWave()
+    {
+        currentWaveIndex++;
+        InitializeWave();
+    }
+    
+    
+   public void InitializeWave()
     {
         spawnIntervalCurrentWave = settings.EnemySpawnIntervalBase - settings.EnemySpawnIntervalDecreasePerLevel * currentWaveIndex;
 

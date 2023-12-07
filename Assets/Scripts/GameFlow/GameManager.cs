@@ -17,9 +17,16 @@ public class GameManager : MonoBehaviour
     }
 
     
+    // user should first see a button that starts a wave game
+    // which triggers to start the next wave. 
+    // Just have UI controller check the wave controller if it is above 1, in that case show next wave or quit game button
+    
+    
+    // bigger question is how to make sure that all is hooked up to the prefab... or better have the UI controller above all that.
+    
     
     [Button]
-    void StartGame()
+    public void StartNewWaveGame()
     {
         OnGameStarted();
     }
