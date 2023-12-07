@@ -8,7 +8,6 @@ language governing permissions and limitations under the license.
 ************************************************************************************/
 
 using UnityEngine;
-using System.Collections;
 
 /// <summary>
 /// When this component is enabled, the player will be able to aim and trigger teleport behavior using HMD aiming.

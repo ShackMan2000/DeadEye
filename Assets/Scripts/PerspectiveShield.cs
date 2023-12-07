@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using BNG;
 
 public class PerspectiveShield : MonoBehaviour
 {

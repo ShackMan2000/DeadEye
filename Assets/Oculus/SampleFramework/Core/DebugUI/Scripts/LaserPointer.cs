@@ -20,10 +20,6 @@
 
 
 using UnityEngine;
-using System.Collections;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using System;
 
 public class LaserPointer : OVRCursor
 {

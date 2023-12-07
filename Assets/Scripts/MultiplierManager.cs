@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 
 public class MultiplierManager : MonoBehaviour
 {

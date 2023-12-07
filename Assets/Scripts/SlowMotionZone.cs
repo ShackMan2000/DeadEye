@@ -1,12 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using BNG;
 
 public class SlowMotionZone : MonoBehaviour
 {
     public float delaySeconds = 0.2f;
-    public TimeController timeController;
+   // public TimeController timeController;
 
     public MeshRenderer myMesh;
 
@@ -25,7 +23,7 @@ public class SlowMotionZone : MonoBehaviour
     }
         else{
             myMesh.enabled = false;
-            timeController.ResumeTime();
+         //   timeController.ResumeTime();
         }
         
     }
@@ -37,7 +35,7 @@ public class SlowMotionZone : MonoBehaviour
         {   
             myMesh.enabled = true;
             //myMesh.enabled = true;
-            timeController.SlowTime();
+            //timeController.SlowTime();
             guyInsideMe = true;
             /* resumeRoutine = ResumeTimeTime();
            StartCoroutine(resumeRoutine);

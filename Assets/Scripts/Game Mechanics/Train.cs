@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using DG.Tweening;
+﻿using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -20,9 +18,7 @@ public class Train : MonoBehaviour
 
     void Start()
     {
-#if !UNITY_EDITOR
-       QuickSpawnTrainDEBUG = false;
-#endif
+
     }
 
     [Button]

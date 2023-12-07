@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using MinMaxSlider;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 public class BulletImpacts : MonoBehaviour

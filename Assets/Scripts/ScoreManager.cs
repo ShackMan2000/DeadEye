@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using GameNative.Leaderboard;
 
 public class ScoreManager : MonoBehaviour

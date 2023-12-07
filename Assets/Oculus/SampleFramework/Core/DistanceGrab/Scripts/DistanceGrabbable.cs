@@ -19,9 +19,7 @@
  */
 
 
-using System;
 using UnityEngine;
-using OVRTouchSample;
 
 namespace OculusSampleFramework
 {

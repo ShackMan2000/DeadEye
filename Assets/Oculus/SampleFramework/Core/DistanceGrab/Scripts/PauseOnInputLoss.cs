@@ -18,8 +18,6 @@
  * limitations under the License.
  */
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace OculusSampleFramework

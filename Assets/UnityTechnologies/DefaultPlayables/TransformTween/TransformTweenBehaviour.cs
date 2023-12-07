@@ -1,8 +1,6 @@
 using System;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.Timeline;
 
 [Serializable]
 public class TransformTweenBehaviour : PlayableBehaviour
