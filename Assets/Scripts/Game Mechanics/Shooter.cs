@@ -1,26 +1,33 @@
 ﻿using System;
 using UnityEngine;
 
-/// <summary>
-/// Responsible for taking Input, raycasting and informing all relevant systems
-/// Idea is that it can take a mouse input for testing as well as a VR input
-/// </summary>
+
 public class Shooter : MonoBehaviour
 {
+   public WeaponType SelectedWeaponType;
 
-    
-    
-    // public static event Action<Vector3, Vector3> OnShootBulletStartToTarget = delegate { };
-    // public static event Action<Vector3, Vector3> OnShootBulletStartToInfiniteDirection = delegate { };
+    [SerializeField] Transform bulletSpawnPoint;
 
+    [SerializeField] WeaponType leftGun;
+    [SerializeField] WeaponType rightGun;
+
+
+    [SerializeField] bool debugShotHits;
     
-    public static event Action<WeaponType> OnShotFired = delegate { };
-    
+    bool isPressed;
+    float pressedThreshold = 0.9f;
+    float releaseThreshold = 0.1f;
+
+
+    public event Action<WeaponType> OnShotFired = delegate { };
+
     public static event Action<Vector3, Vector3> OnHitObjectNotShootable = delegate { };
-    public void ShootAndDetermineTarget(Vector3 startPosition, Vector3 direction, WeaponType weaponType)
-    {
-        // raycast from start position into direction, infinite, get colliders
 
+
+    public void ShootAndDetermineTarget(Vector3 direction)
+    {
+        Vector3 startPosition = bulletSpawnPoint.position;
+        
         ShotReceiver shotReceiver = null;
         GameObject hitObject = null;
 
@@ -30,21 +37,55 @@ public class Shooter : MonoBehaviour
             // Try get is a little bit slower than geting a component that exists, but a lot faster than getting one that doesn't exist
             shotReceiver = hit.collider.TryGetComponent(out shotReceiver) ? shotReceiver : null;
 
-            
-            if(shotReceiver == null)
+
+            if (shotReceiver == null)
             {
                 OnHitObjectNotShootable(hit.point, hit.normal);
             }
             else
             {
-                shotReceiver.GetShot(weaponType);
+                shotReceiver.GetShot(SelectedWeaponType);
             }
         }
 
-        OnShotFired?.Invoke(weaponType);
-        Debug.Log("Fired a shot with  " + weaponType + " and hit " + hitObject + " which has a shot receiver of " + shotReceiver);
+        OnShotFired?.Invoke(SelectedWeaponType);
+        
+        if(debugShotHits)
+        {
+            Debug.Log("Fired a shot with  " + SelectedWeaponType + " and hit " + hitObject + " which has a shot receiver of " + shotReceiver);
+        }
     }
 
 
- 
+    void Update()
+    {
+        float triggerValue;
+
+        if (SelectedWeaponType == leftGun)
+        {
+            triggerValue = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger);
+        }
+        else
+        {
+            triggerValue = OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger);
+        }
+
+        
+        if (triggerValue > pressedThreshold)
+        {
+            if (!isPressed)
+            {
+                ShootAndDetermineTarget(bulletSpawnPoint.forward);
+            }
+
+            isPressed = true;
+        }
+        else if (triggerValue < releaseThreshold)
+        {
+            isPressed = false;
+        }
+    }
+
+
+   
 }
