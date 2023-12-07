@@ -39,10 +39,7 @@ public class EnemySettings : ScriptableObject
     
     public Vector3 RotationAxis = Vector3.up;
     public float SideDronesRotationSpeed = 1f;
-    
-    
-    //only for testing the launch drone
-    public float SideDroneMovementSpeed;
+
     public Vector3 SideDroneMovementAxisWorld = Vector3.back; 
     public float SideDronePlaceBehind = 1f;
 

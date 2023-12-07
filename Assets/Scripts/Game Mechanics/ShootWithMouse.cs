@@ -57,8 +57,9 @@ public class ShootWithMouse : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 Vector3 direction = hit.point - transform.position;
+                Debug.Log("Hit " + hit.collider.gameObject.name + " at " + hit.point + " with direction " + direction);
 
-                leftDebugGun.ShootAndDetermineTarget(direction);
+                currentShooter.ShootAndDetermineTarget(direction);
             }
         }
 

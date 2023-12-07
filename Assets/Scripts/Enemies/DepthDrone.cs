@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class MultiDrone : MonoBehaviour
+public class DepthDrone : MonoBehaviour
 {
     [SerializeField] EnemyBase enemyBase;
 
     [SerializeField] ShotReceiver coreShotReceiver;
 
-    [SerializeField] EnemySettings settings;
+    EnemySettings settings => enemyBase.Settings;
 
     [SerializeField] float laserDistance = 10f;
 
@@ -20,7 +20,7 @@ public class MultiDrone : MonoBehaviour
     [SerializeField] List<SideDrone> sideDrones;
 
     [SerializeField] Renderer coreRender;
-    [SerializeField] Material burnMaterial;
+  //  [SerializeField] Material burnMaterial;
 
     [SerializeField] Transform laserPivot;
     [SerializeField] Transform pivot;
@@ -39,21 +39,23 @@ public class MultiDrone : MonoBehaviour
     float totalTimePassed = 0;
     static readonly int Burn = Shader.PropertyToID("_Burn");
 
-    // spawn new core...
 
-    void Awake()
-    {
-        SetSideDronesAndLaserPositions();
-    }
+ 
 
     void OnEnable()
     {
         enemyBase.OnShotByAnyWeapon += SpawnLasers;
+        enemyBase.OnInitialized += SetSideDronesAndLaserPositions;
+        if (enemyBase.IsInitialized)
+        {
+            SetSideDronesAndLaserPositions();
+        }
     }
 
     void OnDisable()
     {
         enemyBase.OnShotByAnyWeapon -= SpawnLasers;
+        enemyBase.OnInitialized -= SetSideDronesAndLaserPositions;
     }
 
 
@@ -73,7 +75,7 @@ public class MultiDrone : MonoBehaviour
 
 
             //for launch drone
-            sideDrone.transform.localPosition += settings.SideDroneMovementAxisWorld * settings.SideDronePlaceBehind;
+           // sideDrone.transform.localPosition += settings.SideDroneMovementAxisWorld * settings.SideDronePlaceBehind;
         }
 
         // rotate laster pivot on Z axis
@@ -127,7 +129,6 @@ public class MultiDrone : MonoBehaviour
 
     IEnumerator BurnCoreRoutine()
     {
-        coreRender.material = burnMaterial;
 
         float timePassed = 0;
         float burnTime = settings.LaserExpansionTime + settings.LaserStayTime;
@@ -195,11 +196,20 @@ public class MultiDrone : MonoBehaviour
 
     void Update()
     {
-        if (!freezeSideDrones)
+        if (settings == null || !freezeSideDrones)
         {
             totalTimePassed += Time.deltaTime;
+
+            if (settings.BackAndForthSpeed > 0.01f)
+            {
             MoveSideDrones();
+                
+            }
+            else
+            {
+                
             RotateSideDrones();
+            }
         }
     }
 
@@ -219,7 +229,7 @@ public class MultiDrone : MonoBehaviour
     {
         foreach (SideDrone sideDrone in sideDrones)
         {
-            sideDrone.transform.RotateAround(pivot.position, pivot.transform.up, settings.SideDronesRotationSpeed * totalTimePassed);
+            sideDrone.transform.RotateAround(pivot.position, pivot.transform.up, settings.SideDronesRotationSpeed * Time.deltaTime);
             sideDrone.transform.LookAt(playerPosition.Position);
         }
     }

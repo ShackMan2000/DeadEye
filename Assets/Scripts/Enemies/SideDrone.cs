@@ -6,7 +6,7 @@ using UnityEngine;
 public class SideDrone : MonoBehaviour
 {
     [SerializeField] Renderer render;
-    [SerializeField] Material burnMaterial;
+   Material burnMaterial;
     static readonly int Burn = Shader.PropertyToID("_Burn");
 
     public Vector3 StartPositionLocal { get; set; }
@@ -28,7 +28,7 @@ public class SideDrone : MonoBehaviour
             yield return null;
         }
         
-        render.material = burnMaterial;
+       // render.material = burnMaterial;
         time = 0;
 
         while (time < settings.LaserKnockbackTime)

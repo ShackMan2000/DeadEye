@@ -23,13 +23,12 @@ MonoBehaviour:
   LaserStayTime: 1
   LaserShrinkTime: 0.2
   BackAndForthSpeed: 0
-  BackAndForthDistance: 3.86
-  LaserKnockbackSpeed: 14
-  LaserKnockbackTime: 0.6
+  BackAndForthDistance: 2.35
+  LaserKnockbackSpeed: 10
+  LaserKnockbackTime: 0.4
   PlacementAxis: {x: 1, y: 0, z: 0}
   PlacementDistance: 1.14
   RotationAxis: {x: 0, y: 1, z: 0}
-  SideDronesRotationSpeed: 1
-  SideDroneMovementSpeed: 0
+  SideDronesRotationSpeed: 45
   SideDroneMovementAxisWorld: {x: 0, y: 0, z: -1}
   SideDronePlaceBehind: 1

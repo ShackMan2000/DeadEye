@@ -11,7 +11,7 @@ public class Train : MonoBehaviour
 
     [SerializeField] Transform trainTransform;
 
-    [SerializeField] GameObject gateEffects;
+    //[SerializeField] GameObject gateEffects;
 
     [SerializeField] bool quickSpawnTrain;
 
@@ -38,7 +38,7 @@ public class Train : MonoBehaviour
         else
         {
             trainTransform.gameObject.SetActive(true);
-            gateEffects.SetActive(true);
+            //gateEffects.SetActive(true);
             trainPath.DOPlay();
         }
         

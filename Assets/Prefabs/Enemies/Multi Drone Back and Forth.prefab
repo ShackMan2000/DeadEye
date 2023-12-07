@@ -408,8 +408,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4348035533741530651}
   - component: {fileID: 9101609395369252713}
-  - component: {fileID: 5268130397256673233}
-  - component: {fileID: 4282257803947705875}
   - component: {fileID: 6918539418726244428}
   m_Layer: 0
   m_Name: SideDrone
@@ -446,58 +444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dd9bf299b284e27a7e6db393b345787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  render: {fileID: 4282257803947705875}
-  burnMaterial: {fileID: 2100000, guid: 976805f7b0fb6f349b4921eaab235e13, type: 2}
---- !u!33 &5268130397256673233
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5848912762921459949}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &4282257803947705875
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5848912762921459949}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
+  render: {fileID: 5590048365070133469}
 --- !u!135 &6918539418726244428
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -529,8 +476,6 @@ GameObject:
   m_Component:
   - component: {fileID: 957852329402708028}
   - component: {fileID: 3882826448229662967}
-  - component: {fileID: 8783157301091566039}
-  - component: {fileID: 1775085409772653085}
   - component: {fileID: 2783166046881810555}
   m_Layer: 0
   m_Name: SideDrone
@@ -567,58 +512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dd9bf299b284e27a7e6db393b345787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  render: {fileID: 1775085409772653085}
-  burnMaterial: {fileID: 2100000, guid: 976805f7b0fb6f349b4921eaab235e13, type: 2}
---- !u!33 &8783157301091566039
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6142967407008344198}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &1775085409772653085
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6142967407008344198}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
+  render: {fileID: 1404622882761271770}
 --- !u!135 &2783166046881810555
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -880,6 +774,7 @@ MonoBehaviour:
   movement: {fileID: 6118846312569771990}
   shotReceiver: {fileID: 4623916047565726922}
   GetsDestroyedByGunshot: 0
+  IsInitialized: 0
 --- !u!114 &6118846312569771990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -911,7 +806,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyBase: {fileID: 5196567718266365334}
   coreShotReceiver: {fileID: 4623916047565726922}
-  settings: {fileID: 11400000, guid: 377a95ac4c374694a90336a7c66f2689, type: 2}
   laserDistance: 10
   lasers:
   - {fileID: 5290559113261055450}

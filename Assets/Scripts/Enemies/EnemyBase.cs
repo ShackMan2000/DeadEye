@@ -18,6 +18,8 @@ public class EnemyBase : MonoBehaviour
 
     public bool GetsDestroyedByGunshot;
 
+    
+    public event Action OnInitialized = delegate { };
     public event Action OnShotByAnyWeapon = delegate { };
     public static event Action<Vector3> OnSpawnExplosion = delegate { };
 
@@ -26,6 +28,10 @@ public class EnemyBase : MonoBehaviour
     
     public static event Action<EnemyBase,EnemyBase> OnAnyEnemyDestroyedPrefabType = delegate { };
     public EnemyBase Prefab { get; set; }
+
+    public bool IsInitialized = false;
+    
+    
 
     void OnEnable()
     {
@@ -64,6 +70,8 @@ public class EnemyBase : MonoBehaviour
     {
         Settings = settingsOption;
         movement.Initialize(Settings, checkPointsList);
+        IsInitialized = true;
+        OnInitialized?.Invoke();
     }
 
     public void RaiseShotByMistakeEvent()
@@ -84,6 +92,7 @@ public class EnemyBase : MonoBehaviour
         
         OnAnyEnemyDestroyedPrefabType(this,Prefab);
         
+        IsInitialized = false;
         gameObject.SetActive(false);
     }
 
