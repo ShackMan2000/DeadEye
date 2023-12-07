@@ -20,7 +20,7 @@ public class DepthDrone : MonoBehaviour
     [SerializeField] List<SideDrone> sideDrones;
 
     [SerializeField] Renderer coreRender;
-  //  [SerializeField] Material burnMaterial;
+    //  [SerializeField] Material burnMaterial;
 
     [SerializeField] Transform laserPivot;
     [SerializeField] Transform pivot;
@@ -39,8 +39,6 @@ public class DepthDrone : MonoBehaviour
     float totalTimePassed = 0;
     static readonly int Burn = Shader.PropertyToID("_Burn");
 
-
- 
 
     void OnEnable()
     {
@@ -64,18 +62,30 @@ public class DepthDrone : MonoBehaviour
     {
         // for now assuming only 1 or 2 side drones, so just alternate between left and right
         float placementDirection = 1f;
+        coreRender.material.SetFloat(Burn, 0f);
+
+            foreach (Renderer laserRenderer in laserRenderers)
+            {
+                laserRenderer.material.SetFloat(AlphaReveal, 0f);
+            }
+
+            freezeSideDrones = false;
 
         foreach (SideDrone sideDrone in sideDrones)
         {
-            placementDirection *= -1f;
+            sideDrone.gameObject.SetActive(true);
 
+            
+            placementDirection *= -1f;
             Vector3 startPosition = settings.PlacementAxis * settings.PlacementDistance * placementDirection;
             sideDrone.transform.localPosition = startPosition;
             sideDrone.StartPositionLocal = startPosition;
 
+            sideDrone.ResetBurnMaterial();
+
 
             //for launch drone
-           // sideDrone.transform.localPosition += settings.SideDroneMovementAxisWorld * settings.SideDronePlaceBehind;
+            // sideDrone.transform.localPosition += settings.SideDroneMovementAxisWorld * settings.SideDronePlaceBehind;
         }
 
         // rotate laster pivot on Z axis
@@ -129,7 +139,6 @@ public class DepthDrone : MonoBehaviour
 
     IEnumerator BurnCoreRoutine()
     {
-
         float timePassed = 0;
         float burnTime = settings.LaserExpansionTime + settings.LaserStayTime;
         while (timePassed < burnTime)
@@ -144,16 +153,15 @@ public class DepthDrone : MonoBehaviour
         {
             StopCoroutine(showLasersRoutine);
         }
-        
-        enemyBase.GetDestroyed();
 
+        enemyBase.GetDestroyed();
     }
 
 
     IEnumerator ShowLasersRoutine()
     {
         coreShotReceiver.ShootingBlocked = true;
-        
+
         freezeSideDrones = true;
 
         float timePassed = 0;
@@ -202,13 +210,11 @@ public class DepthDrone : MonoBehaviour
 
             if (settings.BackAndForthSpeed > 0.01f)
             {
-            MoveSideDrones();
-                
+                MoveSideDrones();
             }
             else
             {
-                
-            RotateSideDrones();
+                RotateSideDrones();
             }
         }
     }

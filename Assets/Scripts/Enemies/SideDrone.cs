@@ -46,4 +46,9 @@ public class SideDrone : MonoBehaviour
         gameObject.SetActive(false);
         
     }
+
+    public void ResetBurnMaterial()
+    {
+        render.material.SetFloat(Burn, 0);
+    }   
 }

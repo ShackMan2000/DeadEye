@@ -8,18 +8,33 @@ public class UIController : MonoBehaviour
 {
     [SerializeField] HealthDisplay healthDisplay;
 
-    [SerializeField] WaveController     waveController;
+    [SerializeField] WaveController waveController;
 
 
-    [SerializeField] MeshCollider      meshCollider;
+    [SerializeField] MeshCollider meshCollider;
 
     [SerializeField] Button newWaveGameBtn;
     [SerializeField] Button startNextWaveBtn;
+    
+    [SerializeField] ScoreDisplay scoreDisplay;
+
+    public static event Action<bool> OnEnterGameMode = delegate { };
+
+    void OnEnable()
+    {
+        waveController.OnWaveFinished += ShowNextWavePanel;
+    }
+    
+    void OnDisable()
+    {
+        waveController.OnWaveFinished -= ShowNextWavePanel;
+    }
 
 
     void Start()
     {
         newWaveGameBtn.gameObject.SetActive(true);
+        scoreDisplay.gameObject.SetActive(false);
     }
 
     
@@ -35,12 +50,16 @@ public class UIController : MonoBehaviour
         waveController.StartNewWaveGame();
         newWaveGameBtn.gameObject.SetActive(false);
         EnableMeshCollider(false);
+        scoreDisplay.gameObject.SetActive(true);
+        OnEnterGameMode(true);
     }
     
     
     void ShowNextWavePanel()
     {
         startNextWaveBtn.gameObject.SetActive(true);
+        EnableMeshCollider(true);
+        scoreDisplay.gameObject.SetActive(false);
     }
     
     public void StartNextWaveBtn()
@@ -48,6 +67,8 @@ public class UIController : MonoBehaviour
         waveController.StartNextWave();
         startNextWaveBtn.gameObject.SetActive(false);
         EnableMeshCollider(false);
+        scoreDisplay.gameObject.SetActive(true);
+        OnEnterGameMode(true);
     }
     
     

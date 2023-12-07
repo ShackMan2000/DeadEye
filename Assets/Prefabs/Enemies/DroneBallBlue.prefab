@@ -80,9 +80,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ab125be01da457d944dfbbb824ed4f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Settings: {fileID: 0}
   movement: {fileID: 5762438037454262552}
   shotReceiver: {fileID: -4919076386129175705}
   GetsDestroyedByGunshot: 1
+  IsInitialized: 0
 --- !u!114 &5762438037454262552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,7 +121,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.34795204
+  m_Radius: 0.45
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &-4919076386129175705
 MonoBehaviour:

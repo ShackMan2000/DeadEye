@@ -34,6 +34,7 @@ public class WaveController : MonoBehaviour
 
     bool isSpawning;
 
+    public event Action OnWaveFinished = delegate { };
     
     [SerializeField] bool DEBUGIncreaseHitbox;
 
@@ -266,7 +267,11 @@ public class WaveController : MonoBehaviour
             }
         }
 
-        if (waveFinished) Debug.Log("wave finished");
+        if (waveFinished)
+        {
+            Debug.Log("wave finished");
+            OnWaveFinished?.Invoke();
+        }
     }
 
 

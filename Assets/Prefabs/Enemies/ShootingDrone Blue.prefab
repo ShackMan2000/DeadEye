@@ -682,9 +682,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ab125be01da457d944dfbbb824ed4f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Settings: {fileID: 0}
   movement: {fileID: 3776893329667637043}
   shotReceiver: {fileID: 3506425195894798882}
   GetsDestroyedByGunshot: 1
+  IsInitialized: 0
 --- !u!114 &3776893329667637043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -736,7 +738,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CorrectWeaponsToGetShot:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: a996b2b426834944496a5628720e9cfb, type: 2}
   ShootingBlocked: 0
 --- !u!1 &6753371921267579238
 GameObject:
