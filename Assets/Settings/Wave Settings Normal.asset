@@ -15,7 +15,7 @@ MonoBehaviour:
   EnemySpawnIntervalBase: 2
   EnemySpawnIntervalDecreasePerLevel: 0.1
   EnemySpawnIntervalMin: 1
-  EnemySpawnIntervalVarianceRelative: 0.321
+  EnemySpawnIntervalVarianceRelative: 0.402
   AllEnemiesOptions:
   - EnemySettings: {fileID: 11400000, guid: 57a478a597c1b134c999897e5d273eab, type: 2}
     EnemyPrefabNeutral: {fileID: 0}

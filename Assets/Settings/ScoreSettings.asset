@@ -25,3 +25,6 @@ MonoBehaviour:
   - ScoreMultiplier: 4
     KillStreakNeeded: 35
     Color: {r: 0.123220466, g: 0.6698113, b: 0.098576054, a: 1}
+  - ScoreMultiplier: 5
+    KillStreakNeeded: 50
+    Color: {r: 0.7264181, g: 0, b: 0.764151, a: 1}

@@ -1,12 +1,13 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class Shooter : MonoBehaviour
 {
    public WeaponType SelectedWeaponType;
 
-    [SerializeField] Transform bulletSpawnPoint;
+   [FormerlySerializedAs("bulletSpawnPoint")] public Transform BulletSpawnPoint;
 
     [SerializeField] WeaponType leftGun;
     [SerializeField] WeaponType rightGun;
@@ -26,7 +27,7 @@ public class Shooter : MonoBehaviour
 
     public void ShootAndDetermineTarget(Vector3 direction)
     {
-        Vector3 startPosition = bulletSpawnPoint.position;
+        Vector3 startPosition = BulletSpawnPoint.position;
         
         ShotReceiver shotReceiver = null;
         GameObject hitObject = null;
@@ -75,7 +76,7 @@ public class Shooter : MonoBehaviour
         {
             if (!isPressed)
             {
-                ShootAndDetermineTarget(bulletSpawnPoint.forward);
+                ShootAndDetermineTarget(BulletSpawnPoint.forward);
             }
 
             isPressed = true;

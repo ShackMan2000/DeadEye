@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Sirenix.OdinInspector;
 
 
 public class UIController : MonoBehaviour
@@ -44,6 +45,7 @@ public class UIController : MonoBehaviour
     }
     
 
+    [Button]
     public void StartNewWaveGame()
     {
         waveController.StartNewWaveGame();
@@ -61,6 +63,8 @@ public class UIController : MonoBehaviour
         scoreDisplay.gameObject.SetActive(false);
     }
     
+    
+    [Button]
     public void StartNextWaveBtn()
     {
         waveController.StartNextWave();

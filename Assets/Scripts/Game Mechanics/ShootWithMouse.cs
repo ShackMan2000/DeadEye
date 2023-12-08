@@ -24,6 +24,7 @@ public class ShootWithMouse : MonoBehaviour
     [SerializeField] WeaponType rightWeapon;
     
 
+    
 
     void Awake()
     {     
@@ -55,8 +56,8 @@ public class ShootWithMouse : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                Vector3 direction = hit.point - transform.position;
-                Debug.Log("Hit " + hit.collider.gameObject.name + " at " + hit.point + " with direction " + direction);
+                Vector3 direction = hit.point - currentShooter.BulletSpawnPoint.position;
+                //Debug.Log("Hit " + hit.collider.gameObject.name + " at " + hit.point + " with direction " + direction);
 
                 currentShooter.ShootAndDetermineTarget(direction);
             }
