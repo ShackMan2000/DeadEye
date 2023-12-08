@@ -10,14 +10,19 @@ public class EnemySettings : ScriptableObject
     public float RotationSpeed;
     
     public float pointsForKill = 10f;
- 
-    public int minWaveLevel;
-   
+
     public EnemyMovementType  MovementType;
     public bool RotateTowardsPlayer = true;
 
 
-    [InfoBox("Laser")] 
+    [InfoBox("Shooting")] 
+    public bool CanShoot;
+    public EnemyBullet BulletPrefab;
+    public float ShootWarningTime = 3f;
+    
+    
+
+    [InfoBox("Laser to Side Drones")] 
     public float LaserPivotRotation;
     public float LaserExpansionTime = 0.2f;
     public float LaserStayTime = 1f;

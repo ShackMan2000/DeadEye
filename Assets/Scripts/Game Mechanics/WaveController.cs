@@ -26,7 +26,7 @@ public class WaveController : MonoBehaviour
     Dictionary<EnemyBase, int> activeEnemiesLingerIndex = new Dictionary<EnemyBase, int>();
 
     [ShowInInspector] Dictionary<EnemyBase, List<EnemyBase>> inactiveEnemies = new Dictionary<EnemyBase, List<EnemyBase>>();
-    [ShowInInspector] Dictionary<EnemyBase, List<EnemyBase>> activeEnemies = new Dictionary<EnemyBase, List<EnemyBase>>();
+    [ShowInInspector] public Dictionary<EnemyBase, List<EnemyBase>> activeEnemies = new Dictionary<EnemyBase, List<EnemyBase>>();
 
     float timeTillNextSpawn;
 
@@ -34,6 +34,7 @@ public class WaveController : MonoBehaviour
 
     bool isSpawning;
 
+    public event Action<int> OnWaveStarted = delegate { }; 
     public event Action OnWaveFinished = delegate { };
     
     [SerializeField] bool DEBUGIncreaseHitbox;
@@ -83,6 +84,8 @@ public class WaveController : MonoBehaviour
         
         CreateEnemiesToSpawnForCurrentWave();
         StartCoroutine(InitializeWaveRoutine());
+        
+        OnWaveStarted?.Invoke(currentWaveIndex);
     }
 
     void CreateEnemiesToSpawnForCurrentWave()
