@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -9,6 +10,8 @@ public class EnemyBullet : MonoBehaviour
 
     bool isMoving;
     Vector3 direction;
+    
+    public static event Action OnAnyEnemyBulletHitPlayer = delegate { };
 
     public void Initialize(Vector3 position, Vector3 playerPositionPosition)
     {
@@ -23,6 +26,16 @@ public class EnemyBullet : MonoBehaviour
         if (isMoving)
         {
             transform.position += direction * (Speed * Time.deltaTime);
+        }
+    }
+    
+    
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            OnAnyEnemyBulletHitPlayer?.Invoke();
+            Destroy(gameObject);
         }
     }
 }

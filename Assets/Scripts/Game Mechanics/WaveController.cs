@@ -42,11 +42,13 @@ public class WaveController : MonoBehaviour
     void OnEnable()
     {
         EnemyBase.OnAnyEnemyDestroyedPrefabType += OnEnemyDestroyedPrefabType;
+        GameManager.OnGameFinished += OnGameFinished;
     }
 
     void OnDisable()
     {
         EnemyBase.OnAnyEnemyDestroyedPrefabType -= OnEnemyDestroyedPrefabType;
+        GameManager.OnGameFinished -= OnGameFinished;
     }
 
     [Button]
@@ -301,11 +303,22 @@ public class WaveController : MonoBehaviour
 
 
 
-    [Button]
-    void DestroyRandomEnemy()
+    // right now this means player got killed
+    void OnGameFinished()
     {
+        isSpawning = false;
         
+        List<EnemyBase> enemiesToDisappear = new List<EnemyBase>();
         
+        foreach (KeyValuePair<EnemyBase, List<EnemyBase>> pair in activeEnemies)
+        {
+            enemiesToDisappear.AddRange(pair.Value);
+        }
+        
+        foreach (EnemyBase enemy in enemiesToDisappear)
+        {
+            enemy.DisappearWhenPlayerGotKilled();
+        }
         
     }
 }

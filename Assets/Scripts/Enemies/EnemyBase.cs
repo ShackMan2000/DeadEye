@@ -99,6 +99,14 @@ public class EnemyBase : MonoBehaviour
         OnEnemyDestroyed?.Invoke();
     }
 
+
+    // do something later, like move into town/portal/train etc
+    public void DisappearWhenPlayerGotKilled()
+    {
+        OnAnyEnemyDestroyedPrefabType(this,Prefab);
+        gameObject.SetActive(false);
+    }
+    
     // this is getting messy, should all be in one method that initializes. 
     public void SetLingerPoint(Vector3 checkPoint)
     {
