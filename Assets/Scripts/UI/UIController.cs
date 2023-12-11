@@ -19,6 +19,7 @@ public class UIController : MonoBehaviour
     [SerializeField] ScoreDisplay scoreDisplay;
 
     public static event Action<bool> OnEnterGameMode = delegate { };
+    public static event Action OnEnableUnlimitedHealth = delegate {  }; 
 
     void OnEnable()
     {
@@ -38,10 +39,13 @@ public class UIController : MonoBehaviour
     }
 
     
-    // separate that out more and more. E.g. main menu, wave menu etc...
-    public void ShowMenuPanel()
+    
+    
+    [Button]
+    public void ToggleMenuPanel(bool activate)
     {
-        newWaveGameBtn.gameObject.SetActive(true);
+        newWaveGameBtn.gameObject.SetActive(activate);
+        EnableMeshCollider(activate);
     }
     
 
@@ -49,10 +53,17 @@ public class UIController : MonoBehaviour
     public void StartNewWaveGame()
     {
         waveController.StartNewWaveGame();
-        newWaveGameBtn.gameObject.SetActive(false);
-        EnableMeshCollider(false);
-        scoreDisplay.gameObject.SetActive(true);
+        
+        ToggleMenuPanel(false);
+        ToggleActiveWavePanel(true);
         OnEnterGameMode(true);
+    }
+    
+    [Button]
+    void ToggleActiveWavePanel(bool activate)
+    {
+        scoreDisplay.gameObject.SetActive(activate);
+        healthDisplay.gameObject.SetActive(activate);
     }
     
     
@@ -80,6 +91,12 @@ public class UIController : MonoBehaviour
         meshCollider.enabled = activate;
     }
     
+    
+    [Button]
+    public void EnableUnlimitedHealth()
+    {
+        OnEnableUnlimitedHealth?.Invoke();
+    }
     
     
 }

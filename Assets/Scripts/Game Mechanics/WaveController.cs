@@ -19,7 +19,9 @@ public class WaveController : MonoBehaviour
 
     [ShowInInspector] Dictionary<SpawnSettings, int> enemiesToSpawnCurrentWave;
 
-    [FormerlySerializedAs("checkPointsLists")] [SerializeField] List<CheckPointsList> checkPointsForPaths;
+    [FormerlySerializedAs("checkPointsLists")] [SerializeField]
+    List<CheckPointsList> checkPointsForPaths;
+
     [SerializeField] CheckPointsList checkPointsForLinger;
 
     [ShowInInspector] List<int> availableIndexesForLinger;
@@ -34,9 +36,9 @@ public class WaveController : MonoBehaviour
 
     bool isSpawning;
 
-    public event Action<int> OnWaveStarted = delegate { }; 
+    public event Action<int> OnWaveStarted = delegate { };
     public event Action OnWaveFinished = delegate { };
-    
+
     [SerializeField] bool DEBUGIncreaseHitbox;
 
     void OnEnable()
@@ -64,29 +66,29 @@ public class WaveController : MonoBehaviour
         currentWaveIndex = 1;
         InitializeWave();
     }
-    
+
     public void StartNextWave()
     {
         currentWaveIndex++;
         InitializeWave();
     }
-    
-    
-   public void InitializeWave()
+
+
+    public void InitializeWave()
     {
         spawnIntervalCurrentWave = settings.EnemySpawnIntervalBase - settings.EnemySpawnIntervalDecreasePerLevel * currentWaveIndex;
 
-        
+
         availableIndexesForLinger = new List<int>();
-        
+
         for (int i = 0; i < checkPointsForLinger.CheckPoints.Count; i++)
         {
             availableIndexesForLinger.Add(i);
         }
-        
+
         CreateEnemiesToSpawnForCurrentWave();
         StartCoroutine(InitializeWaveRoutine());
-        
+
         OnWaveStarted?.Invoke(currentWaveIndex);
     }
 
@@ -140,16 +142,7 @@ public class WaveController : MonoBehaviour
             enemiesToSpawnCurrentWave.Remove(selectedSetting);
         }
 
-        EnemyBase prefab;
-        
-        if (selectedSetting.EnemyPrefabNeutral != null)
-        {
-            prefab = selectedSetting.EnemyPrefabNeutral;
-        }
-        else
-        {
-            prefab = Random.Range(0, 2) == 0 ? selectedSetting.EnemyPrefabLeft : selectedSetting.EnemyPrefabRight;
-        }
+        EnemyBase prefab = selectedSetting.EnemySettings.Prefab;
 
         if (prefab == null)
         {
@@ -159,12 +152,12 @@ public class WaveController : MonoBehaviour
 
 
         EnemyBase newEnemy = GetNewEnemy(prefab);
-        
-        
+
+
         newEnemy.transform.SetParent(transform);
         newEnemy.transform.position = spawnMarker.position;
-        
-        
+
+
         if (selectedSetting.EnemySettings.MovementType == EnemyMovementType.Linger)
         {
             // get a free index
@@ -176,7 +169,7 @@ public class WaveController : MonoBehaviour
                 checkPointsForLinger.CheckPoints.Add(randomPoint);
                 availableIndexesForLinger.Add(checkPointsForLinger.CheckPoints.Count - 1);
             }
-            
+
             int index = availableIndexesForLinger[Random.Range(0, availableIndexesForLinger.Count)];
             availableIndexesForLinger.Remove(index);
 
@@ -246,17 +239,14 @@ public class WaveController : MonoBehaviour
             Debug.LogError("An enemy was destroyed that was not in active enemies list, should never happen");
         }
 
-        
+
         if (destroyedEnemy.Settings.MovementType == EnemyMovementType.Linger)
         {
-            Debug.Log("freeing up index " + activeEnemiesLingerIndex[destroyedEnemy]);
-            
+
             availableIndexesForLinger.Add(activeEnemiesLingerIndex[destroyedEnemy]);
             activeEnemiesLingerIndex.Remove(destroyedEnemy);
-            
         }
-        
-        
+
 
         bool waveFinished;
 
@@ -272,9 +262,10 @@ public class WaveController : MonoBehaviour
             }
         }
 
+        
+        //this might turn into a loop. 
         if (waveFinished)
         {
-            Debug.Log("wave finished");
             OnWaveFinished?.Invoke();
         }
     }
@@ -302,23 +293,21 @@ public class WaveController : MonoBehaviour
     }
 
 
-
     // right now this means player got killed
     void OnGameFinished()
     {
         isSpawning = false;
-        
+
         List<EnemyBase> enemiesToDisappear = new List<EnemyBase>();
-        
+
         foreach (KeyValuePair<EnemyBase, List<EnemyBase>> pair in activeEnemies)
         {
             enemiesToDisappear.AddRange(pair.Value);
         }
-        
+
         foreach (EnemyBase enemy in enemiesToDisappear)
         {
             enemy.DisappearWhenPlayerGotKilled();
         }
-        
     }
 }

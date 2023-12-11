@@ -4,51 +4,54 @@ using UnityEngine.Serialization;
 
 public class ShootWithMouse : MonoBehaviour
 {
-    [SerializeField] GameObject debugBulletPrefab;
-
-    [SerializeField] float bulletSpeed = 2f;
-
+   
     
     
     [SerializeField] Shooter leftDebugGun;
     [SerializeField] Shooter rightDebugGun;
     Shooter currentShooter;
     
-    List<BulletData> activeBullets = new List<BulletData>();
 
     [SerializeField] Camera centerEyeCamera;
 
-    [SerializeField] bool useDebugBullets;
 
-    [FormerlySerializedAs("weaponType")] [SerializeField] WeaponType leftWeapon;
-    [SerializeField] WeaponType rightWeapon;
+    [SerializeField] bool DEBUGShootWithMouse;
     
-
+    public List<Transform> originalGuns;
     
 
     void Awake()
     {     
         currentShooter = rightDebugGun;
+
+#if ! UNITY_EDITOR
+        DEBUGShootWithMouse = false;
+#endif
+
+
+
+        if (DEBUGShootWithMouse)
+        {
+            //scale original guns to 0.05f
+            foreach (Transform gun in originalGuns)
+            {
+                gun.localScale = Vector3.one * 0.05f;
+            }
+
+        }
     }
 
 
-    // void SpawnDebugBullet(Vector3 direction)
-    // {
-    //     GameObject bullet = Instantiate(debugBulletPrefab, transform);
-    //     bullet.transform.position = transform.position;
-    //
-    //     BulletData bulletData = new BulletData();
-    //
-    //     bulletData.Bullet = bullet;
-    //     bulletData.Direction = direction;
-    //     bulletData.Speed = bulletSpeed;
-    //
-    //     activeBullets.Add(bulletData);
-    // }
+
         
 
     void Update()
     {
+        if(!DEBUGShootWithMouse)
+        {
+            return;
+        }
+        
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = centerEyeCamera.ScreenPointToRay(Input.mousePosition);
@@ -63,10 +66,7 @@ public class ShootWithMouse : MonoBehaviour
             }
         }
 
-        foreach (BulletData bulletData in activeBullets)
-        {
-            bulletData.MoveBullet(Time.deltaTime);
-        }
+    
         
         // switch weapon on space bar
         if (Input.GetKeyDown(KeyCode.Space))
@@ -83,15 +83,15 @@ public class ShootWithMouse : MonoBehaviour
     }
 
 
-    class BulletData
-    {
-        public GameObject Bullet;
-        public Vector3 Direction;
-        public float Speed;
-
-        public void MoveBullet(float deltaTime)
-        {
-            Bullet.transform.position += Direction * Speed * deltaTime;
-        }
-    }
+    // class BulletData
+    // {
+    //     public GameObject Bullet;
+    //     public Vector3 Direction;
+    //     public float Speed;
+    //
+    //     public void MoveBullet(float deltaTime)
+    //     {
+    //         Bullet.transform.position += Direction * Speed * deltaTime;
+    //     }
+    // }
 }
