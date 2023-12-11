@@ -46,7 +46,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2640811279679640791}
-  - component: {fileID: 6185498021698530543}
   m_Layer: 10
   m_Name: GrabPoint Left
   m_TagString: Untagged
@@ -69,30 +68,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6952713365256248329}
   m_LocalEulerAnglesHint: {x: -20.903002, y: 112.811005, z: -106.31901}
---- !u!114 &6185498021698530543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 408280859548213087}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab52d2f563d6a2547a95671c153ebbb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  handPoseType: 1
-  SelectedHandPose: {fileID: 0}
-  HandPose: 0
-  LeftHandIsValid: 1
-  RightHandIsValid: 0
-  HandPosition: {fileID: 0}
-  MaxDegreeDifferenceAllowed: 360
-  IndexBlendMin: 0
-  IndexBlendMax: 0
-  ThumbBlendMin: 0
-  ThumbBlendMax: 0
-  ShowAngleGizmo: 1
 --- !u!1 &2443785738689618792
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,7 +161,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8914607630544656485}
-  - component: {fileID: 1117108942278352215}
   m_Layer: 10
   m_Name: GrabPoint Right
   m_TagString: Untagged
@@ -209,30 +183,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6952713365256248329}
   m_LocalEulerAnglesHint: {x: -20.903002, y: -112.811, z: 106.319}
---- !u!114 &1117108942278352215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2473875929913528700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab52d2f563d6a2547a95671c153ebbb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  handPoseType: 1
-  SelectedHandPose: {fileID: 0}
-  HandPose: 0
-  LeftHandIsValid: 0
-  RightHandIsValid: 1
-  HandPosition: {fileID: 0}
-  MaxDegreeDifferenceAllowed: 360
-  IndexBlendMin: 0
-  IndexBlendMax: 0
-  ThumbBlendMin: 0
-  ThumbBlendMax: 0
-  ShowAngleGizmo: 1
 --- !u!1 &2489210787282933654
 GameObject:
   m_ObjectHideFlags: 0
@@ -1281,7 +1231,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4343005655934738164}
-  - component: {fileID: 2481533307427293451}
   - component: {fileID: 2339210152307508985}
   m_Layer: 10
   m_Name: RedDotLaser
@@ -1307,24 +1256,6 @@ Transform:
   - {fileID: 7413753678250720981}
   m_Father: {fileID: 3752880280387012695}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2481533307427293451
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6487280004635026660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8cb39b3fbb608e43adfca37db68576c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxRange: 25
-  ValidLayers:
-    serializedVersion: 2
-    m_Bits: 1793
-  LaserEnd: {fileID: 7413753678250720981}
-  Active: 1
 --- !u!120 &2339210152307508985
 LineRenderer:
   serializedVersion: 2
@@ -1740,7 +1671,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6952713365256248329}
-  - component: {fileID: 7329563526379015803}
   - component: {fileID: 828621943157545974}
   m_Layer: 10
   m_Name: GrabPointTrigger Rear
@@ -1766,27 +1696,6 @@ Transform:
   - {fileID: 8914607630544656485}
   m_Father: {fileID: 8465708113897136350}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7329563526379015803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6901883889415979164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 537aafab1362ca34a8606b807c1e647c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoveInStyle: 1
-  MoveOutStyle: 1
-  HandSpeed: 50
-  LiveUpdateNearestGrabPoint: 1
-  GrabObject: {fileID: 0}
-  OtherGrabbableMustBeHeld: {fileID: 0}
-  GrabPoints:
-  - {fileID: 6185498021698530543}
-  - {fileID: 1117108942278352215}
 --- !u!65 &828621943157545974
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2170,7 +2079,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectedWeaponType: {fileID: 11400000, guid: a996b2b426834944496a5628720e9cfb, type: 2}
-  bulletSpawnPoint: {fileID: 6733882964264623741}
+  BulletSpawnPoint: {fileID: 6733882964264623741}
   leftGun: {fileID: 11400000, guid: a996b2b426834944496a5628720e9cfb, type: 2}
   rightGun: {fileID: 11400000, guid: a934da441be51aa45941237a7fa5bd16, type: 2}
   debugShotHits: 0
@@ -2304,7 +2213,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   muzzleFlashParticleSystem: {fileID: 2315094262686239860}
-  muzzleFlashSparksParticleSystem: {fileID: 0}
   shooter: {fileID: 8100955848975631814}
 --- !u!198 &2315094262686239860
 ParticleSystem:

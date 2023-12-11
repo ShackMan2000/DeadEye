@@ -7,7 +7,7 @@ public class Shooter : MonoBehaviour
 {
    public WeaponType SelectedWeaponType;
 
-   [FormerlySerializedAs("bulletSpawnPoint")] public Transform BulletSpawnPoint;
+  public Transform BulletSpawnPoint;
 
     [SerializeField] WeaponType leftGun;
     [SerializeField] WeaponType rightGun;
@@ -23,6 +23,7 @@ public class Shooter : MonoBehaviour
     public event Action<WeaponType> OnShotFired = delegate { };
 
     public static event Action<Vector3, Vector3> OnHitObjectNotShootable = delegate { };
+    public static event Action<bool> ShotHitEnemy = delegate { }; 
 
 
     public void ShootAndDetermineTarget(Vector3 direction)
@@ -42,10 +43,12 @@ public class Shooter : MonoBehaviour
             if (shotReceiver == null)
             {
                 OnHitObjectNotShootable(hit.point, hit.normal);
+                ShotHitEnemy?.Invoke(false);
             }
             else
             {
                 shotReceiver.GetShot(SelectedWeaponType);
+                ShotHitEnemy?.Invoke(true);
             }
         }
 

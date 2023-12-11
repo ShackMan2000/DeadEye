@@ -15,19 +15,19 @@ public class EnemyBase : MonoBehaviour
 
     public bool GetsDestroyedByGunshot;
 
-    
+
     public event Action OnInitialized = delegate { };
     public event Action OnShotByAnyWeapon = delegate { };
     public static event Action<Vector3> OnSpawnExplosion = delegate { };
 
-    public event Action OnShootAtPlayer = delegate { }; 
+    public event Action OnShootAtPlayer = delegate { };
 
-    public static event Action<EnemySettings> OnAnyEnemyDestroyedCorrectly = delegate { };
-    public static event Action<EnemySettings> OnAnyEnemyShotByMistake = delegate { };
-    
+    public static event Action<EnemySettings, bool> OnAnyEnemyDestroyedCorrectly = delegate { };
+    public static event Action<EnemySettings> OnMultiDroneShotAtWrongTime = delegate { };
+
     // this is getting messy. idea was that the pool can put it back in the correct list, needs to know which prefab this was created from.
-    public static event Action<EnemyBase,EnemyBase> OnAnyEnemyDestroyedPrefabType = delegate { };
-    
+    public static event Action<EnemyBase, EnemyBase> OnAnyEnemyDestroyedPrefabType = delegate { };
+
     public event Action OnEnemyDestroyed = delegate { };
     public EnemyBase Prefab { get; set; }
 
@@ -50,21 +50,12 @@ public class EnemyBase : MonoBehaviour
     {
         if (GetsDestroyedByGunshot)
         {
-            if (correctWeapon)
-            {
-                OnAnyEnemyDestroyedCorrectly(Settings);
-            }
-            else
-            {
-                OnAnyEnemyShotByMistake(Settings);
-            }
-
-
+            OnAnyEnemyDestroyedCorrectly(Settings, correctWeapon);
             GetDestroyed(correctWeapon);
         }
 
-        // the issue is that the drone here has nothing to do with getting shot by the correct weapon, it's all about the timing.
-        // and the drone 
+
+        // for the multidrone
         OnShotByAnyWeapon();
     }
 
@@ -78,12 +69,14 @@ public class EnemyBase : MonoBehaviour
 
     public void RaiseShotByMistakeEvent()
     {
-        OnAnyEnemyShotByMistake(Settings);
+        OnMultiDroneShotAtWrongTime(Settings);
     }
 
-    public void RaiseDestroyedByCorrectWeaponEvent()
+    
+    // not 100% clean because this is really the multidrone being destroyed, regardless of the weapon
+    public void RaiseDestroyedByCorrectWeaponEvent(bool isWeaponCorrect)
     {
-        OnAnyEnemyDestroyedCorrectly(Settings);
+        OnAnyEnemyDestroyedCorrectly(Settings, isWeaponCorrect);
     }
 
 
@@ -91,9 +84,9 @@ public class EnemyBase : MonoBehaviour
     {
         shotReceiver.ShootingBlocked = true;
         OnSpawnExplosion(transform.position);
-        
-        OnAnyEnemyDestroyedPrefabType(this,Prefab);
-        
+
+        OnAnyEnemyDestroyedPrefabType(this, Prefab);
+
         IsInitialized = false;
         gameObject.SetActive(false);
         OnEnemyDestroyed?.Invoke();
@@ -103,10 +96,10 @@ public class EnemyBase : MonoBehaviour
     // do something later, like move into town/portal/train etc
     public void DisappearWhenPlayerGotKilled()
     {
-        OnAnyEnemyDestroyedPrefabType(this,Prefab);
+        OnAnyEnemyDestroyedPrefabType(this, Prefab);
         gameObject.SetActive(false);
     }
-    
+
     // this is getting messy, should all be in one method that initializes. 
     public void SetLingerPoint(Vector3 checkPoint)
     {

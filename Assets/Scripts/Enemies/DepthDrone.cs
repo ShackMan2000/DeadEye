@@ -127,7 +127,7 @@ public class DepthDrone : MonoBehaviour
 
         if (sideDronesHit > 0)
         {
-            enemyBase.RaiseDestroyedByCorrectWeaponEvent();
+            enemyBase.RaiseDestroyedByCorrectWeaponEvent(true);
             StartCoroutine(BurnCoreRoutine());
         }
         else

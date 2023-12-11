@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class ScoreController : MonoBehaviour
 {
-
-
     public float Score;
     public int KillStreak;
-        
+
     [SerializeField] ScoreSettings scoreSettings;
-    
-   
+
+
     [SerializeField] ScoreMulti currentMulti;
-    
+
     public event Action<float> OnScoreChanged = delegate { };
     public event Action<int> OnKillStreakChanged = delegate { };
 
@@ -26,37 +24,44 @@ public class ScoreController : MonoBehaviour
         OnScoreChanged(Score);
         OnKillStreakChanged(KillStreak);
         currentMulti = scoreSettings.ScoreMultipliers[0];
-        
+
         OnKillStreakChanged?.Invoke(KillStreak);
     }
 
     void OnEnable()
     {
         EnemyBase.OnAnyEnemyDestroyedCorrectly += OnAnyEnemyDestroyedCorrectly;
-        EnemyBase.OnAnyEnemyShotByMistake += OnAnyEnemyShotByMistake;
+        EnemyBase.OnMultiDroneShotAtWrongTime += OnMultiDroneShotAtWrongTime;
     }
 
     void OnDisable()
     {
         EnemyBase.OnAnyEnemyDestroyedCorrectly -= OnAnyEnemyDestroyedCorrectly;
-        EnemyBase.OnAnyEnemyShotByMistake -= OnAnyEnemyShotByMistake;
+        EnemyBase.OnMultiDroneShotAtWrongTime -= OnMultiDroneShotAtWrongTime;
     }
 
-    void OnAnyEnemyDestroyedCorrectly(EnemySettings enemySettings)
+    void OnAnyEnemyDestroyedCorrectly(EnemySettings enemySettings, bool correctWeapon)
     {
-        KillStreak++;
-        Score += enemySettings.pointsForKill;
-        
+        if (correctWeapon)
+        {
+            KillStreak++;
+            Score += enemySettings.pointsForKill;
+        }
+        else
+        {
+            KillStreak = 0;
+        }
+
         UpdateScoreMulti();
         OnScoreChanged(Score);
         OnKillStreakChanged(KillStreak);
     }
 
-    void OnAnyEnemyShotByMistake(EnemySettings enemySettings)
+    void OnMultiDroneShotAtWrongTime(EnemySettings enemySettings)
     {
         KillStreak = 0;
         UpdateScoreMulti();
-        
+
         OnKillStreakChanged(KillStreak);
     }
 
@@ -64,12 +69,10 @@ public class ScoreController : MonoBehaviour
     void UpdateScoreMulti()
     {
         ScoreMulti nextMulti = scoreSettings.GetScoreMultiByKillStreak(KillStreak);
-        
+
         if (nextMulti != currentMulti)
         {
             currentMulti = nextMulti;
         }
     }
-    
-    
 }

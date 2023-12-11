@@ -4,9 +4,7 @@ using UnityEngine.Serialization;
 
 public class ShootWithMouse : MonoBehaviour
 {
-   
-    
-    
+
     [SerializeField] Shooter leftDebugGun;
     [SerializeField] Shooter rightDebugGun;
     Shooter currentShooter;
@@ -28,8 +26,6 @@ public class ShootWithMouse : MonoBehaviour
         DEBUGShootWithMouse = false;
 #endif
 
-
-
         if (DEBUGShootWithMouse)
         {
             //scale original guns to 0.05f
@@ -37,7 +33,6 @@ public class ShootWithMouse : MonoBehaviour
             {
                 gun.localScale = Vector3.one * 0.05f;
             }
-
         }
     }
 
