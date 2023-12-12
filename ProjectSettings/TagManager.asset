@@ -6,6 +6,25 @@ TagManager:
   tags:
   - Enemy
   - EnemySpawner
+  - BLUE
+  - SLOMOZONE
+  - ActualLaser
+  - EnemyLaser
+  - HEAD
+  - RED
+  - FORWARD
+  - DRONE
+  - WHITE
+  - SIMPLETANDEMTRIGGER
+  - LEFTTRIGGER
+  - RIGHTTRIGGER
+  - SamplesInfoPanel
+  - RoomLight
+  - RING
+  - FxTemporaire
+  - UnitFormationController
+  - LEADERBOARD
+  - IconsCreationCamera
   layers:
   - Default
   - TransparentFX

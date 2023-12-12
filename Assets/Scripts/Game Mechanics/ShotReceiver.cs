@@ -7,10 +7,10 @@ public class ShotReceiver : MonoBehaviour
 {
   //  public List<WeaponType> DamagedBy = new List<WeaponType>();
 
-    [FormerlySerializedAs("MustBeDestroyedBy")] public List<WeaponType> CorrectWeaponsToGetShot = new List<WeaponType>();
+   // [FormerlySerializedAs("MustBeDestroyedBy")] public List<WeaponType> CorrectWeaponsToGetShot = new List<WeaponType>();
     
 
-    public event Action<bool> OnShotByCorrectWeapon = delegate { };
+    public event Action<WeaponType> OnShot = delegate { };
 
  
     public bool ShootingBlocked;
@@ -23,11 +23,8 @@ public class ShotReceiver : MonoBehaviour
         {
             return;
         }
-            
-            
-        bool shotByCorrectWeapon = CorrectWeaponsToGetShot.Contains(weaponType);
 
-        OnShotByCorrectWeapon(shotByCorrectWeapon);
+        OnShot(weaponType);
     }
 
 

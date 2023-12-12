@@ -37,17 +37,19 @@ public class EnemyBase : MonoBehaviour
 
     void OnEnable()
     {
-        shotReceiver.OnShotByCorrectWeapon += OnShotByCorrectWeapon;
+        shotReceiver.OnShot += OnShot;
         shotReceiver.ShootingBlocked = false;
     }
 
     void OnDisable()
     {
-        shotReceiver.OnShotByCorrectWeapon -= OnShotByCorrectWeapon;
+        shotReceiver.OnShot -= OnShot;
     }
 
-    void OnShotByCorrectWeapon(bool correctWeapon)
+    void OnShot(WeaponType weaponType)
     {
+        bool correctWeapon = Settings.CorrectWeaponsToGetShot.Contains(weaponType);
+        
         if (GetsDestroyedByGunshot)
         {
             OnAnyEnemyDestroyedCorrectly(Settings, correctWeapon);

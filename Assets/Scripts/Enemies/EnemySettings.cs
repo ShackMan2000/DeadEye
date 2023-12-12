@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 [InlineEditor()]
@@ -7,12 +8,15 @@ public class EnemySettings : ScriptableObject
 {
     public EnemyBase Prefab;
     
+    public Sprite Icon;
+    public EnemyMovementType  MovementType;
+    
     public float MovementSpeed;
     public float RotationSpeed;
-    
+
+    public List<WeaponType> CorrectWeaponsToGetShot;
     public float pointsForKill = 10f;
 
-    public EnemyMovementType  MovementType;
     public bool RotateTowardsPlayer = true;
 
 

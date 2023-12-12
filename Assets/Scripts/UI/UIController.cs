@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Sirenix.OdinInspector;
+using UnityEngine.Serialization;
 
 
 public class UIController : MonoBehaviour
@@ -16,10 +17,13 @@ public class UIController : MonoBehaviour
     [SerializeField] Button newWaveGameBtn;
     [SerializeField] Button startNextWaveBtn;
     
-    [SerializeField] ScoreDisplay scoreDisplay;
-
+    [FormerlySerializedAs("scoreDisplay")] [SerializeField] ScoreDisplay ingameScoreDisplay;
+    [SerializeField] StatsDisplay statsDisplay;
+    
     public static event Action<bool> OnEnterGameMode = delegate { };
     public static event Action OnEnableUnlimitedHealth = delegate {  }; 
+    
+    
 
     void OnEnable()
     {
@@ -35,7 +39,7 @@ public class UIController : MonoBehaviour
     void Start()
     {
         newWaveGameBtn.gameObject.SetActive(true);
-        scoreDisplay.gameObject.SetActive(false);
+        ingameScoreDisplay.gameObject.SetActive(false);
     }
 
     
@@ -56,22 +60,27 @@ public class UIController : MonoBehaviour
         
         ToggleMenuPanel(false);
         ToggleActiveWavePanel(true);
+        ToggleNextWavePanel(false);
         OnEnterGameMode(true);
     }
     
     [Button]
     void ToggleActiveWavePanel(bool activate)
     {
-        scoreDisplay.gameObject.SetActive(activate);
+        ingameScoreDisplay.gameObject.SetActive(activate);
         healthDisplay.gameObject.SetActive(activate);
     }
     
     
-    void ShowNextWavePanel()
+    
+    void ShowNextWavePanel() => ToggleNextWavePanel(true);
+    
+    void ToggleNextWavePanel(bool show)
     {
-        startNextWaveBtn.gameObject.SetActive(true);
-        EnableMeshCollider(true);
-        scoreDisplay.gameObject.SetActive(false);
+        statsDisplay.gameObject.SetActive(show);
+        startNextWaveBtn.gameObject.SetActive(show);
+        EnableMeshCollider(show);
+        ingameScoreDisplay.gameObject.SetActive(!show);
     }
     
     
@@ -81,7 +90,7 @@ public class UIController : MonoBehaviour
         waveController.StartNextWave();
         startNextWaveBtn.gameObject.SetActive(false);
         EnableMeshCollider(false);
-        scoreDisplay.gameObject.SetActive(true);
+        ingameScoreDisplay.gameObject.SetActive(true);
         OnEnterGameMode(true);
     }
     
