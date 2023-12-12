@@ -8,7 +8,7 @@ public class StatsTracker : MonoBehaviour
 
     [SerializeField] WaveController waveController;
 
-    [SerializeField] StatsPerWave statsForCurrentWave;
+    public StatsPerWave StatsForCurrentWave;
 
     void OnEnable()
     {
@@ -28,8 +28,8 @@ public class StatsTracker : MonoBehaviour
 
     void OnWaveStarted(int waveIndex)
     {
-        statsForCurrentWave = new StatsPerWave();
-        statsForCurrentWave.WaveIndex = waveIndex;
+        StatsForCurrentWave = new StatsPerWave();
+        StatsForCurrentWave.WaveIndex = waveIndex;
     }
 
 
@@ -39,48 +39,48 @@ public class StatsTracker : MonoBehaviour
         // if not, add it to the list
         // if yes, add to the correct counter
 
-        int index = statsForCurrentWave.StatsPerEnemies.FindIndex(x => x.EnemySettings == enemySettings);
+        int index = StatsForCurrentWave.StatsPerEnemies.FindIndex(x => x.EnemySettings == enemySettings);
 
         if (index == -1)
         {
             StatsPerEnemy statsPerEnemy = new StatsPerEnemy();
             statsPerEnemy.EnemySettings = enemySettings;
 
-            statsForCurrentWave.StatsPerEnemies.Add(statsPerEnemy);
-            index = statsForCurrentWave.StatsPerEnemies.Count - 1;
+            StatsForCurrentWave.StatsPerEnemies.Add(statsPerEnemy);
+            index = StatsForCurrentWave.StatsPerEnemies.Count - 1;
         }
 
         if (correctWeapon)
         {
-            statsForCurrentWave.StatsPerEnemies[index].DestroyedCorrectly++;
+            StatsForCurrentWave.StatsPerEnemies[index].DestroyedCorrectly++;
         }
         else
         {
-            statsForCurrentWave.StatsPerEnemies[index].DestroyedByMistake++;
+            StatsForCurrentWave.StatsPerEnemies[index].DestroyedByMistake++;
         }
     }
 
 
     void OnMultiDroneShotAtWrongTime(EnemySettings enemySettings)
     {
-        int index = statsForCurrentWave.StatsPerEnemies.FindIndex(x => x.EnemySettings == enemySettings);
+        int index = StatsForCurrentWave.StatsPerEnemies.FindIndex(x => x.EnemySettings == enemySettings);
 
-        statsForCurrentWave.StatsPerEnemies[index].DestroyedByMistake++;
+        StatsForCurrentWave.StatsPerEnemies[index].DestroyedByMistake++;
     }
 
 
     void OnShotFired(bool hitEnemy)
     {
-        if (statsForCurrentWave == null)
+        if (StatsForCurrentWave == null)
         {
             return;
             
         }
-        statsForCurrentWave.ShotsFired++;
+        StatsForCurrentWave.ShotsFired++;
 
         if (hitEnemy)
         {
-            statsForCurrentWave.ShotsHit++;
+            StatsForCurrentWave.ShotsHit++;
         }
     }
 }
@@ -97,6 +97,16 @@ public class StatsPerWave
     public float ShotsHit;
 
     public List<StatsPerEnemy> StatsPerEnemies = new List<StatsPerEnemy>();
+    public float Accuracy
+    {
+        get
+        {
+            if (ShotsFired == 0)
+                return 0;
+            
+            return ShotsHit / ShotsFired;
+        }
+    }
 }
 
 
@@ -111,4 +121,14 @@ public class StatsPerEnemy
     // need some kind of system that adjusts which accuracy is correct and not.
     // for back and forth, accuracy is -1 to 1 (1 being side drones closest)
     // for rotation should be first split into -90 to 90. 
+    public float ShotCorrectWeaponPercent
+    {
+        get
+        {
+            if (DestroyedCorrectly + DestroyedByMistake == 0)
+                return 0;
+            
+            return DestroyedCorrectly / (DestroyedCorrectly + DestroyedByMistake);
+        }
+    }
 }

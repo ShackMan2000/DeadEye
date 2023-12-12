@@ -25,6 +25,8 @@ public class EnemyStatsDisplay : MonoBehaviour
     public void InjectStats(StatsPerEnemy stats)
     {
         statsPerEnemy = stats;
+        killCountText.text = (statsPerEnemy.DestroyedCorrectly + statsPerEnemy.DestroyedByMistake).ToString();
+        correctPercentageText.text = (statsPerEnemy.ShotCorrectWeaponPercent * 100f).ToString("F0") + "%";
 
         
         
