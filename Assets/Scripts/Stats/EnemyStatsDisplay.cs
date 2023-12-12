@@ -13,6 +13,8 @@ public class EnemyStatsDisplay : MonoBehaviour
 
     public List<EnemySettings> enemiesGroupedInStat;
     [SerializeField] WeaponType correctWeapon;
+    
+    [SerializeField] TextMeshProUGUI killCountText;
 
     [SerializeField] TextMeshProUGUI correctPercentageText;
 

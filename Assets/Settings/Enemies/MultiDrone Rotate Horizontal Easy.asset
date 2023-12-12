@@ -13,10 +13,14 @@ MonoBehaviour:
   m_Name: MultiDrone Rotate Horizontal Easy
   m_EditorClassIdentifier: 
   Prefab: {fileID: 5196567718266365334, guid: efb2a446c68dcaa458693eb98a4bf6fc, type: 3}
+  Icon: {fileID: 0}
+  MovementType: 1
   MovementSpeed: 3.81
   RotationSpeed: 88
+  CorrectWeaponsToGetShot:
+  - {fileID: 11400000, guid: a996b2b426834944496a5628720e9cfb, type: 2}
+  - {fileID: 11400000, guid: a934da441be51aa45941237a7fa5bd16, type: 2}
   pointsForKill: 50
-  MovementType: 1
   RotateTowardsPlayer: 1
   CanShoot: 0
   BulletPrefab: {fileID: 0}
