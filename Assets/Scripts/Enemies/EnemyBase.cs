@@ -22,8 +22,8 @@ public class EnemyBase : MonoBehaviour
 
     public event Action OnShootAtPlayer = delegate { };
 
-    public static event Action<EnemySettings, bool> OnAnyEnemyDestroyedCorrectly = delegate { };
-    public static event Action<EnemySettings> OnMultiDroneShotAtWrongTime = delegate { };
+    public static event Action<EnemySettings, bool> OnAnySingleEnemyDestroyedCorrectly = delegate { };
+    //public static event Action<EnemySettings> OnMultiDroneShotAtWrongTime = delegate { };
 
     // this is getting messy. idea was that the pool can put it back in the correct list, needs to know which prefab this was created from.
     public static event Action<EnemyBase, EnemyBase> OnAnyEnemyDestroyedPrefabType = delegate { };
@@ -52,12 +52,11 @@ public class EnemyBase : MonoBehaviour
         
         if (GetsDestroyedByGunshot)
         {
-            OnAnyEnemyDestroyedCorrectly(Settings, correctWeapon);
+            OnAnySingleEnemyDestroyedCorrectly(Settings, correctWeapon);
             GetDestroyed(correctWeapon);
         }
 
 
-        // for the multidrone
         OnShotByAnyWeapon();
     }
 
@@ -69,19 +68,7 @@ public class EnemyBase : MonoBehaviour
         OnInitialized?.Invoke();
     }
 
-    public void RaiseShotByMistakeEvent()
-    {
-        OnMultiDroneShotAtWrongTime(Settings);
-    }
-
-    
-    // not 100% clean because this is really the multidrone being destroyed, regardless of the weapon
-    public void RaiseDestroyedByCorrectWeaponEvent(bool isWeaponCorrect)
-    {
-        OnAnyEnemyDestroyedCorrectly(Settings, isWeaponCorrect);
-    }
-
-
+  
     public void GetDestroyed(bool correctWeapon = false)
     {
         shotReceiver.ShootingBlocked = true;

@@ -30,17 +30,34 @@ public class ScoreController : MonoBehaviour
 
     void OnEnable()
     {
-        EnemyBase.OnAnyEnemyDestroyedCorrectly += OnAnyEnemyDestroyedCorrectly;
-        EnemyBase.OnMultiDroneShotAtWrongTime += OnMultiDroneShotAtWrongTime;
+        EnemyBase.OnAnySingleEnemyDestroyedCorrectly += OnAnySingleEnemyDestroyedCorrectly;
+        MultiDrone.OnMultiDroneShot += OnMultiDroneShot;
     }
 
     void OnDisable()
     {
-        EnemyBase.OnAnyEnemyDestroyedCorrectly -= OnAnyEnemyDestroyedCorrectly;
-        EnemyBase.OnMultiDroneShotAtWrongTime -= OnMultiDroneShotAtWrongTime;
+        EnemyBase.OnAnySingleEnemyDestroyedCorrectly -= OnAnySingleEnemyDestroyedCorrectly;
+        MultiDrone.OnMultiDroneShot -= OnMultiDroneShot;
     }
 
-    void OnAnyEnemyDestroyedCorrectly(EnemySettings enemySettings, bool correctWeapon)
+    void OnMultiDroneShot(MultiDroneHitInfo hitInfo)
+    {
+        if (hitInfo.IsCorrectRange)
+        {
+            KillStreak++;
+            Score += hitInfo.Settings.pointsForKill;
+        }
+        else
+        {
+            KillStreak = 0;
+        }
+
+        UpdateScoreMulti();
+
+        OnKillStreakChanged(KillStreak);
+    }
+
+    void OnAnySingleEnemyDestroyedCorrectly(EnemySettings enemySettings, bool correctWeapon)
     {
         if (correctWeapon)
         {
@@ -54,14 +71,6 @@ public class ScoreController : MonoBehaviour
 
         UpdateScoreMulti();
         OnScoreChanged(Score);
-        OnKillStreakChanged(KillStreak);
-    }
-
-    void OnMultiDroneShotAtWrongTime(EnemySettings enemySettings)
-    {
-        KillStreak = 0;
-        UpdateScoreMulti();
-
         OnKillStreakChanged(KillStreak);
     }
 

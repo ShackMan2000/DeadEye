@@ -13,13 +13,13 @@ public class DroneSpawner : MonoBehaviour
     
     
     
-    [SerializeField] DepthDrone launchDronePrefab;
+    [SerializeField] MultiDrone launchDronePrefab;
 
 
     [Button]
     void SpawnLaunchDrone()
     {
-        DepthDrone launchDrone = Instantiate(launchDronePrefab, transform);
+        MultiDrone launchDrone = Instantiate(launchDronePrefab, transform);
         launchDrone.transform.position = transform.position;
         launchDrone.transform.rotation = transform.rotation;
     }

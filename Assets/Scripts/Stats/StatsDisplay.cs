@@ -21,7 +21,7 @@ public class StatsDisplay : MonoBehaviour
     [SerializeField] List<EnemyStatsDisplay> enemyStatsDisplays;
 
 
-    Dictionary<EnemyStatsDisplay, StatsPerEnemy> groupedStatsPerEnemyDisplay;
+    Dictionary<EnemyStatsDisplay, StatsPerSingleEnemy> groupedStatsPerEnemyDisplay;
 
     // need to group the stats here and inject them, separate out so maybe not group them i
 
@@ -55,7 +55,7 @@ public class StatsDisplay : MonoBehaviour
 
     void GroupEnemyStats(StatsPerWave statsPerWave)
     {
-        groupedStatsPerEnemyDisplay = new Dictionary<EnemyStatsDisplay, StatsPerEnemy>();
+        groupedStatsPerEnemyDisplay = new Dictionary<EnemyStatsDisplay, StatsPerSingleEnemy>();
 
 
         for (int i = 0; i < statsPerWave.StatsPerEnemies.Count; i++)

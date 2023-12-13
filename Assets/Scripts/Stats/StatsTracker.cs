@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class StatsTracker : MonoBehaviour
 {
-
     [SerializeField] WaveController waveController;
 
     public StatsPerWave StatsForCurrentWave;
@@ -13,17 +12,17 @@ public class StatsTracker : MonoBehaviour
     void OnEnable()
     {
         waveController.OnWaveStarted += OnWaveStarted;
-        EnemyBase.OnAnyEnemyDestroyedCorrectly += OnAnyEnemyDestroyedCorrectly;
-        EnemyBase.OnMultiDroneShotAtWrongTime += OnMultiDroneShotAtWrongTime;
+        EnemyBase.OnAnySingleEnemyDestroyedCorrectly += OnAnySingleEnemyDestroyedCorrectly;
         Shooter.ShotHitEnemy += OnShotFired;
+        MultiDrone.OnMultiDroneShot += OnMultiDroneShot;
     }
 
     void OnDisable()
     {
         waveController.OnWaveStarted -= OnWaveStarted;
-        EnemyBase.OnAnyEnemyDestroyedCorrectly -= OnAnyEnemyDestroyedCorrectly;
-        EnemyBase.OnMultiDroneShotAtWrongTime -= OnMultiDroneShotAtWrongTime;
+        EnemyBase.OnAnySingleEnemyDestroyedCorrectly -= OnAnySingleEnemyDestroyedCorrectly;
         Shooter.ShotHitEnemy -= OnShotFired;
+        MultiDrone.OnMultiDroneShot -= OnMultiDroneShot;
     }
 
     void OnWaveStarted(int waveIndex)
@@ -33,20 +32,16 @@ public class StatsTracker : MonoBehaviour
     }
 
 
-    void OnAnyEnemyDestroyedCorrectly(EnemySettings enemySettings, bool correctWeapon)
+    void OnAnySingleEnemyDestroyedCorrectly(EnemySettings enemySettings, bool correctWeapon)
     {
-        // first check if already tracking the enemy settings
-        // if not, add it to the list
-        // if yes, add to the correct counter
-
         int index = StatsForCurrentWave.StatsPerEnemies.FindIndex(x => x.EnemySettings == enemySettings);
 
         if (index == -1)
         {
-            StatsPerEnemy statsPerEnemy = new StatsPerEnemy();
-            statsPerEnemy.EnemySettings = enemySettings;
+            StatsPerSingleEnemy statsPerSingleEnemy = new StatsPerSingleEnemy();
+            statsPerSingleEnemy.EnemySettings = enemySettings;
 
-            StatsForCurrentWave.StatsPerEnemies.Add(statsPerEnemy);
+            StatsForCurrentWave.StatsPerEnemies.Add(statsPerSingleEnemy);
             index = StatsForCurrentWave.StatsPerEnemies.Count - 1;
         }
 
@@ -61,12 +56,6 @@ public class StatsTracker : MonoBehaviour
     }
 
 
-    void OnMultiDroneShotAtWrongTime(EnemySettings enemySettings)
-    {
-        int index = StatsForCurrentWave.StatsPerEnemies.FindIndex(x => x.EnemySettings == enemySettings);
-
-        StatsForCurrentWave.StatsPerEnemies[index].DestroyedByMistake++;
-    }
 
 
     void OnShotFired(bool hitEnemy)
@@ -74,13 +63,34 @@ public class StatsTracker : MonoBehaviour
         if (StatsForCurrentWave == null)
         {
             return;
-            
         }
+
         StatsForCurrentWave.ShotsFired++;
 
         if (hitEnemy)
         {
             StatsForCurrentWave.ShotsHit++;
+        }
+    }
+
+
+    void OnMultiDroneShot(MultiDroneHitInfo hitInfo)
+    {
+        int index = StatsForCurrentWave.StatsMultiDrones.FindIndex(x => x.EnemySettings == hitInfo.Settings);
+
+        if (index == -1)
+        {
+            StatsMultiDrone statsMultiDrone = new StatsMultiDrone();
+            statsMultiDrone.EnemySettings = hitInfo.Settings;
+            statsMultiDrone.RangeToDestroyRelative = hitInfo.OffsetMaxToDestroy;
+            statsMultiDrone.rangeForEachShot = new List<float>();
+            statsMultiDrone.rangeForEachShot.Add(hitInfo.OffsetOnShot);
+
+            StatsForCurrentWave.StatsMultiDrones.Add(statsMultiDrone);
+        }
+        else
+        {
+            StatsForCurrentWave.StatsMultiDrones[index].rangeForEachShot.Add(hitInfo.OffsetOnShot);
         }
     }
 }
@@ -89,46 +99,53 @@ public class StatsTracker : MonoBehaviour
 // stats per game, which also includes the day. Could also simply use an int for number of games so they can be ordered.
 // might actually be better than dates...
 
-[System.Serializable]
-public class StatsPerWave
-{
-    public int WaveIndex;
-    public float ShotsFired;
-    public float ShotsHit;
-
-    public List<StatsPerEnemy> StatsPerEnemies = new List<StatsPerEnemy>();
-    public float Accuracy
+    [System.Serializable]
+    public class StatsPerWave
     {
-        get
+        public int WaveIndex;
+        public float ShotsFired;
+        public float ShotsHit;
+
+        public List<StatsPerSingleEnemy> StatsPerEnemies = new List<StatsPerSingleEnemy>();
+        public List<StatsMultiDrone> StatsMultiDrones = new List<StatsMultiDrone>();
+
+        public float Accuracy
         {
-            if (ShotsFired == 0)
-                return 0;
-            
-            return ShotsHit / ShotsFired;
+            get
+            {
+                if (ShotsFired == 0)
+                    return 0;
+
+                return ShotsHit / ShotsFired;
+            }
         }
     }
-}
 
 
-[Serializable]
-public class StatsPerEnemy
-{
-    public EnemySettings EnemySettings;
-    public float DestroyedCorrectly;
-    public float DestroyedByMistake;
-
-    // for multidrone need to know how close the shot was. Actuall figure that out first. 
-    // need some kind of system that adjusts which accuracy is correct and not.
-    // for back and forth, accuracy is -1 to 1 (1 being side drones closest)
-    // for rotation should be first split into -90 to 90. 
-    public float ShotCorrectWeaponPercent
+    [Serializable]
+    public class StatsPerSingleEnemy
     {
-        get
+        public EnemySettings EnemySettings;
+        public float DestroyedCorrectly;
+        public float DestroyedByMistake;
+
+        public float ShotCorrectWeaponPercent
         {
-            if (DestroyedCorrectly + DestroyedByMistake == 0)
-                return 0;
-            
-            return DestroyedCorrectly / (DestroyedCorrectly + DestroyedByMistake);
+            get
+            {
+                if (DestroyedCorrectly + DestroyedByMistake == 0)
+                    return 0;
+
+                return DestroyedCorrectly / (DestroyedCorrectly + DestroyedByMistake);
+            }
         }
     }
-}
+
+
+    [Serializable]
+    public class StatsMultiDrone
+    {
+        public EnemySettings EnemySettings;
+        public float RangeToDestroyRelative;
+        public List<float> rangeForEachShot = new List<float>();
+    }

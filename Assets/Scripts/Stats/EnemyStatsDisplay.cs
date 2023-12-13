@@ -19,14 +19,14 @@ public class EnemyStatsDisplay : MonoBehaviour
     [SerializeField] TextMeshProUGUI correctPercentageText;
 
 
-    StatsPerEnemy statsPerEnemy;
+    StatsPerSingleEnemy statsPerSingleEnemy;
 
 
-    public void InjectStats(StatsPerEnemy stats)
+    public void InjectStats(StatsPerSingleEnemy stats)
     {
-        statsPerEnemy = stats;
-        killCountText.text = (statsPerEnemy.DestroyedCorrectly + statsPerEnemy.DestroyedByMistake).ToString();
-        correctPercentageText.text = (statsPerEnemy.ShotCorrectWeaponPercent * 100f).ToString("F0") + "%";
+        statsPerSingleEnemy = stats;
+        killCountText.text = (statsPerSingleEnemy.DestroyedCorrectly + statsPerSingleEnemy.DestroyedByMistake).ToString();
+        correctPercentageText.text = (statsPerSingleEnemy.ShotCorrectWeaponPercent * 100f).ToString("F0") + "%";
 
         
         

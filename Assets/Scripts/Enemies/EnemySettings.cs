@@ -37,6 +37,7 @@ public class EnemySettings : ScriptableObject
     
     [InfoBox("SideDrone")]
     
+    public SideDronesMovementType SideDronesMovementType;
     public float BackAndForthSpeed = 1f;
     public float BackAndForthDistance = 1f;
     
@@ -53,4 +54,11 @@ public class EnemySettings : ScriptableObject
     public float SideDronePlaceBehind = 1f;
 
 
+}
+
+
+public enum SideDronesMovementType
+{
+    BackAndForth,
+    RotateAround
 }

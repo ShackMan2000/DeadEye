@@ -685,9 +685,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce8db96ba1d645239eb1b7e9b147dd3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CorrectWeaponsToGetShot:
-  - {fileID: 11400000, guid: a996b2b426834944496a5628720e9cfb, type: 2}
-  - {fileID: 11400000, guid: a934da441be51aa45941237a7fa5bd16, type: 2}
   ShootingBlocked: 0
 --- !u!1 &7046078143160338933
 GameObject:
@@ -819,7 +816,9 @@ MonoBehaviour:
   coreRender: {fileID: 3192779564786523264}
   laserPivot: {fileID: 7390823047953419940}
   pivot: {fileID: 2319525784022488479}
+  HitRangeInUnits: 0.125
   playerPosition: {fileID: 11400000, guid: a9f4db12f8b21d94fbc84b69ba8393ac, type: 2}
+  sideDronesCurrentRangeRelative: 0
 --- !u!1 &7810895995684979874
 GameObject:
   m_ObjectHideFlags: 0
