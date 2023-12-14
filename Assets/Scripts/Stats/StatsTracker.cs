@@ -56,8 +56,6 @@ public class StatsTracker : MonoBehaviour
     }
 
 
-
-
     void OnShotFired(bool hitEnemy)
     {
         if (StatsForCurrentWave == null)
@@ -84,14 +82,14 @@ public class StatsTracker : MonoBehaviour
             statsMultiDrone.EnemySettings = hitInfo.Settings;
             statsMultiDrone.RangeToDestroyRelative = hitInfo.OffsetMaxToDestroy;
             statsMultiDrone.rangeForEachShot = new List<float>();
-            statsMultiDrone.rangeForEachShot.Add(hitInfo.OffsetOnShot);
 
             StatsForCurrentWave.StatsMultiDrones.Add(statsMultiDrone);
+
+            index = StatsForCurrentWave.StatsMultiDrones.Count - 1;
         }
-        else
-        {
-            StatsForCurrentWave.StatsMultiDrones[index].rangeForEachShot.Add(hitInfo.OffsetOnShot);
-        }
+
+        StatsForCurrentWave.StatsMultiDrones[index].rangeForEachShot.Add(hitInfo.OffsetOnShot);
+        StatsForCurrentWave.StatsMultiDrones[index].rotationsRelativeWhenShot.Add(hitInfo.RotationRelative);
     }
 }
 
@@ -99,53 +97,54 @@ public class StatsTracker : MonoBehaviour
 // stats per game, which also includes the day. Could also simply use an int for number of games so they can be ordered.
 // might actually be better than dates...
 
-    [System.Serializable]
-    public class StatsPerWave
+[System.Serializable]
+public class StatsPerWave
+{
+    public int WaveIndex;
+    public float ShotsFired;
+    public float ShotsHit;
+
+    public List<StatsPerSingleEnemy> StatsPerEnemies = new List<StatsPerSingleEnemy>();
+    public List<StatsMultiDrone> StatsMultiDrones = new List<StatsMultiDrone>();
+
+    public float Accuracy
     {
-        public int WaveIndex;
-        public float ShotsFired;
-        public float ShotsHit;
-
-        public List<StatsPerSingleEnemy> StatsPerEnemies = new List<StatsPerSingleEnemy>();
-        public List<StatsMultiDrone> StatsMultiDrones = new List<StatsMultiDrone>();
-
-        public float Accuracy
+        get
         {
-            get
-            {
-                if (ShotsFired == 0)
-                    return 0;
+            if (ShotsFired == 0)
+                return 0;
 
-                return ShotsHit / ShotsFired;
-            }
+            return ShotsHit / ShotsFired;
         }
     }
+}
 
 
-    [Serializable]
-    public class StatsPerSingleEnemy
+[Serializable]
+public class StatsPerSingleEnemy
+{
+    public EnemySettings EnemySettings;
+    public float DestroyedCorrectly;
+    public float DestroyedByMistake;
+
+    public float ShotCorrectWeaponPercent
     {
-        public EnemySettings EnemySettings;
-        public float DestroyedCorrectly;
-        public float DestroyedByMistake;
-
-        public float ShotCorrectWeaponPercent
+        get
         {
-            get
-            {
-                if (DestroyedCorrectly + DestroyedByMistake == 0)
-                    return 0;
+            if (DestroyedCorrectly + DestroyedByMistake == 0)
+                return 0;
 
-                return DestroyedCorrectly / (DestroyedCorrectly + DestroyedByMistake);
-            }
+            return DestroyedCorrectly / (DestroyedCorrectly + DestroyedByMistake);
         }
     }
+}
 
 
-    [Serializable]
-    public class StatsMultiDrone
-    {
-        public EnemySettings EnemySettings;
-        public float RangeToDestroyRelative;
-        public List<float> rangeForEachShot = new List<float>();
-    }
+[Serializable]
+public class StatsMultiDrone
+{
+    public EnemySettings EnemySettings;
+    public float RangeToDestroyRelative;
+    public List<float> rangeForEachShot = new List<float>();
+    public List<float> rotationsRelativeWhenShot = new List<float>();
+}

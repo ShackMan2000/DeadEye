@@ -29,6 +29,8 @@ MonoBehaviour:
   LaserExpansionTime: 0.2
   LaserStayTime: 1
   LaserShrinkTime: 0.2
+  SideDronesHitRangeInUnits: 0.25
+  SideDronesMovementType: 1
   BackAndForthSpeed: 0
   BackAndForthDistance: 2.35
   LaserKnockbackSpeed: 10

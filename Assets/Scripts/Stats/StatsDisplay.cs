@@ -18,10 +18,10 @@ public class StatsDisplay : MonoBehaviour
     [SerializeField] TextMeshProUGUI accuracyText;
     
     
-    [SerializeField] List<EnemyStatsDisplay> enemyStatsDisplays;
+    [SerializeField] List<EnemySingleStatsDisplay> enemyStatsDisplays;
 
 
-    Dictionary<EnemyStatsDisplay, StatsPerSingleEnemy> groupedStatsPerEnemyDisplay;
+    Dictionary<EnemySingleStatsDisplay, StatsPerSingleEnemy> groupedStatsPerEnemyDisplay;
 
     // need to group the stats here and inject them, separate out so maybe not group them i
 
@@ -55,28 +55,28 @@ public class StatsDisplay : MonoBehaviour
 
     void GroupEnemyStats(StatsPerWave statsPerWave)
     {
-        groupedStatsPerEnemyDisplay = new Dictionary<EnemyStatsDisplay, StatsPerSingleEnemy>();
+        groupedStatsPerEnemyDisplay = new Dictionary<EnemySingleStatsDisplay, StatsPerSingleEnemy>();
 
 
         for (int i = 0; i < statsPerWave.StatsPerEnemies.Count; i++)
         {
-            EnemyStatsDisplay statsDisplay = enemyStatsDisplays.Find(x => x.enemiesGroupedInStat.Contains(statsPerWave.StatsPerEnemies[i].EnemySettings));
+            EnemySingleStatsDisplay singleStatsDisplay = enemyStatsDisplays.Find(x => x.enemiesGroupedInStat.Contains(statsPerWave.StatsPerEnemies[i].EnemySettings));
 
-            if (statsDisplay == null)
+            if (singleStatsDisplay == null)
             {
                 Debug.Log("ERROR: Stats display not found for enemy " + statsPerWave.StatsPerEnemies[i].EnemySettings.name);
                 // later account for creating one, but not needed right now
             }
             else
             {
-                if(groupedStatsPerEnemyDisplay.ContainsKey(statsDisplay))
+                if(groupedStatsPerEnemyDisplay.ContainsKey(singleStatsDisplay))
                 {
-                    groupedStatsPerEnemyDisplay[statsDisplay].DestroyedCorrectly += statsPerWave.StatsPerEnemies[i].DestroyedCorrectly;
-                    groupedStatsPerEnemyDisplay[statsDisplay].DestroyedByMistake += statsPerWave.StatsPerEnemies[i].DestroyedByMistake;
+                    groupedStatsPerEnemyDisplay[singleStatsDisplay].DestroyedCorrectly += statsPerWave.StatsPerEnemies[i].DestroyedCorrectly;
+                    groupedStatsPerEnemyDisplay[singleStatsDisplay].DestroyedByMistake += statsPerWave.StatsPerEnemies[i].DestroyedByMistake;
                 }
                 else
                 {
-                    groupedStatsPerEnemyDisplay.Add(statsDisplay, statsPerWave.StatsPerEnemies[i]);
+                    groupedStatsPerEnemyDisplay.Add(singleStatsDisplay, statsPerWave.StatsPerEnemies[i]);
                 }
             }
         }

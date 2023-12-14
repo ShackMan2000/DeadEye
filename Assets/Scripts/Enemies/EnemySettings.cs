@@ -37,6 +37,7 @@ public class EnemySettings : ScriptableObject
     
     [InfoBox("SideDrone")]
     
+    public float SideDronesHitRangeInUnits;
     public SideDronesMovementType SideDronesMovementType;
     public float BackAndForthSpeed = 1f;
     public float BackAndForthDistance = 1f;
@@ -53,7 +54,23 @@ public class EnemySettings : ScriptableObject
     public Vector3 SideDroneMovementAxisWorld = Vector3.back; 
     public float SideDronePlaceBehind = 1f;
 
+    public float SideDroneOffsetForKillRelative()
+    {
+        return SideDronesHitRangeInUnits / MaxSideDroneOffsetInUnits();
+    }
 
+    public float MaxSideDroneOffsetInUnits()
+    {
+        if (SideDronesMovementType == SideDronesMovementType.BackAndForth)
+        {
+            return  BackAndForthDistance;
+        }
+        else
+        {
+            return PlacementDistance;
+        }
+    }
+    
 }
 
 

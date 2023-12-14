@@ -25,7 +25,7 @@ public class MultiDrone : MonoBehaviour
     [SerializeField] Transform laserPivot;
     [SerializeField] Transform pivot;
 
-    public float HitRangeInUnits = 1f;
+  //  public float HitRangeInUnits = 1f;
 
     [SerializeField] PlayerPosition playerPosition;
 
@@ -98,7 +98,11 @@ public class MultiDrone : MonoBehaviour
 
     public Vector3 sideDroneInLocalSpace;
     public float SideDroneCurrentOffsetRelative;
-    public float sideDroneOffsetForKillRelative;
+
+  
+
+
+
 
     [Button]
     void OnGettingShot()
@@ -107,20 +111,13 @@ public class MultiDrone : MonoBehaviour
 
         sideDroneInLocalSpace = pivot.InverseTransformPoint(sideDrones[0].transform.position);
 
-        float maxOffset;
-        if (settings.SideDronesMovementType == SideDronesMovementType.BackAndForth)
-        {
-            maxOffset = settings.BackAndForthDistance;
-        }
-        else
-        {
-            maxOffset = settings.PlacementDistance;
-        }
-        
-         SideDroneCurrentOffsetRelative = sideDroneInLocalSpace.z / maxOffset;
-         sideDroneOffsetForKillRelative = HitRangeInUnits /maxOffset;
 
-        if (Mathf.Abs(sideDroneInLocalSpace.z) <= HitRangeInUnits)
+
+        SideDroneCurrentOffsetRelative = sideDroneInLocalSpace.z /settings.MaxSideDroneOffsetInUnits();
+         
+         // get hit range relative -1 to 1, need to get it all the way to stats display, could just assign this prefab
+
+        if (Mathf.Abs(sideDroneInLocalSpace.z) <= settings.SideDronesHitRangeInUnits)
         {
             StartCoroutine(BurnCoreRoutine());
             sideDrones[0].GetHitByLaser(lasers[0].forward, settings);
@@ -132,7 +129,7 @@ public class MultiDrone : MonoBehaviour
         {
             Settings = settings,
             OffsetOnShot = SideDroneCurrentOffsetRelative,
-            OffsetMaxToDestroy = sideDroneOffsetForKillRelative,
+            OffsetMaxToDestroy = settings.SideDroneOffsetForKillRelative(),
             RotationRelative = sideDronesCurrentRangeRelative
         };
         
@@ -300,7 +297,7 @@ public class MultiDrone : MonoBehaviour
     void SetSideDronesHitRangeBasedOnCollider()
     {
         Debug.Log("WARNING! This assumes the side drones have a scale of 1,1,1");
-        HitRangeInUnits = sideDrones[0].GetComponent<SphereCollider>().radius;
+        settings.SideDronesHitRangeInUnits = sideDrones[0].GetComponent<SphereCollider>().radius;
     }
 }
 
