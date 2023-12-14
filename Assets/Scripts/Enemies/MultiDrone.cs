@@ -43,6 +43,9 @@ public class MultiDrone : MonoBehaviour
     static readonly int Burn = Shader.PropertyToID("_Burn");
 
 
+    public float DebugPositionRelative;
+    public float DebugRotationRelative;
+
     public static event Action<MultiDroneHitInfo> OnMultiDroneShot = delegate { };
 
     void OnEnable()
@@ -128,8 +131,7 @@ public class MultiDrone : MonoBehaviour
         MultiDroneHitInfo hitInfo = new MultiDroneHitInfo()
         {
             Settings = settings,
-            OffsetOnShot = SideDroneCurrentOffsetRelative,
-            OffsetMaxToDestroy = settings.SideDroneOffsetForKillRelative(),
+            OffsetOnShotRelative = SideDroneCurrentOffsetRelative,
             RotationRelative = sideDronesCurrentRangeRelative
         };
         
@@ -245,8 +247,10 @@ public class MultiDrone : MonoBehaviour
                 RotateSideDrones();
             }
             
-         //   OnGettingShot();
+            DebugPositionRelative = sideDronesCurrentRangeRelative;
+            
         }
+        
     }
 
 
@@ -261,6 +265,8 @@ public class MultiDrone : MonoBehaviour
     //
     //     inHitRange = Mathf.Abs(sideDroneInLocalSpace.z) <= HitRangeInUnits;
     // }
+
+    public bool blockRotation;
 
     void MoveSideDrones()
     {
@@ -279,6 +285,10 @@ public class MultiDrone : MonoBehaviour
 
     void RotateSideDrones()
     {
+        if(blockRotation)
+        {
+            return;
+        }
         float rotationToAdd = Time.deltaTime * settings.SideDronesRotationSpeed;
         rotation += rotationToAdd;
 
@@ -304,9 +314,8 @@ public class MultiDrone : MonoBehaviour
 public struct MultiDroneHitInfo
 {
     public EnemySettings Settings;
-    public float OffsetOnShot;
-    public float OffsetMaxToDestroy;
+    public float OffsetOnShotRelative;
     public float RotationRelative;
 
-    public bool IsCorrectRange => Mathf.Abs(OffsetOnShot) <= OffsetMaxToDestroy;
+    public bool IsCorrectRange => Mathf.Abs(OffsetOnShotRelative) <= Settings.SideDroneOffsetForKillRelative();
 }

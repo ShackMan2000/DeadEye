@@ -818,8 +818,11 @@ MonoBehaviour:
   pivot: {fileID: 2319525784022488479}
   playerPosition: {fileID: 11400000, guid: a9f4db12f8b21d94fbc84b69ba8393ac, type: 2}
   sideDronesCurrentRangeRelative: 0
+  DebugPositionRelative: 0
+  DebugRotationRelative: 0
   sideDroneInLocalSpace: {x: 0, y: 0, z: 0}
   SideDroneCurrentOffsetRelative: 0
+  blockRotation: 1
 --- !u!1 &7810895995684979874
 GameObject:
   m_ObjectHideFlags: 0

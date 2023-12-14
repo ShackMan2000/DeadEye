@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class StatsDisplay : MonoBehaviour
@@ -9,42 +10,60 @@ public class StatsDisplay : MonoBehaviour
     [SerializeField] StatsTracker statsTracker;
     [SerializeField] ScoreController scoreController;
 
-    // could just have settings in the enemy stats display already, including the SO for correct weapon
-
 
     [SerializeField] TextMeshProUGUI waveText;
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] TextMeshProUGUI shotsFiredText;
     [SerializeField] TextMeshProUGUI accuracyText;
-    
-    
-    [SerializeField] List<EnemySingleStatsDisplay> enemyStatsDisplays;
+
+
+    [FormerlySerializedAs("enemyStatsDisplays")] [SerializeField]
+    List<EnemySingleStatsDisplay> enemySingleStatsDisplays;
+
+    [SerializeField] List<EnemyMultiStatsDisplay> enemyMultiStatsDisplays;
 
 
     Dictionary<EnemySingleStatsDisplay, StatsPerSingleEnemy> groupedStatsPerEnemyDisplay;
 
-    // need to group the stats here and inject them, separate out so maybe not group them i
-
+    
     public void ShowStatsLastWave(StatsPerWave stats)
     {
-        SetInfoTexts(stats);
-        GroupEnemyStats(stats);
+        SetGeneralInfoTexts(stats);
         
-        for (int i = 0; i < enemyStatsDisplays.Count; i++)
+        GroupSingleEnemyStats(stats);
+
+        for (int i = 0; i < enemySingleStatsDisplays.Count; i++)
         {
-            if (groupedStatsPerEnemyDisplay.ContainsKey(enemyStatsDisplays[i]))
+            if (groupedStatsPerEnemyDisplay.ContainsKey(enemySingleStatsDisplays[i]))
             {
-                enemyStatsDisplays[i].gameObject.SetActive(true);
-                enemyStatsDisplays[i].InjectStats(groupedStatsPerEnemyDisplay[enemyStatsDisplays[i]]);
+                enemySingleStatsDisplays[i].gameObject.SetActive(true);
+                enemySingleStatsDisplays[i].InjectStats(groupedStatsPerEnemyDisplay[enemySingleStatsDisplays[i]]);
             }
             else
             {
-                enemyStatsDisplays[i].gameObject.SetActive(false);
+                enemySingleStatsDisplays[i].gameObject.SetActive(false);
+            }
+        }
+        
+        
+        
+        for (int i = 0; i < enemyMultiStatsDisplays.Count; i++)
+        {
+            StatsMultiDrone statsMultiDrone = stats.StatsMultiDrones.Find(x => x.EnemySettings == enemyMultiStatsDisplays[i].EnemySettings);
+            
+            if (statsMultiDrone != null)
+            {
+                enemyMultiStatsDisplays[i].gameObject.SetActive(true);
+                enemyMultiStatsDisplays[i].InjectStats(statsMultiDrone);
+            }
+            else
+            {
+                enemyMultiStatsDisplays[i].gameObject.SetActive(false);
             }
         }
     }
 
-    void SetInfoTexts(StatsPerWave stats)
+    void SetGeneralInfoTexts(StatsPerWave stats)
     {
         waveText.text = "Wave " + stats.WaveIndex.ToString() + " Complete!";
         scoreText.text = "Score: " + scoreController.Score.ToString();
@@ -53,30 +72,29 @@ public class StatsDisplay : MonoBehaviour
     }
 
 
-    void GroupEnemyStats(StatsPerWave statsPerWave)
+    void GroupSingleEnemyStats(StatsPerWave statsPerWave)
     {
         groupedStatsPerEnemyDisplay = new Dictionary<EnemySingleStatsDisplay, StatsPerSingleEnemy>();
 
-
-        for (int i = 0; i < statsPerWave.StatsPerEnemies.Count; i++)
+        for (int i = 0; i < statsPerWave.StatsPerSingleEnemies.Count; i++)
         {
-            EnemySingleStatsDisplay singleStatsDisplay = enemyStatsDisplays.Find(x => x.enemiesGroupedInStat.Contains(statsPerWave.StatsPerEnemies[i].EnemySettings));
+            EnemySingleStatsDisplay singleStatsDisplay = enemySingleStatsDisplays.Find(x => x.enemiesGroupedInStat.Contains(statsPerWave.StatsPerSingleEnemies[i].EnemySettings));
 
             if (singleStatsDisplay == null)
             {
-                Debug.Log("ERROR: Stats display not found for enemy " + statsPerWave.StatsPerEnemies[i].EnemySettings.name);
+                Debug.Log("ERROR: Stats display not found for enemy " + statsPerWave.StatsPerSingleEnemies[i].EnemySettings.name);
                 // later account for creating one, but not needed right now
             }
             else
             {
-                if(groupedStatsPerEnemyDisplay.ContainsKey(singleStatsDisplay))
+                if (groupedStatsPerEnemyDisplay.ContainsKey(singleStatsDisplay))
                 {
-                    groupedStatsPerEnemyDisplay[singleStatsDisplay].DestroyedCorrectly += statsPerWave.StatsPerEnemies[i].DestroyedCorrectly;
-                    groupedStatsPerEnemyDisplay[singleStatsDisplay].DestroyedByMistake += statsPerWave.StatsPerEnemies[i].DestroyedByMistake;
+                    groupedStatsPerEnemyDisplay[singleStatsDisplay].DestroyedCorrectly += statsPerWave.StatsPerSingleEnemies[i].DestroyedCorrectly;
+                    groupedStatsPerEnemyDisplay[singleStatsDisplay].DestroyedByMistake += statsPerWave.StatsPerSingleEnemies[i].DestroyedByMistake;
                 }
                 else
                 {
-                    groupedStatsPerEnemyDisplay.Add(singleStatsDisplay, statsPerWave.StatsPerEnemies[i]);
+                    groupedStatsPerEnemyDisplay.Add(singleStatsDisplay, statsPerWave.StatsPerSingleEnemies[i]);
                 }
             }
         }

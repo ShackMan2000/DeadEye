@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class StatsTracker : MonoBehaviour
@@ -34,24 +35,24 @@ public class StatsTracker : MonoBehaviour
 
     void OnAnySingleEnemyDestroyedCorrectly(EnemySettings enemySettings, bool correctWeapon)
     {
-        int index = StatsForCurrentWave.StatsPerEnemies.FindIndex(x => x.EnemySettings == enemySettings);
+        int index = StatsForCurrentWave.StatsPerSingleEnemies.FindIndex(x => x.EnemySettings == enemySettings);
 
         if (index == -1)
         {
             StatsPerSingleEnemy statsPerSingleEnemy = new StatsPerSingleEnemy();
             statsPerSingleEnemy.EnemySettings = enemySettings;
 
-            StatsForCurrentWave.StatsPerEnemies.Add(statsPerSingleEnemy);
-            index = StatsForCurrentWave.StatsPerEnemies.Count - 1;
+            StatsForCurrentWave.StatsPerSingleEnemies.Add(statsPerSingleEnemy);
+            index = StatsForCurrentWave.StatsPerSingleEnemies.Count - 1;
         }
 
         if (correctWeapon)
         {
-            StatsForCurrentWave.StatsPerEnemies[index].DestroyedCorrectly++;
+            StatsForCurrentWave.StatsPerSingleEnemies[index].DestroyedCorrectly++;
         }
         else
         {
-            StatsForCurrentWave.StatsPerEnemies[index].DestroyedByMistake++;
+            StatsForCurrentWave.StatsPerSingleEnemies[index].DestroyedByMistake++;
         }
     }
 
@@ -80,7 +81,6 @@ public class StatsTracker : MonoBehaviour
         {
             StatsMultiDrone statsMultiDrone = new StatsMultiDrone();
             statsMultiDrone.EnemySettings = hitInfo.Settings;
-            statsMultiDrone.RangeToDestroyRelative = hitInfo.OffsetMaxToDestroy;
             statsMultiDrone.rangeForEachShot = new List<float>();
 
             StatsForCurrentWave.StatsMultiDrones.Add(statsMultiDrone);
@@ -88,7 +88,7 @@ public class StatsTracker : MonoBehaviour
             index = StatsForCurrentWave.StatsMultiDrones.Count - 1;
         }
 
-        StatsForCurrentWave.StatsMultiDrones[index].rangeForEachShot.Add(hitInfo.OffsetOnShot);
+        StatsForCurrentWave.StatsMultiDrones[index].rangeForEachShot.Add(hitInfo.OffsetOnShotRelative);
         StatsForCurrentWave.StatsMultiDrones[index].rotationsRelativeWhenShot.Add(hitInfo.RotationRelative);
     }
 }
@@ -104,7 +104,7 @@ public class StatsPerWave
     public float ShotsFired;
     public float ShotsHit;
 
-    public List<StatsPerSingleEnemy> StatsPerEnemies = new List<StatsPerSingleEnemy>();
+    [FormerlySerializedAs("StatsPerEnemies")] public List<StatsPerSingleEnemy> StatsPerSingleEnemies = new List<StatsPerSingleEnemy>();
     public List<StatsMultiDrone> StatsMultiDrones = new List<StatsMultiDrone>();
 
     public float Accuracy
@@ -144,7 +144,6 @@ public class StatsPerSingleEnemy
 public class StatsMultiDrone
 {
     public EnemySettings EnemySettings;
-    public float RangeToDestroyRelative;
     public List<float> rangeForEachShot = new List<float>();
     public List<float> rotationsRelativeWhenShot = new List<float>();
 }
