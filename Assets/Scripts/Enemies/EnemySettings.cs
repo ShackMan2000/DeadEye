@@ -8,9 +8,11 @@ public class EnemySettings : ScriptableObject
 {
     public EnemyBase Prefab;
     
+    public EnemyDifficulty Difficulty;
+
     public Sprite Icon;
-    public EnemyMovementType  MovementType;
-    
+    public EnemyMovementType MovementType;
+
     public float MovementSpeed;
     public float RotationSpeed;
 
@@ -20,38 +22,33 @@ public class EnemySettings : ScriptableObject
     public bool RotateTowardsPlayer = true;
 
 
-    [InfoBox("Shooting")] 
-    public bool CanShoot;
+    [InfoBox("Shooting")] public bool CanShoot;
     public EnemyBullet BulletPrefab;
     public float ShootWarningTime = 3f;
-    
-    
 
-    [InfoBox("Laser to Side Drones")] 
-    public float LaserPivotRotation;
+
+    [InfoBox("Laser to Side Drones")] public float LaserPivotRotation;
     public float LaserExpansionTime = 0.2f;
     public float LaserStayTime = 1f;
     public float LaserShrinkTime = 0.2f;
 
-    
-    
-    [InfoBox("SideDrone")]
-    
-    public float SideDronesHitRangeInUnits;
+
+    [InfoBox("SideDrone")] public float SideDronesHitRangeInUnits;
     public SideDronesMovementType SideDronesMovementType;
     public float BackAndForthSpeed = 1f;
     public float BackAndForthDistance = 1f;
-    
+    public AnimationCurve MovementCurve;
+
     public float LaserKnockbackSpeed = 1f;
     public float LaserKnockbackTime = 1f;
-    
+
     public Vector3 PlacementAxis = Vector3.right;
     public float PlacementDistance = 1f;
-    
+
     public Vector3 RotationAxis = Vector3.up;
     public float SideDronesRotationSpeed = 1f;
 
-    public Vector3 SideDroneMovementAxisWorld = Vector3.back; 
+    public Vector3 SideDroneMovementAxisWorld = Vector3.back;
     public float SideDronePlaceBehind = 1f;
 
     public float SideDroneOffsetForKillRelative()
@@ -63,16 +60,21 @@ public class EnemySettings : ScriptableObject
     {
         if (SideDronesMovementType == SideDronesMovementType.BackAndForth)
         {
-            return  BackAndForthDistance;
+            return BackAndForthDistance;
         }
         else
         {
             return PlacementDistance;
         }
     }
-    
 }
 
+
+public enum EnemyDifficulty
+{
+    Easy,
+    Hard
+}
 
 public enum SideDronesMovementType
 {

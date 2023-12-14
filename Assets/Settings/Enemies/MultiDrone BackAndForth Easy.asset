@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: MultiDrone BackAndForth Easy
   m_EditorClassIdentifier: 
   Prefab: {fileID: 5196567718266365334, guid: efb2a446c68dcaa458693eb98a4bf6fc, type: 3}
+  Difficulty: 0
   Icon: {fileID: 0}
   MovementType: 1
   MovementSpeed: 6.05
@@ -31,8 +32,32 @@ MonoBehaviour:
   LaserShrinkTime: 0.2
   SideDronesHitRangeInUnits: 0.25
   SideDronesMovementType: 0
-  BackAndForthSpeed: 1
-  BackAndForthDistance: 2
+  BackAndForthSpeed: 0.22
+  BackAndForthDistance: 1
+  MovementCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.016670227
+      value: -1.0022329
+      inSlope: 0.0043263696
+      outSlope: 0.0043263696
+      tangentMode: 0
+      weightedMode: 2
+      inWeight: 0
+      outWeight: 0.22461823
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.041200545
+      outSlope: 0.041200545
+      tangentMode: 0
+      weightedMode: 1
+      inWeight: 0.27005148
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   LaserKnockbackSpeed: 10
   LaserKnockbackTime: 0.4
   PlacementAxis: {x: 1, y: 0, z: 0}

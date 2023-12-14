@@ -96,10 +96,6 @@ public class EnemyMultiStatsDisplay : MonoBehaviour
 
     public void AdjustShotRangesForRotation(StatsMultiDrone s)
     {
-        // only the z offset of the right side drone is logged, so it will travel through positive and negative values twice in one rotation.
-     
-
-
         for (int i = 0; i < stats.rangeForEachShot.Count; i++)
         {
             float shot = stats.rangeForEachShot[i];

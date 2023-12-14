@@ -25,7 +25,7 @@ public class MultiDrone : MonoBehaviour
     [SerializeField] Transform laserPivot;
     [SerializeField] Transform pivot;
 
-  //  public float HitRangeInUnits = 1f;
+    //  public float HitRangeInUnits = 1f;
 
     [SerializeField] PlayerPosition playerPosition;
 
@@ -95,16 +95,11 @@ public class MultiDrone : MonoBehaviour
         // rotate laster pivot on Z axis
         laserPivot.Rotate(Vector3.forward, settings.LaserPivotRotation, Space.Self);
         laserPivot.localRotation = Quaternion.Euler(0, 0, settings.LaserPivotRotation);
-
     }
 
 
     public Vector3 sideDroneInLocalSpace;
     public float SideDroneCurrentOffsetRelative;
-
-  
-
-
 
 
     [Button]
@@ -115,26 +110,25 @@ public class MultiDrone : MonoBehaviour
         sideDroneInLocalSpace = pivot.InverseTransformPoint(sideDrones[0].transform.position);
 
 
+        SideDroneCurrentOffsetRelative = sideDroneInLocalSpace.z / settings.MaxSideDroneOffsetInUnits();
 
-        SideDroneCurrentOffsetRelative = sideDroneInLocalSpace.z /settings.MaxSideDroneOffsetInUnits();
-         
-         // get hit range relative -1 to 1, need to get it all the way to stats display, could just assign this prefab
+        // get hit range relative -1 to 1, need to get it all the way to stats display, could just assign this prefab
 
         if (Mathf.Abs(sideDroneInLocalSpace.z) <= settings.SideDronesHitRangeInUnits)
         {
             StartCoroutine(BurnCoreRoutine());
-            sideDrones[0].GetHitByLaser(lasers[0].forward, settings);
-            sideDrones[1].GetHitByLaser(lasers[1].forward, settings);
+            sideDrones[0].GetHitByLaser(sideDrones[0].transform.position - lasers[0].transform.position, settings);
+            sideDrones[1].GetHitByLaser(sideDrones[1].transform.position - lasers[1].transform.position, settings);
         }
-        
-        
+
+
         MultiDroneHitInfo hitInfo = new MultiDroneHitInfo()
         {
             Settings = settings,
             OffsetOnShotRelative = SideDroneCurrentOffsetRelative,
             RotationRelative = sideDronesCurrentRangeRelative
         };
-        
+
         OnMultiDroneShot(hitInfo);
     }
 
@@ -246,11 +240,9 @@ public class MultiDrone : MonoBehaviour
             {
                 RotateSideDrones();
             }
-            
+
             DebugPositionRelative = sideDronesCurrentRangeRelative;
-            
         }
-        
     }
 
 
@@ -266,17 +258,19 @@ public class MultiDrone : MonoBehaviour
     //     inHitRange = Mathf.Abs(sideDroneInLocalSpace.z) <= HitRangeInUnits;
     // }
 
-    public bool blockRotation;
+    //  public bool blockRotation;
 
     void MoveSideDrones()
     {
-        float sineWave = Mathf.Sin(totalTimePassed * settings.BackAndForthSpeed);
+        float offsetRaw = Mathf.PingPong(totalTimePassed * settings.BackAndForthSpeed, 1f);
+        float offsetRemapped = settings.MovementCurve.Evaluate(offsetRaw);
+        offsetRemapped = Mathf.Clamp(offsetRemapped, -1f, 1f);
 
-        sideDronesCurrentRangeRelative = sineWave;
+        sideDronesCurrentRangeRelative = offsetRemapped;
 
         foreach (SideDrone sideDrone in sideDrones)
         {
-            float newZ = sineWave * settings.BackAndForthDistance;
+            float newZ = offsetRemapped * settings.BackAndForthDistance;
             sideDrone.transform.localPosition = new Vector3(sideDrone.StartPositionLocal.x, sideDrone.StartPositionLocal.y, newZ);
         }
     }
@@ -285,10 +279,6 @@ public class MultiDrone : MonoBehaviour
 
     void RotateSideDrones()
     {
-        if(blockRotation)
-        {
-            return;
-        }
         float rotationToAdd = Time.deltaTime * settings.SideDronesRotationSpeed;
         rotation += rotationToAdd;
 
