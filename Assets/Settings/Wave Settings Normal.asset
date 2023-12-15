@@ -39,12 +39,12 @@ MonoBehaviour:
     SpawnCountLeftCurrentWave: 0
   - EnemySettings: {fileID: 11400000, guid: da5b322f5e172454dae94b7508591d01, type: 2}
     MinimumWaveLevel: 0
-    SpawnAmountBase: 10
+    SpawnAmountBase: 2
     SpawnAmountIncreasePerLevel: 1
     SpawnCountLeftCurrentWave: 0
   - EnemySettings: {fileID: 11400000, guid: 966bd4858f4c8a142aa28648d9e611d7, type: 2}
     MinimumWaveLevel: 0
-    SpawnAmountBase: 10
+    SpawnAmountBase: 2
     SpawnAmountIncreasePerLevel: 1
     SpawnCountLeftCurrentWave: 0
   - EnemySettings: {fileID: 11400000, guid: 99d555d55450f624ba379e82b16365d9, type: 2}
@@ -55,6 +55,16 @@ MonoBehaviour:
   - EnemySettings: {fileID: 11400000, guid: ae9fd2c59babd804e8c6889f7ec3f0b0, type: 2}
     MinimumWaveLevel: 3
     SpawnAmountBase: 1
+    SpawnAmountIncreasePerLevel: 1
+    SpawnCountLeftCurrentWave: 0
+  - EnemySettings: {fileID: 11400000, guid: 4418a28184fd3164086ef5f22efdde06, type: 2}
+    MinimumWaveLevel: 5
+    SpawnAmountBase: 2
+    SpawnAmountIncreasePerLevel: 1
+    SpawnCountLeftCurrentWave: 0
+  - EnemySettings: {fileID: 11400000, guid: 0f233d4906b1f0840a894f7cf4eee40e, type: 2}
+    MinimumWaveLevel: 5
+    SpawnAmountBase: 2
     SpawnAmountIncreasePerLevel: 1
     SpawnCountLeftCurrentWave: 0
   ShotIntervalBase: 6

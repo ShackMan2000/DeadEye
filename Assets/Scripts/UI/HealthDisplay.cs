@@ -1,16 +1,23 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class HealthDisplay : MonoBehaviour
 {
-    [SerializeField] List<GameObject> healthIcons;
+    [SerializeField] List<Image> healthIcons;
     
     [SerializeField] HealthController healthController;
     
     void OnEnable()
     {
         healthController.OnHealthChanged += UpdateHealthDisplay;
+        
+            foreach (var icon in healthIcons)
+            {
+                icon.color = healthController.UnlimitedHealth? Color.magenta : Color.white;
+            }
+        
     }
     
     void OnDisable()
@@ -25,14 +32,16 @@ public class HealthDisplay : MonoBehaviour
         {
             if (i < health)
             {
-                healthIcons[i].SetActive(true);
+                healthIcons[i].gameObject.SetActive(true);
             }
             else
             {
-                healthIcons[i].SetActive(false);
+                healthIcons[i].gameObject.SetActive(false);
             }
         }
     }
+    
+    
     
 
 }

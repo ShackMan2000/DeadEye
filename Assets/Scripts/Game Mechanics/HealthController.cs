@@ -10,7 +10,7 @@ public class HealthController : MonoBehaviour
 
     public event Action<int> OnHealthChanged = delegate { };
 
-    bool unlimitedHealth;
+   public bool UnlimitedHealth;
 
     void OnEnable()
     {
@@ -38,7 +38,7 @@ public class HealthController : MonoBehaviour
 
         if (health <= 0)
         {
-            if (unlimitedHealth)
+            if (UnlimitedHealth)
             {
                 health = 3;
             }
@@ -52,8 +52,8 @@ public class HealthController : MonoBehaviour
         OnHealthChanged?.Invoke(health);
     }
 
-    void EnableUnlimitedHealth()
+    public void EnableUnlimitedHealth()
     {
-        unlimitedHealth = true;
+        UnlimitedHealth = true;
     }
 }
