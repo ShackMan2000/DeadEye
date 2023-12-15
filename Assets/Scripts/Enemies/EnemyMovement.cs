@@ -5,40 +5,40 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     EnemySettings settings;
-    // keep all movement in here so the child can rotate towards the player
 
     [SerializeField] CheckPointsList checkPoints;
+
 
     [SerializeField] PlayerPosition playerPosition;
 
 
     [SerializeField] Transform pivot;
 
+
     bool isMoving;
+
+    int reservedLingerPointIndex;
 
     [SerializeField] float distanceToReachTarget = 0.1f;
 
-    [SerializeField] float zOffset;
-
     int currentTargetIndex;
-    Vector3 currentTarget;
+
+    Vector3 currentTargetPosition;
 
 
-    public void Initialize(EnemySettings s, CheckPointsList checkPointsList, float zOffset = 0f)
+    public void Initialize(EnemySettings s, CheckPointsList checkPointsList)
     {
         settings = s;
-        
+
         checkPoints = checkPointsList;
-        this.zOffset = zOffset;
         isMoving = true;
 
         currentTargetIndex = -1;
-        
-        if(settings.MovementType == EnemyMovementType.FixedPath)
+
+        if (settings.MovementType == EnemyMovementType.FixedPath)
         {
             PickNextTarget();
         }
-
     }
 
     void PickNextTarget()
@@ -50,16 +50,14 @@ public class EnemyMovement : MonoBehaviour
             return;
         }
 
-     
-     
-            currentTargetIndex++;
-            if (currentTargetIndex >= checkPoints.CheckPoints.Count)
-            {
-                currentTargetIndex = 0;
-            }
 
-            currentTarget = checkPoints.CheckPoints[currentTargetIndex];
-       
+        currentTargetIndex++;
+        if (currentTargetIndex >= checkPoints.CheckPoints.Count)
+        {
+            currentTargetIndex = 0;
+        }
+
+        currentTargetPosition = checkPoints.CheckPoints[currentTargetIndex];
     }
 
 
@@ -69,8 +67,8 @@ public class EnemyMovement : MonoBehaviour
         {
             Move();
         }
-        
-        if(settings.RotateTowardsPlayer)
+
+        if (settings.RotateTowardsPlayer)
         {
             RotatePivotTowardsPlayer();
         }
@@ -85,10 +83,10 @@ public class EnemyMovement : MonoBehaviour
         float movementSpeed = settings.MovementSpeed * Time.deltaTime;
         float rotationSpeed = settings.RotationSpeed * Time.deltaTime;
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(currentTarget - transform.position), rotationSpeed);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(currentTargetPosition - transform.position), rotationSpeed);
         transform.position += transform.forward * movementSpeed;
 
-        if (Vector3.Distance(transform.position, currentTarget) < distanceToReachTarget)
+        if (Vector3.Distance(transform.position, currentTargetPosition) < distanceToReachTarget)
         {
             if (settings.MovementType == EnemyMovementType.Linger)
             {
@@ -98,16 +96,13 @@ public class EnemyMovement : MonoBehaviour
             {
                 PickNextTarget();
             }
-            
         }
     }
-    
+
     void RotatePivotTowardsPlayer()
     {
         pivot.rotation = Quaternion.LookRotation(playerPosition.Position - pivot.position);
     }
-    
-    
 
 
     [Button]
@@ -117,9 +112,20 @@ public class EnemyMovement : MonoBehaviour
         PickNextTarget();
     }
 
-    public void SetLingerPoint(Vector3 checkPoint)
+
+    public void SetLingerPoint(CheckPointsList cpl)
     {
-        currentTarget = checkPoint;
+        checkPoints = cpl;
+        reservedLingerPointIndex = checkPoints.GetFreeIndex();
+        currentTargetPosition = checkPoints.CheckPoints[reservedLingerPointIndex];
+    }
+
+    public void OnDestroyed()
+    {
+        if (settings.MovementType == EnemyMovementType.Linger)
+        {
+            checkPoints.FreeUpIndex(reservedLingerPointIndex);
+        }
     }
 }
 

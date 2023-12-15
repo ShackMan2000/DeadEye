@@ -53,7 +53,7 @@ public class EnemyBase : MonoBehaviour
         if (GetsDestroyedByGunshot)
         {
             OnAnySingleEnemyDestroyedCorrectly(Settings, correctWeapon);
-            GetDestroyed(correctWeapon);
+            GetDestroyed();
         }
 
 
@@ -69,13 +69,14 @@ public class EnemyBase : MonoBehaviour
     }
 
   
-    public void GetDestroyed(bool correctWeapon = false)
+    public void GetDestroyed()
     {
         shotReceiver.ShootingBlocked = true;
         OnSpawnExplosion(transform.position);
 
         OnAnyEnemyDestroyedPrefabType(this, Prefab);
 
+        movement.OnDestroyed();
         IsInitialized = false;
         gameObject.SetActive(false);
         OnEnemyDestroyed?.Invoke();
@@ -89,14 +90,13 @@ public class EnemyBase : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // this is getting messy, should all be in one method that initializes. 
-    public void SetLingerPoint(Vector3 checkPoint)
+    public void SetLingerPoint(CheckPointsList checkPoint)
     {
         movement.SetLingerPoint(checkPoint);
     }
-
     public void ShootAtPlayer()
     {
         OnShootAtPlayer?.Invoke();
     }
+
 }

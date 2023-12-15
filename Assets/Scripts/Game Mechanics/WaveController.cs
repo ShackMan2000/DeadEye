@@ -19,13 +19,11 @@ public class WaveController : MonoBehaviour
 
     [ShowInInspector] Dictionary<SpawnSettings, int> enemiesToSpawnCurrentWave;
 
-    [FormerlySerializedAs("checkPointsLists")] [SerializeField]
-    List<CheckPointsList> checkPointsForPaths;
+   [SerializeField] List<CheckPointsList> checkPointsForPaths;
 
-    [SerializeField] CheckPointsList checkPointsForLinger;
+    [SerializeField] List<CheckPointsList> checkPointsForLinger;
 
-    [ShowInInspector] List<int> availableIndexesForLinger;
-    Dictionary<EnemyBase, int> activeEnemiesLingerIndex = new Dictionary<EnemyBase, int>();
+   
 
     [ShowInInspector] Dictionary<EnemyBase, List<EnemyBase>> inactiveEnemies = new Dictionary<EnemyBase, List<EnemyBase>>();
     [ShowInInspector] public Dictionary<EnemyBase, List<EnemyBase>> activeEnemies = new Dictionary<EnemyBase, List<EnemyBase>>();
@@ -78,13 +76,11 @@ public class WaveController : MonoBehaviour
     {
         spawnIntervalCurrentWave = settings.EnemySpawnIntervalBase - settings.EnemySpawnIntervalDecreasePerLevel * currentWaveIndex;
 
-
-        availableIndexesForLinger = new List<int>();
-
-        for (int i = 0; i < checkPointsForLinger.CheckPoints.Count; i++)
+        foreach (var checkPointsList in checkPointsForLinger)
         {
-            availableIndexesForLinger.Add(i);
+            checkPointsList.ResetFreeIndexes();
         }
+        spawnIntervalCurrentWave = settings.EnemySpawnIntervalBase - settings.EnemySpawnIntervalDecreasePerLevel* currentWaveIndex;
 
         CreateEnemiesToSpawnForCurrentWave();
         StartCoroutine(InitializeWaveRoutine());
@@ -160,21 +156,17 @@ public class WaveController : MonoBehaviour
 
         if (selectedSetting.EnemySettings.MovementType == EnemyMovementType.Linger)
         {
-            // get a free index
-
-            if (availableIndexesForLinger.Count == 0)
+            int checkpointsForDifficultyIndex = checkPointsForLinger.FindIndex(x => x.Difficulty == selectedSetting.EnemySettings.Difficulty);
+            
+            if(checkpointsForDifficultyIndex == -1)
             {
-                Debug.LogError("No more free indexes for linger, adding random to avoid crash");
-                Vector3 randomPoint = new Vector3(Random.Range(-10f, 10f), Random.Range(-10f, 10f), Random.Range(-10f, 10f));
-                checkPointsForLinger.CheckPoints.Add(randomPoint);
-                availableIndexesForLinger.Add(checkPointsForLinger.CheckPoints.Count - 1);
+                Debug.Log("ERROR No checkpoints list found for difficulty " + selectedSetting.EnemySettings.Difficulty);
+                checkpointsForDifficultyIndex = 0;
             }
 
-            int index = availableIndexesForLinger[Random.Range(0, availableIndexesForLinger.Count)];
-            availableIndexesForLinger.Remove(index);
+            newEnemy.SetLingerPoint(checkPointsForLinger[checkpointsForDifficultyIndex]);
 
-            activeEnemiesLingerIndex.Add(newEnemy, index);
-            newEnemy.SetLingerPoint(checkPointsForLinger.CheckPoints[index]);
+            
         }
 
         newEnemy.Initialize(selectedSetting.EnemySettings, checkPointsForPaths[Random.Range(0, checkPointsForPaths.Count)]);
@@ -238,15 +230,7 @@ public class WaveController : MonoBehaviour
         {
             Debug.LogError("An enemy was destroyed that was not in active enemies list, should never happen");
         }
-
-
-        if (destroyedEnemy.Settings.MovementType == EnemyMovementType.Linger)
-        {
-
-            availableIndexesForLinger.Add(activeEnemiesLingerIndex[destroyedEnemy]);
-            activeEnemiesLingerIndex.Remove(destroyedEnemy);
-        }
-
+     
 
         bool waveFinished;
 
