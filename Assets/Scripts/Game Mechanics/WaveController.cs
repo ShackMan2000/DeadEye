@@ -34,46 +34,41 @@ public class WaveController : MonoBehaviour
 
     bool isSpawning;
 
-    public event Action<int> OnWaveStarted = delegate { };
-    public event Action OnWaveFinished = delegate { };
+    bool waveFailed;
 
-    [SerializeField] bool DEBUGIncreaseHitbox;
+    public event Action<int> OnWaveStarted = delegate { };
+  //  public event Action OnWaveCompleted = delegate { };
+
 
     void OnEnable()
     {
         EnemyBase.OnAnyEnemyDestroyedPrefabType += OnEnemyDestroyedPrefabType;
-        GameManager.OnGameFinished += OnGameFinished;
+        
+        GameManager.OnStartingNewWaveGame += StartNewWaveGame;
+        GameManager.OnStartingNextWave += InitializeWave;
+        GameManager.OnWaveFailed += OnWaveFailed;
     }
 
     void OnDisable()
     {
         EnemyBase.OnAnyEnemyDestroyedPrefabType -= OnEnemyDestroyedPrefabType;
-        GameManager.OnGameFinished -= OnGameFinished;
+        GameManager.OnStartingNewWaveGame -= StartNewWaveGame;
+        GameManager.OnStartingNextWave -= InitializeWave;
+        GameManager.OnWaveFailed -= OnWaveFailed;
     }
+ 
 
-    [Button]
-    void InitializeWaveDebug(bool increaseHitbox)
+    void StartNewWaveGame()
     {
-        DEBUGIncreaseHitbox = increaseHitbox;
+        currentWaveIndex = 0;
         InitializeWave();
     }
-
-
-    public void StartNewWaveGame()
-    {
-        currentWaveIndex = 1;
-        InitializeWave();
-    }
-
-    public void StartNextWave()
-    {
-        currentWaveIndex++;
-        InitializeWave();
-    }
-
-
+    
+    
     public void InitializeWave()
     {
+        currentWaveIndex++;
+        
         spawnIntervalCurrentWave = settings.EnemySpawnIntervalBase - settings.EnemySpawnIntervalDecreasePerLevel * currentWaveIndex;
 
         foreach (var checkPointsList in checkPointsForLinger)
@@ -173,7 +168,6 @@ public class WaveController : MonoBehaviour
 
         if (enemiesToSpawnCurrentWave.Count == 0)
         {
-            Debug.Log("wave finished");
             isSpawning = false;
         }
     }
@@ -193,10 +187,6 @@ public class WaveController : MonoBehaviour
             newEnemy = Instantiate(prefab).GetComponent<EnemyBase>();
             newEnemy.Prefab = prefab;
 
-            if (DEBUGIncreaseHitbox)
-            {
-                IncreaseHitBox(newEnemy);
-            }
         }
 
         if (!activeEnemies.ContainsKey(prefab))
@@ -246,39 +236,20 @@ public class WaveController : MonoBehaviour
             }
         }
 
-        
-        //this might turn into a loop. 
+
         if (waveFinished)
         {
-            OnWaveFinished?.Invoke();
+            if (GameManager.GameModeActive)
+            {
+                GameManager.WaveCompleted();
+            }
         }
     }
 
+   
 
-    void IncreaseHitBox(EnemyBase enemy)
-    {
-        float hitboxMultiplier = 2f;
-
-        // get all sphere colliders in enemy and children
-        List<SphereCollider> colliders = enemy.GetComponentsInChildren<SphereCollider>().ToList();
-
-        // check if main has collider too and add to list
-
-        var maincollider = enemy.GetComponent<SphereCollider>();
-
-        if (maincollider != null)
-            colliders.Add(maincollider);
-
-
-        foreach (var sphereCollider in colliders)
-        {
-            sphereCollider.radius *= hitboxMultiplier;
-        }
-    }
-
-
-    // right now this means player got killed
-    void OnGameFinished()
+    
+    void OnWaveFailed()
     {
         isSpawning = false;
 

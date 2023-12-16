@@ -32,7 +32,7 @@ MonoBehaviour:
   LaserShrinkTime: 0.2
   SideDronesHitRangeInUnits: 0.25
   SideDronesMovementType: 0
-  BackAndForthSpeed: 0.22
+  BackAndForthSpeed: 0.3
   BackAndForthDistance: 1
   MovementCurve:
     serializedVersion: 2
@@ -61,7 +61,7 @@ MonoBehaviour:
   LaserKnockbackSpeed: 10
   LaserKnockbackTime: 0.4
   PlacementAxis: {x: 1, y: 0, z: 0}
-  PlacementDistance: 1.5
+  PlacementDistance: 1
   RotationAxis: {x: 0, y: 0, z: 0}
   SideDronesRotationSpeed: 0
   SideDroneMovementAxisWorld: {x: 0, y: 0, z: -1}

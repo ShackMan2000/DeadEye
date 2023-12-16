@@ -21,13 +21,15 @@ public class EnemiesShootingManager : MonoBehaviour
     void OnEnable()
     {
         waveController.OnWaveStarted += OnWaveStarted;
-        waveController.OnWaveFinished += OnWaveFinished;
+        //waveController.OnWaveCompleted += OnWaveCompleted;
+        GameManager.OnExitGameMode += OnWaveFinished;
     }
     
     void OnDisable()
     {
         waveController.OnWaveStarted -= OnWaveStarted;
-        waveController.OnWaveFinished -= OnWaveFinished;
+        //waveController.OnWaveCompleted -= OnWaveCompleted;
+        GameManager.OnExitGameMode -= OnWaveFinished;
     }
 
     void OnWaveStarted(int waveIndex)
@@ -35,8 +37,9 @@ public class EnemiesShootingManager : MonoBehaviour
         shootingIntervallCurrentWave = settings.ShotIntervalBase - (settings.ShotIntervalDecreasePerLevel * waveIndex);
         shootingIntervallCurrentWave = Mathf.Clamp(shootingIntervallCurrentWave, settings.ShotIntervalMin, shootingIntervallCurrentWave);
         
-        isWaveActive = true;
         SetTimerForNextShot();
+        
+        isWaveActive = true;
     }
     // needs to know which enemies are active
     // should probably save the last enemy that has shot to not have the same one shoot twice

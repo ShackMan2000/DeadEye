@@ -6,11 +6,20 @@ public class GameManager : MonoBehaviour
 {
 
 
-    public static GameMode CurrentGameMode { get; private set; }
+    // only use if there are too many events to keep track of
+   // public static GameMode CurrentGameMode { get; private set; }
 
-    public static event Action<GameMode> OnGameStarted = delegate { };
-            
-    public static event Action OnGameFinished = delegate { };
+
+    public static bool GameModeActive;
+
+    public static event Action OnEnterGameMode = delegate { }; 
+    public static event Action OnExitGameMode = delegate { };
+    
+    public static event Action OnStartingNewWaveGame = delegate { };
+    public static event Action OnStartingNextWave = delegate { };
+    
+    public static event Action OnWaveCompleted = delegate { };
+    public static event Action OnWaveFailed = delegate { };
 
 
     // the game mode might be overkill...
@@ -32,24 +41,59 @@ public class GameManager : MonoBehaviour
     
     
     [Button]
-    public static void StartGame(GameMode m)
+    public static void EnterGameMode()
     {
-        OnGameStarted?.Invoke(m);
+        GameModeActive = true;
+        OnEnterGameMode?.Invoke();
     }
-    
+
+
     [Button]
-    public static void FinishGame()
+    public static void ExitGameMode()
     {
-        OnGameFinished?.Invoke();
+        GameModeActive = false;
+        OnExitGameMode?.Invoke();
+    }
+
+    
+    public static void StartNewWaveGame()
+    {
+        EnterGameMode();
+        OnStartingNewWaveGame?.Invoke();
+    }
+
+    public static void StartNextWave()
+    {
+        EnterGameMode();
+        OnStartingNextWave?.Invoke();
     }
     
-    
-  
-    // a wave based mode with lives.
-    // a time based mode without lives. Could just spawn every time the player has shot an enemy, and maybe make some disappear? Maybe they go back into the gate
 
+    public static void WaveCompleted()
+    {
+        if (GameModeActive)
+        {
+            ExitGameMode();
+            OnWaveCompleted?.Invoke();
+        }
+        else
+        {
+            Debug.Log("Trying to call Wave completed, but game mode is not active. Should never happen");
+        }
+    }
 
-
+    public static void WaveFailed()
+    {
+        if (GameModeActive)
+        {   
+            ExitGameMode();
+            OnWaveFailed?.Invoke();
+        }
+        else
+        {
+            Debug.Log("Trying to call Wave failed, but game mode is not active. Should never happen");
+        }
+    }
 }
 
 

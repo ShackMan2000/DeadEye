@@ -45,7 +45,7 @@ public class HealthController : MonoBehaviour
             else
             {
                 health = 0;
-                GameManager.FinishGame();
+                GameManager.WaveFailed();
             }
         }
 

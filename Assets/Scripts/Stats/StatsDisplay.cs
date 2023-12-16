@@ -26,8 +26,10 @@ public class StatsDisplay : MonoBehaviour
     Dictionary<EnemySingleStatsDisplay, StatsPerSingleEnemy> groupedStatsPerEnemyDisplay;
 
     
-    public void ShowStatsLastWave(StatsPerWave stats)
+    public void ShowStatsLastWave()
     {
+        StatsPerWave stats = statsTracker.StatsForCurrentWave;
+        
         SetGeneralInfoTexts(stats);
         
         GroupSingleEnemyStats(stats);
@@ -63,6 +65,13 @@ public class StatsDisplay : MonoBehaviour
         }
     }
 
+    
+    public void ShowStatsAllWaves()
+    {
+        Debug.Log("ShowStatsAllWaves");
+    }
+    
+    
     void SetGeneralInfoTexts(StatsPerWave stats)
     {
         waveText.text = "Wave " + stats.WaveIndex.ToString() + " Complete!";
@@ -99,4 +108,6 @@ public class StatsDisplay : MonoBehaviour
             }
         }
     }
+
+  
 }

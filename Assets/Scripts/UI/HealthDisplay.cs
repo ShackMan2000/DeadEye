@@ -17,7 +17,6 @@ public class HealthDisplay : MonoBehaviour
             {
                 icon.color = healthController.UnlimitedHealth? Color.magenta : Color.white;
             }
-        
     }
     
     void OnDisable()

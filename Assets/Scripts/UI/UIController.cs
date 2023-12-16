@@ -9,34 +9,29 @@ public class UIController : MonoBehaviour
 {
     [SerializeField] HealthDisplay healthDisplay;
 
-    [SerializeField] WaveController waveController;
-
     [SerializeField] StatsTracker statsTracker;
 
     [SerializeField] MeshCollider meshCollider;
 
     [SerializeField] GameObject menuPanel;
- 
-    
-    // do later, needs to react to wave completed or failed
-    //[SerializeField] Button startNextWaveBtn;
-    
+
     [SerializeField] GameObject waveIngamePanel;
+
     [SerializeField] StatsDisplay statsDisplay;
-    
-    public static event Action<bool> OnEnterGameMode = delegate { };
-    public static event Action OnEnableUnlimitedHealth = delegate {  }; 
-    
-    
+
+    public static event Action OnEnableUnlimitedHealth = delegate { };
+
 
     void OnEnable()
     {
-        waveController.OnWaveFinished += ShowStatsAfterWavePanel;
+        GameManager.OnWaveCompleted += ShowStatsOnWaveCompleted;
+        GameManager.OnWaveFailed += ShowStatsOnWaveFailed;
     }
-    
+
     void OnDisable()
     {
-        waveController.OnWaveFinished -= ShowStatsAfterWavePanel;
+        GameManager.OnWaveCompleted -= ShowStatsOnWaveCompleted;
+        GameManager.OnWaveFailed -= ShowStatsOnWaveFailed;
     }
 
 
@@ -44,85 +39,77 @@ public class UIController : MonoBehaviour
     {
         menuPanel.gameObject.SetActive(true);
         waveIngamePanel.SetActive(false);
-        //startNextWaveBtn.gameObject.SetActive(false);
         statsDisplay.gameObject.SetActive(false);
     }
 
-    
-    
-    
+
     [Button]
     public void ToggleMenuPanel(bool activate)
     {
         menuPanel.gameObject.SetActive(activate);
         EnableMeshCollider(activate);
     }
-    
+
 
     [Button]
     public void StartNewWaveGame()
     {
-        waveController.StartNewWaveGame();
-        
         ToggleMenuPanel(false);
         ToggleActiveWavePanel(true);
-        ToggleNextWavePanel(false);
-        OnEnterGameMode(true);
+        ToggleStatsPanel(false);
+
+        GameManager.StartNewWaveGame();
     }
-    
+
     [Button]
     void ToggleActiveWavePanel(bool activate)
     {
         waveIngamePanel.SetActive(activate);
         healthDisplay.gameObject.SetActive(activate);
     }
-    
-    
-    
+
+
     [Button]
-    void ShowStatsAfterWavePanel()
+    void ShowStatsOnWaveCompleted()
     {
         ToggleActiveWavePanel(false);
-        ToggleNextWavePanel(true);
+        ToggleStatsPanel(true);
+        statsDisplay.ShowStatsLastWave();
     }
 
-
-    void ToggleNextWavePanel(bool show)
+    void ShowStatsOnWaveFailed()
     {
-        if (show)
-        {
-            statsDisplay.ShowStatsLastWave(statsTracker.StatsForCurrentWave);
-        }
+        ToggleActiveWavePanel(false);
+        ToggleStatsPanel(true);
+        statsDisplay.ShowStatsAllWaves();
+    }
+
+    void ToggleStatsPanel(bool show)
+    {
         statsDisplay.gameObject.SetActive(show);
-        
-        //startNextWaveBtn.gameObject.SetActive(show);
         EnableMeshCollider(show);
         waveIngamePanel.SetActive(!show);
     }
-    
-    
+
+
     [Button]
     public void StartNextWaveBtn()
     {
-        waveController.StartNextWave();
-       // startNextWaveBtn.gameObject.SetActive(false);
         EnableMeshCollider(false);
         waveIngamePanel.gameObject.SetActive(true);
-        OnEnterGameMode(true);
+        GameManager.StartNextWave();
     }
-    
-    
+
+
     void EnableMeshCollider(bool activate)
     {
         meshCollider.enabled = activate;
     }
-    
-    
+
+
     [Button]
     public void EnableUnlimitedHealth()
     {
         OnEnableUnlimitedHealth?.Invoke();
     }
-    
-    
 }
