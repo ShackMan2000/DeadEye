@@ -7,10 +7,17 @@ using UnityEngine;
 public class EnemySettings : ScriptableObject
 {
     public EnemyBase Prefab;
-    
+
+    [ShowInInspector]
+    [HorizontalGroup("Base"), PreviewField]
+    public GameObject prefabGO => Prefab.gameObject;
+
+    [HorizontalGroup("Base"), PreviewField]
+    public Sprite Icon;
+
+    [EnumToggleButtons]
     public EnemyDifficulty Difficulty;
 
-    public Sprite Icon;
     public EnemyMovementType MovementType;
 
     public float MovementSpeed;
@@ -72,8 +79,8 @@ public class EnemySettings : ScriptableObject
 
 public enum EnemyDifficulty
 {
-    Easy,
-    Hard
+    [LabelText("Easy", SdfIconType.EmojiSmile)] Easy,
+    [LabelText("Hard", SdfIconType.EmojiAngry)] Hard
 }
 
 public enum SideDronesMovementType

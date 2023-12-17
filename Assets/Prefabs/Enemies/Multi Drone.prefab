@@ -252,7 +252,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 976805f7b0fb6f349b4921eaab235e13, type: 2}
+  - {fileID: 2100000, guid: 147541434def9b44e8305e8b915f78f5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -788,7 +788,6 @@ MonoBehaviour:
   playerPosition: {fileID: 11400000, guid: a9f4db12f8b21d94fbc84b69ba8393ac, type: 2}
   pivot: {fileID: 2319525784022488479}
   distanceToReachTarget: 0.1
-  zOffset: 0
 --- !u!114 &8683728980654734380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -822,7 +821,6 @@ MonoBehaviour:
   DebugRotationRelative: 0
   sideDroneInLocalSpace: {x: 0, y: 0, z: 0}
   SideDroneCurrentOffsetRelative: 0
-  blockRotation: 1
 --- !u!1 &7810895995684979874
 GameObject:
   m_ObjectHideFlags: 0

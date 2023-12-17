@@ -15,7 +15,7 @@ public class HealthDisplay : MonoBehaviour
         
             foreach (var icon in healthIcons)
             {
-                icon.color = healthController.UnlimitedHealth? Color.magenta : Color.white;
+                icon.color = healthController.UnlimitedHealth? Color.black : Color.red;
             }
     }
     

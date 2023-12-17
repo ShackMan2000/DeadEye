@@ -74,7 +74,7 @@ public class UIController : MonoBehaviour
     {
         ToggleActiveWavePanel(false);
         ToggleStatsPanel(true);
-        statsDisplay.ShowStatsLastWave();
+        statsDisplay.ShowStatsCurrentWave();
     }
 
     void ShowStatsOnWaveFailed()

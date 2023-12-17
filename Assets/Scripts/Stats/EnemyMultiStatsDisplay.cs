@@ -64,17 +64,11 @@ public class EnemyMultiStatsDisplay : MonoBehaviour
     public void InjectStats(StatsMultiDrone s)
     {
         stats = s;
-        if (EnemySettings.SideDronesMovementType == SideDronesMovementType.RotateAround)
-        {
-            AdjustShotRangesForRotation(s);
-        }
 
         foreach (var rangeSlot in rangeSlots)
         {
             rangeSlot.ShotsInRange = 0;
         }
-
-        stats = s;
 
         foreach (var shot in stats.rangeForEachShot)
         {
@@ -91,32 +85,5 @@ public class EnemyMultiStatsDisplay : MonoBehaviour
         {
             rangeSlot.SetPercentageText(stats.rangeForEachShot.Count);
         }
-    }
-
-
-    public void AdjustShotRangesForRotation(StatsMultiDrone s)
-    {
-        for (int i = 0; i < stats.rangeForEachShot.Count; i++)
-        {
-            float shot = stats.rangeForEachShot[i];
-            float rotation = stats.rotationsRelativeWhenShot[i];
-
-            if (shot >= 0f && rotation >= 0.25f)
-            {
-                stats.rangeForEachShot[i] = -shot;
-            }
-            else if (shot < 0f && rotation <= 0.75)
-            {
-                stats.rangeForEachShot[i] = -shot;
-            }
-
-
-            foreach (var rangeSlot in rangeSlots)
-            {
-                rangeSlot.SetPercentageText(stats.rotationsRelativeWhenShot.Count);
-            }
-        }
-
-
     }
 }

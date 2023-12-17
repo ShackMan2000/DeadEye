@@ -60,7 +60,7 @@ public class WaveController : MonoBehaviour
 
     void StartNewWaveGame()
     {
-        currentWaveIndex = 0;
+        currentWaveIndex = -1;
         InitializeWave();
     }
     
@@ -68,7 +68,7 @@ public class WaveController : MonoBehaviour
     public void InitializeWave()
     {
         currentWaveIndex++;
-        
+
         spawnIntervalCurrentWave = settings.EnemySpawnIntervalBase - settings.EnemySpawnIntervalDecreasePerLevel * currentWaveIndex;
 
         foreach (var checkPointsList in checkPointsForLinger)

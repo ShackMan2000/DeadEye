@@ -8,28 +8,42 @@ public class StatsTracker : MonoBehaviour
 {
     [SerializeField] WaveController waveController;
 
-    public StatsPerWave StatsForCurrentWave;
+    public WaveStats StatsForCurrentWave;
+
+    public List<WaveStats> StatsForEachWave;
+
 
     void OnEnable()
     {
         waveController.OnWaveStarted += OnWaveStarted;
+
+        GameManager.OnStartingNewWaveGame += CreateNewStatsForAllWaves;
+
         EnemyBase.OnAnySingleEnemyDestroyedCorrectly += OnAnySingleEnemyDestroyedCorrectly;
         Shooter.ShotHitEnemy += OnShotFired;
         MultiDrone.OnMultiDroneShot += OnMultiDroneShot;
     }
 
+
     void OnDisable()
     {
         waveController.OnWaveStarted -= OnWaveStarted;
+
         EnemyBase.OnAnySingleEnemyDestroyedCorrectly -= OnAnySingleEnemyDestroyedCorrectly;
         Shooter.ShotHitEnemy -= OnShotFired;
         MultiDrone.OnMultiDroneShot -= OnMultiDroneShot;
     }
 
+    void CreateNewStatsForAllWaves()
+    {
+        StatsForEachWave = new List<WaveStats>();
+    }
+
     void OnWaveStarted(int waveIndex)
     {
-        StatsForCurrentWave = new StatsPerWave();
+        StatsForCurrentWave = new WaveStats();
         StatsForCurrentWave.WaveIndex = waveIndex;
+        StatsForEachWave.Add(StatsForCurrentWave);
     }
 
 
@@ -90,21 +104,104 @@ public class StatsTracker : MonoBehaviour
 
         StatsForCurrentWave.StatsMultiDrones[index].rangeForEachShot.Add(hitInfo.OffsetOnShotRelative);
         StatsForCurrentWave.StatsMultiDrones[index].rotationsRelativeWhenShot.Add(hitInfo.RotationRelative);
+
+
+        // adjust it so the entire rotation is represented as -1 to 1
+        if (hitInfo.Settings.SideDronesMovementType == SideDronesMovementType.RotateAround)
+        {
+            int shotIndex = StatsForCurrentWave.StatsMultiDrones[index].rangeForEachShot.Count - 1;
+
+            float shot = StatsForCurrentWave.StatsMultiDrones[index].rangeForEachShot[shotIndex];
+            float rotation = StatsForCurrentWave.StatsMultiDrones[index].rotationsRelativeWhenShot[shotIndex];
+
+            if (shot >= 0f && rotation >= 0.25f)
+            {
+                StatsForCurrentWave.StatsMultiDrones[index].rangeForEachShot[shotIndex] = -shot;
+            }
+            else if (shot < 0f && rotation <= 0.75)
+            {
+                StatsForCurrentWave.StatsMultiDrones[index].rangeForEachShot[shotIndex] = -shot;
+            }
+            
+            Debug.Log("adjusted shot range for rotation " + StatsForCurrentWave.StatsMultiDrones[index].rangeForEachShot[shotIndex]);
+        }
     }
+    
+    
+    
+    
+
+
+
+public WaveStats GetStatsForAllWavesCombined()
+{
+    WaveStats statsCombined = new WaveStats();
+
+    foreach (var waveStats in StatsForEachWave)
+    {
+        statsCombined.ShotsFired += waveStats.ShotsFired;
+        statsCombined.ShotsHit += waveStats.ShotsHit;
+
+        foreach (var statsPerSingleEnemy in waveStats.StatsPerSingleEnemies)
+        {
+            int index = statsCombined.StatsPerSingleEnemies.FindIndex(x => x.EnemySettings == statsPerSingleEnemy.EnemySettings);
+
+            if (index == -1)
+            {
+                StatsPerSingleEnemy statsPerSingleEnemyCombined = new StatsPerSingleEnemy();
+                statsPerSingleEnemyCombined.EnemySettings = statsPerSingleEnemy.EnemySettings;
+
+                statsCombined.StatsPerSingleEnemies.Add(statsPerSingleEnemyCombined);
+                index = statsCombined.StatsPerSingleEnemies.Count - 1;
+            }
+
+            statsCombined.StatsPerSingleEnemies[index].DestroyedCorrectly += statsPerSingleEnemy.DestroyedCorrectly;
+            statsCombined.StatsPerSingleEnemies[index].DestroyedByMistake += statsPerSingleEnemy.DestroyedByMistake;
+        }
+
+        foreach (var statsMultiDrone in waveStats.StatsMultiDrones)
+        {
+            int index = statsCombined.StatsMultiDrones.FindIndex(x => x.EnemySettings == statsMultiDrone.EnemySettings);
+
+            if (index == -1)
+            {
+                StatsMultiDrone statsMultiDroneCombined = new StatsMultiDrone();
+                statsMultiDroneCombined.EnemySettings = statsMultiDrone.EnemySettings;
+                statsMultiDroneCombined.rangeForEachShot = new List<float>();
+
+                statsCombined.StatsMultiDrones.Add(statsMultiDroneCombined);
+
+                index = statsCombined.StatsMultiDrones.Count - 1;
+            }
+
+            statsCombined.StatsMultiDrones[index].rangeForEachShot.AddRange(statsMultiDrone.rangeForEachShot);
+            statsCombined.StatsMultiDrones[index].rotationsRelativeWhenShot.AddRange(statsMultiDrone.rotationsRelativeWhenShot);
+        }
+    }
+
+
+    return statsCombined;
 }
 
 
-// stats per game, which also includes the day. Could also simply use an int for number of games so they can be ordered.
-// might actually be better than dates...
+}
+
 
 [System.Serializable]
-public class StatsPerWave
+public class WaveStats
 {
     public int WaveIndex;
+
+
+    // later
+    //  public int GameIndex;
+    //  public int WavesCombined;
+
+
     public float ShotsFired;
     public float ShotsHit;
 
-    [FormerlySerializedAs("StatsPerEnemies")] public List<StatsPerSingleEnemy> StatsPerSingleEnemies = new List<StatsPerSingleEnemy>();
+    public List<StatsPerSingleEnemy> StatsPerSingleEnemies = new List<StatsPerSingleEnemy>();
     public List<StatsMultiDrone> StatsMultiDrones = new List<StatsMultiDrone>();
 
     public float Accuracy
