@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 
 
     public static bool GameModeActive;
+    public static bool GameOver;
 
     public static event Action OnEnterGameMode = delegate { }; 
     public static event Action OnExitGameMode = delegate { };
@@ -58,6 +59,7 @@ public class GameManager : MonoBehaviour
     
     public static void StartNewWaveGame()
     {
+        GameOver = false;
         EnterGameMode();
         OnStartingNewWaveGame?.Invoke();
     }
@@ -86,6 +88,7 @@ public class GameManager : MonoBehaviour
     {
         if (GameModeActive)
         {   
+            GameOver = true;
             ExitGameMode();
             OnWaveFailed?.Invoke();
         }

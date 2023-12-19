@@ -74,12 +74,14 @@ public class EnemyBase : MonoBehaviour
         shotReceiver.ShootingBlocked = true;
         OnSpawnExplosion(transform.position);
 
-        OnAnyEnemyDestroyedPrefabType(this, Prefab);
 
         movement.OnDestroyed();
         IsInitialized = false;
         gameObject.SetActive(false);
         OnEnemyDestroyed?.Invoke();
+        
+        //might be important to fire last, because that is the one that will end the wave. Could also play it safe and delay the end a tiny bit
+        OnAnyEnemyDestroyedPrefabType(this, Prefab);
     }
 
 

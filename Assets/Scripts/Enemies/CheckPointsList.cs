@@ -11,11 +11,12 @@ public class CheckPointsList : ScriptableObject
 
     public List<Vector3> CheckPoints;
 
-    [ShowInInspector] List<int> availableIndexesForLinger;
+    [SerializeField] List<int> availableIndexesForLinger = new List<int>();
 
 
     public void ResetFreeIndexes()
     {
+        Debug.Log("Resetting free indexes for linger");
         availableIndexesForLinger = new List<int>();
 
         for (int i = 0; i < CheckPoints.Count; i++)

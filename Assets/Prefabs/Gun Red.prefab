@@ -70,6 +70,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8100955848975631814, guid: fe2ca45c2d7569d43aa1514e7c6055e3,
         type: 3}
+      propertyPath: amplitudeTest
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8100955848975631814, guid: fe2ca45c2d7569d43aa1514e7c6055e3,
+        type: 3}
+      propertyPath: frequencyTest
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8100955848975631814, guid: fe2ca45c2d7569d43aa1514e7c6055e3,
+        type: 3}
       propertyPath: SelectedWeaponType
       value: 
       objectReference: {fileID: 11400000, guid: a934da441be51aa45941237a7fa5bd16,

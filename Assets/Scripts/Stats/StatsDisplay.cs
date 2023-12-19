@@ -27,6 +27,10 @@ public class StatsDisplay : MonoBehaviour
     [SerializeField] TextMeshProUGUI accuracyText;
 
 
+    [SerializeField] Button NextWaveButton;
+    [SerializeField] Button BackToMenuButtonLarge;
+    [SerializeField] Button BackToMenuButtonSmall;
+    
     [FormerlySerializedAs("enemyStatsDisplays")] [SerializeField]
     List<EnemySingleStatsDisplay> enemySingleStatsDisplays;
 
@@ -35,7 +39,6 @@ public class StatsDisplay : MonoBehaviour
     Dictionary<EnemySingleStatsDisplay, StatsPerSingleEnemy> groupedStatsPerEnemyDisplay;
 
 
-    
     [Button]
     public void ShowStatsCurrentWave()
     {
@@ -51,12 +54,11 @@ public class StatsDisplay : MonoBehaviour
         rectTransform2.sizeDelta = new Vector2(rectTransform2.sizeDelta.x, unselectedButtonHeight);
     }
 
-    
+
     [Button]
     public void ShowStatsAllWaves()
     {
-        
-       ShowStats(statsTracker.GetStatsForAllWavesCombined());
+        ShowStats(statsTracker.GetStatsForAllWavesCombined());
 
         showStatsCurrentWaveButton.image.color = unselectedButtonColor;
         showStatsAllWavesButton.image.color = selectedButtonColor;
@@ -72,7 +74,7 @@ public class StatsDisplay : MonoBehaviour
     void ShowStats(WaveStats waveStats)
     {
         currentStatsDisplaying = waveStats;
-        
+
         SetGeneralInfoTexts(waveStats);
 
         GroupSingleEnemyStats(waveStats);
@@ -110,8 +112,20 @@ public class StatsDisplay : MonoBehaviour
 
     void SetGeneralInfoTexts(WaveStats waveStats)
     {
-        waveText.text = "Wave " + (waveStats.WaveIndex + 1).ToString() + " Complete!";
-        scoreText.text = "Score: " + scoreController.Score.ToString();
+        if (GameManager.GameOver)
+        {
+            waveText.text = "Game Over";
+            NextWaveButton.gameObject.SetActive(false);
+            BackToMenuButtonSmall.gameObject.SetActive(false);
+            
+            BackToMenuButtonLarge.gameObject.SetActive(true);
+        }
+        else
+        {
+            waveText.text = "Wave " + (waveStats.WaveIndex + 1).ToString() + " Complete!";
+        }
+
+        scoreText.text = "Score: " + waveStats.Score.ToString();
         shotsFiredText.text = "Shots: " + waveStats.ShotsFired.ToString();
         accuracyText.text = "Accuracy: " + (waveStats.Accuracy * 100f).ToString("F0") + "%";
     }
@@ -144,8 +158,8 @@ public class StatsDisplay : MonoBehaviour
             }
         }
     }
-    
-    
+
+
     [Button]
     void SetUnselectedButtonHeight()
     {

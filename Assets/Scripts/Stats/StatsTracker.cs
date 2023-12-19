@@ -22,6 +22,7 @@ public class StatsTracker : MonoBehaviour
         EnemyBase.OnAnySingleEnemyDestroyedCorrectly += OnAnySingleEnemyDestroyedCorrectly;
         Shooter.ShotHitEnemy += OnShotFired;
         MultiDrone.OnMultiDroneShot += OnMultiDroneShot;
+        ScoreController.OnScoreChanged += UpdateScore;
     }
 
 
@@ -32,6 +33,7 @@ public class StatsTracker : MonoBehaviour
         EnemyBase.OnAnySingleEnemyDestroyedCorrectly -= OnAnySingleEnemyDestroyedCorrectly;
         Shooter.ShotHitEnemy -= OnShotFired;
         MultiDrone.OnMultiDroneShot -= OnMultiDroneShot;
+        ScoreController.OnScoreChanged -= UpdateScore;
     }
 
     void CreateNewStatsForAllWaves()
@@ -70,6 +72,15 @@ public class StatsTracker : MonoBehaviour
         }
     }
 
+    void UpdateScore(float score)
+    {
+        if (StatsForCurrentWave == null)
+        {
+            return;
+        }
+
+        StatsForCurrentWave.Score = score;
+    }
 
     void OnShotFired(bool hitEnemy)
     {
@@ -122,68 +133,64 @@ public class StatsTracker : MonoBehaviour
             {
                 StatsForCurrentWave.StatsMultiDrones[index].rangeForEachShot[shotIndex] = -shot;
             }
-            
+
             Debug.Log("adjusted shot range for rotation " + StatsForCurrentWave.StatsMultiDrones[index].rangeForEachShot[shotIndex]);
         }
     }
-    
-    
-    
-    
 
 
-
-public WaveStats GetStatsForAllWavesCombined()
-{
-    WaveStats statsCombined = new WaveStats();
-
-    foreach (var waveStats in StatsForEachWave)
+    public WaveStats GetStatsForAllWavesCombined()
     {
-        statsCombined.ShotsFired += waveStats.ShotsFired;
-        statsCombined.ShotsHit += waveStats.ShotsHit;
+        WaveStats statsCombined = new WaveStats();
 
-        foreach (var statsPerSingleEnemy in waveStats.StatsPerSingleEnemies)
+        statsCombined.WaveIndex = StatsForEachWave.Count - 1;
+
+        foreach (var waveStats in StatsForEachWave)
         {
-            int index = statsCombined.StatsPerSingleEnemies.FindIndex(x => x.EnemySettings == statsPerSingleEnemy.EnemySettings);
+            statsCombined.ShotsFired += waveStats.ShotsFired;
+            statsCombined.ShotsHit += waveStats.ShotsHit;
+            statsCombined.Score += waveStats.Score;
 
-            if (index == -1)
+            foreach (var statsPerSingleEnemy in waveStats.StatsPerSingleEnemies)
             {
-                StatsPerSingleEnemy statsPerSingleEnemyCombined = new StatsPerSingleEnemy();
-                statsPerSingleEnemyCombined.EnemySettings = statsPerSingleEnemy.EnemySettings;
+                int index = statsCombined.StatsPerSingleEnemies.FindIndex(x => x.EnemySettings == statsPerSingleEnemy.EnemySettings);
 
-                statsCombined.StatsPerSingleEnemies.Add(statsPerSingleEnemyCombined);
-                index = statsCombined.StatsPerSingleEnemies.Count - 1;
+                if (index == -1)
+                {
+                    StatsPerSingleEnemy statsPerSingleEnemyCombined = new StatsPerSingleEnemy();
+                    statsPerSingleEnemyCombined.EnemySettings = statsPerSingleEnemy.EnemySettings;
+
+                    statsCombined.StatsPerSingleEnemies.Add(statsPerSingleEnemyCombined);
+                    index = statsCombined.StatsPerSingleEnemies.Count - 1;
+                }
+
+                statsCombined.StatsPerSingleEnemies[index].DestroyedCorrectly += statsPerSingleEnemy.DestroyedCorrectly;
+                statsCombined.StatsPerSingleEnemies[index].DestroyedByMistake += statsPerSingleEnemy.DestroyedByMistake;
             }
 
-            statsCombined.StatsPerSingleEnemies[index].DestroyedCorrectly += statsPerSingleEnemy.DestroyedCorrectly;
-            statsCombined.StatsPerSingleEnemies[index].DestroyedByMistake += statsPerSingleEnemy.DestroyedByMistake;
-        }
-
-        foreach (var statsMultiDrone in waveStats.StatsMultiDrones)
-        {
-            int index = statsCombined.StatsMultiDrones.FindIndex(x => x.EnemySettings == statsMultiDrone.EnemySettings);
-
-            if (index == -1)
+            foreach (var statsMultiDrone in waveStats.StatsMultiDrones)
             {
-                StatsMultiDrone statsMultiDroneCombined = new StatsMultiDrone();
-                statsMultiDroneCombined.EnemySettings = statsMultiDrone.EnemySettings;
-                statsMultiDroneCombined.rangeForEachShot = new List<float>();
+                int index = statsCombined.StatsMultiDrones.FindIndex(x => x.EnemySettings == statsMultiDrone.EnemySettings);
 
-                statsCombined.StatsMultiDrones.Add(statsMultiDroneCombined);
+                if (index == -1)
+                {
+                    StatsMultiDrone statsMultiDroneCombined = new StatsMultiDrone();
+                    statsMultiDroneCombined.EnemySettings = statsMultiDrone.EnemySettings;
+                    statsMultiDroneCombined.rangeForEachShot = new List<float>();
 
-                index = statsCombined.StatsMultiDrones.Count - 1;
+                    statsCombined.StatsMultiDrones.Add(statsMultiDroneCombined);
+
+                    index = statsCombined.StatsMultiDrones.Count - 1;
+                }
+
+                statsCombined.StatsMultiDrones[index].rangeForEachShot.AddRange(statsMultiDrone.rangeForEachShot);
+                statsCombined.StatsMultiDrones[index].rotationsRelativeWhenShot.AddRange(statsMultiDrone.rotationsRelativeWhenShot);
             }
-
-            statsCombined.StatsMultiDrones[index].rangeForEachShot.AddRange(statsMultiDrone.rangeForEachShot);
-            statsCombined.StatsMultiDrones[index].rotationsRelativeWhenShot.AddRange(statsMultiDrone.rotationsRelativeWhenShot);
         }
+
+
+        return statsCombined;
     }
-
-
-    return statsCombined;
-}
-
-
 }
 
 
@@ -192,11 +199,7 @@ public class WaveStats
 {
     public int WaveIndex;
 
-
-    // later
-    //  public int GameIndex;
-    //  public int WavesCombined;
-
+    public float Score;
 
     public float ShotsFired;
     public float ShotsHit;

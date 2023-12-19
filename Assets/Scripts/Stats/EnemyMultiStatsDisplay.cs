@@ -23,10 +23,10 @@ public class EnemyMultiStatsDisplay : MonoBehaviour
     [SerializeField] List<MultiDroneStatsRangeSlot> rangeSlots;
 
 
-    void Start()
-    {
-        SetRanges();
-    }
+    // void Start()
+    // {
+    //     SetRanges();
+    // }
 
     StatsMultiDrone stats;
 
@@ -63,6 +63,8 @@ public class EnemyMultiStatsDisplay : MonoBehaviour
 
     public void InjectStats(StatsMultiDrone s)
     {
+        
+        SetRanges();
         stats = s;
 
         foreach (var rangeSlot in rangeSlots)

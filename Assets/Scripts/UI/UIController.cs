@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField] HealthDisplay healthDisplay;
+  //  [SerializeField] HealthDisplay healthDisplay;
 
     [SerializeField] StatsTracker statsTracker;
 
@@ -47,6 +47,8 @@ public class UIController : MonoBehaviour
     public void ToggleMenuPanel(bool activate)
     {
         menuPanel.gameObject.SetActive(activate);
+        waveIngamePanel.SetActive(!activate);
+        statsDisplay.gameObject.SetActive(!activate);
         EnableMeshCollider(activate);
     }
 
@@ -65,7 +67,6 @@ public class UIController : MonoBehaviour
     void ToggleActiveWavePanel(bool activate)
     {
         waveIngamePanel.SetActive(activate);
-        healthDisplay.gameObject.SetActive(activate);
     }
 
 
@@ -90,11 +91,14 @@ public class UIController : MonoBehaviour
         EnableMeshCollider(show);
         waveIngamePanel.SetActive(!show);
     }
+    
+    
 
 
     [Button]
     public void StartNextWaveBtn()
     {
+        ToggleStatsPanel(false);
         EnableMeshCollider(false);
         waveIngamePanel.gameObject.SetActive(true);
         GameManager.StartNextWave();

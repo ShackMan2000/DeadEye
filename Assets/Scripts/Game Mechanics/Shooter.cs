@@ -1,20 +1,22 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 
 public class Shooter : MonoBehaviour
 {
-   public WeaponType SelectedWeaponType;
+    public WeaponType SelectedWeaponType;
 
-  public Transform BulletSpawnPoint;
+    public Transform BulletSpawnPoint;
 
     [SerializeField] WeaponType leftGun;
     [SerializeField] WeaponType rightGun;
 
 
+    [SerializeField] AudioSource shootingAudioSource;
     [SerializeField] bool debugShotHits;
-    
+
     bool isPressed;
     float pressedThreshold = 0.9f;
     float releaseThreshold = 0.1f;
@@ -23,13 +25,13 @@ public class Shooter : MonoBehaviour
     public event Action<WeaponType> OnShotFired = delegate { };
 
     public static event Action<Vector3, Vector3> OnHitObjectNotShootable = delegate { };
-    public static event Action<bool> ShotHitEnemy = delegate { }; 
+    public static event Action<bool> ShotHitEnemy = delegate { };
 
 
     public void ShootAndDetermineTarget(Vector3 direction)
     {
         Vector3 startPosition = BulletSpawnPoint.position;
-        
+
         ShotReceiver shotReceiver = null;
         GameObject hitObject = null;
 
@@ -53,13 +55,15 @@ public class Shooter : MonoBehaviour
         }
 
         OnShotFired?.Invoke(SelectedWeaponType);
-        
-        if(debugShotHits)
+
+        if (debugShotHits)
         {
             Debug.Log("Fired a shot with  " + SelectedWeaponType + " and hit " + hitObject + " which has a shot receiver of " + shotReceiver);
         }
     }
 
+
+    bool isVibrating;
 
     void Update()
     {
@@ -74,12 +78,19 @@ public class Shooter : MonoBehaviour
             triggerValue = OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger);
         }
 
-        
+
         if (triggerValue > pressedThreshold)
         {
             if (!isPressed)
             {
                 ShootAndDetermineTarget(BulletSpawnPoint.forward);
+                PlayShootingAudio();
+                if (isVibrating)
+                {
+                    StopAllCoroutines();
+                }
+
+                StartCoroutine(VibrationRoutine());
             }
 
             isPressed = true;
@@ -91,5 +102,34 @@ public class Shooter : MonoBehaviour
     }
 
 
-   
+    IEnumerator VibrationRoutine()
+    {
+        isVibrating = true;
+        if (SelectedWeaponType == leftGun)
+        {
+            OVRInput.SetControllerVibration(frequencyTest, amplitudeTest, OVRInput.Controller.LTouch);
+            yield return new WaitForSeconds(vibrationDuration);
+            OVRInput.SetControllerVibration(0f, 0f, OVRInput.Controller.LTouch);
+        }
+        else
+        {
+            OVRInput.SetControllerVibration(frequencyTest, amplitudeTest, OVRInput.Controller.RTouch);
+            yield return new WaitForSeconds(vibrationDuration);
+            OVRInput.SetControllerVibration(0f, 0f, OVRInput.Controller.RTouch);
+        }
+        isVibrating = false;
+    }
+
+
+    public float frequencyTest =1f;
+    public float amplitudeTest = 1f;
+    public float vibrationDuration = 0.3f;
+
+    void PlayShootingAudio()
+    {
+        if (shootingAudioSource != null)
+        {
+            shootingAudioSource.Play();
+        }
+    }
 }

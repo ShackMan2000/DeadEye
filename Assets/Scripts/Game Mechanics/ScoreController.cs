@@ -12,8 +12,8 @@ public class ScoreController : MonoBehaviour
 
     [SerializeField] ScoreMulti currentMulti;
 
-    public event Action<float> OnScoreChanged = delegate { };
-    public event Action<int> OnKillStreakChanged = delegate { };
+    public static event Action<float> OnScoreChanged = delegate { };
+    public static event Action<int> OnKillStreakChanged = delegate { };
 
 
     // make this as reaction to on wave started
@@ -32,12 +32,20 @@ public class ScoreController : MonoBehaviour
     {
         EnemyBase.OnAnySingleEnemyDestroyedCorrectly += OnAnySingleEnemyDestroyedCorrectly;
         MultiDrone.OnMultiDroneShot += OnMultiDroneShot;
+        GameManager.OnStartingNextWave += ResetScoreButKeepMulti;
     }
 
     void OnDisable()
     {
         EnemyBase.OnAnySingleEnemyDestroyedCorrectly -= OnAnySingleEnemyDestroyedCorrectly;
         MultiDrone.OnMultiDroneShot -= OnMultiDroneShot;
+        GameManager.OnStartingNextWave -= ResetScoreButKeepMulti;
+    }
+
+    void ResetScoreButKeepMulti()
+    {
+        Score = 0;
+        OnScoreChanged(Score);
     }
 
     void OnMultiDroneShot(MultiDroneHitInfo hitInfo)
@@ -46,6 +54,7 @@ public class ScoreController : MonoBehaviour
         {
             KillStreak++;
             Score += hitInfo.Settings.pointsForKill;
+            OnScoreChanged(Score);
         }
         else
         {

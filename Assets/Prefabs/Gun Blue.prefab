@@ -1977,10 +1977,10 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7804329145039377278}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 30ef761f6d7153845addf7410feca63e, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 21733016daf3c09418d8e83be7594881, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.2
   m_Pitch: 1
@@ -1990,7 +1990,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 12.081505
   MaxDistance: 300
   Pan2D: 0
   rolloffMode: 0
@@ -2082,6 +2082,7 @@ MonoBehaviour:
   BulletSpawnPoint: {fileID: 6733882964264623741}
   leftGun: {fileID: 11400000, guid: a996b2b426834944496a5628720e9cfb, type: 2}
   rightGun: {fileID: 11400000, guid: a934da441be51aa45941237a7fa5bd16, type: 2}
+  shootingAudioSource: {fileID: 2684142527726882194}
   debugShotHits: 0
 --- !u!1 &8367064071553485743
 GameObject:
