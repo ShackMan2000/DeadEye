@@ -16,6 +16,9 @@ public class HealthController : MonoBehaviour
     {
         EnemyBullet.OnAnyEnemyBulletHitPlayer += ReduceHealth;
         UIController.OnEnableUnlimitedHealth += EnableUnlimitedHealth;
+        
+        GameManager.OnStartingNewTimeTrialGame += EnableUnlimitedHealth;
+        
         health = 3;
     }
 
@@ -23,6 +26,8 @@ public class HealthController : MonoBehaviour
     {
         EnemyBullet.OnAnyEnemyBulletHitPlayer -= ReduceHealth;
         UIController.OnEnableUnlimitedHealth -= EnableUnlimitedHealth;
+        
+        GameManager.OnStartingNewTimeTrialGame -= EnableUnlimitedHealth;
     }
 
 

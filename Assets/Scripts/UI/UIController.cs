@@ -17,6 +17,8 @@ public class UIController : MonoBehaviour
 
     [SerializeField] GameObject waveIngamePanel;
 
+    [SerializeField] GameObject timeLeft;
+    
     [SerializeField] StatsDisplay statsDisplay;
 
     public static event Action OnEnableUnlimitedHealth = delegate { };
@@ -58,10 +60,26 @@ public class UIController : MonoBehaviour
     {
         ToggleMenuPanel(false);
         ToggleActiveWavePanel(true);
+
+        timeLeft.gameObject.SetActive(false);
+        
         ToggleStatsPanel(false);
 
         GameManager.StartNewWaveGame();
     }
+    
+    
+    [Button]
+    public void StartNewTimeTrialGame()
+    {
+        ToggleMenuPanel(false);
+        ToggleActiveWavePanel(true);
+        ToggleStatsPanel(false);
+
+        GameManager.StartNewTimeTrialGame();
+    }
+    
+    
 
     [Button]
     void ToggleActiveWavePanel(bool activate)

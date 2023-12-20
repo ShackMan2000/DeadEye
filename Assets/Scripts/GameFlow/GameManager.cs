@@ -60,6 +60,13 @@ public class GameManager : MonoBehaviour
     }
 
     
+    public static void StartNewTimeTrialGame()
+    {
+        GameOver = false;
+        EnterGameMode();
+        OnStartingNewTimeTrialGame?.Invoke();
+    }
+    
     public static void StartNewWaveGame()
     {
         GameOver = false;
@@ -73,6 +80,11 @@ public class GameManager : MonoBehaviour
         OnStartingNextWave?.Invoke();
     }
     
+    public static void FinishTimeTrialGame()
+    {
+        ExitGameMode();
+        OnTimeTrialFinished?.Invoke();
+    }
 
     public static void WaveCompleted()
     {
@@ -100,6 +112,8 @@ public class GameManager : MonoBehaviour
             Debug.Log("Trying to call Wave failed, but game mode is not active. Should never happen");
         }
     }
+
+
 }
 
 

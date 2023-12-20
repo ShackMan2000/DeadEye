@@ -1,22 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 
 public class TimeTrialManager : MonoBehaviour
 {
-        
-    [SerializeField] TimeTrialSettings settings;
     
-    
-    // needs settings, at the very least the time
-    // save later in player prefs or something
+    public List<float> TimeOptions;
 
+    public int selectedTimeIndex;
+    
+    public float SelectedTime => TimeOptions[selectedTimeIndex];
+    
+    public int MaxActiveEnemies = 20;
+
+    float timeLeft;
+
+    [SerializeField] TextMeshProUGUI timeLeftText;
+    
+    bool gameIsRunning;
 
     void OnEnable()
     {
         GameManager.OnStartingNewTimeTrialGame += OnStartingNewTimeTrialGame;
-        
     }
     
     void OnDisable()
@@ -27,6 +34,25 @@ public class TimeTrialManager : MonoBehaviour
 
     void OnStartingNewTimeTrialGame()
     {
+        timeLeft = SelectedTime;
+        gameIsRunning = true;
+        timeLeftText.gameObject.SetActive(true);
+    }
+
+
+    void Update()
+    {
+        if(gameIsRunning)
+        {
+            timeLeft -= Time.deltaTime;
+            timeLeftText.text = timeLeft.ToString("F1") + "s";
+            
+            if (timeLeft <= 0)
+            {
+                gameIsRunning = false;
+                GameManager.FinishTimeTrialGame();
+            }
+        }
         
     }
 }
