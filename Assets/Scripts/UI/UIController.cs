@@ -59,7 +59,7 @@ public class UIController : MonoBehaviour
     public void StartNewWaveGame()
     {
         ToggleMenuPanel(false);
-        ToggleActiveWavePanel(true);
+        ToggleIngamePanel(true);
 
         timeLeft.gameObject.SetActive(false);
         
@@ -73,7 +73,7 @@ public class UIController : MonoBehaviour
     public void StartNewTimeTrialGame()
     {
         ToggleMenuPanel(false);
-        ToggleActiveWavePanel(true);
+        ToggleIngamePanel(true);
         ToggleStatsPanel(false);
 
         GameManager.StartNewTimeTrialGame();
@@ -82,7 +82,7 @@ public class UIController : MonoBehaviour
     
 
     [Button]
-    void ToggleActiveWavePanel(bool activate)
+    void ToggleIngamePanel(bool activate)
     {
         waveIngamePanel.SetActive(activate);
     }
@@ -91,16 +91,23 @@ public class UIController : MonoBehaviour
     [Button]
     void ShowStatsOnWaveCompleted()
     {
-        ToggleActiveWavePanel(false);
+        ToggleIngamePanel(false);
         ToggleStatsPanel(true);
         statsDisplay.ShowStatsCurrentWave();
     }
 
     void ShowStatsOnWaveFailed()
     {
-        ToggleActiveWavePanel(false);
+        ToggleIngamePanel(false);
         ToggleStatsPanel(true);
         statsDisplay.ShowStatsAllWaves();
+    }
+
+    void ShowStatsOnTimeTrialFinished()
+    {
+        ToggleIngamePanel(false);
+        ToggleStatsPanel(true);
+        statsDisplay.ShowStatsTimeTrial();
     }
 
     void ToggleStatsPanel(bool show)

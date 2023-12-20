@@ -12,7 +12,7 @@ public class StatsDisplay : MonoBehaviour
     [SerializeField] ScoreController scoreController;
 
 
-    public WaveStats currentStatsDisplaying;
+    public Stats currentStatsDisplaying;
     [SerializeField] Button showStatsCurrentWaveButton;
     [SerializeField] Button showStatsAllWavesButton;
     [SerializeField] Color selectedButtonColor;
@@ -30,7 +30,7 @@ public class StatsDisplay : MonoBehaviour
     [SerializeField] Button NextWaveButton;
     [SerializeField] Button BackToMenuButtonLarge;
     [SerializeField] Button BackToMenuButtonSmall;
-    
+
     [FormerlySerializedAs("enemyStatsDisplays")] [SerializeField]
     List<EnemySingleStatsDisplay> enemySingleStatsDisplays;
 
@@ -42,7 +42,9 @@ public class StatsDisplay : MonoBehaviour
     [Button]
     public void ShowStatsCurrentWave()
     {
-        ShowStats(statsTracker.StatsForCurrentWave);
+        ShowStats(statsTracker.statsThisRound);
+
+        SetGeneralInfoTexts(statsTracker.statsThisRound, true);
 
         showStatsCurrentWaveButton.image.color = selectedButtonColor;
         showStatsAllWavesButton.image.color = unselectedButtonColor;
@@ -58,7 +60,11 @@ public class StatsDisplay : MonoBehaviour
     [Button]
     public void ShowStatsAllWaves()
     {
-        ShowStats(statsTracker.GetStatsForAllWavesCombined());
+        var stats = statsTracker.GetStatsForAllWavesCombined();
+
+        ShowStats(stats);
+
+        SetGeneralInfoTexts(stats, true);
 
         showStatsCurrentWaveButton.image.color = unselectedButtonColor;
         showStatsAllWavesButton.image.color = selectedButtonColor;
@@ -70,14 +76,20 @@ public class StatsDisplay : MonoBehaviour
         rectTransform2.sizeDelta = new Vector2(rectTransform2.sizeDelta.x, unselectedButtonHeight * selectedButtonHeightMulti);
     }
 
-
-    void ShowStats(WaveStats waveStats)
+    [Button]
+    public void ShowStatsTimeTrial()
     {
-        currentStatsDisplaying = waveStats;
+        ShowStats(statsTracker.statsThisRound);
+        
+        SetGeneralInfoTexts(statsTracker.statsThisRound, false);
+    }
 
-        SetGeneralInfoTexts(waveStats);
 
-        GroupSingleEnemyStats(waveStats);
+    void ShowStats(Stats stats)
+    {
+        currentStatsDisplaying = stats;
+
+        GroupSingleEnemyStats(stats);
 
         for (int i = 0; i < enemySingleStatsDisplays.Count; i++)
         {
@@ -95,7 +107,7 @@ public class StatsDisplay : MonoBehaviour
 
         for (int i = 0; i < enemyMultiStatsDisplays.Count; i++)
         {
-            StatsMultiDrone statsMultiDrone = waveStats.StatsMultiDrones.Find(x => x.EnemySettings == enemyMultiStatsDisplays[i].EnemySettings);
+            StatsMultiDrone statsMultiDrone = stats.StatsMultiDrones.Find(x => x.EnemySettings == enemyMultiStatsDisplays[i].EnemySettings);
 
             if (statsMultiDrone != null)
             {
@@ -110,50 +122,77 @@ public class StatsDisplay : MonoBehaviour
     }
 
 
-    void SetGeneralInfoTexts(WaveStats waveStats)
+    // needs to know if which mode. don't set text to game over on time trial
+    // actually keep it.
+
+    void SetGeneralInfoTexts(Stats stats, bool isWaveMode)
     {
-        if (GameManager.GameOver)
+        if (isWaveMode)
         {
-            waveText.text = "Game Over";
-            NextWaveButton.gameObject.SetActive(false);
-            BackToMenuButtonSmall.gameObject.SetActive(false);
-            
-            BackToMenuButtonLarge.gameObject.SetActive(true);
+            if (GameManager.GameOver)
+            {
+                waveText.text = "Game Over";
+
+                NextWaveButton.gameObject.SetActive(false);
+                BackToMenuButtonSmall.gameObject.SetActive(false);
+                BackToMenuButtonLarge.gameObject.SetActive(true);
+            }
+            else
+            {
+                waveText.text = "Wave " + (stats.WaveIndex + 1).ToString() + " Complete!";
+
+                NextWaveButton.gameObject.SetActive(true);
+                BackToMenuButtonSmall.gameObject.SetActive(true);
+                BackToMenuButtonLarge.gameObject.SetActive(false);
+            }
         }
         else
         {
-            waveText.text = "Wave " + (waveStats.WaveIndex + 1).ToString() + " Complete!";
+            waveText.text = "Time Trial Complete!";
+            
+            NextWaveButton.gameObject.SetActive(false);
+            BackToMenuButtonSmall.gameObject.SetActive(false);
+            BackToMenuButtonLarge.gameObject.SetActive(true);
         }
+        
+        ToggleButtonsForWaveStats(isWaveMode);
 
-        scoreText.text = "Score: " + waveStats.Score.ToString();
-        shotsFiredText.text = "Shots: " + waveStats.ShotsFired.ToString();
-        accuracyText.text = "Accuracy: " + (waveStats.Accuracy * 100f).ToString("F0") + "%";
+        scoreText.text = "Score: " + stats.Score.ToString();
+        shotsFiredText.text = "Shots: " + stats.ShotsFired.ToString();
+        accuracyText.text = "Accuracy: " + (stats.Accuracy * 100f).ToString("F0") + "%";
     }
 
 
-    void GroupSingleEnemyStats(WaveStats waveStats)
+    void ToggleButtonsForWaveStats(bool show)
+    {
+        showStatsCurrentWaveButton.gameObject.SetActive(show);
+        showStatsAllWavesButton.gameObject.SetActive(show);
+    }
+
+
+    void GroupSingleEnemyStats(Stats stats)
     {
         groupedStatsPerEnemyDisplay = new Dictionary<EnemySingleStatsDisplay, StatsPerSingleEnemy>();
 
-        for (int i = 0; i < waveStats.StatsPerSingleEnemies.Count; i++)
+        for (int i = 0; i < stats.StatsPerSingleEnemies.Count; i++)
         {
-            EnemySingleStatsDisplay singleStatsDisplay = enemySingleStatsDisplays.Find(x => x.enemiesGroupedInStat.Contains(waveStats.StatsPerSingleEnemies[i].EnemySettings));
+            EnemySingleStatsDisplay singleStatsDisplay = enemySingleStatsDisplays.Find(x => x.enemiesGroupedInStat.Contains(stats.StatsPerSingleEnemies[i].EnemySettings));
 
             if (singleStatsDisplay == null)
             {
-                Debug.Log("ERROR: Stats display not found for enemy " + waveStats.StatsPerSingleEnemies[i].EnemySettings.name);
+                Debug.Log("ERROR: Stats display not found for enemy " + stats.StatsPerSingleEnemies[i].EnemySettings.name);
                 // later account for creating one, but not needed right now
             }
             else
             {
                 if (groupedStatsPerEnemyDisplay.ContainsKey(singleStatsDisplay))
                 {
-                    groupedStatsPerEnemyDisplay[singleStatsDisplay].DestroyedCorrectly += waveStats.StatsPerSingleEnemies[i].DestroyedCorrectly;
-                    groupedStatsPerEnemyDisplay[singleStatsDisplay].DestroyedByMistake += waveStats.StatsPerSingleEnemies[i].DestroyedByMistake;
+                    groupedStatsPerEnemyDisplay[singleStatsDisplay].DestroyedCorrectly += stats.StatsPerSingleEnemies[i].DestroyedCorrectly;
+                    groupedStatsPerEnemyDisplay[singleStatsDisplay].DestroyedByMistake += stats.StatsPerSingleEnemies[i].DestroyedByMistake;
                 }
                 else
                 {
-                    groupedStatsPerEnemyDisplay.Add(singleStatsDisplay, waveStats.StatsPerSingleEnemies[i]);
+                    groupedStatsPerEnemyDisplay.Add(singleStatsDisplay, stats.StatsPerSingleEnemies[i]);
                 }
             }
         }

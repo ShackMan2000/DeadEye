@@ -8,9 +8,9 @@ public class StatsTracker : MonoBehaviour
 {
     [SerializeField] WaveController waveController;
 
-    public WaveStats StatsForCurrentWave;
+    public Stats statsThisRound;
 
-    public List<WaveStats> StatsForEachWave;
+    public List<Stats> StatsForEachWave;
 
 
     void OnEnable()
@@ -38,69 +38,69 @@ public class StatsTracker : MonoBehaviour
 
     void CreateNewStatsForAllWaves()
     {
-        StatsForEachWave = new List<WaveStats>();
+        StatsForEachWave = new List<Stats>();
     }
 
     void OnWaveStarted(int waveIndex)
     {
-        StatsForCurrentWave = new WaveStats();
-        StatsForCurrentWave.WaveIndex = waveIndex;
-        StatsForEachWave.Add(StatsForCurrentWave);
+        statsThisRound = new Stats();
+        statsThisRound.WaveIndex = waveIndex;
+        StatsForEachWave.Add(statsThisRound);
     }
 
 
     void OnAnySingleEnemyDestroyedCorrectly(EnemySettings enemySettings, bool correctWeapon)
     {
-        int index = StatsForCurrentWave.StatsPerSingleEnemies.FindIndex(x => x.EnemySettings == enemySettings);
+        int index = statsThisRound.StatsPerSingleEnemies.FindIndex(x => x.EnemySettings == enemySettings);
 
         if (index == -1)
         {
             StatsPerSingleEnemy statsPerSingleEnemy = new StatsPerSingleEnemy();
             statsPerSingleEnemy.EnemySettings = enemySettings;
 
-            StatsForCurrentWave.StatsPerSingleEnemies.Add(statsPerSingleEnemy);
-            index = StatsForCurrentWave.StatsPerSingleEnemies.Count - 1;
+            statsThisRound.StatsPerSingleEnemies.Add(statsPerSingleEnemy);
+            index = statsThisRound.StatsPerSingleEnemies.Count - 1;
         }
 
         if (correctWeapon)
         {
-            StatsForCurrentWave.StatsPerSingleEnemies[index].DestroyedCorrectly++;
+            statsThisRound.StatsPerSingleEnemies[index].DestroyedCorrectly++;
         }
         else
         {
-            StatsForCurrentWave.StatsPerSingleEnemies[index].DestroyedByMistake++;
+            statsThisRound.StatsPerSingleEnemies[index].DestroyedByMistake++;
         }
     }
 
     void UpdateScore(float score)
     {
-        if (StatsForCurrentWave == null)
+        if (statsThisRound == null)
         {
             return;
         }
 
-        StatsForCurrentWave.Score = score;
+        statsThisRound.Score = score;
     }
 
     void OnShotFired(bool hitEnemy)
     {
-        if (StatsForCurrentWave == null)
+        if (statsThisRound == null)
         {
             return;
         }
 
-        StatsForCurrentWave.ShotsFired++;
+        statsThisRound.ShotsFired++;
 
         if (hitEnemy)
         {
-            StatsForCurrentWave.ShotsHit++;
+            statsThisRound.ShotsHit++;
         }
     }
 
 
     void OnMultiDroneShot(MultiDroneHitInfo hitInfo)
     {
-        int index = StatsForCurrentWave.StatsMultiDrones.FindIndex(x => x.EnemySettings == hitInfo.Settings);
+        int index = statsThisRound.StatsMultiDrones.FindIndex(x => x.EnemySettings == hitInfo.Settings);
 
         if (index == -1)
         {
@@ -108,40 +108,40 @@ public class StatsTracker : MonoBehaviour
             statsMultiDrone.EnemySettings = hitInfo.Settings;
             statsMultiDrone.rangeForEachShot = new List<float>();
 
-            StatsForCurrentWave.StatsMultiDrones.Add(statsMultiDrone);
+            statsThisRound.StatsMultiDrones.Add(statsMultiDrone);
 
-            index = StatsForCurrentWave.StatsMultiDrones.Count - 1;
+            index = statsThisRound.StatsMultiDrones.Count - 1;
         }
 
-        StatsForCurrentWave.StatsMultiDrones[index].rangeForEachShot.Add(hitInfo.OffsetOnShotRelative);
-        StatsForCurrentWave.StatsMultiDrones[index].rotationsRelativeWhenShot.Add(hitInfo.RotationRelative);
+        statsThisRound.StatsMultiDrones[index].rangeForEachShot.Add(hitInfo.OffsetOnShotRelative);
+        statsThisRound.StatsMultiDrones[index].rotationsRelativeWhenShot.Add(hitInfo.RotationRelative);
 
 
         // adjust it so the entire rotation is represented as -1 to 1
         if (hitInfo.Settings.SideDronesMovementType == SideDronesMovementType.RotateAround)
         {
-            int shotIndex = StatsForCurrentWave.StatsMultiDrones[index].rangeForEachShot.Count - 1;
+            int shotIndex = statsThisRound.StatsMultiDrones[index].rangeForEachShot.Count - 1;
 
-            float shot = StatsForCurrentWave.StatsMultiDrones[index].rangeForEachShot[shotIndex];
-            float rotation = StatsForCurrentWave.StatsMultiDrones[index].rotationsRelativeWhenShot[shotIndex];
+            float shot = statsThisRound.StatsMultiDrones[index].rangeForEachShot[shotIndex];
+            float rotation = statsThisRound.StatsMultiDrones[index].rotationsRelativeWhenShot[shotIndex];
 
             if (shot >= 0f && rotation >= 0.25f)
             {
-                StatsForCurrentWave.StatsMultiDrones[index].rangeForEachShot[shotIndex] = -shot;
+                statsThisRound.StatsMultiDrones[index].rangeForEachShot[shotIndex] = -shot;
             }
             else if (shot < 0f && rotation <= 0.75)
             {
-                StatsForCurrentWave.StatsMultiDrones[index].rangeForEachShot[shotIndex] = -shot;
+                statsThisRound.StatsMultiDrones[index].rangeForEachShot[shotIndex] = -shot;
             }
 
-            Debug.Log("adjusted shot range for rotation " + StatsForCurrentWave.StatsMultiDrones[index].rangeForEachShot[shotIndex]);
+            Debug.Log("adjusted shot range for rotation " + statsThisRound.StatsMultiDrones[index].rangeForEachShot[shotIndex]);
         }
     }
 
 
-    public WaveStats GetStatsForAllWavesCombined()
+    public Stats GetStatsForAllWavesCombined()
     {
-        WaveStats statsCombined = new WaveStats();
+        Stats statsCombined = new Stats();
 
         statsCombined.WaveIndex = StatsForEachWave.Count - 1;
 
@@ -195,7 +195,7 @@ public class StatsTracker : MonoBehaviour
 
 
 [System.Serializable]
-public class WaveStats
+public class Stats
 {
     public int WaveIndex;
 
@@ -216,6 +216,12 @@ public class WaveStats
 
             return ShotsHit / ShotsFired;
         }
+    }
+    
+    public enum GameMode
+    {
+        Waves,
+        TimeTrial
     }
 }
 

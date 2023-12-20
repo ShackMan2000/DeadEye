@@ -51,6 +51,7 @@ public class TimeTrialManager : MonoBehaviour
             {
                 gameIsRunning = false;
                 GameManager.FinishTimeTrialGame();
+                
             }
         }
         
