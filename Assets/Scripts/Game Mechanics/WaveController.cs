@@ -11,6 +11,8 @@ public class WaveController : MonoBehaviour
 {
     [SerializeField] WaveSettings settings;
 
+    [SerializeField] EnemySpawner enemySpawner;
+
     [SerializeField] Transform spawnMarker;
 
     [SerializeField] Train train;
@@ -19,14 +21,9 @@ public class WaveController : MonoBehaviour
 
     [ShowInInspector] Dictionary<SpawnSettings, int> enemiesToSpawnCurrentWave;
 
-   [SerializeField] List<CheckPointsList> checkPointsForPaths;
-
+    [SerializeField] List<CheckPointsList> checkPointsForPaths;
     [SerializeField] List<CheckPointsList> checkPointsForLinger;
 
-   
-
-    [ShowInInspector] Dictionary<EnemyBase, List<EnemyBase>> inactiveEnemies = new Dictionary<EnemyBase, List<EnemyBase>>();
-    [ShowInInspector] public Dictionary<EnemyBase, List<EnemyBase>> activeEnemies = new Dictionary<EnemyBase, List<EnemyBase>>();
 
     float timeTillNextSpawn;
 
@@ -37,34 +34,36 @@ public class WaveController : MonoBehaviour
     bool waveFailed;
 
     public event Action<int> OnWaveStarted = delegate { };
-  //  public event Action OnWaveCompleted = delegate { };
 
 
     void OnEnable()
     {
-        EnemyBase.OnAnyEnemyDestroyedPrefabType += OnEnemyDestroyedPrefabType;
-        
         GameManager.OnStartingNewWaveGame += StartNewWaveGame;
         GameManager.OnStartingNextWave += InitializeWave;
         GameManager.OnWaveFailed += OnWaveFailed;
+
+        EnemySpawner.OnActiveEnemiesCountChanged += CheckIfWaveCompleted;
     }
 
     void OnDisable()
     {
-        EnemyBase.OnAnyEnemyDestroyedPrefabType -= OnEnemyDestroyedPrefabType;
         GameManager.OnStartingNewWaveGame -= StartNewWaveGame;
         GameManager.OnStartingNextWave -= InitializeWave;
         GameManager.OnWaveFailed -= OnWaveFailed;
+        
+        EnemySpawner.OnActiveEnemiesCountChanged -= CheckIfWaveCompleted;
     }
- 
+
 
     void StartNewWaveGame()
     {
+        enemySpawner.SetUpCheckPointsLists(checkPointsForPaths, checkPointsForLinger);
+
         currentWaveIndex = -1;
         InitializeWave();
     }
-    
-    
+
+
     public void InitializeWave()
     {
         currentWaveIndex++;
@@ -75,7 +74,8 @@ public class WaveController : MonoBehaviour
         {
             checkPointsList.ResetFreeIndexes();
         }
-        spawnIntervalCurrentWave = settings.EnemySpawnIntervalBase - settings.EnemySpawnIntervalDecreasePerLevel* currentWaveIndex;
+
+        spawnIntervalCurrentWave = settings.EnemySpawnIntervalBase - settings.EnemySpawnIntervalDecreasePerLevel * currentWaveIndex;
 
         CreateEnemiesToSpawnForCurrentWave();
         StartCoroutine(InitializeWaveRoutine());
@@ -133,38 +133,7 @@ public class WaveController : MonoBehaviour
             enemiesToSpawnCurrentWave.Remove(selectedSetting);
         }
 
-        EnemyBase prefab = selectedSetting.EnemySettings.Prefab;
-
-        if (prefab == null)
-        {
-            Debug.LogError("Trying to spawn a prefab but it's null");
-            return;
-        }
-
-
-        EnemyBase newEnemy = GetNewEnemy(prefab);
-
-
-        newEnemy.transform.SetParent(transform);
-        newEnemy.transform.position = spawnMarker.position;
-
-
-        if (selectedSetting.EnemySettings.MovementType == EnemyMovementType.Linger)
-        {
-            int checkpointsForDifficultyIndex = checkPointsForLinger.FindIndex(x => x.Difficulty == selectedSetting.EnemySettings.Difficulty);
-            
-            if(checkpointsForDifficultyIndex == -1)
-            {
-                Debug.Log("ERROR No checkpoints list found for difficulty " + selectedSetting.EnemySettings.Difficulty);
-                checkpointsForDifficultyIndex = 0;
-            }
-
-            newEnemy.SetLingerPoint(checkPointsForLinger[checkpointsForDifficultyIndex]);
-
-            
-        }
-
-        newEnemy.Initialize(selectedSetting.EnemySettings, checkPointsForPaths[Random.Range(0, checkPointsForPaths.Count)]);
+        enemySpawner.SpawnEnemy(selectedSetting.EnemySettings, spawnMarker.position);
 
         if (enemiesToSpawnCurrentWave.Count == 0)
         {
@@ -173,96 +142,21 @@ public class WaveController : MonoBehaviour
     }
 
 
-    EnemyBase GetNewEnemy(EnemyBase prefab)
-    {
-        EnemyBase newEnemy = null;
-
-        if (inactiveEnemies.ContainsKey(prefab) && inactiveEnemies[prefab].Count > 0)
-        {
-            newEnemy = inactiveEnemies[prefab][0];
-            inactiveEnemies[prefab].RemoveAt(0);
-        }
-        else
-        {
-            newEnemy = Instantiate(prefab).GetComponent<EnemyBase>();
-            newEnemy.Prefab = prefab;
-
-        }
-
-        if (!activeEnemies.ContainsKey(prefab))
-        {
-            activeEnemies.Add(prefab, new List<EnemyBase>());
-        }
-
-
-        activeEnemies[prefab].Add(newEnemy);
-
-        newEnemy.gameObject.SetActive(true);
-
-        return newEnemy;
-    }
-
-
-    void OnEnemyDestroyedPrefabType(EnemyBase destroyedEnemy, EnemyBase enemyPrefab)
-    {
-        if (activeEnemies.ContainsKey(enemyPrefab))
-        {
-            activeEnemies[enemyPrefab].Remove(destroyedEnemy);
-
-            if (!inactiveEnemies.ContainsKey(enemyPrefab))
-            {
-                inactiveEnemies.Add(enemyPrefab, new List<EnemyBase>());
-            }
-
-            inactiveEnemies[enemyPrefab].Add(destroyedEnemy);
-        }
-        else
-        {
-            Debug.LogError("An enemy was destroyed that was not in active enemies list, should never happen");
-        }
-     
-
-        bool waveFinished;
-
-
-        waveFinished = true;
-
-        foreach (KeyValuePair<EnemyBase, List<EnemyBase>> pair in activeEnemies)
-        {
-            if (pair.Value.Count > 0)
-            {
-                waveFinished = false;
-                break;
-            }
-        }
-
-
-        if (waveFinished)
-        {
-            if (GameManager.GameModeActive)
-            {
-                GameManager.WaveCompleted();
-            }
-        }
-    }
-
-   
-
     
+    void CheckIfWaveCompleted(int activeEnemiesCount)
+    {
+
+        if (activeEnemiesCount == 0 && !isSpawning)
+        {
+            GameManager.WaveCompleted();
+        }
+    }
+
+
     void OnWaveFailed()
     {
         isSpawning = false;
 
-        List<EnemyBase> enemiesToDisappear = new List<EnemyBase>();
-
-        foreach (KeyValuePair<EnemyBase, List<EnemyBase>> pair in activeEnemies)
-        {
-            enemiesToDisappear.AddRange(pair.Value);
-        }
-
-        foreach (EnemyBase enemy in enemiesToDisappear)
-        {
-            enemy.DisappearWhenPlayerGotKilled();
-        }
+      enemySpawner.MakeAllEnemiesInactive();
     }
 }

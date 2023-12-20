@@ -28,11 +28,7 @@ public class WaveSettings : ScriptableObject
 public class SpawnSettings
 {
     public EnemySettings EnemySettings;
-    //
-    // public EnemyBase EnemyPrefabNeutral;
-    // public EnemyBase EnemyPrefabLeft;
-    // public EnemyBase EnemyPrefabRight;
-    
+
     public int MinimumWaveLevel;
     
     public int SpawnAmountBase;

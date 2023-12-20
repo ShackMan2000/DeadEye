@@ -19,6 +19,9 @@ public class GameManager : MonoBehaviour
     public static event Action OnStartingNewWaveGame = delegate { };
     public static event Action OnStartingNextWave = delegate { };
     
+    public static event Action OnStartingNewTimeTrialGame = delegate { };
+    public static event Action OnTimeTrialFinished = delegate { };
+    
     public static event Action OnWaveCompleted = delegate { };
     public static event Action OnWaveFailed = delegate { };
 
