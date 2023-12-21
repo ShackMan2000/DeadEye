@@ -6,6 +6,8 @@ public class HealthController : MonoBehaviour
 {
     [SerializeField] int health;
 
+    [SerializeField] int maxHealth = 3;
+    
     [SerializeField] WaveController waveController;
 
     public event Action<int> OnHealthChanged = delegate { };
@@ -18,6 +20,7 @@ public class HealthController : MonoBehaviour
         UIController.OnEnableUnlimitedHealth += EnableUnlimitedHealth;
         
         GameManager.OnStartingNewTimeTrialGame += EnableUnlimitedHealth;
+        GameManager.OnStartingNewWaveGame += ResetHealth;
         
         health = 3;
     }
@@ -28,6 +31,12 @@ public class HealthController : MonoBehaviour
         UIController.OnEnableUnlimitedHealth -= EnableUnlimitedHealth;
         
         GameManager.OnStartingNewTimeTrialGame -= EnableUnlimitedHealth;
+        GameManager.OnStartingNewWaveGame += ResetHealth;
+    }
+
+    void ResetHealth()
+    {
+        health = maxHealth;
     }
 
 

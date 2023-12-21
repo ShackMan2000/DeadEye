@@ -28,12 +28,16 @@ public class UIController : MonoBehaviour
     {
         GameManager.OnWaveCompleted += ShowStatsOnWaveCompleted;
         GameManager.OnWaveFailed += ShowStatsOnWaveFailed;
+        
+        GameManager.OnTimeTrialFinished += ShowStatsOnTimeTrialFinished;
     }
 
     void OnDisable()
     {
         GameManager.OnWaveCompleted -= ShowStatsOnWaveCompleted;
         GameManager.OnWaveFailed -= ShowStatsOnWaveFailed;
+        
+        GameManager.OnTimeTrialFinished -= ShowStatsOnTimeTrialFinished;
     }
 
 

@@ -15,24 +15,17 @@ public class ScoreController : MonoBehaviour
     public static event Action<float> OnScoreChanged = delegate { };
     public static event Action<int> OnKillStreakChanged = delegate { };
 
-
-    // make this as reaction to on wave started
-    void Start()
-    {
-        Score = 0;
-        KillStreak = 0;
-        OnScoreChanged(Score);
-        OnKillStreakChanged(KillStreak);
-        currentMulti = scoreSettings.ScoreMultipliers[0];
-
-        OnKillStreakChanged?.Invoke(KillStreak);
-    }
-
+    
+    
+    
     void OnEnable()
     {
         EnemyBase.OnAnySingleEnemyDestroyedCorrectly += OnAnySingleEnemyDestroyedCorrectly;
         MultiDrone.OnMultiDroneShot += OnMultiDroneShot;
         GameManager.OnStartingNextWave += ResetScoreButKeepMulti;
+        
+        GameManager.OnStartingNewWaveGame += ResetScore;
+        GameManager.OnStartingNewTimeTrialGame += ResetScore;
     }
 
     void OnDisable()
@@ -40,8 +33,25 @@ public class ScoreController : MonoBehaviour
         EnemyBase.OnAnySingleEnemyDestroyedCorrectly -= OnAnySingleEnemyDestroyedCorrectly;
         MultiDrone.OnMultiDroneShot -= OnMultiDroneShot;
         GameManager.OnStartingNextWave -= ResetScoreButKeepMulti;
+        
+        GameManager.OnStartingNewWaveGame -= ResetScore;
+        GameManager.OnStartingNewTimeTrialGame -= ResetScore;
     }
 
+    
+ 
+
+    
+    void ResetScore()
+    {
+        Score = 0;
+        KillStreak = 0;
+        currentMulti = scoreSettings.ScoreMultipliers[0];
+        
+        OnScoreChanged(Score);
+        OnKillStreakChanged(KillStreak);
+    }
+    
     void ResetScoreButKeepMulti()
     {
         Score = 0;

@@ -134,7 +134,6 @@ public class StatsTracker : MonoBehaviour
                 statsThisRound.StatsMultiDrones[index].rangeForEachShot[shotIndex] = -shot;
             }
 
-            Debug.Log("adjusted shot range for rotation " + statsThisRound.StatsMultiDrones[index].rangeForEachShot[shotIndex]);
         }
     }
 

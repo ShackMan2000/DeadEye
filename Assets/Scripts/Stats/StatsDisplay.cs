@@ -79,6 +79,7 @@ public class StatsDisplay : MonoBehaviour
     [Button]
     public void ShowStatsTimeTrial()
     {
+        Debug.Log("ShowStatsTimeTrial");
         ShowStats(statsTracker.statsThisRound);
         
         SetGeneralInfoTexts(statsTracker.statsThisRound, false);
@@ -122,8 +123,6 @@ public class StatsDisplay : MonoBehaviour
     }
 
 
-    // needs to know if which mode. don't set text to game over on time trial
-    // actually keep it.
 
     void SetGeneralInfoTexts(Stats stats, bool isWaveMode)
     {

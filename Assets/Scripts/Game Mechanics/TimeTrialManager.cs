@@ -49,6 +49,7 @@ public class TimeTrialManager : MonoBehaviour
             
             if (timeLeft <= 0)
             {
+                timeLeftText.text = "0.0s";
                 gameIsRunning = false;
                 GameManager.FinishTimeTrialGame();
                 
