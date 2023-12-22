@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public static event Action OnExitGameMode = delegate { };
     
     public static event Action OnStartingNewWaveGame = delegate { };
-    public static event Action OnStartingNextWave = delegate { };
+    public static event Action OnStartingWave = delegate { };
     
     public static event Action OnStartingNewTimeTrialGame = delegate { };
     public static event Action OnTimeTrialFinished = delegate { };
@@ -50,14 +50,14 @@ public class GameManager : MonoBehaviour
     public static void StartNewWaveGame()
     {
         GameOver = false;
-        EnterGameMode();
         OnStartingNewWaveGame?.Invoke();
+        StartWave();
     }
 
-    public static void StartNextWave()
+    public static void StartWave()
     {
         EnterGameMode();
-        OnStartingNextWave?.Invoke();
+        OnStartingWave?.Invoke();
     }
     
     public static void FinishTimeTrialGame()

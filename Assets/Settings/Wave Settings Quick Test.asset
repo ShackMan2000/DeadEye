@@ -17,12 +17,8 @@ MonoBehaviour:
   EnemySpawnIntervalMin: 1
   EnemySpawnIntervalVarianceRelative: 0.402
   AllEnemiesOptions:
-  - EnemySettings: {fileID: 11400000, guid: 377a95ac4c374694a90336a7c66f2689, type: 2}
+  - EnemySettings: {fileID: 11400000, guid: 966bd4858f4c8a142aa28648d9e611d7, type: 2}
     MinimumWaveLevel: 0
     SpawnAmountBase: 2
     SpawnAmountIncreasePerLevel: 0
     SpawnCountLeftCurrentWave: 0
-  ShotIntervalBase: 6
-  ShotIntervalDecreasePerLevel: 0.2
-  ShotIntervalMin: 3
-  ShotIntervalVarianceRelative: 0.252

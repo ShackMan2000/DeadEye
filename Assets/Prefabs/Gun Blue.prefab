@@ -1033,7 +1033,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8097aff27a103c743992c69486103598, type: 2}
+  - {fileID: 2100000, guid: fcc6100d84022294fbac085a67ea3637, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2084,6 +2084,9 @@ MonoBehaviour:
   rightGun: {fileID: 11400000, guid: a934da441be51aa45941237a7fa5bd16, type: 2}
   shootingAudioSource: {fileID: 2684142527726882194}
   debugShotHits: 0
+  frequencyTest: 0
+  amplitudeTest: 0
+  vibrationDuration: 0.3
 --- !u!1 &8367064071553485743
 GameObject:
   m_ObjectHideFlags: 0

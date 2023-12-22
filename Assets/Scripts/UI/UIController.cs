@@ -130,7 +130,7 @@ public class UIController : MonoBehaviour
         ToggleStatsPanel(false);
         EnableMeshCollider(false);
         waveIngamePanel.gameObject.SetActive(true);
-        GameManager.StartNextWave();
+        GameManager.StartWave();
     }
 
 

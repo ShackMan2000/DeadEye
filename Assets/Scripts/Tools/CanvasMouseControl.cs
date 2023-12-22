@@ -6,10 +6,11 @@ using UnityEngine;
 public class CanvasMouseControl : MonoBehaviour
 {
 
-    [SerializeField] Canvas canvas;
 
 
-    [SerializeField] Camera mouseCamera;
+    [SerializeField] GameObject curvedMesh;
+
+    [SerializeField] Camera mainCamera;
     // use a different camera for events
 
 
@@ -17,7 +18,10 @@ public class CanvasMouseControl : MonoBehaviour
     void EnableMouseControl()
     {
         gameObject.SetActive(true);
+        curvedMesh.SetActive(false);
         
+        // set culling mask to everything
+        mainCamera.cullingMask = -1;
         
         
     }

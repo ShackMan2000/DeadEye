@@ -20,12 +20,10 @@ public class EnemyBase : MonoBehaviour
     public event Action OnShotByAnyWeapon = delegate { };
     public static event Action<Vector3> OnSpawnExplosion = delegate { };
 
-    public event Action OnShootAtPlayer = delegate { };
+  //  public event Action OnShootAtPlayer = delegate { };
 
     public static event Action<EnemySettings, bool> OnAnySingleEnemyDestroyedCorrectly = delegate { };
-    //public static event Action<EnemySettings> OnMultiDroneShotAtWrongTime = delegate { };
 
-    // this is getting messy. idea was that the pool can put it back in the correct list, needs to know which prefab this was created from.
     public static event Action<EnemyBase, EnemyBase> OnAnyEnemyDestroyedPrefabType = delegate { };
 
     public event Action OnEnemyDestroyed = delegate { };
@@ -63,8 +61,11 @@ public class EnemyBase : MonoBehaviour
     public void Initialize(EnemySettings settingsOption, CheckPointsList checkPointsList)
     {
         Settings = settingsOption;
+        gameObject.SetActive(true);
+        
         movement.Initialize(Settings, checkPointsList);
         IsInitialized = true;
+        
         OnInitialized?.Invoke();
     }
 
@@ -84,8 +85,6 @@ public class EnemyBase : MonoBehaviour
         OnAnyEnemyDestroyedPrefabType(this, Prefab);
     }
 
-
-    // do something later, like move into town/portal/train etc
     public void DisappearWhenPlayerGotKilled()
     {
         OnAnyEnemyDestroyedPrefabType(this, Prefab);
@@ -95,10 +94,6 @@ public class EnemyBase : MonoBehaviour
     public void SetLingerPoint(CheckPointsList checkPoint)
     {
         movement.SetLingerPoint(checkPoint);
-    }
-    public void ShootAtPlayer()
-    {
-        OnShootAtPlayer?.Invoke();
     }
 
 }

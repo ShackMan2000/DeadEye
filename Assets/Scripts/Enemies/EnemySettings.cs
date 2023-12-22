@@ -32,6 +32,7 @@ public class EnemySettings : ScriptableObject
     [InfoBox("Shooting")] public bool CanShoot;
     public EnemyBullet BulletPrefab;
     public float ShootWarningTime = 3f;
+    public Vector2 ShootingInterval = new Vector2(5f, 10f);
 
 
     [InfoBox("Laser to Side Drones")] public float LaserPivotRotation;

@@ -16,12 +16,7 @@ public class WaveSettings : ScriptableObject
 
     public List<SpawnSettings> AllEnemiesOptions;
 
-    public float ShotIntervalBase;
-    public float ShotIntervalDecreasePerLevel;
-    public float ShotIntervalMin;
-    [Range(0f, 0.9f)] [InfoBox("0.1 means anything between 10% lower or 10% higher")]
-    public float ShotIntervalVarianceRelative;
-
+  
 }
 
 [System.Serializable]

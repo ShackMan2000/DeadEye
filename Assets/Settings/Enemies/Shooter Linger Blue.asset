@@ -10,22 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc4f08fd59684b93bc7b1caa7bab1e88, type: 3}
-  m_Name: Shooter Path Red
+  m_Name: Shooter Linger Blue
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 1894271655539967977, guid: c386ee678b7507e4ab48e8e9d5914165, type: 3}
-  Icon: {fileID: 21300000, guid: 68441fba8d8ad4241a06471e08aa18d3, type: 3}
-  Difficulty: 1
-  MovementType: 0
+  Prefab: {fileID: 1751295675167029071, guid: 09d2b14aadeaf874bbfb98ae1342613b, type: 3}
+  Icon: {fileID: 21300000, guid: e65d48d92df354941971646e640b7daf, type: 3}
+  Difficulty: 0
+  MovementType: 1
   MovementSpeed: 4.18
   RotationSpeed: 2.89
   CorrectWeaponsToGetShot:
-  - {fileID: 11400000, guid: a934da441be51aa45941237a7fa5bd16, type: 2}
+  - {fileID: 11400000, guid: a996b2b426834944496a5628720e9cfb, type: 2}
   pointsForKill: 60
   RotateTowardsPlayer: 1
   CanShoot: 1
   BulletPrefab: {fileID: 1061070169017869953, guid: 311e46496773a9d4daac2f7a57ed3c79,
     type: 3}
   ShootWarningTime: 3
+  ShootingInterval: {x: 2, y: 7}
   LaserPivotRotation: 0
   LaserExpansionTime: 0.2
   LaserStayTime: 1

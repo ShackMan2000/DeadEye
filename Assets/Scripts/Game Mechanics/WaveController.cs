@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 
 public class WaveController : MonoBehaviour
 {
-    [SerializeField] WaveSettings settings;
+    public WaveSettings settings;
 
     [SerializeField] EnemySpawner enemySpawner;
 
@@ -33,13 +33,11 @@ public class WaveController : MonoBehaviour
 
     bool waveFailed;
 
-    public event Action<int> OnWaveStarted = delegate { };
-
 
     void OnEnable()
     {
         GameManager.OnStartingNewWaveGame += StartNewWaveGame;
-        GameManager.OnStartingNextWave += InitializeWave;
+        GameManager.OnStartingWave += InitializeWave;
         GameManager.OnWaveFailed += OnWaveFailed;
 
         EnemySpawner.OnActiveEnemiesCountChanged += CheckIfWaveCompleted;
@@ -48,9 +46,9 @@ public class WaveController : MonoBehaviour
     void OnDisable()
     {
         GameManager.OnStartingNewWaveGame -= StartNewWaveGame;
-        GameManager.OnStartingNextWave -= InitializeWave;
+        GameManager.OnStartingWave -= InitializeWave;
         GameManager.OnWaveFailed -= OnWaveFailed;
-        
+
         EnemySpawner.OnActiveEnemiesCountChanged -= CheckIfWaveCompleted;
     }
 
@@ -60,7 +58,6 @@ public class WaveController : MonoBehaviour
         enemySpawner.SetUpCheckPointsLists(checkPointsForPaths, checkPointsForLinger);
 
         currentWaveIndex = -1;
-        InitializeWave();
     }
 
 
@@ -80,7 +77,7 @@ public class WaveController : MonoBehaviour
         CreateEnemiesToSpawnForCurrentWave();
         StartCoroutine(InitializeWaveRoutine());
 
-        OnWaveStarted?.Invoke(currentWaveIndex);
+        //OnWaveStarted?.Invoke(currentWaveIndex);
     }
 
     void CreateEnemiesToSpawnForCurrentWave()
@@ -142,10 +139,8 @@ public class WaveController : MonoBehaviour
     }
 
 
-    
     void CheckIfWaveCompleted(int activeEnemiesCount)
     {
-
         if (activeEnemiesCount == 0 && !isSpawning)
         {
             GameManager.WaveCompleted();
@@ -157,6 +152,6 @@ public class WaveController : MonoBehaviour
     {
         isSpawning = false;
 
-      enemySpawner.MakeAllEnemiesInactive();
+        enemySpawner.MakeAllEnemiesInactive();
     }
 }

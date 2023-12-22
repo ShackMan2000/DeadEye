@@ -22,7 +22,6 @@ public class ScoreController : MonoBehaviour
     {
         EnemyBase.OnAnySingleEnemyDestroyedCorrectly += OnAnySingleEnemyDestroyedCorrectly;
         MultiDrone.OnMultiDroneShot += OnMultiDroneShot;
-        GameManager.OnStartingNextWave += ResetScoreButKeepMulti;
         
         GameManager.OnStartingNewWaveGame += ResetScore;
         GameManager.OnStartingNewTimeTrialGame += ResetScore;
@@ -32,7 +31,6 @@ public class ScoreController : MonoBehaviour
     {
         EnemyBase.OnAnySingleEnemyDestroyedCorrectly -= OnAnySingleEnemyDestroyedCorrectly;
         MultiDrone.OnMultiDroneShot -= OnMultiDroneShot;
-        GameManager.OnStartingNextWave -= ResetScoreButKeepMulti;
         
         GameManager.OnStartingNewWaveGame -= ResetScore;
         GameManager.OnStartingNewTimeTrialGame -= ResetScore;
@@ -52,11 +50,7 @@ public class ScoreController : MonoBehaviour
         OnKillStreakChanged(KillStreak);
     }
     
-    void ResetScoreButKeepMulti()
-    {
-        Score = 0;
-        OnScoreChanged(Score);
-    }
+  
 
     void OnMultiDroneShot(MultiDroneHitInfo hitInfo)
     {

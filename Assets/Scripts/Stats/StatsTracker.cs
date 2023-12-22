@@ -15,9 +15,8 @@ public class StatsTracker : MonoBehaviour
 
     void OnEnable()
     {
-        waveController.OnWaveStarted += OnWaveStarted;
-
         GameManager.OnStartingNewWaveGame += CreateNewStatsForAllWaves;
+        GameManager.OnStartingWave += OnWaveStarted;
 
         EnemyBase.OnAnySingleEnemyDestroyedCorrectly += OnAnySingleEnemyDestroyedCorrectly;
         Shooter.ShotHitEnemy += OnShotFired;
@@ -28,7 +27,8 @@ public class StatsTracker : MonoBehaviour
 
     void OnDisable()
     {
-        waveController.OnWaveStarted -= OnWaveStarted;
+        GameManager.OnStartingNewWaveGame -= CreateNewStatsForAllWaves;
+        GameManager.OnStartingWave -= OnWaveStarted;
 
         EnemyBase.OnAnySingleEnemyDestroyedCorrectly -= OnAnySingleEnemyDestroyedCorrectly;
         Shooter.ShotHitEnemy -= OnShotFired;
@@ -41,10 +41,12 @@ public class StatsTracker : MonoBehaviour
         StatsForEachWave = new List<Stats>();
     }
 
-    void OnWaveStarted(int waveIndex)
+    void OnWaveStarted()
     {
         statsThisRound = new Stats();
-        statsThisRound.WaveIndex = waveIndex;
+        
+        // first wave is 0
+        statsThisRound.WaveIndex = StatsForEachWave.Count;
         StatsForEachWave.Add(statsThisRound);
     }
 
