@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd6206fc312d4e3bb1fdc54bae87689c, type: 3}
+  m_Name: TEST SaveData
+  m_EditorClassIdentifier: 
+  StatsForWaveGames:
+  - index: 0
+    AccuracyPerEnemy:
+    - GUID: 76ccf267-53ed-48de-906a-15f37051d117
+      Accuracy: 0.1876049
+    - GUID: d1b5e40d-9802-494d-ba96-f021aa1e468d
+      Accuracy: 0.24016917
+  - index: 1
+    AccuracyPerEnemy:
+    - GUID: 76ccf267-53ed-48de-906a-15f37051d117
+      Accuracy: 0.08558631
+    - GUID: d1b5e40d-9802-494d-ba96-f021aa1e468d
+      Accuracy: 0.47903293
+  - index: 2
+    AccuracyPerEnemy:
+    - GUID: 76ccf267-53ed-48de-906a-15f37051d117
+      Accuracy: 0.1742115
+    - GUID: d1b5e40d-9802-494d-ba96-f021aa1e468d
+      Accuracy: 0.71828055
+  - index: 3
+    AccuracyPerEnemy:
+    - GUID: 76ccf267-53ed-48de-906a-15f37051d117
+      Accuracy: 0.9713073
+    - GUID: d1b5e40d-9802-494d-ba96-f021aa1e468d
+      Accuracy: 0.0683012
+  StatsForTimeTrialGames:
+  - index: 0
+    AccuracyPerEnemy:
+    - GUID: 76ccf267-53ed-48de-906a-15f37051d117
+      Accuracy: 0.53144675
+    - GUID: d1b5e40d-9802-494d-ba96-f021aa1e468d
+      Accuracy: 0.92041314
+  - index: 1
+    AccuracyPerEnemy:
+    - GUID: 76ccf267-53ed-48de-906a-15f37051d117
+      Accuracy: 0.57928103
+    - GUID: d1b5e40d-9802-494d-ba96-f021aa1e468d
+      Accuracy: 0.047976613
+  - index: 2
+    AccuracyPerEnemy:
+    - GUID: 76ccf267-53ed-48de-906a-15f37051d117
+      Accuracy: 0.24087453
+    - GUID: d1b5e40d-9802-494d-ba96-f021aa1e468d
+      Accuracy: 0.7865323
+  - index: 3
+    AccuracyPerEnemy:
+    - GUID: 76ccf267-53ed-48de-906a-15f37051d117
+      Accuracy: 0.3469469
+    - GUID: d1b5e40d-9802-494d-ba96-f021aa1e468d
+      Accuracy: 0.90412986
+  TutorialCompleted: 0
+  LastSaveTimeStampString: 

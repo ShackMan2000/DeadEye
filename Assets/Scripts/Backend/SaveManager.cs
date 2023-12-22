@@ -14,7 +14,8 @@ namespace Backend
     public class SaveManager : MonoBehaviour
     {
         public SaveData SaveData;
-        
+
+
         public bool DataIsLoaded;
 
         const string saveDataFileName = "userSaveData.json";
@@ -99,5 +100,8 @@ namespace Backend
             DataIsLoaded = true;
             //   SaveDataReady(Data);
         }
+
+
+       
     }
 }

@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using CodeMonkey.Utils;
 using TMPro;
 using Sirenix.OdinInspector;
+using Random = UnityEngine.Random;
 
 
 [RequireComponent(typeof(RectTransform))]
@@ -11,32 +13,11 @@ public class Graph : MonoBehaviour
 {
     [SerializeField] Sprite circleSprite;
 
-
-    // take in a list of accuracy entries and create a graph.
-    // for now the y axis is always going to be fixed. Use values 0 to 1
-    // so create the chart, then create multiple graphs. Each enemy must have an icon color
-    // so that needs to be passed in too, by getting retrieved from the enemy settings
-
-    // so pass in the higher levels, the enemy save data class with the 2 lists.
-    // or maybe a bit more data but there is simply a list connected to an enemy setting
-    // so for the stats window shouldn't really matter.
-
-    // stats window could show the graph for past games, at least the time trial.
-
-
-    // and save data has a list of entries for the modes.
-
-    //  [SerializeField] ColorScheme colorScheme;
-
-
-    // this is the list that will be passed in, could be all time trial games, all wave games, or all waves during a wave game
-    // contains a list for each enemy
     public List<AccuracyPerEnemy> AccuraciesAllEnemies;
     public List<AccuracyEntry> testEntries;
 
     [SerializeField] RectTransform labelXprefab;
     [SerializeField] RectTransform yLabelPrefab;
-    [SerializeField] RectTransform accuracyYLabelYprefab;
 
     [SerializeField] float bufferZoneOnTopRelative = 0.1f;
 
@@ -58,7 +39,14 @@ public class Graph : MonoBehaviour
 
     // [SerializeField] ScoreTracker scoreTracker;
 
-
+    [Serializable]
+    public class AccuracyEntry
+    {
+        public int Index;
+        public float Accuracy;
+    }
+    
+    
     [Button]
     void CreateTestAccuracyEntries(int entries)
     {
@@ -78,7 +66,6 @@ public class Graph : MonoBehaviour
     {
         labelXprefab.gameObject.SetActive(false);
         yLabelPrefab.gameObject.SetActive(false);
-        accuracyYLabelYprefab.gameObject.SetActive(false);
     }
 
 
@@ -108,7 +95,7 @@ public class Graph : MonoBehaviour
 
         activeCircles = new List<RectTransform>();
 
-        CreateYlabels(accuracyYLabelYprefab, 100f);
+        //CreateYlabels(accuracyYLabelYprefab, 100f);
 
       // CreateXMarkers();
 
