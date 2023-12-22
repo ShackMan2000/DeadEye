@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc4f08fd59684b93bc7b1caa7bab1e88, type: 3}
   m_Name: MultiDrone BackAndForth Hard
   m_EditorClassIdentifier: 
+  GUID: 791caf60-6ad3-446e-93cf-9350ac05a3e9
   Prefab: {fileID: 5196567718266365334, guid: efb2a446c68dcaa458693eb98a4bf6fc, type: 3}
-  Difficulty: 1
   Icon: {fileID: 0}
+  Difficulty: 1
   MovementType: 1
   MovementSpeed: 6.05
   RotationSpeed: 40
@@ -26,6 +27,7 @@ MonoBehaviour:
   CanShoot: 0
   BulletPrefab: {fileID: 0}
   ShootWarningTime: 3
+  ShootingInterval: {x: 5, y: 10}
   LaserPivotRotation: 0
   LaserExpansionTime: 0.2
   LaserStayTime: 1

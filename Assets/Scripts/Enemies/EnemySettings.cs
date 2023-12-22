@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -6,6 +7,9 @@ using UnityEngine;
 [CreateAssetMenu]
 public class EnemySettings : ScriptableObject
 {
+
+    public string GUID;
+    
     public EnemyBase Prefab;
 
     [ShowInInspector]
@@ -73,6 +77,21 @@ public class EnemySettings : ScriptableObject
         else
         {
             return PlacementDistance;
+        }
+    }
+
+
+    [Button("Generate GUID")]
+    void OnValidate()
+    {
+        if (string.IsNullOrEmpty(GUID))
+        {
+            GUID = Guid.NewGuid().ToString();
+#if UNITY_EDITOR
+            
+            UnityEditor.EditorUtility.SetDirty(this);
+            UnityEditor.AssetDatabase.SaveAssets();
+#endif
         }
     }
 }

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc4f08fd59684b93bc7b1caa7bab1e88, type: 3}
   m_Name: Shooter Linger Blue
   m_EditorClassIdentifier: 
+  GUID: 583af7d5-b470-48ee-b16c-d51aacbacdca
   Prefab: {fileID: 1751295675167029071, guid: 09d2b14aadeaf874bbfb98ae1342613b, type: 3}
   Icon: {fileID: 21300000, guid: e65d48d92df354941971646e640b7daf, type: 3}
   Difficulty: 0

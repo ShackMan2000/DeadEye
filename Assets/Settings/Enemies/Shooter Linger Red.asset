@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc4f08fd59684b93bc7b1caa7bab1e88, type: 3}
   m_Name: Shooter Linger Red
   m_EditorClassIdentifier: 
+  GUID: d1b5e40d-9802-494d-ba96-f021aa1e468d
   Prefab: {fileID: 1894271655539967977, guid: c386ee678b7507e4ab48e8e9d5914165, type: 3}
   Icon: {fileID: 21300000, guid: 68441fba8d8ad4241a06471e08aa18d3, type: 3}
   Difficulty: 1

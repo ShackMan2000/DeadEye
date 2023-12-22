@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc4f08fd59684b93bc7b1caa7bab1e88, type: 3}
   m_Name: DroneBall Red
   m_EditorClassIdentifier: 
+  GUID: a373f41b-b80f-471b-93c3-9a886f5ac8dd
   Prefab: {fileID: 1883003357943888066, guid: c42168f20f1b5c640bb625764f9b8944, type: 3}
   Icon: {fileID: 21300000, guid: 42bf13a95cc8a5e41b45b977402e9cf0, type: 3}
+  Difficulty: 0
   MovementType: 0
   MovementSpeed: 4.18
   RotationSpeed: 2.89
@@ -24,12 +26,21 @@ MonoBehaviour:
   CanShoot: 0
   BulletPrefab: {fileID: 0}
   ShootWarningTime: 3
+  ShootingInterval: {x: 5, y: 10}
   LaserPivotRotation: 0
   LaserExpansionTime: 0.2
   LaserStayTime: 1
   LaserShrinkTime: 0.2
+  SideDronesHitRangeInUnits: 0
+  SideDronesMovementType: 0
   BackAndForthSpeed: 0
   BackAndForthDistance: 0
+  MovementCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   LaserKnockbackSpeed: 14
   LaserKnockbackTime: 0.6
   PlacementAxis: {x: 1, y: 0, z: 0}
