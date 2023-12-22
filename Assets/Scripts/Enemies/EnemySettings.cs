@@ -12,6 +12,8 @@ public class EnemySettings : ScriptableObject
     
     public EnemyBase Prefab;
 
+    public Color IconColor;
+    
     [ShowInInspector]
     [HorizontalGroup("Base"), PreviewField]
     public GameObject prefabGO => Prefab.gameObject;

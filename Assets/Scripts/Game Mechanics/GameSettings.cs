@@ -16,7 +16,7 @@ public class GameSettings : ScriptableObject
 
     
     
-    public EnemySettings GetEnemySettings(string guid)
+    public EnemySettings GetEnemySettingsFromGUID(string guid)
     {
         return AllEnemySettings.Find(enemy => enemy.GUID == guid);
     }

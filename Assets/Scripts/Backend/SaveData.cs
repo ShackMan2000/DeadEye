@@ -58,6 +58,9 @@ public class StatsSummary
 public class AccuracyPerEnemy
 {
     public string GUID;
+    
+    // use GUID to be safe, but when the data is loaded set enemy settings
+    public EnemySettings EnemySettings;
     public float Accuracy;
 }
 
