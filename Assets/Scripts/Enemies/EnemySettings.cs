@@ -10,17 +10,27 @@ public class EnemySettings : ScriptableObject
 
     public string GUID;
     
+    [HorizontalGroup("main")]
+    
+    [VerticalGroup("main/left"), HideLabel, Title("Prefab")]
     public EnemyBase Prefab;
 
+    [VerticalGroup("main/left"), PreviewField(ObjectFieldAlignment.Left), ShowInInspector, HideLabel]
+    public GameObject prefabGO => Prefab.gameObject;
+    
+    [VerticalGroup("main/right"), Title("Icon")]
     public Color IconColor;
     
-    [ShowInInspector]
-    [HorizontalGroup("Base"), PreviewField]
-    public GameObject prefabGO => Prefab.gameObject;
-
-    [HorizontalGroup("Base"), PreviewField]
+    [VerticalGroup("main/right"), HideLabel, PreviewField(ObjectFieldAlignment.Right)]
     public Sprite Icon;
 
+    
+    
+    
+    
+
+
+    [Space(50f)]
     [EnumToggleButtons]
     public EnemyDifficulty Difficulty;
 
@@ -29,6 +39,7 @@ public class EnemySettings : ScriptableObject
     public float MovementSpeed;
     public float RotationSpeed;
 
+   
     public List<WeaponType> CorrectWeaponsToGetShot;
     public float pointsForKill = 10f;
 

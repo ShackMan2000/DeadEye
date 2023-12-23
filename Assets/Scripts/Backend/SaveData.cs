@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -21,10 +21,10 @@ public class SaveData : ScriptableObject
     public bool TutorialCompleted;
 
     public string LastSaveTimeStampString;
-   // public float TotalPlayTime;
+    // public float TotalPlayTime;
 
 
-   public string ToJson()
+    public string ToJson()
     {
         return JsonUtility.ToJson(this);
     }
@@ -50,7 +50,7 @@ public class StatsSummary
 {
     public int index;
 
-   public List<AccuracyPerEnemy> AccuracyPerEnemy = new List<AccuracyPerEnemy>();
+    public List<AccuracyPerEnemy> AccuracyPerEnemy = new List<AccuracyPerEnemy>();
 }
 
 
@@ -63,6 +63,3 @@ public class AccuracyPerEnemy
     public EnemySettings EnemySettings;
     public float Accuracy;
 }
-
-
-

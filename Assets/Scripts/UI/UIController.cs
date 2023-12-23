@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Sirenix.OdinInspector;
@@ -20,6 +21,8 @@ public class UIController : MonoBehaviour
     [SerializeField] GameObject timeLeft;
     
     [SerializeField] StatsDisplay statsDisplay;
+    
+    [SerializeField] List<GameObject> panelsToHideOnStart;
 
     public static event Action OnEnableUnlimitedHealth = delegate { };
 
@@ -43,9 +46,13 @@ public class UIController : MonoBehaviour
 
     void Start()
     {
+        foreach (GameObject panel in panelsToHideOnStart)
+        {
+            panel.SetActive(false);
+        }
+        
         menuPanel.gameObject.SetActive(true);
-        waveIngamePanel.SetActive(false);
-        statsDisplay.gameObject.SetActive(false);
+   
     }
 
 

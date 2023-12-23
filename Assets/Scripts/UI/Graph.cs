@@ -57,21 +57,7 @@ public class Graph : MonoBehaviour
             Accuracy = accuracy;
         }
     }
-
-
-    [Button]
-    void CreateTestAccuracyEntries(int entries)
-    {
-        testEntries = new List<AccuracyEntry>();
-
-        for (int i = 0; i < entries; i++)
-        {
-            AccuracyEntry entry = new AccuracyEntry();
-            entry.Index = i;
-            entry.Accuracy = Random.Range(0f, 1f);
-            testEntries.Add(entry);
-        }
-    }
+ 
 
     void Awake()
     {
@@ -80,14 +66,11 @@ public class Graph : MonoBehaviour
     }
 
 
-    // create y values separately, in edit mode or on start (safer bc might resize it and forget to adjust y)
-
     [Button]
-    void CreateGraphsForWaveGames()
+    public void CreateGraphsForWaveGames()
     {
         CreateGraphs(saveData.StatsForWaveGames);
     }
-
 
     public void CreateGraphs(List<StatsSummary> statsSummaries)
     {

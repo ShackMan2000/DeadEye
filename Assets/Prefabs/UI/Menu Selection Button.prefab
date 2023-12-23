@@ -144,6 +144,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8523092114851690621}
+  - component: {fileID: 239384262712884272}
   - component: {fileID: 500457495727719469}
   - component: {fileID: 7831245802228238440}
   - component: {fileID: 3978383477145275734}
@@ -174,6 +175,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 553.43, y: 207.2}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &239384262712884272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4127342227736580633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253cf154f98d407e9c69d84a7d761a08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameObjectToActivate: {fileID: 0}
 --- !u!222 &500457495727719469
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -256,9 +270,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
-        m_MethodName: StartNewWaveGame
+      - m_Target: {fileID: 239384262712884272}
+        m_TargetAssemblyTypeName: SelectionButton, Assembly-CSharp
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
