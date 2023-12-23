@@ -15,11 +15,7 @@ public class Train : MonoBehaviour
 
     public float MovementDuration => trainPath.duration;
 
-
-    void Start()
-    {
-
-    }
+  
 
     [Button]
     public void SpawnTrain()
@@ -36,6 +32,7 @@ public class Train : MonoBehaviour
             trainTransform.gameObject.SetActive(true);
             //gateEffects.SetActive(true);
             trainPath.DOPlay();
+            
         }
         
         Debug.Log("Quick spawn train, duration: " + trainPath.duration);
@@ -47,5 +44,11 @@ public class Train : MonoBehaviour
     void ResetTrain()
     {
         trainPath.DORewind();
+    }
+    
+    [Button]
+    void SetToFinalPosition()
+    {
+        trainPath.DOComplete();
     }
 }

@@ -1,4 +1,7 @@
-﻿using Sirenix.OdinInspector;
+﻿using System;
+using FluffyUnderware.Curvy;
+using FluffyUnderware.Curvy.Controllers;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 
@@ -6,15 +9,21 @@ public class EnemyMovement : MonoBehaviour
 {
     EnemySettings settings;
 
-    [SerializeField] CheckPointsList checkPoints;
+  //  [SerializeField] CheckPointsList checkPoints;
 
 
     [SerializeField] PlayerPosition playerPosition;
 
+    
+    [SerializeField] SplineController splineController;
 
     [SerializeField] Transform pivot;
+    
+    
+    public static  event Action<CurvySpline> OnSplineFreedUp = delegate { };
 
 
+    [SerializeField] CurvySpline spline;
     bool isMoving;
 
     int reservedLingerPointIndex;
@@ -26,49 +35,64 @@ public class EnemyMovement : MonoBehaviour
     Vector3 currentTargetPosition;
 
 
-    public void Initialize(EnemySettings s, CheckPointsList checkPointsList)
-    {
-        settings = s;
+    // public void Initialize(EnemySettings s, CheckPointsList checkPointsList)
+    // {
+    //     settings = s;
+    //
+    //     checkPoints = checkPointsList;
+    //     isMoving = true;
+    //
+    //     currentTargetIndex = -1;
+    //
+    //     if (settings.MovementType == EnemyMovementType.FixedPath)
+    //     {
+    //         PickNextTarget();
+    //     }
+    // }
 
-        checkPoints = checkPointsList;
+    public void Initialize(EnemySettings enemySettings, CurvySpline s)
+    {
+        settings = enemySettings;
+        spline = s;
+
+        splineController.Spline = s;
+        
+        splineController.AbsolutePosition = 0;
+        splineController.Speed = settings.MovementSpeed;
+
+        splineController.Refresh();
         isMoving = true;
-
-        currentTargetIndex = -1;
-
-        if (settings.MovementType == EnemyMovementType.FixedPath)
-        {
-            PickNextTarget();
-        }
     }
 
-    void PickNextTarget()
+    // void PickNextTarget()
+    // {
+    //     if (checkPoints == null || checkPoints.CheckPoints.Count == 0)
+    //     {
+    //         Debug.LogError("No checkpoints found, disabled movement");
+    //         isMoving = false;
+    //         return;
+    //     }
+    //
+    //
+    //     currentTargetIndex++;
+    //     if (currentTargetIndex >= checkPoints.CheckPoints.Count)
+    //     {
+    //         currentTargetIndex = 0;
+    //     }
+    //
+    //     currentTargetPosition = checkPoints.CheckPoints[currentTargetIndex];
+    // }
+
+
+    void LateUpdate()
     {
-        if (checkPoints == null || checkPoints.CheckPoints.Count == 0)
-        {
-            Debug.LogError("No checkpoints found, disabled movement");
-            isMoving = false;
-            return;
-        }
+        // if (isMoving)
+        // {
+        //     Move();
+        // }
 
-
-        currentTargetIndex++;
-        if (currentTargetIndex >= checkPoints.CheckPoints.Count)
-        {
-            currentTargetIndex = 0;
-        }
-
-        currentTargetPosition = checkPoints.CheckPoints[currentTargetIndex];
-    }
-
-
-    void Update()
-    {
-        if (isMoving)
-        {
-            Move();
-        }
-
-        if (settings.RotateTowardsPlayer)
+  
+        if (settings.RotateTowardsPlayer && splineController.RelativePosition < 0.99f)
         {
             RotatePivotTowardsPlayer();
         }
@@ -78,26 +102,26 @@ public class EnemyMovement : MonoBehaviour
     // for now could also make a method that if it hasn't reached a checkpoint in x seconds, pick the next one. 
     // or even if distance to checkpoint is not decreasing enough since the last second, it's stuck and should pick the next one
 
-    void Move()
-    {
-        float movementSpeed = settings.MovementSpeed * Time.deltaTime;
-        float rotationSpeed = settings.RotationSpeed * Time.deltaTime;
-
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(currentTargetPosition - transform.position), rotationSpeed);
-        transform.position += transform.forward * movementSpeed;
-
-        if (Vector3.Distance(transform.position, currentTargetPosition) < distanceToReachTarget)
-        {
-            if (settings.MovementType == EnemyMovementType.Linger)
-            {
-                isMoving = false;
-            }
-            else
-            {
-                PickNextTarget();
-            }
-        }
-    }
+    // void Move()
+    // {
+    //     float movementSpeed = settings.MovementSpeed * Time.deltaTime;
+    //     float rotationSpeed = settings.RotationSpeed * Time.deltaTime;
+    //
+    //     transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(currentTargetPosition - transform.position), rotationSpeed);
+    //     transform.position += transform.forward * movementSpeed;
+    //
+    //     if (Vector3.Distance(transform.position, currentTargetPosition) < distanceToReachTarget)
+    //     {
+    //         if (settings.MovementType == EnemyMovementType.Linger)
+    //         {
+    //             isMoving = false;
+    //         }
+    //         else
+    //         {
+    //             PickNextTarget();
+    //         }
+    //     }
+    // }
 
     void RotatePivotTowardsPlayer()
     {
@@ -105,26 +129,18 @@ public class EnemyMovement : MonoBehaviour
     }
 
 
-    [Button]
-    void TestStartMoving()
-    {
-        isMoving = true;
-        PickNextTarget();
-    }
-
-
-    public void SetLingerPoint(CheckPointsList cpl)
-    {
-        checkPoints = cpl;
-        reservedLingerPointIndex = checkPoints.GetFreeIndex();
-        currentTargetPosition = checkPoints.CheckPoints[reservedLingerPointIndex];
-    }
+    // public void SetLingerPoint(CheckPointsList cpl)
+    // {
+    //     checkPoints = cpl;
+    //     reservedLingerPointIndex = checkPoints.GetFreeIndex();
+    //     currentTargetPosition = checkPoints.CheckPoints[reservedLingerPointIndex];
+    // }
 
     public void OnDestroyed()
     {
         if (settings.MovementType == EnemyMovementType.Linger)
         {
-            checkPoints.FreeUpIndex(reservedLingerPointIndex);
+            OnSplineFreedUp?.Invoke(splineController.Spline);
         }
     }
 }

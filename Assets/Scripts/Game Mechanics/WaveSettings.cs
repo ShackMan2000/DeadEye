@@ -26,8 +26,9 @@ public class SpawnSettings
 
     public int MinimumWaveLevel;
     
+    [LabelWidth(200f)]
     public int SpawnAmountBase;
     public int SpawnAmountIncreasePerLevel;
 
-    public int SpawnCountLeftCurrentWave;
+   // public int SpawnCountLeftCurrentWave;
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FluffyUnderware.Curvy;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -7,40 +8,56 @@ using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] List<CheckPointsList> checkPointsForPaths;
+    //[SerializeField] List<CheckPointsList> checkPointsForPaths;
+    //  [SerializeField] List<CheckPointsList> checkPointsForLinger;
 
-    [SerializeField] List<CheckPointsList> checkPointsForLinger;
 
-    
-    
+    [ShowInInspector, ReadOnly] List<CurvySpline> splinesEntryForMainLoops;
+    [ShowInInspector, ReadOnly] List<CurvySpline> splinesLingerEasyAvailable;
+    [ShowInInspector, ReadOnly] List<CurvySpline> splinesLingerHardReserved;
+    [ShowInInspector, ReadOnly] List<CurvySpline> splinesLingerHardAvailable;
+    [ShowInInspector, ReadOnly] List<CurvySpline> splinesLingerEasyReserved;
+
     [ShowInInspector] Dictionary<EnemyBase, List<EnemyBase>> inactiveEnemies = new Dictionary<EnemyBase, List<EnemyBase>>();
     [ShowInInspector] public Dictionary<EnemyBase, List<EnemyBase>> activeEnemies = new Dictionary<EnemyBase, List<EnemyBase>>();
 
-    
+
     public static event Action<int> OnActiveEnemiesCountChanged = delegate { };
-    
-    
+
+
     void OnEnable()
     {
         EnemyBase.OnAnyEnemyDestroyedPrefabType += OnEnemyDestroyedPrefabType;
+        EnemyMovement.OnSplineFreedUp += OnSplineFreedUp;
     }
 
     void OnDisable()
     {
         EnemyBase.OnAnyEnemyDestroyedPrefabType -= OnEnemyDestroyedPrefabType;
+        EnemyMovement.OnSplineFreedUp -= OnSplineFreedUp;
     }
-    
-    
-    
-    
-    public void SetUpCheckPointsLists(List<CheckPointsList> paths, List<CheckPointsList> lingers)
+
+
+    public void SetUpCurvyPaths(List<CurvySpline> entryPaths, List<CurvySpline> lingerEasy, List<CurvySpline> lingerHard)
     {
-        checkPointsForPaths = paths;
-        checkPointsForLinger = lingers;
+        splinesEntryForMainLoops = entryPaths;
+        splinesLingerEasyAvailable = lingerEasy;
+        splinesLingerHardAvailable = lingerHard;
+        
+        splinesLingerEasyReserved = new List<CurvySpline>();
+        splinesLingerHardReserved = new List<CurvySpline>();
+        
+        
     }
 
+    // public void SetUpCheckPointsLists(List<CheckPointsList> paths, List<CheckPointsList> lingers)
+    // {
+    //     checkPointsForPaths = paths;
+    //     checkPointsForLinger = lingers;
+    // }
 
-   public void SpawnEnemy(EnemySettings enemySettings, Vector3 spawnPosition)
+
+    public void SpawnEnemy(EnemySettings enemySettings, Vector3 spawnPosition)
     {
         if (enemySettings == null || enemySettings.Prefab == null)
         {
@@ -54,28 +71,46 @@ public class EnemySpawner : MonoBehaviour
         newEnemy.transform.SetParent(transform);
         newEnemy.transform.position = spawnPosition;
 
+        CurvySpline lingerSpline = null;
 
         if (enemySettings.MovementType == EnemyMovementType.Linger)
         {
-            int checkpointsForDifficultyIndex = checkPointsForLinger.FindIndex(x => x.Difficulty == enemySettings.Difficulty);
-
-            if (checkpointsForDifficultyIndex == -1)
+            if (enemySettings.Difficulty == EnemyDifficulty.Easy && splinesLingerEasyAvailable.Count > 0)
             {
-                Debug.Log("ERROR No checkpoints list found for difficulty " + enemySettings.Difficulty);
-                checkpointsForDifficultyIndex = 0;
+                lingerSpline = splinesLingerEasyAvailable[Random.Range(0, splinesLingerEasyAvailable.Count)];
+                splinesLingerEasyReserved.Add(lingerSpline);
+                splinesLingerEasyAvailable.Remove(lingerSpline);
             }
-
-            newEnemy.SetLingerPoint(checkPointsForLinger[checkpointsForDifficultyIndex]);
+            else if (enemySettings.Difficulty == EnemyDifficulty.Hard && splinesLingerHardAvailable.Count > 0)
+            {
+                lingerSpline = splinesLingerHardAvailable[Random.Range(0, splinesLingerHardAvailable.Count)];
+                splinesLingerHardReserved.Add(lingerSpline);
+                splinesLingerHardAvailable.Remove(lingerSpline);
+            }
+            else
+            {
+                Debug.LogError("ERROR No splines available for difficulty " + enemySettings.Difficulty + "skipping linger enemy");
+                return;
+            }
+        }
+        else
+        {
+            lingerSpline = splinesEntryForMainLoops[Random.Range(0, splinesEntryForMainLoops.Count)];
+        }
+        
+        if(lingerSpline == null)
+        {
+            Debug.LogError("ERROR! Linger spline is null");
+            return;
         }
 
-        newEnemy.Initialize(enemySettings, checkPointsForPaths[Random.Range(0, checkPointsForPaths.Count)]);
-        
-        
+        newEnemy.Initialize(enemySettings, lingerSpline);
+
+
         UpdateActiveEnemiesCount();
     }
 
 
-    
     EnemyBase GetNewEnemy(EnemyBase prefab)
     {
         EnemyBase newEnemy = null;
@@ -134,9 +169,8 @@ public class EnemySpawner : MonoBehaviour
         foreach (KeyValuePair<EnemyBase, List<EnemyBase>> pair in activeEnemies)
         {
             activeEnemiesCount += pair.Value.Count;
-            
         }
-        
+
         OnActiveEnemiesCountChanged(activeEnemiesCount);
     }
 
@@ -153,5 +187,41 @@ public class EnemySpawner : MonoBehaviour
         {
             enemy.DisappearWhenPlayerGotKilled();
         }
+    }
+    
+    
+    void OnSplineFreedUp(CurvySpline spline)
+    {
+        if (splinesLingerEasyReserved.Contains(spline))
+        {
+            splinesLingerEasyReserved.Remove(spline);
+            splinesLingerEasyAvailable.Add(spline);
+        }
+        else if (splinesLingerHardReserved.Contains(spline))
+        {
+            splinesLingerHardReserved.Remove(spline);
+            splinesLingerHardAvailable.Add(spline);
+        }
+        else
+        {
+            Debug.LogError("ERROR! Trying to free up a spline that is not reserved");
+        }
+    }
+
+    public void FreeAllSplines()
+    {
+        foreach (var spline in splinesLingerEasyReserved)
+        {
+            splinesLingerEasyAvailable.Add(spline);
+        }
+        
+        foreach (var spline in splinesLingerHardReserved)
+        {
+            splinesLingerHardAvailable.Add(spline);
+        }
+        
+        splinesLingerEasyReserved.Clear();
+        splinesLingerHardReserved.Clear();
+        
     }
 }

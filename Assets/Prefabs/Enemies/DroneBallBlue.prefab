@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 5762438037454262552}
   - component: {fileID: 3398824298847136087}
   - component: {fileID: -4919076386129175705}
+  - component: {fileID: -9193178552756519794}
   m_Layer: 0
   m_Name: DroneBallBlue
   m_TagString: Untagged
@@ -99,9 +100,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   checkPoints: {fileID: 0}
   playerPosition: {fileID: 11400000, guid: a9f4db12f8b21d94fbc84b69ba8393ac, type: 2}
+  splineController: {fileID: -9193178552756519794}
   pivot: {fileID: 6812498480241206417}
   distanceToReachTarget: 0.1
-  zOffset: 0
 --- !u!135 &3398824298847136087
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -135,9 +136,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce8db96ba1d645239eb1b7e9b147dd3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CorrectWeaponsToGetShot:
-  - {fileID: 11400000, guid: a996b2b426834944496a5628720e9cfb, type: 2}
   ShootingBlocked: 0
+--- !u!114 &-9193178552756519794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3786675415580583039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dacc8a2ff207fca49bdaf5d45a943d80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 
+  UpdateIn: 0
+  targetComponent: 0
+  m_PositionMode: 1
+  m_Position: 0
+  m_MoveMode: 1
+  m_Speed: 0
+  m_Direction: 0
+  m_Clamping: 1
+  motionConstraints: 0
+  m_PlayAutomatically: 1
+  m_OrientationMode: 1
+  m_LockRotation: 1
+  m_OrientationAxis: 0
+  m_IgnoreDirection: 0
+  m_DampingDirection: 0
+  m_DampingUp: 0
+  m_OffsetAngle: 0
+  m_OffsetRadius: 0
+  m_OffsetCompensation: 1
+  onInitialized:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ForceFrequentUpdates: 0
+  m_Spline: {fileID: 0}
+  m_UseCache: 1
+  connectionBehavior: 1
+  allowDirectionChange: 0
+  rejectCurrentSpline: 1
+  rejectTooDivergentSplines: 0
+  maxAllowedDivergenceAngle: 90
+  connectionCustomSelector: {fileID: 0}
+  onPositionReachedList: []
+  m_OnControlPointReached:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnEndReached:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSwitch:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &5437501179449136772
 GameObject:
   m_ObjectHideFlags: 0

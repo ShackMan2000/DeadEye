@@ -732,6 +732,7 @@ GameObject:
   - component: {fileID: 5196567718266365334}
   - component: {fileID: 6118846312569771990}
   - component: {fileID: 8683728980654734380}
+  - component: {fileID: -7645707791573438644}
   m_Layer: 0
   m_Name: Multi Drone
   m_TagString: DRONE
@@ -786,6 +787,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   checkPoints: {fileID: 0}
   playerPosition: {fileID: 11400000, guid: a9f4db12f8b21d94fbc84b69ba8393ac, type: 2}
+  splineController: {fileID: -7645707791573438644}
   pivot: {fileID: 2319525784022488479}
   distanceToReachTarget: 0.1
 --- !u!114 &8683728980654734380
@@ -821,6 +823,60 @@ MonoBehaviour:
   DebugRotationRelative: 0
   sideDroneInLocalSpace: {x: 0, y: 0, z: 0}
   SideDroneCurrentOffsetRelative: 0
+--- !u!114 &-7645707791573438644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7209071568327118397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dacc8a2ff207fca49bdaf5d45a943d80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 
+  UpdateIn: 0
+  targetComponent: 0
+  m_PositionMode: 1
+  m_Position: 0
+  m_MoveMode: 1
+  m_Speed: 0
+  m_Direction: 0
+  m_Clamping: 0
+  motionConstraints: 0
+  m_PlayAutomatically: 1
+  m_OrientationMode: 0
+  m_LockRotation: 1
+  m_OrientationAxis: 0
+  m_IgnoreDirection: 0
+  m_DampingDirection: 0
+  m_DampingUp: 0
+  m_OffsetAngle: 0
+  m_OffsetRadius: 0
+  m_OffsetCompensation: 1
+  onInitialized:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ForceFrequentUpdates: 0
+  m_Spline: {fileID: 0}
+  m_UseCache: 1
+  connectionBehavior: 0
+  allowDirectionChange: 1
+  rejectCurrentSpline: 1
+  rejectTooDivergentSplines: 0
+  maxAllowedDivergenceAngle: 90
+  connectionCustomSelector: {fileID: 0}
+  onPositionReachedList: []
+  m_OnControlPointReached:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnEndReached:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSwitch:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7810895995684979874
 GameObject:
   m_ObjectHideFlags: 0

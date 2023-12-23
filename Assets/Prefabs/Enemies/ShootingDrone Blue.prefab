@@ -647,6 +647,7 @@ GameObject:
   - component: {fileID: 255578724087699471}
   - component: {fileID: 3506425195894798882}
   - component: {fileID: 5440863269276866671}
+  - component: {fileID: 6704785970884321436}
   m_Layer: 0
   m_Name: ShootingDrone Blue
   m_TagString: Untagged
@@ -702,9 +703,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   checkPoints: {fileID: 0}
   playerPosition: {fileID: 11400000, guid: a9f4db12f8b21d94fbc84b69ba8393ac, type: 2}
+  splineController: {fileID: 6704785970884321436}
   pivot: {fileID: 1438669074332175696}
   distanceToReachTarget: 0.1
-  zOffset: 0
 --- !u!135 &255578724087699471
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -738,8 +739,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce8db96ba1d645239eb1b7e9b147dd3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CorrectWeaponsToGetShot:
-  - {fileID: 11400000, guid: a996b2b426834944496a5628720e9cfb, type: 2}
   ShootingBlocked: 0
 --- !u!114 &5440863269276866671
 MonoBehaviour:
@@ -760,7 +759,62 @@ MonoBehaviour:
   - {fileID: 5747054208145091666}
   - {fileID: 4225044527772287182}
   bulletSpawnPoint: {fileID: 2190011326708219239}
+  gameSettings: {fileID: 0}
   playerPosition: {fileID: 11400000, guid: a9f4db12f8b21d94fbc84b69ba8393ac, type: 2}
+--- !u!114 &6704785970884321436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6689680190070859419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dacc8a2ff207fca49bdaf5d45a943d80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 
+  UpdateIn: 0
+  targetComponent: 0
+  m_PositionMode: 1
+  m_Position: 0
+  m_MoveMode: 1
+  m_Speed: 0
+  m_Direction: 0
+  m_Clamping: 1
+  motionConstraints: 0
+  m_PlayAutomatically: 1
+  m_OrientationMode: 0
+  m_LockRotation: 1
+  m_OrientationAxis: 0
+  m_IgnoreDirection: 0
+  m_DampingDirection: 0
+  m_DampingUp: 0
+  m_OffsetAngle: 0
+  m_OffsetRadius: 0
+  m_OffsetCompensation: 1
+  onInitialized:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ForceFrequentUpdates: 0
+  m_Spline: {fileID: 0}
+  m_UseCache: 1
+  connectionBehavior: 1
+  allowDirectionChange: 1
+  rejectCurrentSpline: 1
+  rejectTooDivergentSplines: 0
+  maxAllowedDivergenceAngle: 90
+  connectionCustomSelector: {fileID: 0}
+  onPositionReachedList: []
+  m_OnControlPointReached:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnEndReached:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSwitch:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6753371921267579238
 GameObject:
   m_ObjectHideFlags: 0

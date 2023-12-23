@@ -1,7 +1,10 @@
 ﻿using System;
+using FluffyUnderware.Curvy;
 using UnityEngine;
 
 
+
+[SelectionBase]
 public class EnemyBase : MonoBehaviour
 {
     // could do the settings directly in here, a list of options
@@ -58,16 +61,29 @@ public class EnemyBase : MonoBehaviour
         OnShotByAnyWeapon();
     }
 
-    public void Initialize(EnemySettings settingsOption, CheckPointsList checkPointsList)
+    public void Initialize(EnemySettings settingsOption, CurvySpline spline)
     {
         Settings = settingsOption;
         gameObject.SetActive(true);
         
-        movement.Initialize(Settings, checkPointsList);
+        movement.Initialize(Settings, spline);
         IsInitialized = true;
         
         OnInitialized?.Invoke();
     }
+    
+    
+    
+    // public void Initialize(EnemySettings settingsOption, CheckPointsList checkPointsList)
+    // {
+    //     Settings = settingsOption;
+    //     gameObject.SetActive(true);
+    //     
+    //     movement.Initialize(Settings, checkPointsList);
+    //     IsInitialized = true;
+    //     
+    //     OnInitialized?.Invoke();
+    // }
 
   
     public void GetDestroyed()
@@ -91,9 +107,8 @@ public class EnemyBase : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void SetLingerPoint(CheckPointsList checkPoint)
-    {
-        movement.SetLingerPoint(checkPoint);
-    }
+
+
+   
 
 }
