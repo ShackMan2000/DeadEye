@@ -701,10 +701,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e811e85c8bbb4928a994314d81aeff27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkPoints: {fileID: 0}
+  enemyBase: {fileID: 1751295675167029071}
   playerPosition: {fileID: 11400000, guid: a9f4db12f8b21d94fbc84b69ba8393ac, type: 2}
   splineController: {fileID: 6704785970884321436}
   pivot: {fileID: 1438669074332175696}
+  spline: {fileID: 0}
   distanceToReachTarget: 0.1
 --- !u!135 &255578724087699471
 SphereCollider:

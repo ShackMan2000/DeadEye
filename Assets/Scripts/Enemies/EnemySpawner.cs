@@ -8,9 +8,6 @@ using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
-    //[SerializeField] List<CheckPointsList> checkPointsForPaths;
-    //  [SerializeField] List<CheckPointsList> checkPointsForLinger;
-
 
     [ShowInInspector, ReadOnly] List<CurvySpline> splinesEntryForMainLoops;
     [ShowInInspector, ReadOnly] List<CurvySpline> splinesLingerEasyAvailable;
@@ -46,18 +43,23 @@ public class EnemySpawner : MonoBehaviour
         
         splinesLingerEasyReserved = new List<CurvySpline>();
         splinesLingerHardReserved = new List<CurvySpline>();
-        
-        
     }
 
-    // public void SetUpCheckPointsLists(List<CheckPointsList> paths, List<CheckPointsList> lingers)
-    // {
-    //     checkPointsForPaths = paths;
-    //     checkPointsForLinger = lingers;
-    // }
+    
+    public int GetActiveEnemiesCount()
+    {
+        int activeEnemiesCount = 0;
+
+        foreach (KeyValuePair<EnemyBase, List<EnemyBase>> pair in activeEnemies)
+        {
+            activeEnemiesCount += pair.Value.Count;
+        }
+
+        return activeEnemiesCount;
+    }
 
 
-    public void SpawnEnemy(EnemySettings enemySettings, Vector3 spawnPosition)
+    public void SpawnEnemy(EnemySettings enemySettings, bool isLooping)
     {
         if (enemySettings == null || enemySettings.Prefab == null)
         {
@@ -66,10 +68,7 @@ public class EnemySpawner : MonoBehaviour
         }
 
         EnemyBase newEnemy = GetNewEnemy(enemySettings.Prefab);
-
-
-        newEnemy.transform.SetParent(transform);
-        newEnemy.transform.position = spawnPosition;
+        
 
         CurvySpline lingerSpline = null;
 
@@ -104,7 +103,9 @@ public class EnemySpawner : MonoBehaviour
             return;
         }
 
-        newEnemy.Initialize(enemySettings, lingerSpline);
+        
+        // here is probably where it should be set to either clamp and destroy when reaching end of spline or loop
+        newEnemy.Initialize(enemySettings, lingerSpline , isLooping);
 
 
         UpdateActiveEnemiesCount();
@@ -123,6 +124,8 @@ public class EnemySpawner : MonoBehaviour
         else
         {
             newEnemy = Instantiate(prefab).GetComponent<EnemyBase>();
+            
+            newEnemy.transform.SetParent(transform);
             newEnemy.Prefab = prefab;
         }
 
@@ -185,7 +188,7 @@ public class EnemySpawner : MonoBehaviour
 
         foreach (EnemyBase enemy in enemiesToDisappear)
         {
-            enemy.DisappearWhenPlayerGotKilled();
+            enemy.DeactivateViaManager();
         }
     }
     

@@ -54,19 +54,19 @@ public class EnemyBase : MonoBehaviour
         if (GetsDestroyedByGunshot)
         {
             OnAnySingleEnemyDestroyedCorrectly(Settings, correctWeapon);
-            GetDestroyed();
+            GetDestroyedByPlayer();
         }
 
 
         OnShotByAnyWeapon();
     }
 
-    public void Initialize(EnemySettings settingsOption, CurvySpline spline)
+    public void Initialize(EnemySettings settingsOption, CurvySpline spline, bool isLooping)
     {
         Settings = settingsOption;
         gameObject.SetActive(true);
         
-        movement.Initialize(Settings, spline);
+        movement.Initialize(Settings, spline, isLooping);
         IsInitialized = true;
         
         OnInitialized?.Invoke();
@@ -86,7 +86,7 @@ public class EnemyBase : MonoBehaviour
     // }
 
   
-    public void GetDestroyed()
+    public void GetDestroyedByPlayer()
     {
         shotReceiver.ShootingBlocked = true;
         OnSpawnExplosion(transform.position);
@@ -101,7 +101,9 @@ public class EnemyBase : MonoBehaviour
         OnAnyEnemyDestroyedPrefabType(this, Prefab);
     }
 
-    public void DisappearWhenPlayerGotKilled()
+    
+    // end of game (wave over, time trial over, player killed) or enemy reached second gate
+    public void DeactivateViaManager()
     {
         OnAnyEnemyDestroyedPrefabType(this, Prefab);
         gameObject.SetActive(false);

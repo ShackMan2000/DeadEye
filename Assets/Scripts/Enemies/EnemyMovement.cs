@@ -9,21 +9,20 @@ public class EnemyMovement : MonoBehaviour
 {
     EnemySettings settings;
 
-  //  [SerializeField] CheckPointsList checkPoints;
-
+    [SerializeField] EnemyBase enemyBase;
 
     [SerializeField] PlayerPosition playerPosition;
 
-    
     [SerializeField] SplineController splineController;
 
     [SerializeField] Transform pivot;
     
-    
+
     public static  event Action<CurvySpline> OnSplineFreedUp = delegate { };
 
 
     [SerializeField] CurvySpline spline;
+    
     bool isMoving;
 
     int reservedLingerPointIndex;
@@ -34,6 +33,17 @@ public class EnemyMovement : MonoBehaviour
 
     Vector3 currentTargetPosition;
 
+
+    void OnEnable()
+    {
+        splineController.OnEndReached.AddListener(OnEndReached);
+    }
+
+
+    void OnDisable()
+    {
+        splineController.OnEndReached.RemoveListener(OnEndReached);
+    }
 
     // public void Initialize(EnemySettings s, CheckPointsList checkPointsList)
     // {
@@ -50,7 +60,7 @@ public class EnemyMovement : MonoBehaviour
     //     }
     // }
 
-    public void Initialize(EnemySettings enemySettings, CurvySpline s)
+    public void Initialize(EnemySettings enemySettings, CurvySpline s, bool isLooping)
     {
         settings = enemySettings;
         spline = s;
@@ -59,6 +69,7 @@ public class EnemyMovement : MonoBehaviour
         
         splineController.AbsolutePosition = 0;
         splineController.Speed = settings.MovementSpeed;
+        splineController.Clamping = isLooping ? CurvyClamping.Loop : CurvyClamping.Clamp;
 
         splineController.Refresh();
         isMoving = true;
@@ -86,12 +97,8 @@ public class EnemyMovement : MonoBehaviour
 
     void LateUpdate()
     {
-        // if (isMoving)
-        // {
-        //     Move();
-        // }
-
-  
+        
+        // use reached end event instead
         if (settings.RotateTowardsPlayer && splineController.RelativePosition < 0.99f)
         {
             RotatePivotTowardsPlayer();
@@ -128,13 +135,15 @@ public class EnemyMovement : MonoBehaviour
         pivot.rotation = Quaternion.LookRotation(playerPosition.Position - pivot.position);
     }
 
+    
+    void OnEndReached(CurvySplineMoveEventArgs arg0)
+    {
+        if(splineController.Clamping == CurvyClamping.Clamp)
+        {
+            enemyBase.DeactivateViaManager();
+        }
+    }
 
-    // public void SetLingerPoint(CheckPointsList cpl)
-    // {
-    //     checkPoints = cpl;
-    //     reservedLingerPointIndex = checkPoints.GetFreeIndex();
-    //     currentTargetPosition = checkPoints.CheckPoints[reservedLingerPointIndex];
-    // }
 
     public void OnDestroyed()
     {

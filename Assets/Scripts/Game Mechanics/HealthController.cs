@@ -21,8 +21,6 @@ public class HealthController : MonoBehaviour
         
         GameManager.OnStartingNewTimeTrialGame += EnableUnlimitedHealth;
         GameManager.OnStartingNewWaveGame += ResetHealth;
-        
-        health = 3;
     }
 
     void OnDisable()

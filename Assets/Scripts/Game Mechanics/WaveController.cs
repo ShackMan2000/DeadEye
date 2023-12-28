@@ -22,16 +22,12 @@ public class WaveController : MonoBehaviour
 
     [ShowInInspector] Dictionary<SpawnSettings, int> enemiesToSpawnCurrentWave;
 
-   // [SerializeField] List<CheckPointsList> checkPointsForPaths;
-   // [SerializeField] List<CheckPointsList> checkPointsForLinger;
-    
     [SerializeField] List<CurvySpline> splinesEntryForMainLoops;
 
     [SerializeField] List<CurvySpline> splinesLingerEasy;
 
     [SerializeField] List<CurvySpline> splinesLingerHard;
 
-    // allright, need a list of paths...
 
     float timeTillNextSpawn;
 
@@ -41,18 +37,6 @@ public class WaveController : MonoBehaviour
 
     bool waveFailed;
 
-
-    // for path based enemies (balls and shooter) have a list of entry paths, each will lead to a main loop. Have like 3 or 4 and that's good enough. 
-    // make one where they will be opposite, that would be cool for the left and right enemies.
-    // also name the paths, like swoosh at player, high in the sky, midrange
-
-
-    // for the linger ones, need to reserve points as before (could delay spawning if not enough points, but have like 20 just in case)
-    // question is then first how to get the entry path from the linger path... and how to make sure it will pick that path when it reaches the connection
-    // doesn't matter for now... 
-    // could just have a lot of paths... SIMPLEST
-
-    // okay do that for now, when stress test worked can do the branching and all that...
 
 
     void OnEnable()
@@ -76,7 +60,6 @@ public class WaveController : MonoBehaviour
 
     void StartNewWaveGame()
     {
-      //  enemySpawner.SetUpCheckPointsLists(checkPointsForPaths, checkPointsForLinger);
         enemySpawner.SetUpCurvyPaths(splinesEntryForMainLoops, splinesLingerEasy, splinesLingerHard);
 
         currentWaveIndex = -1;
@@ -154,7 +137,7 @@ public class WaveController : MonoBehaviour
             enemiesToSpawnCurrentWave.Remove(selectedSetting);
         }
 
-        enemySpawner.SpawnEnemy(selectedSetting.EnemySettings, spawnMarker.position);
+        enemySpawner.SpawnEnemy(selectedSetting.EnemySettings, false);
 
         if (enemiesToSpawnCurrentWave.Count == 0)
         {

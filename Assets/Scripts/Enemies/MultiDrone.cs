@@ -178,7 +178,7 @@ public class MultiDrone : MonoBehaviour
             StopCoroutine(showLasersRoutine);
         }
 
-        enemyBase.GetDestroyed();
+        enemyBase.GetDestroyedByPlayer();
     }
 
 
