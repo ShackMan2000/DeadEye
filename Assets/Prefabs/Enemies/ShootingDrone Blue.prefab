@@ -782,7 +782,7 @@ MonoBehaviour:
   m_MoveMode: 1
   m_Speed: 0
   m_Direction: 0
-  m_Clamping: 1
+  m_Clamping: 0
   motionConstraints: 0
   m_PlayAutomatically: 1
   m_OrientationMode: 0

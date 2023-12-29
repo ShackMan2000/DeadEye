@@ -61,12 +61,12 @@ public class EnemyBase : MonoBehaviour
         OnShotByAnyWeapon();
     }
 
-    public void Initialize(EnemySettings settingsOption, CurvySpline spline, bool isLooping)
+    public void Initialize(EnemySettings settingsOption, CurvySpline spline, bool removeOnPathEnd)
     {
         Settings = settingsOption;
         gameObject.SetActive(true);
         
-        movement.Initialize(Settings, spline, isLooping);
+        movement.Initialize(Settings, spline, removeOnPathEnd);
         IsInitialized = true;
         
         OnInitialized?.Invoke();

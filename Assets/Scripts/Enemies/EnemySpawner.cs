@@ -59,7 +59,7 @@ public class EnemySpawner : MonoBehaviour
     }
 
 
-    public void SpawnEnemy(EnemySettings enemySettings, bool isLooping)
+    public void SpawnEnemy(EnemySettings enemySettings, bool removeOnPathEnd)
     {
         if (enemySettings == null || enemySettings.Prefab == null)
         {
@@ -67,7 +67,6 @@ public class EnemySpawner : MonoBehaviour
             return;
         }
 
-        EnemyBase newEnemy = GetNewEnemy(enemySettings.Prefab);
         
 
         CurvySpline lingerSpline = null;
@@ -96,7 +95,7 @@ public class EnemySpawner : MonoBehaviour
         {
             lingerSpline = splinesEntryForMainLoops[Random.Range(0, splinesEntryForMainLoops.Count)];
         }
-        
+
         if(lingerSpline == null)
         {
             Debug.LogError("ERROR! Linger spline is null");
@@ -104,8 +103,10 @@ public class EnemySpawner : MonoBehaviour
         }
 
         
-        // here is probably where it should be set to either clamp and destroy when reaching end of spline or loop
-        newEnemy.Initialize(enemySettings, lingerSpline , isLooping);
+        // do this in the end so all the safety checks had a chance to return
+        EnemyBase newEnemy = GetNewEnemy(enemySettings.Prefab);
+        
+        newEnemy.Initialize(enemySettings, lingerSpline , removeOnPathEnd);
 
 
         UpdateActiveEnemiesCount();
@@ -177,6 +178,13 @@ public class EnemySpawner : MonoBehaviour
         OnActiveEnemiesCountChanged(activeEnemiesCount);
     }
 
+    
+    
+    // whatever is easiest...
+    // instant disable...
+    // make invisible
+    // move to exit gate...
+    
     public void MakeAllEnemiesInactive()
     {
         List<EnemyBase> enemiesToDisappear = new List<EnemyBase>();

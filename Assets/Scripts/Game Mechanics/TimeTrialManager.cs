@@ -117,7 +117,7 @@ public class TimeTrialManager : MonoBehaviour
             return;
         }
         
-        enemySpawner.SpawnEnemy(selectedSetting, false);
+        enemySpawner.SpawnEnemy(selectedSetting, true);
     }
 
 
@@ -132,6 +132,8 @@ public class TimeTrialManager : MonoBehaviour
             {
                 timeLeftText.text = "0.0s";
                 gameIsRunning = false;
+                enemySpawner.MakeAllEnemiesInactive();
+                
                 GameManager.FinishTimeTrialGame();
             }
             

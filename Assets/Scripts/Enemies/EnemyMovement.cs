@@ -16,13 +16,13 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] SplineController splineController;
 
     [SerializeField] Transform pivot;
-    
 
-    public static  event Action<CurvySpline> OnSplineFreedUp = delegate { };
+
+    public static event Action<CurvySpline> OnSplineFreedUp = delegate { };
 
 
     [SerializeField] CurvySpline spline;
-    
+
     bool isMoving;
 
     int reservedLingerPointIndex;
@@ -32,6 +32,8 @@ public class EnemyMovement : MonoBehaviour
     int currentTargetIndex;
 
     Vector3 currentTargetPosition;
+
+    bool removeWhenReachingPathEnd;
 
 
     void OnEnable()
@@ -60,20 +62,22 @@ public class EnemyMovement : MonoBehaviour
     //     }
     // }
 
-    public void Initialize(EnemySettings enemySettings, CurvySpline s, bool isLooping)
+    public void Initialize(EnemySettings enemySettings, CurvySpline s, bool removeOnPathEnd)
     {
         settings = enemySettings;
         spline = s;
 
         splineController.Spline = s;
-        
+
         splineController.AbsolutePosition = 0;
         splineController.Speed = settings.MovementSpeed;
-        splineController.Clamping = isLooping ? CurvyClamping.Loop : CurvyClamping.Clamp;
+        removeWhenReachingPathEnd = removeOnPathEnd;
 
         splineController.Refresh();
         isMoving = true;
     }
+
+  
 
     // void PickNextTarget()
     // {
@@ -97,7 +101,6 @@ public class EnemyMovement : MonoBehaviour
 
     void LateUpdate()
     {
-        
         // use reached end event instead
         if (settings.RotateTowardsPlayer && splineController.RelativePosition < 0.99f)
         {
@@ -135,10 +138,10 @@ public class EnemyMovement : MonoBehaviour
         pivot.rotation = Quaternion.LookRotation(playerPosition.Position - pivot.position);
     }
 
-    
+
     void OnEndReached(CurvySplineMoveEventArgs arg0)
     {
-        if(splineController.Clamping == CurvyClamping.Clamp)
+        if (removeWhenReachingPathEnd)
         {
             enemyBase.DeactivateViaManager();
         }

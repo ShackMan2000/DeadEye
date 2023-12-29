@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -13,6 +14,18 @@ public class CanvasMouseControl : MonoBehaviour
     [SerializeField] Camera mainCamera;
     // use a different camera for events
 
+
+    public bool autoEnable;
+
+
+    void Start()
+    {
+        if (autoEnable)
+        {
+            EnableMouseControl();
+        }
+    
+    }
 
     [Button]
     void EnableMouseControl()

@@ -14,16 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemySpawnIntervalBase: 2
   EnemySpawnIntervalDecreasePerLevel: 0.1
-  EnemySpawnIntervalMin: 1
-  EnemySpawnIntervalVarianceRelative: 0.402
+  SpawnIntervalMin: 0
+  SpawnIntervalMax: 0
+  MaxActiveEnemies: 0
   AllEnemiesOptions:
   - EnemySettings: {fileID: 11400000, guid: 57a478a597c1b134c999897e5d273eab, type: 2}
     MinimumWaveLevel: 0
-    SpawnAmountBase: 10
-    SpawnAmountIncreasePerLevel: 0
-  - EnemySettings: {fileID: 11400000, guid: afece67f50f078e43820d3bab65de207, type: 2}
-    MinimumWaveLevel: 0
-    SpawnAmountBase: 10
+    SpawnAmountBase: 2
     SpawnAmountIncreasePerLevel: 0
   - EnemySettings: {fileID: 11400000, guid: 84b19bbc9954502428a72299fc1f387d, type: 2}
     MinimumWaveLevel: 0
