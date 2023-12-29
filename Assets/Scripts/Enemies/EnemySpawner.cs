@@ -22,6 +22,10 @@ public class EnemySpawner : MonoBehaviour
     public static event Action<int> OnActiveEnemiesCountChanged = delegate { };
 
 
+    void Start()
+    {
+        OVRPlugin.systemDisplayFrequency = 120f; }
+
     void OnEnable()
     {
         EnemyBase.OnAnyEnemyDestroyedPrefabType += OnEnemyDestroyedPrefabType;
