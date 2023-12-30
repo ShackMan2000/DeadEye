@@ -19,7 +19,18 @@ public class EnemyBullet : MonoBehaviour
     
     // could also tell it directly about the player. Thing is there is no player script yet...
     // could be the position updater...
+
+    void OnEnable()
+    {
+        GameManager.OnExitShootingMode += DestroyBullet;
+    }
     
+    void OnDisable()
+    {
+        GameManager.OnExitShootingMode -= DestroyBullet;
+    }
+
+
     public void Initialize(Vector3 position, Vector3 playerPositionPosition)
     {
         isMoving = true;
@@ -44,5 +55,10 @@ public class EnemyBullet : MonoBehaviour
             selectableOption.ReduceHealth();
             Destroy(gameObject);
         }
+    }
+    
+    void DestroyBullet()
+    {
+        Destroy(gameObject);
     }
 }

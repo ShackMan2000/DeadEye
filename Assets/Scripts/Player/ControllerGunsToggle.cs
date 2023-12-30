@@ -10,13 +10,13 @@ public class ControllerGunsToggle : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.OnExitGameMode += ShowControllers;
+        GameManager.OnExitShootingMode += ShowControllers;
         GameManager.OnEnterShootingMode += ShowGuns;
     }
 
     void OnDisable()
     {
-        GameManager.OnExitGameMode -= ShowControllers;
+        GameManager.OnExitShootingMode -= ShowControllers;
         GameManager.OnEnterShootingMode -= ShowGuns;
     }
 

@@ -16,14 +16,9 @@ public class SelectOptionButton : MonoBehaviour
     public event Action<SelectOptionButton> OnHealthOptionSelected = delegate { };
 
 
-    public void InjectHealthOption(int selectedIndex, int MaxHealthOption)
+    public void InjectOptionIndex(int selectedIndex)
     {
         Index = selectedIndex;
-        buttonText.text = MaxHealthOption.ToString();
-        if (MaxHealthOption == 0)
-        {
-            buttonText.gameObject.SetActive(false);
-        }
     }
 
     
@@ -35,5 +30,15 @@ public class SelectOptionButton : MonoBehaviour
     public void SetColor(Color selectedColor)
     {
         buttonImage.color = selectedColor;
+    }
+    
+    public void SetButtonText(int MaxHealthOption)
+    {
+        buttonText.text = MaxHealthOption.ToString();
+        
+        if (MaxHealthOption == 0)
+        {
+            buttonText.gameObject.SetActive(false);
+        }
     }
 }

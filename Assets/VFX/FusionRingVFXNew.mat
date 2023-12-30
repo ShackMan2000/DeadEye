@@ -24,7 +24,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BackTexture:
-        m_Texture: {fileID: 2800000, guid: 371b26c8dc366e54c8bab67f78daf036, type: 3}
+        m_Texture: {fileID: 2800000, guid: 11d41a539455fe14b80af2a8b580f4c6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RingSwingTex:
@@ -62,8 +62,8 @@ Material:
     - _BackTexRotationSpeed: 0.28
     - _BackTexScale: 1
     - _Color_2_Start: 0
-    - _Color_3_Full: 0.949
-    - _Color_3_Start: 0.442
+    - _Color_3_Full: 0.854
+    - _Color_3_Start: 0.216
     - _DynamicBackTecRotationSpeed: 1
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -81,8 +81,8 @@ Material:
     - _RingWobbleStrength: 0
     - _ShowMaster: 1
     m_Colors:
-    - _BackTexValueRemap: {r: 0, g: 1.23, b: 0, a: 0}
-    - _Color3: {r: 0, g: 0.6318487, b: 9.918878, a: 0}
+    - _BackTexValueRemap: {r: 0, g: 0.77, b: 0, a: 0}
+    - _Color3: {r: 0, g: 0.55652606, b: 8.176658, a: 0}
     - _Color_1: {r: 0, g: 0, b: 0, a: 0}
     - _Color_2: {r: 0, g: 0.0844214, b: 2.6197767, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}

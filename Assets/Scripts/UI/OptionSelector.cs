@@ -23,7 +23,7 @@ public class OptionSelector : MonoBehaviour
 
     void OnEnable()
     {
-        SetUpButtons();
+        InjectIndexesAndAddListener();
     }
 
     void OnDisable()
@@ -37,8 +37,7 @@ public class OptionSelector : MonoBehaviour
         }
     }
 
-    [Button]
-    void SetUpButtons()
+    void InjectIndexesAndAddListener()
     {
         // don't have the case yet with not enough buttons..
         for (int i = 0; i < buttons.Count; i++)
@@ -46,7 +45,7 @@ public class OptionSelector : MonoBehaviour
             if (selectableOption.Options.Count > i)
             {
                 buttons[i].gameObject.SetActive(true);
-                buttons[i].InjectHealthOption(i, selectableOption.Options[i]);
+                 buttons[i].InjectOptionIndex(i);
                  buttons[i].OnHealthOptionSelected += OnHealthOptionSelected;
 
                 if (i == selectableOption.SelectedIndex)
@@ -98,6 +97,35 @@ public class OptionSelector : MonoBehaviour
             }
         }
     }
+    
+    
+    [Button]
+     void SetUpButtonTexts()
+     {
+         for (int i = 0; i < buttons.Count; i++)
+         {
+             if (selectableOption.Options.Count > i)
+             {
+                 buttons[i].gameObject.SetActive(true);
+               
+                 buttons[i].SetButtonText(selectableOption.Options[i]);
+
+                 if (i == selectableOption.SelectedIndex)
+                 {
+                     buttons[i].SetColor(selectedColor);
+                 }
+                 else
+                 {
+                     buttons[i].SetColor(notSelectedColor);
+                 }
+             }
+             else
+             {
+                 buttons[i].gameObject.SetActive(false);
+             }
+         }
+         
+     }
 
 
     // might be safest to just select one in on enable and set the max health right away.

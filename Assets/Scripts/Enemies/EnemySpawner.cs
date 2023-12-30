@@ -30,12 +30,14 @@ public class EnemySpawner : MonoBehaviour
     {
         EnemyBase.OnAnyEnemyDestroyedPrefabType += OnEnemyDestroyedPrefabType;
         EnemyMovement.OnSplineFreedUp += OnSplineFreedUp;
+        GameManager.OnExitShootingMode += MakeAllEnemiesInactive;
     }
 
     void OnDisable()
     {
         EnemyBase.OnAnyEnemyDestroyedPrefabType -= OnEnemyDestroyedPrefabType;
         EnemyMovement.OnSplineFreedUp -= OnSplineFreedUp;
+        GameManager.OnExitShootingMode -= MakeAllEnemiesInactive;
     }
 
 

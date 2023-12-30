@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
 
     // right now this is only used by the guns/controller toggle
     public static event Action OnEnterShootingMode = delegate { };
-    public static event Action OnExitGameMode = delegate { };
+    public static event Action OnExitShootingMode = delegate { };
 
     public static event Action OnStartingNewWaveGame = delegate { };
     public static event Action OnStartingWave = delegate { };
@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
     public static void ExitShootingGameMode()
     {
         ShootingModeActive = false;
-        OnExitGameMode?.Invoke();
+        OnExitShootingMode?.Invoke();
     }
 
 

@@ -10,18 +10,14 @@ using Random = UnityEngine.Random;
 
 public class TimeTrialManager : MonoBehaviour
 {
-    
-    public List<float> TimeOptions;
-
-    public int selectedTimeIndex;
-    
+    [SerializeField] SelectableOption timeOptions;
     
     [SerializeField] WaveSettings waveSettings;
     
     [SerializeField] List<CurvySpline> splines;
     
     float timeTillNextSpawn;
-    public float SelectedTime => TimeOptions[selectedTimeIndex];
+    public float StartTimeInSeconds => timeOptions.SelectedValue * 60;
 
     public int MaxActiveActiveEnemies => waveSettings.MaxActiveEnemies;
 
@@ -56,7 +52,7 @@ public class TimeTrialManager : MonoBehaviour
 
     void OnStartingNewTimeTrialGame()
     {
-        timeLeft = SelectedTime;
+        timeLeft = StartTimeInSeconds;
         gameIsRunning = true;
         timeLeftText.gameObject.SetActive(true);
         
@@ -126,6 +122,9 @@ public class TimeTrialManager : MonoBehaviour
         if(gameIsRunning)
         {
             timeLeft -= Time.deltaTime;
+            
+            
+         
             timeLeftText.text = timeLeft.ToString("F1") + "s";
             
             if (timeLeft <= 0)
