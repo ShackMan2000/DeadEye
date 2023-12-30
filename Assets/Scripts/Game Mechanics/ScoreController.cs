@@ -9,6 +9,8 @@ public class ScoreController : MonoBehaviour
 
     [SerializeField] ScoreSettings scoreSettings;
 
+    
+    [SerializeField] PlayerHealth playerHealth;
 
     [SerializeField] ScoreMulti currentMulti;
 
@@ -20,20 +22,24 @@ public class ScoreController : MonoBehaviour
     
     void OnEnable()
     {
-        EnemyBase.OnAnySingleEnemyDestroyedCorrectly += OnAnySingleEnemyDestroyedCorrectly;
+        EnemyBase.OnAnySingleEnemyDestroyedCorrectly += OnSingleEnemyDestroyed;
         MultiDrone.OnMultiDroneShot += OnMultiDroneShot;
         
         GameManager.OnStartingNewWaveGame += ResetScore;
         GameManager.OnStartingNewTimeTrialGame += ResetScore;
+        
+        playerHealth.OnHealthReduced += ResetKillStreakAndMulti;
     }
 
     void OnDisable()
     {
-        EnemyBase.OnAnySingleEnemyDestroyedCorrectly -= OnAnySingleEnemyDestroyedCorrectly;
+        EnemyBase.OnAnySingleEnemyDestroyedCorrectly -= OnSingleEnemyDestroyed;
         MultiDrone.OnMultiDroneShot -= OnMultiDroneShot;
         
         GameManager.OnStartingNewWaveGame -= ResetScore;
         GameManager.OnStartingNewTimeTrialGame -= ResetScore;
+        
+        playerHealth.OnHealthReduced -= ResetKillStreakAndMulti;
     }
 
     
@@ -50,6 +56,13 @@ public class ScoreController : MonoBehaviour
         OnKillStreakChanged(KillStreak);
     }
     
+    
+    void ResetKillStreakAndMulti(int health)
+    {
+        KillStreak = 0;
+        currentMulti = scoreSettings.ScoreMultipliers[0];
+        OnKillStreakChanged(KillStreak);
+    }
   
 
     void OnMultiDroneShot(MultiDroneHitInfo hitInfo)
@@ -70,7 +83,7 @@ public class ScoreController : MonoBehaviour
         OnKillStreakChanged(KillStreak);
     }
 
-    void OnAnySingleEnemyDestroyedCorrectly(EnemySettings enemySettings, bool correctWeapon)
+    void OnSingleEnemyDestroyed(EnemySettings enemySettings, bool correctWeapon)
     {
         if (correctWeapon)
         {

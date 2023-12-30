@@ -1,52 +1,84 @@
 ﻿using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
-    public static bool GameModeActive;
+    public static bool ShootingModeActive;
     public static bool GameOver;
 
-    
+
+    [SerializeField] PlayerHealth playerHealth;
+
     // right now this is only used by the guns/controller toggle
-    public static event Action OnEnterGameMode = delegate { }; 
+    public static event Action OnEnterShootingMode = delegate { };
     public static event Action OnExitGameMode = delegate { };
-    
+
     public static event Action OnStartingNewWaveGame = delegate { };
     public static event Action OnStartingWave = delegate { };
-    
+
     public static event Action OnStartingNewTimeTrialGame = delegate { };
     public static event Action OnTimeTrialFinished = delegate { };
-    
+
     public static event Action OnWaveCompleted = delegate { };
     public static event Action OnWaveFailed = delegate { };
 
 
-    
-    
-    [Button]
-    public static void EnterGameMode()
+    void OnEnable()
     {
-        GameModeActive = true;
-        OnEnterGameMode?.Invoke();
+        playerHealth.OnHealthReduced += OnPlayerHealthReduced;
+        OnStartingNewWaveGame += ResetHealth;
+        OnStartingNewTimeTrialGame += ResetHealth;
+    }
+
+
+    void OnDisable()
+    {
+        playerHealth.OnHealthReduced -= OnPlayerHealthReduced;
+        OnStartingNewWaveGame -= ResetHealth;
+        OnStartingNewTimeTrialGame -= ResetHealth;
+    }
+
+    
+    void ResetHealth()
+    {
+        playerHealth.ResetHealth();
+    }
+    
+    void OnPlayerHealthReduced(int health)
+    {
+        if (health <= 0)
+        {
+            WaveFailed();
+        }
     }
 
 
     [Button]
-    public static void ExitGameMode()
+    public static void EnterShootingMode()
     {
-        GameModeActive = false;
+        ShootingModeActive = true;
+        OnEnterShootingMode?.Invoke();
+    }
+
+
+    [Button]
+    public static void ExitShootingGameMode()
+    {
+        ShootingModeActive = false;
         OnExitGameMode?.Invoke();
     }
 
-    
+
     public static void StartNewTimeTrialGame()
     {
         GameOver = false;
-        EnterGameMode();
+        EnterShootingMode();
+        
         OnStartingNewTimeTrialGame?.Invoke();
     }
-    
+
     public static void StartNewWaveGame()
     {
         GameOver = false;
@@ -56,22 +88,22 @@ public class GameManager : MonoBehaviour
 
     public static void StartWave()
     {
-        EnterGameMode();
+        EnterShootingMode();
         OnStartingWave?.Invoke();
     }
-    
+
     public static void FinishTimeTrialGame()
     {
         Debug.Log("FinishTimeTrialGame");
-        ExitGameMode();
+        ExitShootingGameMode();
         OnTimeTrialFinished?.Invoke();
     }
 
     public static void WaveCompleted()
     {
-        if (GameModeActive)
+        if (ShootingModeActive)
         {
-            ExitGameMode();
+            ExitShootingGameMode();
             OnWaveCompleted?.Invoke();
         }
         else
@@ -82,10 +114,10 @@ public class GameManager : MonoBehaviour
 
     public static void WaveFailed()
     {
-        if (GameModeActive)
-        {   
+        if (ShootingModeActive)
+        {
             GameOver = true;
-            ExitGameMode();
+            ExitShootingGameMode();
             OnWaveFailed?.Invoke();
         }
         else
@@ -93,13 +125,6 @@ public class GameManager : MonoBehaviour
             Debug.Log("Trying to call Wave failed, but game mode is not active. Should never happen");
         }
     }
-
-
 }
 
 
-public enum GameMode
-{
-    Waves,
-    TimeTrial
-}

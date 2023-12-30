@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class EnemyBullet : MonoBehaviour
 {
 
+    [SerializeField] PlayerHealth selectableOption;
+    
     public float Speed;
 
     bool isMoving;
@@ -13,6 +16,10 @@ public class EnemyBullet : MonoBehaviour
     
     public static event Action OnAnyEnemyBulletHitPlayer = delegate { };
 
+    
+    // could also tell it directly about the player. Thing is there is no player script yet...
+    // could be the position updater...
+    
     public void Initialize(Vector3 position, Vector3 playerPositionPosition)
     {
         isMoving = true;
@@ -34,7 +41,7 @@ public class EnemyBullet : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            OnAnyEnemyBulletHitPlayer?.Invoke();
+            selectableOption.ReduceHealth();
             Destroy(gameObject);
         }
     }

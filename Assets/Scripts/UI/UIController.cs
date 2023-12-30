@@ -24,7 +24,7 @@ public class UIController : MonoBehaviour
     
     [SerializeField] List<GameObject> panelsToHideOnStart;
 
-    public static event Action OnEnableUnlimitedHealth = delegate { };
+   // public static event Action OnEnableUnlimitedHealth = delegate { };
 
 
     void OnEnable()
@@ -147,9 +147,5 @@ public class UIController : MonoBehaviour
     }
 
 
-    [Button]
-    public void EnableUnlimitedHealth()
-    {
-        OnEnableUnlimitedHealth?.Invoke();
-    }
+  
 }

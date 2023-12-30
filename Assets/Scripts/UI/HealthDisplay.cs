@@ -6,30 +6,62 @@ using UnityEngine.UI;
 public class HealthDisplay : MonoBehaviour
 {
     [SerializeField] List<Image> healthIcons;
-    
-    [SerializeField] HealthController healthController;
-    
+
+    [SerializeField] Color fullColor;
+    [SerializeField] Color emptyColor;
+
+    [SerializeField] PlayerHealth playerHealth;
+
+    [SerializeField] GameObject container;
+
     void OnEnable()
     {
-        healthController.OnHealthChanged += UpdateHealthDisplay;
-        
-            foreach (var icon in healthIcons)
-            {
-                icon.color = healthController.UnlimitedHealth? Color.black : Color.red;
-            }
+        SetUpHearts();
+
+        playerHealth.OnHealthReduced += UpdatePlayerHealthDisplay;
     }
-    
+
     void OnDisable()
     {
-        healthController.OnHealthChanged -= UpdateHealthDisplay;
+        playerHealth.OnHealthReduced -= UpdatePlayerHealthDisplay;
     }
-    
-    
-    void UpdateHealthDisplay(int health)
+
+
+    void SetUpHearts()
     {
+        if (healthIcons.Count == 0)
+        {
+            Debug.LogError("No health icons set in the inspector");
+            return;
+        }
+
+        if (playerHealth.MaxHealth == 0)
+        {
+            container.SetActive(false);
+
+            return;
+        }
+
+        container.SetActive(true);
+
+        // go through health and make sure that there are enough heart icons, if not, instantiate and add to the list.
+        for (int i = 0; i < playerHealth.MaxHealth; i++)
+        {
+            if (i < healthIcons.Count)
+            {
+                healthIcons[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                Image newIcon = Instantiate(healthIcons[0], healthIcons[0].transform.parent);
+                healthIcons.Add(newIcon);
+            }
+        }
+
+        // go through health icons and make sure that there are not too many, if so, deactivate them.
         for (int i = 0; i < healthIcons.Count; i++)
         {
-            if (i < health)
+            if (i < playerHealth.MaxHealth)
             {
                 healthIcons[i].gameObject.SetActive(true);
             }
@@ -38,9 +70,32 @@ public class HealthDisplay : MonoBehaviour
                 healthIcons[i].gameObject.SetActive(false);
             }
         }
-    }
-    
-    
-    
 
+        // set color of all to full.
+        foreach (var icon in healthIcons)
+        {
+            icon.color = fullColor;
+        }
+    }
+
+
+    void UpdatePlayerHealthDisplay(int health)
+    {
+        if (playerHealth.MaxHealth == 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < healthIcons.Count; i++)
+        {
+            if (i < health)
+            {
+                healthIcons[i].color = fullColor;
+            }
+            else
+            {
+                healthIcons[i].color = emptyColor;
+            }
+        }
+    }
 }

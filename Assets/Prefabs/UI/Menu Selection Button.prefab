@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Wave Mode
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 663d21bd27a2f9b4d8efa8a4fe1bfbd8, type: 2}
-  m_sharedMaterial: {fileID: 1251656154249752532, guid: 663d21bd27a2f9b4d8efa8a4fe1bfbd8,
+  m_fontAsset: {fileID: 11400000, guid: 5886e106ad0695a48859b4a51504bd59, type: 2}
+  m_sharedMaterial: {fileID: 2383681578168385397, guid: 5886e106ad0695a48859b4a51504bd59,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: -3.23
+  m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
