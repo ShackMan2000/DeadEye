@@ -297,6 +297,7 @@ Transform:
   - {fileID: 8465708113897136350}
   - {fileID: 1087288255302294461}
   - {fileID: 3001157685230728363}
+  - {fileID: 334543445398356066}
   m_Father: {fileID: 3752880280387012695}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2776257576145536866
@@ -903,8 +904,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.0574, z: 0.253}
   m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
   m_ConstrainProportionsScale: 1
-  m_Children:
-  - {fileID: 334543445398356066}
+  m_Children: []
   m_Father: {fileID: 3752880280387012695}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6901883889415979164
@@ -1324,8 +1324,8 @@ MonoBehaviour:
   rightGun: {fileID: 11400000, guid: a934da441be51aa45941237a7fa5bd16, type: 2}
   shootingAudioSource: {fileID: 2684142527726882194}
   debugShotHits: 0
-  pressedThreshold: 0.9
-  releaseThreshold: 0.1
+  pressedThreshold: 0.85
+  releaseThreshold: 0.3
   frequencyTest: 0
   amplitudeTest: 0
   vibrationDuration: 0.3
@@ -1355,12 +1355,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8367064071553485743}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 1000, z: 0.5}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0.05739999, z: 0.25300002}
+  m_LocalScale: {x: 0.01, y: 20, z: 0.009999999}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6733882964264623741}
+  m_Father: {fileID: 5637957869298788774}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &2459960795745895127
 MeshFilter:

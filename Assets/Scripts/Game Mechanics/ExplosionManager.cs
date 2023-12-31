@@ -69,7 +69,7 @@ public class ExplosionManager : MonoBehaviour
         else
         {
             AudioSource explosionSound = Instantiate(explosionSoundsPrefabs[Random.Range(0, explosionSoundsPrefabs.Count)], pos, Quaternion.identity, transform);
-            explosionSound.pitch = Random.Range(explosionSoundPitchRange.x, explosionSoundPitchRange.y);
+         //   explosionSound.pitch = Random.Range(explosionSoundPitchRange.x, explosionSoundPitchRange.y);
             explosionSound.Play();
             activeExplosionSounds.Add(explosionSound);
         }

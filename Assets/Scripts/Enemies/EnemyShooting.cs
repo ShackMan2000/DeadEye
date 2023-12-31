@@ -72,5 +72,10 @@ public class EnemyShooting : MonoBehaviour
         {
             r.material.SetFloat(Glow, 0f);
         }
+        
+        if(gameObject.activeSelf)
+        {
+            StartCoroutine(ShootAtPlayerCoroutine());
+        }
     }
 }

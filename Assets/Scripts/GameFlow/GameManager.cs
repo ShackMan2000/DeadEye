@@ -77,9 +77,7 @@ public static class GameManager
         }
     }
 
-    
-    
-    
+
     public static void WaveFailed()
     {
         if (ShootingModeActive)
@@ -93,6 +91,8 @@ public static class GameManager
             Debug.Log("Trying to call Wave failed, but game mode is not active. Should never happen");
         }
     }
+    
+    
 
 
     public static void StartNewTimeTrialGame()

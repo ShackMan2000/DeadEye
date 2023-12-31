@@ -57,7 +57,7 @@ public class WaveController : MonoBehaviour
         GameManager.OnStartingNewWaveGame -= StartNewWaveGame;
         GameManager.OnStartingWave -= InitializeWave;
         GameManager.OnWaveFailed -= OnWaveFailed;
-        
+
         playerHealth.OnHealthReduced -= OnPlayerHealthReduced;
         EnemySpawner.OnActiveEnemiesCountChanged -= CheckIfWaveCompleted;
     }
@@ -152,12 +152,12 @@ public class WaveController : MonoBehaviour
             return;
         }
 
+
         if (playerHealth.CurrentHealth <= 0 && playerHealth.MaxHealth != 0)
         {
+            waveFailed = true;
             GameManager.WaveFailed();
         }
-
-        waveFailed = true;
     }
 
 

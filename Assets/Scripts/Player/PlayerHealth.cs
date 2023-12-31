@@ -14,7 +14,10 @@ public class PlayerHealth : ScriptableObject
     public int CurrentHealth;
     
     public int MaxHealth => maxHealthOption.SelectedValue;
+    
+    public bool UnlimitedHealth => maxHealthOption.SelectedValue == 0;
 
+    public event Action OnPlayerHitByBullet = delegate { }; 
     public event Action OnHealthReduced = delegate { };
 
 
@@ -24,11 +27,10 @@ public class PlayerHealth : ScriptableObject
         CurrentHealth = maxHealthOption.SelectedValue;
     }
 
-    
-    
-
     public void ReduceHealth()
     {
+        OnPlayerHitByBullet?.Invoke();
+        
         if (maxHealthOption.SelectedValue == 0)
         {
             return;

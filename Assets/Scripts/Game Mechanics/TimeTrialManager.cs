@@ -140,7 +140,7 @@ public class TimeTrialManager : MonoBehaviour
     {
         if (gameIsRunning == false)
         {
-            Debug.LogError("Player health reduced while game is not running");
+          //  Debug.LogError("Player health reduced while game is not running");
             return;
         }
 

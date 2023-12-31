@@ -28,7 +28,7 @@ public class ScoreController : MonoBehaviour
         GameManager.OnStartingNewWaveGame += ResetScore;
         GameManager.OnStartingNewTimeTrialGame += ResetScore;
         
-        playerHealth.OnHealthReduced += ResetKillStreakAndMulti;
+        playerHealth.OnPlayerHitByBullet += ResetKillStreakAndMulti;
     }
 
     void OnDisable()
@@ -39,7 +39,7 @@ public class ScoreController : MonoBehaviour
         GameManager.OnStartingNewWaveGame -= ResetScore;
         GameManager.OnStartingNewTimeTrialGame -= ResetScore;
         
-        playerHealth.OnHealthReduced -= ResetKillStreakAndMulti;
+        playerHealth.OnPlayerHitByBullet -= ResetKillStreakAndMulti;
     }
 
     
