@@ -18,8 +18,8 @@ public class Shooter : MonoBehaviour
     [SerializeField] bool debugShotHits;
 
     bool isPressed;
-    float pressedThreshold = 0.9f;
-    float releaseThreshold = 0.1f;
+   [SerializeField] float pressedThreshold = 0.9f;
+   [SerializeField] float releaseThreshold = 0.1f;
 
 
     public event Action<WeaponType> OnShotFired = delegate { };
@@ -44,11 +44,13 @@ public class Shooter : MonoBehaviour
 
             if (shotReceiver == null)
             {
-                OnHitObjectNotShootable(hit.point, hit.normal);
+              //  OnHitObjectNotShootable(hit.point, hit.normal);
                 ShotHitEnemy?.Invoke(false);
             }
             else
             {
+                // this will end the game, shot receiver tells enemy spawner  to disappear, which tells wave controller that wave is over
+                // nah, keep this, move mesh a level down and in here just make sure that we are not in shooting mode
                 shotReceiver.GetShot(SelectedWeaponType);
                 ShotHitEnemy?.Invoke(true);
             }
@@ -67,6 +69,12 @@ public class Shooter : MonoBehaviour
 
     void Update()
     {
+        if (!GameManager.ShootingModeActive)
+        {
+            return;
+        }
+        
+        
         float triggerValue;
 
         if (SelectedWeaponType == leftGun)

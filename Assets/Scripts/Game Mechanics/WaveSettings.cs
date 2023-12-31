@@ -21,6 +21,8 @@ public class WaveSettings : ScriptableObject
 
     public int MaxActiveEnemies;
 
+    
+    [TableList]
     public List<SpawnSettings> AllEnemiesOptions;
 
 

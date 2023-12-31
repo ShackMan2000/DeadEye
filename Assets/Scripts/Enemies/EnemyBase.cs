@@ -34,7 +34,7 @@ public class EnemyBase : MonoBehaviour
 
     public bool IsInitialized = false;
 
-    public bool CanShoot => Settings.CanShoot;
+   // public bool CanShoot => Settings.CanShoot;
 
     void OnEnable()
     {

@@ -13,17 +13,16 @@ public class BulletImpacts : MonoBehaviour
     [SerializeField] GameObject bulletImpactPrefab;
 
 
-    void OnEnable()
-    {
-        Shooter.OnHitObjectNotShootable += SpawnBulletImpact;
-       
-    }
-    
-    void OnDisable()
-    {
-        Shooter.OnHitObjectNotShootable -= SpawnBulletImpact;
-
-    }
+    // void OnEnable()
+    // {
+    //     Shooter.OnHitObjectNotShootable += SpawnBulletImpact;
+    // }
+    //
+    // void OnDisable()
+    // {
+    //     Shooter.OnHitObjectNotShootable -= SpawnBulletImpact;
+    //
+    // }
 
     void SpawnBulletImpact(Vector3 position, Vector3 faceNormal)
     {

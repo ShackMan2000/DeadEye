@@ -49,13 +49,21 @@ public class EnemySettings : ScriptableObject
     [ShowIf("CanShoot")]
     [SerializeField] ShootingSettings shootingSettings;
     
-    [SerializeField] struct ShootingSettings
+    
+    // challenge is to draw the label on top of the group, and maybe some nice colors.
+    
+    
+    
+    [Serializable] 
+    [InlineProperty, HideLabel, InfoBox("Shooting", SdfIconType.Bullseye)][GUIColor("orange")]
+    struct ShootingSettings
     {
         public EnemyBullet BulletPrefab;
         public float ShootWarningTime;
         public Vector2 ShootingInterval;
-
     }
+    
+    
     public EnemyBullet BulletPrefab;
     public float ShootWarningTime = 3f;
     public Vector2 ShootingInterval = new Vector2(5f, 10f);
