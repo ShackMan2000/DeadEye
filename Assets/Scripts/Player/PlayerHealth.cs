@@ -15,7 +15,7 @@ public class PlayerHealth : ScriptableObject
     
     public int MaxHealth => maxHealthOption.SelectedValue;
 
-    public event Action<int> OnHealthReduced = delegate { };
+    public event Action OnHealthReduced = delegate { };
 
 
 
@@ -36,6 +36,6 @@ public class PlayerHealth : ScriptableObject
 
         CurrentHealth--;
 
-        OnHealthReduced?.Invoke(CurrentHealth);
+        OnHealthReduced?.Invoke();
     }
 }

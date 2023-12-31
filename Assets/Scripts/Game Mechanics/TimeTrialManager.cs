@@ -11,22 +11,24 @@ using Random = UnityEngine.Random;
 public class TimeTrialManager : MonoBehaviour
 {
     [SerializeField] SelectableOption timeOptions;
-    
+
     [SerializeField] WaveSettings waveSettings;
-    
+
     [SerializeField] List<CurvySpline> splines;
-    
+
+    [SerializeField] PlayerHealth playerHealth;
+
     float timeTillNextSpawn;
     public float StartTimeInSeconds => timeOptions.SelectedValue * 60;
 
     public int MaxActiveActiveEnemies => waveSettings.MaxActiveEnemies;
 
     float timeLeft;
-    
+
     [SerializeField] EnemySpawner enemySpawner;
 
     [SerializeField] TextMeshProUGUI timeLeftText;
-    
+
     bool gameIsRunning;
 
 
@@ -34,19 +36,16 @@ public class TimeTrialManager : MonoBehaviour
     List<EnemySettings> enemiesToSpawnCurrentBatch;
 
 
-    
-    // enemies should not loop, too hard to control and messes with settings like spawn percentages
-    // set motion to either loop or clamped. for time trial need to sub to reached end event.
-    
-    
     void OnEnable()
     {
         GameManager.OnStartingNewTimeTrialGame += OnStartingNewTimeTrialGame;
+        playerHealth.OnHealthReduced += OnPlayerHealthReduced;
     }
-    
+
     void OnDisable()
     {
         GameManager.OnStartingNewTimeTrialGame -= OnStartingNewTimeTrialGame;
+        playerHealth.OnHealthReduced -= OnPlayerHealthReduced;
     }
 
 
@@ -55,32 +54,23 @@ public class TimeTrialManager : MonoBehaviour
         timeLeft = StartTimeInSeconds;
         gameIsRunning = true;
         timeLeftText.gameObject.SetActive(true);
-        
-        
+
+        playerHealth.ResetHealth();
+
         enemySpawner.SetUpCurvyPaths(splines, null, null);
-        
-        // also tell enemy spawner about the paths.
-        // pick a random enemy based on the percentages. Might be easiest to put them all in a list, draw one and remove
-        // when list is empty, create new one
-        
-        // need to make sure that enemies that reached the gate are destroyed without score.
-        // use that event thing
     }
-    
-    
 
 
     void SpawnRandomEnemy()
     {
-        
-        if(enemySpawner.GetActiveEnemiesCount() >= MaxActiveActiveEnemies)
+        if (enemySpawner.GetActiveEnemiesCount() >= MaxActiveActiveEnemies)
         {
             return;
         }
-        
-        
+
+
         // create new batch
-        if(enemiesToSpawnCurrentBatch == null || enemiesToSpawnCurrentBatch.Count == 0)
+        if (enemiesToSpawnCurrentBatch == null || enemiesToSpawnCurrentBatch.Count == 0)
         {
             enemiesToSpawnCurrentBatch = new List<EnemySettings>();
 
@@ -92,18 +82,18 @@ public class TimeTrialManager : MonoBehaviour
                 }
             }
         }
-        
-        if(enemiesToSpawnCurrentBatch.Count == 0)
+
+        if (enemiesToSpawnCurrentBatch.Count == 0)
         {
             Debug.LogError("No enemies to spawn");
             return;
         }
-        
-        
+
+
         int randomIndex = Random.Range(0, enemiesToSpawnCurrentBatch.Count);
 
         EnemySettings selectedSetting = enemiesToSpawnCurrentBatch[randomIndex];
-        
+
         enemiesToSpawnCurrentBatch.RemoveAt(randomIndex);
 
 
@@ -112,30 +102,29 @@ public class TimeTrialManager : MonoBehaviour
             Debug.LogError("Linger enemies not supported in time trial");
             return;
         }
-        
+
         enemySpawner.SpawnEnemy(selectedSetting, true);
     }
 
 
     void Update()
     {
-        if(gameIsRunning)
+        if (gameIsRunning)
         {
             timeLeft -= Time.deltaTime;
-            
-            
-         
+
+
             timeLeftText.text = timeLeft.ToString("F1") + "s";
-            
+
             if (timeLeft <= 0)
             {
                 timeLeftText.text = "0.0s";
                 gameIsRunning = false;
                 enemySpawner.MakeAllEnemiesInactive();
-                
-                GameManager.FinishTimeTrialGame();
+
+                GameManager.TimeTrialCompleted();
             }
-            
+
             timeTillNextSpawn -= Time.deltaTime;
 
             if (timeTillNextSpawn <= 0)
@@ -144,6 +133,21 @@ public class TimeTrialManager : MonoBehaviour
                 timeTillNextSpawn = Random.Range(waveSettings.SpawnIntervalMin, waveSettings.SpawnIntervalMax);
             }
         }
-        
+    }
+
+
+    void OnPlayerHealthReduced()
+    {
+        if (gameIsRunning == false)
+        {
+            Debug.LogError("Player health reduced while game is not running");
+            return;
+        }
+
+        if (playerHealth.CurrentHealth <= 0 && playerHealth.MaxHealth != 0)
+        {
+            gameIsRunning = false;
+            GameManager.TimeTrialFailed();
+        }
     }
 }

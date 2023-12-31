@@ -18,7 +18,7 @@ public class WaveController : MonoBehaviour
 
     [SerializeField] Train train;
 
-    [SerializeField] int currentWaveIndex;
+    public int currentWaveIndex;
 
     [ShowInInspector] Dictionary<SpawnSettings, int> enemiesToSpawnCurrentWave;
 
@@ -28,6 +28,10 @@ public class WaveController : MonoBehaviour
 
     [SerializeField] List<CurvySpline> splinesLingerHard;
 
+    [SerializeField] PlayerHealth playerHealth;
+
+
+    public float WarmupTime => settings.WarmupTime;
 
     float timeTillNextSpawn;
 
@@ -38,13 +42,13 @@ public class WaveController : MonoBehaviour
     bool waveFailed;
 
 
-
     void OnEnable()
     {
         GameManager.OnStartingNewWaveGame += StartNewWaveGame;
         GameManager.OnStartingWave += InitializeWave;
         GameManager.OnWaveFailed += OnWaveFailed;
 
+        playerHealth.OnHealthReduced += OnPlayerHealthReduced;
         EnemySpawner.OnActiveEnemiesCountChanged += CheckIfWaveCompleted;
     }
 
@@ -53,13 +57,16 @@ public class WaveController : MonoBehaviour
         GameManager.OnStartingNewWaveGame -= StartNewWaveGame;
         GameManager.OnStartingWave -= InitializeWave;
         GameManager.OnWaveFailed -= OnWaveFailed;
-
+        
+        playerHealth.OnHealthReduced -= OnPlayerHealthReduced;
         EnemySpawner.OnActiveEnemiesCountChanged -= CheckIfWaveCompleted;
     }
 
 
     void StartNewWaveGame()
     {
+        playerHealth.ResetHealth();
+
         enemySpawner.SetUpCurvyPaths(splinesEntryForMainLoops, splinesLingerEasy, splinesLingerHard);
 
         currentWaveIndex = -1;
@@ -73,18 +80,11 @@ public class WaveController : MonoBehaviour
         spawnIntervalCurrentWave = settings.EnemySpawnIntervalBase - settings.EnemySpawnIntervalDecreasePerLevel * currentWaveIndex;
 
         enemySpawner.FreeAllSplines();
-        
-        // foreach (var checkPointsList in checkPointsForLinger)
-        // {
-        //     checkPointsList.ResetFreeIndexes();
-        // }
 
         spawnIntervalCurrentWave = settings.EnemySpawnIntervalBase - settings.EnemySpawnIntervalDecreasePerLevel * currentWaveIndex;
 
         CreateEnemiesToSpawnForCurrentWave();
         StartCoroutine(InitializeWaveRoutine());
-
-        //OnWaveStarted?.Invoke(currentWaveIndex);
     }
 
     void CreateEnemiesToSpawnForCurrentWave()
@@ -103,9 +103,7 @@ public class WaveController : MonoBehaviour
 
     IEnumerator InitializeWaveRoutine()
     {
-        train.SpawnTrain();
-
-        yield return new WaitForSeconds(train.MovementDuration);
+        yield return new WaitForSeconds(WarmupTime);
 
         isSpawning = true;
     }
@@ -146,6 +144,23 @@ public class WaveController : MonoBehaviour
     }
 
 
+    void OnPlayerHealthReduced()
+    {
+        // just in case bullet hits the same time...
+        if (waveFailed)
+        {
+            return;
+        }
+
+        if (playerHealth.CurrentHealth <= 0 && playerHealth.MaxHealth != 0)
+        {
+            GameManager.WaveFailed();
+        }
+
+        waveFailed = true;
+    }
+
+
     void CheckIfWaveCompleted(int activeEnemiesCount)
     {
         if (activeEnemiesCount == 0 && !isSpawning)
@@ -159,6 +174,6 @@ public class WaveController : MonoBehaviour
     {
         isSpawning = false;
 
-        enemySpawner.MakeAllEnemiesInactive();
+        // enemySpawner.MakeAllEnemiesInactive();
     }
 }

@@ -77,12 +77,17 @@ public class StatsDisplay : MonoBehaviour
     }
 
     [Button]
-    public void ShowStatsTimeTrial()
+    public void ShowStatsTimeTrial(bool completed)
     {
         Debug.Log("ShowStatsTimeTrial");
         ShowStats(statsTracker.statsThisRound);
         
         SetGeneralInfoTexts(statsTracker.statsThisRound, false);
+        if (!completed)
+        {
+            waveText.text = "Time Trial Failed!";
+        }
+
     }
 
 

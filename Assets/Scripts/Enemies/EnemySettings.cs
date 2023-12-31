@@ -37,9 +37,7 @@ public class EnemySettings : ScriptableObject
     public EnemyMovementType MovementType;
 
     public float MovementSpeed;
-    public float RotationSpeed;
 
-   
     public List<WeaponType> CorrectWeaponsToGetShot;
     public float pointsForKill = 10f;
 
@@ -47,6 +45,17 @@ public class EnemySettings : ScriptableObject
 
 
     [InfoBox("Shooting")] public bool CanShoot;
+    
+    [ShowIf("CanShoot")]
+    [SerializeField] ShootingSettings shootingSettings;
+    
+    [SerializeField] struct ShootingSettings
+    {
+        public EnemyBullet BulletPrefab;
+        public float ShootWarningTime;
+        public Vector2 ShootingInterval;
+
+    }
     public EnemyBullet BulletPrefab;
     public float ShootWarningTime = 3f;
     public Vector2 ShootingInterval = new Vector2(5f, 10f);
@@ -76,6 +85,8 @@ public class EnemySettings : ScriptableObject
     public Vector3 SideDroneMovementAxisWorld = Vector3.back;
     public float SideDronePlaceBehind = 1f;
 
+    
+    
     public float SideDroneOffsetForKillRelative()
     {
         return SideDronesHitRangeInUnits / MaxSideDroneOffsetInUnits();

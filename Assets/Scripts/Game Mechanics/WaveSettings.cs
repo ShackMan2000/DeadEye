@@ -23,7 +23,8 @@ public class WaveSettings : ScriptableObject
 
     public List<SpawnSettings> AllEnemiesOptions;
 
-  
+
+    public float WarmupTime = 3f;
 }
 
 [System.Serializable]

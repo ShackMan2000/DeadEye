@@ -57,7 +57,7 @@ public class ScoreController : MonoBehaviour
     }
     
     
-    void ResetKillStreakAndMulti(int health)
+    void ResetKillStreakAndMulti()
     {
         KillStreak = 0;
         currentMulti = scoreSettings.ScoreMultipliers[0];

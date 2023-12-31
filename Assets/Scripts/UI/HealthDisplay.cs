@@ -79,16 +79,16 @@ public class HealthDisplay : MonoBehaviour
     }
 
 
-    void UpdatePlayerHealthDisplay(int health)
+    void UpdatePlayerHealthDisplay()
     {
         if (playerHealth.MaxHealth == 0)
         {
             return;
         }
-
+        
         for (int i = 0; i < healthIcons.Count; i++)
         {
-            if (i < health)
+            if (i < playerHealth.CurrentHealth)
             {
                 healthIcons[i].color = fullColor;
             }
