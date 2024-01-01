@@ -111,6 +111,7 @@ public class TimeTrialManager : MonoBehaviour
     {
         if (gameIsRunning)
         {
+            Debug.Log("Time left " + timeLeft);
             timeLeft -= Time.deltaTime;
 
 

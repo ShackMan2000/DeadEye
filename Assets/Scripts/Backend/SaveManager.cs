@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 
 namespace Backend
 {
     public class SaveManager : MonoBehaviour
     {
-        public SaveData SaveData;
-
+        SaveData saveData;
 
         public bool DataIsLoaded;
 
@@ -57,47 +51,52 @@ namespace Backend
         }
 
 
-        // IEnumerator AutoSave()
-        // {
-        //     while (true)
-        //     {
-        //         yield return new WaitForSeconds(3);
-        // WriteSaveData(saveData, saveDataFileName);
-        // }
+        public SaveData GetSaveData()
+        {
+            if(saveData == null)
+            {
+                saveData = new SaveData();
+            }
+            
+            return saveData;
+        }
+        
+
+        [Button]
+        public void WriteSaveData()
+        {
+            if(saveData == null)
+            {
+                saveData = new SaveData();
+            }
+            
+            saveData.LastSaveTimeStampString = DateTime.Now.ToString();
+
+            string dataAsJson = JsonUtility.ToJson(saveData);
+            FileManager.WriteToFile(saveDataFileName , dataAsJson);
+            
+           
+        }
 
 
         [Button]
-        void NewGame()
-        {
-            SaveData.Clear();
-
-            WriteSaveData(SaveData, saveDataFileName);
-        }
-
-
-        public void WriteSaveData(SaveData data, string fileName)
-        {
-            SaveData.LastSaveTimeStampString = DateTime.Now.ToString();
-
-            string dataAsJson = JsonUtility.ToJson(data);
-            FileManager.WriteToFile(fileName, dataAsJson);
-        }
-
-
         public void LoadSaveData()
         {
             string dataAsJson = FileManager.ReadFile(saveDataFileName);
 
-            //never saved before
+         
             if (dataAsJson == null)
             {
+                
             }
             else
             {
-                JsonUtility.FromJsonOverwrite(dataAsJson, SaveData);
+                JsonUtility.FromJsonOverwrite(dataAsJson, saveData);
             }
 
             DataIsLoaded = true;
+            
+         
             //   SaveDataReady(Data);
         }
 

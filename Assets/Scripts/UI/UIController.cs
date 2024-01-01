@@ -88,6 +88,9 @@ public class UIController : MonoBehaviour
         ToggleMenuPanel(false);
         ToggleIngamePanel(true);
         ToggleStatsPanel(false);
+        
+        timeLeft.gameObject.SetActive(true);
+
 
         GameManager.StartNewTimeTrialGame();
     }

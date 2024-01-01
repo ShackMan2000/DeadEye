@@ -5,19 +5,15 @@ using UnityEngine;
 using UnityEngine.PlayerLoop;
 
 
-[InlineEditor]
 [Serializable]
-public class SaveData : ScriptableObject
+public class SaveData
 {
     public event Action OnSaveDataLoaded = delegate { };
     
-    public List<StatsSummary> StatsForWaveGames =   new List<StatsSummary>();
-    public List<StatsSummary> StatsForTimeTrialGames = new List<StatsSummary>();
+    public List<StatsSummaryPerGame> StatsForWaveGames =   new List<StatsSummaryPerGame>();
+    public List<StatsSummaryPerGame> StatsForTimeTrialGames = new List<StatsSummaryPerGame>();
    
   
-     
-     
-     
     public bool TutorialCompleted;
 
     public string LastSaveTimeStampString;
@@ -41,17 +37,24 @@ public class SaveData : ScriptableObject
 
         TutorialCompleted = false;
     }
-
 }
+
+
+
+
+
+
 
 
 [Serializable]
-public class StatsSummary
+public class StatsSummaryPerGame
 {
-    public int index;
+    public float Score;
+    public float Accuracy;
 
     public List<AccuracyPerEnemy> AccuracyPerEnemy = new List<AccuracyPerEnemy>();
 }
+
 
 
 [Serializable]

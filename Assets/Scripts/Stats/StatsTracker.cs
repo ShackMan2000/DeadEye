@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Backend;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -11,7 +12,6 @@ public class StatsTracker : MonoBehaviour
     public Stats statsThisRound;
 
     public List<Stats> StatsForEachWave;
-
 
     void OnEnable()
     {
@@ -44,7 +44,7 @@ public class StatsTracker : MonoBehaviour
     void OnWaveStarted()
     {
         statsThisRound = new Stats();
-        
+
         // first wave is 0
         statsThisRound.WaveIndex = StatsForEachWave.Count;
         StatsForEachWave.Add(statsThisRound);
@@ -135,7 +135,6 @@ public class StatsTracker : MonoBehaviour
             {
                 statsThisRound.StatsMultiDrones[index].rangeForEachShot[shotIndex] = -shot;
             }
-
         }
     }
 
@@ -192,7 +191,57 @@ public class StatsTracker : MonoBehaviour
 
         return statsCombined;
     }
+
+
+    public void SaveStatsSummary(bool isWaveGame)
+    {
+        StatsSummaryPerGame statsSummaryPerGame = new StatsSummaryPerGame();
+        statsSummaryPerGame.AccuracyPerEnemy = new List<AccuracyPerEnemy>();
+
+        Stats stats = GetStatsForAllWavesCombined();
+        
+        statsSummaryPerGame.Score = stats.Score;
+        statsSummaryPerGame.Accuracy = stats.Accuracy;
+        
+        foreach (var statsPerSingleEnemy in stats.StatsPerSingleEnemies)
+        {
+            AccuracyPerEnemy accuracyPerEnemy = new AccuracyPerEnemy();
+            
+            accuracyPerEnemy.GUID = statsPerSingleEnemy.EnemySettings.GUID;
+            accuracyPerEnemy.Accuracy = statsPerSingleEnemy.ShotCorrectWeaponPercent;
+
+            statsSummaryPerGame.AccuracyPerEnemy.Add(accuracyPerEnemy);
+        }
+        
+        foreach (var statsMultiDrone in stats.StatsMultiDrones)
+        {
+            AccuracyPerEnemy accuracyPerEnemy = new AccuracyPerEnemy();
+            
+            accuracyPerEnemy.GUID = statsMultiDrone.EnemySettings.GUID;
+            accuracyPerEnemy.Accuracy = statsMultiDrone.rangeForEachShot.Count / (float)statsMultiDrone.rotationsRelativeWhenShot.Count;
+
+            statsSummaryPerGame.AccuracyPerEnemy.Add(accuracyPerEnemy);
+        }
+
+
+        if (isWaveGame)
+        {
+            SaveManager.Instance.GetSaveData().StatsForWaveGames.Add(statsSummaryPerGame);
+        }
+        else
+        {
+            SaveManager.Instance.GetSaveData().StatsForTimeTrialGames.Add(statsSummaryPerGame);
+        }
+        
+        SaveManager.Instance.WriteSaveData();
+    }
 }
+
+// stats need to be saved every time
+// a wave game fails
+// a wave game is quit (inbetween waves) bc of that would be good to add some extra functionality for the button, not just switch ui
+// a time trial succeeds
+// a time trial fails
 
 
 [System.Serializable]
@@ -218,7 +267,7 @@ public class Stats
             return ShotsHit / ShotsFired;
         }
     }
-    
+
     public enum GameMode
     {
         Waves,

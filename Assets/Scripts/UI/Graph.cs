@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Backend;
 using UnityEngine;
 using UnityEngine.UI;
 using CodeMonkey.Utils;
@@ -13,23 +14,28 @@ public class Graph : MonoBehaviour
 {
     [SerializeField] Sprite circleSprite;
 
+    [SerializeField] EnemySettings accuracyAsEnemySettings;
+
+
     public List<AccuracyPerEnemy> AccuraciesAllEnemies;
 
     public List<AccuracyEntry> testEntries;
 
-    [SerializeField] RectTransform labelXprefab;
-    [SerializeField] RectTransform yLabelPrefab;
+    [SerializeField] TextMeshProUGUI xLabelPrefab;
+    [SerializeField] TextMeshProUGUI yLabelPrefab;
+
+    [SerializeField] List<TextMeshProUGUI> xLabels;
+    [SerializeField] List<TextMeshProUGUI> yLabels;
 
     [SerializeField] float bufferZoneOnTopRelative = 0.1f;
 
-    [SerializeField] int showEveryXLabel = 1;
+    //   [SerializeField] int showEveryXLabel = 1;
 
 
     [SerializeField] GameSettings gameSettings;
 
     [SerializeField] RectTransform graphArea;
 
-    [SerializeField] SaveData saveData;
 
     [SerializeField] float lineThickness;
     [SerializeField] float circleRadius;
@@ -42,26 +48,24 @@ public class Graph : MonoBehaviour
     Dictionary<EnemySettings, List<AccuracyEntry>> accuraciesPerEnemy;
 
 
-    // [SerializeField] ScoreTracker scoreTracker;
-
     // need to use struct because some enemies won't have entries for some indexes, so can't just loop through list
     [Serializable]
     public struct AccuracyEntry
     {
-        public int Index;
+        public int GameIndex;
         public float Accuracy;
 
-        public AccuracyEntry(int index, float accuracy)
+        public AccuracyEntry(int gameIndex, float accuracy)
         {
-            Index = index;
+            GameIndex = gameIndex;
             Accuracy = accuracy;
         }
     }
- 
+
 
     void Awake()
     {
-        labelXprefab.gameObject.SetActive(false);
+        xLabelPrefab.gameObject.SetActive(false);
         yLabelPrefab.gameObject.SetActive(false);
     }
 
@@ -69,10 +73,21 @@ public class Graph : MonoBehaviour
     [Button]
     public void CreateGraphsForWaveGames()
     {
+        SaveData saveData = SaveManager.Instance.GetSaveData();
         CreateGraphs(saveData.StatsForWaveGames);
     }
 
-    public void CreateGraphs(List<StatsSummary> statsSummaries)
+
+    [Button]
+    public void CreateAndShowTestData(int count, float fillRate)
+    {
+        
+        
+        
+    }
+    
+    
+    public void CreateGraphs(List<StatsSummaryPerGame> statsSummaries)
     {
         if (statsSummaries.Count == 0)
         {
@@ -84,15 +99,12 @@ public class Graph : MonoBehaviour
         {
             if (summary.AccuracyPerEnemy.Count == 0)
             {
-                Debug.Log("Warning, trying to show a graph but passed in empty list of accuracy per enemy for stat summary with index " + summary.index);
+                //  Debug.Log("Warning, trying to show a graph but passed in empty list of accuracy per enemy for stat summary with index " + summary.Index);
             }
         }
 
 
-        // +1 so it creates padding in the end
-        widthBetweenXEntries = graphArea.rect.width / (statsSummaries.Count + 1);
-
-        CreateXMarkers(widthBetweenXEntries, statsSummaries.Count);
+        //  widthBetweenXEntries = graphArea.rect.width / xLabelCountAdjusted;
 
 
         accuraciesPerEnemy = new Dictionary<EnemySettings, List<AccuracyEntry>>();
@@ -118,13 +130,12 @@ public class Graph : MonoBehaviour
             }
         }
 
+        AdjustXLabels(statsSummaries.Count);
 
         foreach (var enemyStats in accuraciesPerEnemy)
         {
             CreateCirclesAndConnections(enemyStats.Key, enemyStats.Value);
-
         }
-
     }
 
 
@@ -138,18 +149,13 @@ public class Graph : MonoBehaviour
             floatList.Add(entry.Accuracy);
         }
 
-      //  CreateCirclesAndConnections(floatList, Color.red);
+        //  CreateCirclesAndConnections(floatList, Color.red);
     }
 
 
     [Button]
     public void CreateLabels()
     {
-        // float totalGraphArea = graphArea.rect.width * graphArea.rect.height;
-        //
-        // lineThickness = totalGraphArea * lineThicknessRelativeToArea * 0.00001f;
-        // circleRadius = totalGraphArea * circleRadiusRelativeToArea * 0.00001f;
-
         activeCircles = new List<RectTransform>();
 
         foreach (var circle in activeCircles)
@@ -159,39 +165,63 @@ public class Graph : MonoBehaviour
     }
 
 
-    // later use last x waves etc, but might have time for 3D graph so just move on...
-    [Button]
-    void CreateXMarkers(float width, int count)
+    // make a button that can just create random entries, use that for testing skipped entries too
+    // make x entries with a 20% chance that an entry is skipped, as in that enemy was not present in the wave
+    // for now only do accuracy
+
+
+    int GetLabelCount(int highestGameNumber)
     {
-        for (int i = 0; i < count; i++)
+        int labelStep = Mathf.CeilToInt(highestGameNumber / (float)xLabels.Count);
+
+        int numberOfLabels = Mathf.CeilToInt(highestGameNumber / (float)labelStep);
+
+        return numberOfLabels;
+    }
+
+    [Button]
+    int AdjustXLabels(int highestGameNumber)
+    {
+        int allLabelsCount = xLabels.Count;
+        int labelStep = Mathf.CeilToInt(highestGameNumber / (float)xLabels.Count);
+
+
+        int numberOfLabels = GetLabelCount(highestGameNumber);
+
+        widthBetweenXEntries = graphArea.rect.width / (numberOfLabels - 1);
+
+        for (int i = 0; i < allLabelsCount; i++)
         {
-            float xPosition = (i + 1) * width;
-
-
-            if (i == 0 || (i + 1) % showEveryXLabel == 0)
+            if (i < numberOfLabels)
             {
-                RectTransform labelX = Instantiate(labelXprefab);
-                labelX.SetParent(graphArea, false);
-                labelX.anchoredPosition = new Vector2(xPosition, labelXprefab.anchoredPosition.y);
-                labelX.GetComponent<TextMeshProUGUI>().text = (i + 1).ToString();
-                labelX.gameObject.SetActive(true);
+                xLabels[i].gameObject.SetActive(true);
+                xLabels[i].rectTransform.anchoredPosition = new Vector2(i * widthBetweenXEntries, xLabels[i].rectTransform.anchoredPosition.y);
+                xLabels[i].text = ((i + 1) * labelStep).ToString();
+            }
+            else
+            {
+                xLabels[i].gameObject.SetActive(false);
             }
         }
 
-        labelXprefab.gameObject.SetActive(false);
+
+        return numberOfLabels;
     }
 
 
+// need one for accuracy too.
+// might be best to just create a place holder for accuracy, an enemy setting
+// so that can be used for the 
     void CreateCirclesAndConnections(EnemySettings enemySettings, List<AccuracyEntry> values)
     {
         float yMaximum = 1f;
 
-        
+
         activeCircles = new List<RectTransform>();
         float graphHeight = graphArea.rect.height;
 
         // so 100% isn't a flat line on top of the graph
-        yMaximum += yMaximum * bufferZoneOnTopRelative;
+        //  yMaximum += yMaximum * bufferZoneOnTopRelative;
 
         GameObject lastCircleGameObject = null;
 
@@ -200,7 +230,7 @@ public class Graph : MonoBehaviour
 
         for (int i = 0; i < values.Count; i++)
         {
-            float xPosition =  (i + 1) * widthBetweenXEntries;
+            float xPosition = (i + 1) * widthBetweenXEntries;
 
             float yPosition = (values[i].Accuracy / yMaximum) * graphHeight;
 
@@ -212,34 +242,10 @@ public class Graph : MonoBehaviour
             if (lastCircleGameObject != null)
             {
                 CreateDotConnection(lastCircleGameObject.GetComponent<RectTransform>().anchoredPosition,
-                    circleRectTransform.anchoredPosition,   enemySettings.IconColor); 
+                    circleRectTransform.anchoredPosition, enemySettings.IconColor);
             }
 
             lastCircleGameObject = circleGameObject;
-        }
-    }
-
-
-    [Button]
-    void CreateYlabels()
-    {
-        float graphHeight = graphArea.rect.height;
-
-        int yCount = 10;
-
-        for (int i = 0; i < yCount + 1; i++)
-        {
-            RectTransform label = Instantiate(yLabelPrefab);
-            label.SetParent(graphArea, false);
-
-            float normalizedValue = (float)i / yCount;
-
-            float yPositionWithBuffer = normalizedValue * (graphHeight * (1f / (1f + bufferZoneOnTopRelative)));
-
-            label.anchoredPosition = new Vector2(yLabelPrefab.anchoredPosition.x, yPositionWithBuffer);
-
-            label.GetComponent<TextMeshProUGUI>().text = (normalizedValue * 100f).ToString("F0");
-            label.gameObject.SetActive(true);
         }
     }
 
@@ -278,8 +284,60 @@ public class Graph : MonoBehaviour
     }
 
 
-    void OnDisable()
+    [Button(ButtonStyle.Box), GUIColor("blue")]
+    void CreateXLabels(int count)
     {
-        //  SinglePlayer.EvtGameFinished -= CreateGraphs;
+        xLabels = new List<TextMeshProUGUI>();
+
+        float width = graphArea.rect.width / count;
+
+        for (int i = 0; i < count; i++)
+        {
+            float xPosition = (i + 1) * width;
+
+
+            TextMeshProUGUI labelX = Instantiate(xLabelPrefab);
+            RectTransform labelTransform = labelX.GetComponent<RectTransform>();
+            labelTransform.SetParent(graphArea, false);
+            labelTransform.anchoredPosition = new Vector2(xPosition, xLabelPrefab.rectTransform.anchoredPosition.y);
+            labelX.GetComponent<TextMeshProUGUI>().text = (i + 1).ToString();
+            labelX.gameObject.SetActive(true);
+
+            xLabels.Add(labelX);
+        }
+
+        xLabelPrefab.gameObject.SetActive(false);
+    }
+
+
+    [Button]
+    void CreateYlabels()
+    {
+        yLabels = new List<TextMeshProUGUI>();
+
+        float graphHeight = graphArea.rect.height;
+
+
+        int yCount = 10;
+
+        for (int i = 0; i < yCount + 1; i++)
+        {
+            TextMeshProUGUI yLabel = Instantiate(yLabelPrefab);
+            RectTransform labelTransform = yLabel.GetComponent<RectTransform>();
+            labelTransform.SetParent(graphArea, false);
+
+            float normalizedValue = (float)i / yCount;
+
+            float yPositionWithBuffer = normalizedValue * (graphHeight * (1f / (1f + bufferZoneOnTopRelative)));
+
+            labelTransform.anchoredPosition = new Vector2(yLabelPrefab.rectTransform.anchoredPosition.x, yPositionWithBuffer);
+
+            yLabel.text = (normalizedValue * 100f).ToString("F0");
+            labelTransform.gameObject.SetActive(true);
+
+            yLabels.Add(yLabel);
+        }
+
+        yLabelPrefab.gameObject.SetActive(false);
     }
 }
