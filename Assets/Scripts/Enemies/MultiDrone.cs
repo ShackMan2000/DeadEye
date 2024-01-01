@@ -89,6 +89,11 @@ public class MultiDrone : MonoBehaviour
             sideDrone.StartPositionLocal = startPosition;
 
             sideDrone.ResetBurnMaterial();
+            
+            if(sideDrone.transform.localRotation != Quaternion.identity)
+            {
+                sideDrone.transform.localRotation = Quaternion.identity;
+            }
         }
 
 
