@@ -17,9 +17,8 @@ public class Graph : MonoBehaviour
     [SerializeField] EnemySettings accuracyAsEnemySettings;
 
 
-    public List<AccuracyPerEnemy> AccuraciesAllEnemies;
+    //  public List<AccuracyPerEnemy> AccuraciesAllEnemies;
 
-    public List<AccuracyEntry> testEntries;
 
     [SerializeField] TextMeshProUGUI xLabelPrefab;
     [SerializeField] TextMeshProUGUI yLabelPrefab;
@@ -32,6 +31,8 @@ public class Graph : MonoBehaviour
     //   [SerializeField] int showEveryXLabel = 1;
 
 
+    [SerializeField] List<GraphPerEnemy> graphsPerEnemy;
+
     [SerializeField] GameSettings gameSettings;
 
     [SerializeField] RectTransform graphArea;
@@ -40,9 +41,9 @@ public class Graph : MonoBehaviour
     [SerializeField] float lineThickness;
     [SerializeField] float circleRadius;
 
-    List<RectTransform> activeCircles;
 
     float widthBetweenXEntries;
+    float widthXperUnit;
 
 
     Dictionary<EnemySettings, List<AccuracyEntry>> accuraciesPerEnemy;
@@ -74,20 +75,41 @@ public class Graph : MonoBehaviour
     public void CreateGraphsForWaveGames()
     {
         SaveData saveData = SaveManager.Instance.GetSaveData();
-        CreateGraphs(saveData.StatsForWaveGames);
+        CreateGraphsForGames(saveData.StatsForWaveGames);
     }
 
+
+    public EnemySettings TESTEnemySettings;
+    [SerializeField] List<StatsSummaryPerGame> testStatsSummaries;
 
     [Button]
     public void CreateAndShowTestData(int count, float fillRate)
     {
-        
-        
-        
+        testStatsSummaries = new List<StatsSummaryPerGame>();
+
+        for (int i = 0; i < count; i++)
+        {
+            // this loop creates games. Each game does not need an entry for the enemy, that's the whole point
+            StatsSummaryPerGame statsSummaryPerGame = new StatsSummaryPerGame();
+            statsSummaryPerGame.AccuracyPerEnemy = new List<AccuracyPerEnemy>();
+            testStatsSummaries.Add(statsSummaryPerGame);
+
+            if (Random.Range(0f, 1f) < fillRate)
+            {
+                AccuracyPerEnemy accuracyPerEnemy = new AccuracyPerEnemy();
+                accuracyPerEnemy.GUID = TESTEnemySettings.GUID;
+                accuracyPerEnemy.EnemySettings = TESTEnemySettings;
+                accuracyPerEnemy.Accuracy = Random.Range(0f, 1f);
+
+                statsSummaryPerGame.AccuracyPerEnemy.Add(accuracyPerEnemy);
+            }
+        }
+
+        CreateGraphsForGames(testStatsSummaries);
     }
-    
-    
-    public void CreateGraphs(List<StatsSummaryPerGame> statsSummaries)
+
+
+    public void CreateGraphsForGames(List<StatsSummaryPerGame> statsSummaries)
     {
         if (statsSummaries.Count == 0)
         {
@@ -95,17 +117,12 @@ public class Graph : MonoBehaviour
             return;
         }
 
-        foreach (var summary in statsSummaries)
-        {
-            if (summary.AccuracyPerEnemy.Count == 0)
-            {
-                //  Debug.Log("Warning, trying to show a graph but passed in empty list of accuracy per enemy for stat summary with index " + summary.Index);
-            }
-        }
+   
+        
+        graphsPerEnemy = new List<GraphPerEnemy>();
 
 
-        //  widthBetweenXEntries = graphArea.rect.width / xLabelCountAdjusted;
-
+        // todo convert accuracy into an enemy setting
 
         accuraciesPerEnemy = new Dictionary<EnemySettings, List<AccuracyEntry>>();
 
@@ -134,61 +151,24 @@ public class Graph : MonoBehaviour
 
         foreach (var enemyStats in accuraciesPerEnemy)
         {
-            CreateCirclesAndConnections(enemyStats.Key, enemyStats.Value);
+            CreateGraphForEnemy(enemyStats.Key, enemyStats.Value);
         }
     }
 
 
     [Button]
-    public void CreateGraphFromTestValues()
+    void AdjustXLabels(int highestGameNumber)
     {
-        List<float> floatList = new List<float>();
+        int allLabelsCount = xLabels.Count;
 
-        foreach (var entry in testEntries)
-        {
-            floatList.Add(entry.Accuracy);
-        }
-
-        //  CreateCirclesAndConnections(floatList, Color.red);
-    }
-
-
-    [Button]
-    public void CreateLabels()
-    {
-        activeCircles = new List<RectTransform>();
-
-        foreach (var circle in activeCircles)
-        {
-            circle.SetAsLastSibling();
-        }
-    }
-
-
-    // make a button that can just create random entries, use that for testing skipped entries too
-    // make x entries with a 20% chance that an entry is skipped, as in that enemy was not present in the wave
-    // for now only do accuracy
-
-
-    int GetLabelCount(int highestGameNumber)
-    {
         int labelStep = Mathf.CeilToInt(highestGameNumber / (float)xLabels.Count);
 
         int numberOfLabels = Mathf.CeilToInt(highestGameNumber / (float)labelStep);
 
-        return numberOfLabels;
-    }
-
-    [Button]
-    int AdjustXLabels(int highestGameNumber)
-    {
-        int allLabelsCount = xLabels.Count;
-        int labelStep = Mathf.CeilToInt(highestGameNumber / (float)xLabels.Count);
-
-
-        int numberOfLabels = GetLabelCount(highestGameNumber);
-
         widthBetweenXEntries = graphArea.rect.width / (numberOfLabels - 1);
+
+        widthXperUnit = widthBetweenXEntries / labelStep;
+
 
         for (int i = 0; i < allLabelsCount; i++)
         {
@@ -203,41 +183,38 @@ public class Graph : MonoBehaviour
                 xLabels[i].gameObject.SetActive(false);
             }
         }
-
-
-        return numberOfLabels;
     }
 
 
-// need one for accuracy too.
-// might be best to just create a place holder for accuracy, an enemy setting
-// so that can be used for the 
-    void CreateCirclesAndConnections(EnemySettings enemySettings, List<AccuracyEntry> values)
+    void CreateGraphForEnemy(EnemySettings enemySettings, List<AccuracyEntry> values)
     {
+        // recycle later...
+
         float yMaximum = 1f;
 
+        GraphPerEnemy graph = new GraphPerEnemy();
+        graph.EnemySettings = enemySettings;
+        graph.Circles = new List<RectTransform>();
+        graphsPerEnemy.Add(graph);
 
-        activeCircles = new List<RectTransform>();
+
         float graphHeight = graphArea.rect.height;
 
-        // so 100% isn't a flat line on top of the graph
-        //  yMaximum += yMaximum * bufferZoneOnTopRelative;
 
         GameObject lastCircleGameObject = null;
 
 
-        // todo add padding after last entry
 
         for (int i = 0; i < values.Count; i++)
         {
-            float xPosition = (i + 1) * widthBetweenXEntries;
+            float xPosition = values[i].GameIndex * widthXperUnit;
 
             float yPosition = (values[i].Accuracy / yMaximum) * graphHeight;
 
             GameObject circleGameObject = CreateCircle(new Vector2(xPosition, yPosition), enemySettings.IconColor);
             RectTransform circleRectTransform = circleGameObject.GetComponent<RectTransform>();
 
-            activeCircles.Add(circleRectTransform);
+            graph.Circles.Add(circleRectTransform);
 
             if (lastCircleGameObject != null)
             {
@@ -247,6 +224,18 @@ public class Graph : MonoBehaviour
 
             lastCircleGameObject = circleGameObject;
         }
+
+        foreach (var circle in graph.Circles)
+        {
+            circle.SetAsLastSibling();
+        }
+    }
+
+    class GraphPerEnemy
+    {
+        public EnemySettings EnemySettings;
+        public List<RectTransform> Circles;
+        public List<RectTransform> Lines;
     }
 
 
@@ -269,7 +258,7 @@ public class Graph : MonoBehaviour
     {
         GameObject connection = new GameObject("dotConnection", typeof(Image));
         connection.transform.SetParent(graphArea, false);
-        connection.GetComponent<Image>().color = new Color(color.r, color.g, color.b, 0.8f);
+        connection.GetComponent<Image>().color = color;
 
         RectTransform rectTransform = connection.GetComponent<RectTransform>();
         Vector2 direction = (end - start).normalized;

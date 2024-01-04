@@ -51,7 +51,9 @@ public class EnemySettings : ScriptableObject
     
     
     // challenge is to draw the label on top of the group, and maybe some nice colors.
-    
+
+
+    public string StatExplanation;
     
     
     [Serializable] 

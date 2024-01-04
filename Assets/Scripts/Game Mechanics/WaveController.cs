@@ -42,6 +42,11 @@ public class WaveController : MonoBehaviour
     bool waveFailed;
 
 
+    void Start()
+    {
+        Application.targetFrameRate = 90;
+    }
+
     void OnEnable()
     {
         GameManager.OnStartingNewWaveGame += StartNewWaveGame;
