@@ -16,15 +16,21 @@ MonoBehaviour:
   Prefab: {fileID: 1630283835777933682, guid: 8dabb27a437907a45a267748c9002cc7, type: 3}
   IconColor: {r: 0.1617658, g: 0.17334995, b: 0.6698113, a: 1}
   Icon: {fileID: 21300000, guid: 2aa03cec66964b64b8fe1a02ed001aa1, type: 3}
+  Name: Blue Drone
+  Description: 
   Difficulty: 0
   MovementType: 0
   MovementSpeed: 4.18
-  RotationSpeed: 2.89
   CorrectWeaponsToGetShot:
   - {fileID: 11400000, guid: a996b2b426834944496a5628720e9cfb, type: 2}
   pointsForKill: 10
   RotateTowardsPlayer: 0
   CanShoot: 0
+  shootingSettings:
+    BulletPrefab: {fileID: 0}
+    ShootWarningTime: 0
+    ShootingInterval: {x: 0, y: 0}
+  StatExplanation: 
   BulletPrefab: {fileID: 0}
   ShootWarningTime: 3
   ShootingInterval: {x: 5, y: 10}

@@ -14,16 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GUID: 3036626f-1fd7-4aba-ae0b-23f7df0a7883
   Prefab: {fileID: 1894271655539967977, guid: c386ee678b7507e4ab48e8e9d5914165, type: 3}
+  IconColor: {r: 0, g: 0, b: 0, a: 0}
   Icon: {fileID: 21300000, guid: 68441fba8d8ad4241a06471e08aa18d3, type: 3}
+  Name: Red Stinger
+  Description: 
   Difficulty: 1
   MovementType: 0
   MovementSpeed: 4.18
-  RotationSpeed: 2.89
   CorrectWeaponsToGetShot:
   - {fileID: 11400000, guid: a934da441be51aa45941237a7fa5bd16, type: 2}
   pointsForKill: 60
   RotateTowardsPlayer: 1
   CanShoot: 1
+  shootingSettings:
+    BulletPrefab: {fileID: 0}
+    ShootWarningTime: 0
+    ShootingInterval: {x: 0, y: 0}
+  StatExplanation: 
   BulletPrefab: {fileID: 1061070169017869953, guid: 311e46496773a9d4daac2f7a57ed3c79,
     type: 3}
   ShootWarningTime: 3

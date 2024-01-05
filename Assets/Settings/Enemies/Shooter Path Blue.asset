@@ -16,6 +16,8 @@ MonoBehaviour:
   Prefab: {fileID: 1751295675167029071, guid: 09d2b14aadeaf874bbfb98ae1342613b, type: 3}
   IconColor: {r: 0, g: 0, b: 0, a: 0}
   Icon: {fileID: 21300000, guid: e65d48d92df354941971646e640b7daf, type: 3}
+  Name: Blue Stinger
+  Description: 
   Difficulty: 0
   MovementType: 0
   MovementSpeed: 4.18
@@ -28,6 +30,7 @@ MonoBehaviour:
     BulletPrefab: {fileID: 0}
     ShootWarningTime: 0.21
     ShootingInterval: {x: 0, y: 0}
+  StatExplanation: 
   BulletPrefab: {fileID: 1061070169017869953, guid: 311e46496773a9d4daac2f7a57ed3c79,
     type: 3}
   ShootWarningTime: 3

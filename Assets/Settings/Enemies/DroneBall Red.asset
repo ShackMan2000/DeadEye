@@ -16,15 +16,21 @@ MonoBehaviour:
   Prefab: {fileID: 1883003357943888066, guid: c42168f20f1b5c640bb625764f9b8944, type: 3}
   IconColor: {r: 0.6981132, g: 0, b: 0, a: 1}
   Icon: {fileID: 21300000, guid: 42bf13a95cc8a5e41b45b977402e9cf0, type: 3}
+  Name: Red Drone
+  Description: 
   Difficulty: 0
   MovementType: 0
   MovementSpeed: 4.18
-  RotationSpeed: 2.89
   CorrectWeaponsToGetShot:
   - {fileID: 11400000, guid: a934da441be51aa45941237a7fa5bd16, type: 2}
   pointsForKill: 10
   RotateTowardsPlayer: 0
   CanShoot: 0
+  shootingSettings:
+    BulletPrefab: {fileID: 0}
+    ShootWarningTime: 0
+    ShootingInterval: {x: 0, y: 0}
+  StatExplanation: 
   BulletPrefab: {fileID: 0}
   ShootWarningTime: 3
   ShootingInterval: {x: 5, y: 10}

@@ -31,6 +31,8 @@ public class WaveController : MonoBehaviour
     [SerializeField] PlayerHealth playerHealth;
 
 
+    [SerializeField] EnemySelector enemySelector;
+
     public float WarmupTime => settings.WarmupTime;
 
     float timeTillNextSpawn;
@@ -41,11 +43,6 @@ public class WaveController : MonoBehaviour
 
     bool waveFailed;
 
-
-    void Start()
-    {
-        Application.targetFrameRate = 90;
-    }
 
     void OnEnable()
     {
@@ -68,6 +65,18 @@ public class WaveController : MonoBehaviour
     }
 
 
+    void Start()
+    {
+        List<EnemySettings> enemyOptions = new List<EnemySettings>();
+        foreach (SpawnSettings spawnSettings in settings.AllEnemiesOptions)
+        {
+            enemyOptions.Add(spawnSettings.EnemySettings);
+        }
+        
+        enemySelector.InjectAllOptions(enemyOptions);
+        enemySelector.SetAllEnemiesSelected();
+    }
+
     void StartNewWaveGame()
     {
         playerHealth.ResetHealth();
@@ -83,10 +92,10 @@ public class WaveController : MonoBehaviour
         currentWaveIndex++;
 
         spawnIntervalCurrentWave = settings.EnemySpawnIntervalBase - settings.EnemySpawnIntervalDecreasePerLevel * currentWaveIndex;
+        // need a min!
 
         enemySpawner.FreeAllSplines();
 
-        spawnIntervalCurrentWave = settings.EnemySpawnIntervalBase - settings.EnemySpawnIntervalDecreasePerLevel * currentWaveIndex;
 
         CreateEnemiesToSpawnForCurrentWave();
         StartCoroutine(InitializeWaveRoutine());
@@ -94,13 +103,39 @@ public class WaveController : MonoBehaviour
 
     void CreateEnemiesToSpawnForCurrentWave()
     {
+        // problem is that enemy selector needs a prefiltered list, not the settings.
+        // should only be changed in one spot. 
+        // wave controller passes it in => only need to change in wave spawn settings
+        // only downside is that wave controller needs to be active when game starts to create the list
+        // same with time trial
+        // graph can do more 
+
         enemiesToSpawnCurrentWave = new Dictionary<SpawnSettings, int>();
+
+        bool ignoreSelection = enemySelector.SelectedEnemies.Count == 0;
 
         foreach (SpawnSettings spawnSettings in settings.AllEnemiesOptions)
         {
             if (spawnSettings.MinimumWaveLevel <= currentWaveIndex)
             {
-                enemiesToSpawnCurrentWave.Add(spawnSettings, spawnSettings.SpawnAmountBase + spawnSettings.SpawnAmountIncreasePerLevel * currentWaveIndex);
+                if (enemySelector.SelectedEnemies.Contains(spawnSettings.EnemySettings) || ignoreSelection)
+                {
+                    int spawnAmount = spawnSettings.GetSpawnAmountForWaveLevel(currentWaveIndex);
+                    enemiesToSpawnCurrentWave.Add(spawnSettings, spawnAmount);
+                }
+            }
+        }
+
+        
+        if(enemiesToSpawnCurrentWave.Count == 0)
+        {
+            foreach (SpawnSettings spawnSettings in settings.AllEnemiesOptions)
+            {
+                if (spawnSettings.EnemySettings == enemySelector.SelectedEnemies[0])
+                {
+                    int spawnAmount = spawnSettings.GetSpawnAmountForWaveLevel(currentWaveIndex);
+                    enemiesToSpawnCurrentWave.Add(spawnSettings, spawnAmount);
+                }
             }
         }
     }

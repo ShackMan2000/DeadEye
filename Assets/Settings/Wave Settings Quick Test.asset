@@ -22,4 +22,8 @@ MonoBehaviour:
     MinimumWaveLevel: 0
     SpawnAmountBase: 1
     SpawnAmountIncreasePerLevel: 0
+  - EnemySettings: {fileID: 11400000, guid: afece67f50f078e43820d3bab65de207, type: 2}
+    MinimumWaveLevel: 5
+    SpawnAmountBase: 3
+    SpawnAmountIncreasePerLevel: 0
   WarmupTime: 3
