@@ -31,8 +31,9 @@ public class SelectionButton : MonoBehaviour
 
     void DeactivateGameObject(SelectionButton selectionButton)
     {
-        if (selectionButton != this)
+        if (selectionButton != this && gameObjectToActivate != null)
         {
+            
             gameObjectToActivate.SetActive(false);
         }
     }

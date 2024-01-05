@@ -36,6 +36,8 @@ public class TimeTrialManager : MonoBehaviour
     List<EnemySettings> enemiesToSpawnCurrentBatch;
 
 
+    [SerializeField] EnemySelector enemySelector;
+
     void OnEnable()
     {
         GameManager.OnStartingNewTimeTrialGame += OnStartingNewTimeTrialGame;
@@ -46,6 +48,19 @@ public class TimeTrialManager : MonoBehaviour
     {
         GameManager.OnStartingNewTimeTrialGame -= OnStartingNewTimeTrialGame;
         playerHealth.OnHealthReduced -= OnPlayerHealthReduced;
+    }
+
+
+    void Start()
+    {
+        List<EnemySettings> enemyOptions = new List<EnemySettings>();
+        foreach (SpawnSettings spawnSettings in waveSettings.AllEnemiesOptions)
+        {
+            enemyOptions.Add(spawnSettings.EnemySettings);
+        }
+
+        enemySelector.InjectAllOptions(enemyOptions);
+        enemySelector.SetAllEnemiesSelected();
     }
 
 
@@ -76,9 +91,12 @@ public class TimeTrialManager : MonoBehaviour
 
             foreach (var option in waveSettings.AllEnemiesOptions)
             {
-                for (int i = 0; i < option.SpawnAmountBase; i++)
+                if (enemySelector.SelectedEnemies.Contains(option.EnemySettings))
                 {
-                    enemiesToSpawnCurrentBatch.Add(option.EnemySettings);
+                    for (int i = 0; i < option.SpawnAmountBase; i++)
+                    {
+                        enemiesToSpawnCurrentBatch.Add(option.EnemySettings);
+                    }
                 }
             }
         }
@@ -111,7 +129,6 @@ public class TimeTrialManager : MonoBehaviour
     {
         if (gameIsRunning)
         {
-            Debug.Log("Time left " + timeLeft);
             timeLeft -= Time.deltaTime;
 
 
@@ -141,7 +158,7 @@ public class TimeTrialManager : MonoBehaviour
     {
         if (gameIsRunning == false)
         {
-          //  Debug.LogError("Player health reduced while game is not running");
+            //  Debug.LogError("Player health reduced while game is not running");
             return;
         }
 
