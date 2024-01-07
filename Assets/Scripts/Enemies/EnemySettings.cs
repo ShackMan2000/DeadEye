@@ -30,6 +30,8 @@ public class EnemySettings : ScriptableObject
     
     
 
+    public Explosion ExplosionPrefab;
+    
 
     [Space(50f)]
     [EnumToggleButtons]

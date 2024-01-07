@@ -18,6 +18,8 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 906d8ad65cc3bc74e945402a7887930b, type: 3}
   Name: Radar High
   Description: Shoot it when all drones are aligned
+  ExplosionPrefab: {fileID: -4500741688120215770, guid: 8376e3004e05550419c5a5901ea8b75d,
+    type: 3}
   Difficulty: 1
   MovementType: 1
   MovementSpeed: 3.81

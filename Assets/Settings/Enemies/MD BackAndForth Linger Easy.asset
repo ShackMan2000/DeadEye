@@ -18,6 +18,8 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 55dd2b2e21c82b64b81a033002305e88, type: 3}
   Name: Scanner Low
   Description: Shoot it when all drones are aligned
+  ExplosionPrefab: {fileID: -4500741688120215770, guid: 8376e3004e05550419c5a5901ea8b75d,
+    type: 3}
   Difficulty: 0
   MovementType: 1
   MovementSpeed: 6.05

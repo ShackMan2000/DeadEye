@@ -178,6 +178,8 @@ public class MultiDrone : MonoBehaviour
 
     IEnumerator BurnCoreRoutine()
     {
+        enemyBase.SpawnExplosion();
+        
         float timePassed = 0;
         float burnTime = settings.LaserExpansionTime + settings.LaserStayTime;
         while (timePassed < burnTime)

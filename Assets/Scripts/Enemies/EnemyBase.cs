@@ -21,7 +21,7 @@ public class EnemyBase : MonoBehaviour
 
     public event Action OnInitialized = delegate { };
     public event Action OnShotByAnyWeapon = delegate { };
-    public static event Action<Vector3> OnSpawnExplosion = delegate { };
+    public static event Action<EnemySettings,Vector3> OnSpawnExplosion = delegate { };
 
   //  public event Action OnShootAtPlayer = delegate { };
 
@@ -54,6 +54,8 @@ public class EnemyBase : MonoBehaviour
         if (GetsDestroyedByGunshot)
         {
             OnAnySingleEnemyDestroyedCorrectly(Settings, correctWeapon);
+            OnSpawnExplosion(Settings, transform.position);
+
             GetDestroyedByPlayer();
         }
 
@@ -85,12 +87,16 @@ public class EnemyBase : MonoBehaviour
     //     OnInitialized?.Invoke();
     // }
 
+    
+    public void SpawnExplosion()
+    {
+        OnSpawnExplosion(Settings, transform.position);
+    }
+
   
     public void GetDestroyedByPlayer()
     {
         shotReceiver.ShootingBlocked = true;
-        OnSpawnExplosion(transform.position);
-
 
         movement.OnDestroyed();
         IsInitialized = false;
