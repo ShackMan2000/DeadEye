@@ -15,9 +15,9 @@ MonoBehaviour:
   GUID: 3036626f-1fd7-4aba-ae0b-23f7df0a7883
   Prefab: {fileID: 1894271655539967977, guid: c386ee678b7507e4ab48e8e9d5914165, type: 3}
   IconColor: {r: 0, g: 0, b: 0, a: 0}
-  Icon: {fileID: 21300000, guid: 68441fba8d8ad4241a06471e08aa18d3, type: 3}
+  Icon: {fileID: 21300000, guid: fcfec0bbbf65f51499e0458686ba50e0, type: 3}
   Name: Red Stinger
-  Description: 
+  Description: Shoot it with right (red) gun
   Difficulty: 1
   MovementType: 0
   MovementSpeed: 4.18

@@ -12,20 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc4f08fd59684b93bc7b1caa7bab1e88, type: 3}
   m_Name: MD Rotate Slow Move
   m_EditorClassIdentifier: 
-  GUID: 7dffd1ab-d4a2-4a7b-bbc6-37a2cccf072b
+  GUID: e436b510-3adb-4d69-b37d-55c664bb1eb4
   Prefab: {fileID: 5196567718266365334, guid: efb2a446c68dcaa458693eb98a4bf6fc, type: 3}
   IconColor: {r: 0, g: 0, b: 0, a: 0}
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: cefbcfb65d7c41c40b6fe484ea70f3a8, type: 3}
+  Name: Radar
+  Description: Shoot it when all drones are aligned
   Difficulty: 0
   MovementType: 0
   MovementSpeed: 1.5
-  RotationSpeed: 40
   CorrectWeaponsToGetShot:
   - {fileID: 11400000, guid: a996b2b426834944496a5628720e9cfb, type: 2}
   - {fileID: 11400000, guid: a934da441be51aa45941237a7fa5bd16, type: 2}
   pointsForKill: 50
   RotateTowardsPlayer: 1
   CanShoot: 0
+  shootingSettings:
+    BulletPrefab: {fileID: 0}
+    ShootWarningTime: 0
+    ShootingInterval: {x: 0, y: 0}
+  StatExplanation: 
   BulletPrefab: {fileID: 0}
   ShootWarningTime: 3
   ShootingInterval: {x: 5, y: 10}

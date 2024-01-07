@@ -113,7 +113,7 @@ Material:
     - _BlendModePreserveSpecular: 1
     - _BlendOp: 0
     - _BumpScale: 1
-    - _Burn: 1
+    - _Burn: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
@@ -143,16 +143,16 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _UVSec: 0
-    - _UseTexture: 1
+    - _UseTexture: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.07091492, g: 0.0754717, b: 0.07091492, a: 1}
-    - _BurnColor: {r: 1, g: 0.3861765, b: 0, a: 0}
+    - _BurnColor: {r: 4, g: 0.8276201, b: 0, a: 0}
     - _BurnTextureTiling: {r: 1, g: 1, b: 0, a: 0}
     - _Color: {r: 0.07091489, g: 0.07547168, b: 0.07091489, a: 1}
     - _EmissionColor: {r: 1.1320755, g: 0, b: 0, a: 1}
     - _Glowcolor: {r: 0.23878606, g: 6.1402063, b: 0, a: 0}
-    - _MainColor: {r: 0, g: 0, b: 0, a: 0}
+    - _MainColor: {r: 0.0754717, g: 0.0754717, b: 0.0754717, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

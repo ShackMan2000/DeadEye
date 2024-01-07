@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc4f08fd59684b93bc7b1caa7bab1e88, type: 3}
-  m_Name: MD BackAndForth Linger Easy
+  m_Name: MD Shoot BackAndForth Linger Hard
   m_EditorClassIdentifier: 
-  GUID: 5d33a54f-0097-4397-a30e-1e3999d6cd49
+  GUID: 1bfe5aaf-599f-4a5d-b112-017f8882997e
   Prefab: {fileID: 5196567718266365334, guid: efb2a446c68dcaa458693eb98a4bf6fc, type: 3}
-  IconColor: {r: 0.15379141, g: 0.754717, b: 0.2244025, a: 1}
-  Icon: {fileID: 21300000, guid: 55dd2b2e21c82b64b81a033002305e88, type: 3}
-  Name: Scanner Low
+  IconColor: {r: 0, g: 0, b: 0, a: 0}
+  Icon: {fileID: 21300000, guid: c172be35494ffb9498644d3afb0a5dbb, type: 3}
+  Name: Scanner High
   Description: Shoot it when all drones are aligned
-  Difficulty: 0
+  Difficulty: 1
   MovementType: 1
   MovementSpeed: 6.05
   CorrectWeaponsToGetShot:
@@ -41,8 +41,8 @@ MonoBehaviour:
   LaserShrinkTime: 0.2
   SideDronesHitRangeInUnits: 0.25
   SideDronesMovementType: 0
-  BackAndForthSpeed: 0.3
-  BackAndForthDistance: 0.7
+  BackAndForthSpeed: 0.22
+  BackAndForthDistance: 1
   MovementCurve:
     serializedVersion: 2
     m_Curve:
@@ -70,7 +70,7 @@ MonoBehaviour:
   LaserKnockbackSpeed: 10
   LaserKnockbackTime: 0.4
   PlacementAxis: {x: 1, y: 0, z: 0}
-  PlacementDistance: 0.7
+  PlacementDistance: 1.5
   RotationAxis: {x: 0, y: 0, z: 0}
   SideDronesRotationSpeed: 0
   SideDroneMovementAxisWorld: {x: 0, y: 0, z: -1}

@@ -19,7 +19,11 @@ MonoBehaviour:
   MaxActiveEnemies: 0
   AllEnemiesOptions:
   - EnemySettings: {fileID: 11400000, guid: 84b19bbc9954502428a72299fc1f387d, type: 2}
-    MinimumWaveLevel: 5
-    SpawnAmountBase: 7
+    MinimumWaveLevel: 0
+    SpawnAmountBase: 2
+    SpawnAmountIncreasePerLevel: 0
+  - EnemySettings: {fileID: 11400000, guid: 0f233d4906b1f0840a894f7cf4eee40e, type: 2}
+    MinimumWaveLevel: 0
+    SpawnAmountBase: 2
     SpawnAmountIncreasePerLevel: 0
   WarmupTime: 3

@@ -15,9 +15,9 @@ MonoBehaviour:
   GUID: a373f41b-b80f-471b-93c3-9a886f5ac8dd
   Prefab: {fileID: 1883003357943888066, guid: c42168f20f1b5c640bb625764f9b8944, type: 3}
   IconColor: {r: 0.6981132, g: 0, b: 0, a: 1}
-  Icon: {fileID: 21300000, guid: 42bf13a95cc8a5e41b45b977402e9cf0, type: 3}
+  Icon: {fileID: 21300000, guid: 5496a40ec4621b1479c829f990abd17d, type: 3}
   Name: Red Drone
-  Description: 
+  Description: Shoot it with right (red) gun
   Difficulty: 0
   MovementType: 0
   MovementSpeed: 4.18

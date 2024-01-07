@@ -14,17 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GUID: 49b88b33-c759-4cf1-a111-3a11e11bddad
   Prefab: {fileID: 5196567718266365334, guid: efb2a446c68dcaa458693eb98a4bf6fc, type: 3}
-  Icon: {fileID: 0}
+  IconColor: {r: 0, g: 0, b: 0, a: 0}
+  Icon: {fileID: 21300000, guid: cefbcfb65d7c41c40b6fe484ea70f3a8, type: 3}
+  Name: Radar Low
+  Description: Shoot it when all drones are aligned
   Difficulty: 0
   MovementType: 1
   MovementSpeed: 3.81
-  RotationSpeed: 40
   CorrectWeaponsToGetShot:
   - {fileID: 11400000, guid: a996b2b426834944496a5628720e9cfb, type: 2}
   - {fileID: 11400000, guid: a934da441be51aa45941237a7fa5bd16, type: 2}
   pointsForKill: 50
   RotateTowardsPlayer: 1
   CanShoot: 0
+  shootingSettings:
+    BulletPrefab: {fileID: 0}
+    ShootWarningTime: 0
+    ShootingInterval: {x: 0, y: 0}
+  StatExplanation: 
   BulletPrefab: {fileID: 0}
   ShootWarningTime: 3
   ShootingInterval: {x: 5, y: 10}

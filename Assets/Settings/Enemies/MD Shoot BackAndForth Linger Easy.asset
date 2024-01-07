@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc4f08fd59684b93bc7b1caa7bab1e88, type: 3}
-  m_Name: MD BackAndForth Linger Easy
+  m_Name: MD Shoot BackAndForth Linger Easy
   m_EditorClassIdentifier: 
-  GUID: 5d33a54f-0097-4397-a30e-1e3999d6cd49
+  GUID: 4f33a721-b169-4836-a174-6a2ec6ca4abf
   Prefab: {fileID: 5196567718266365334, guid: efb2a446c68dcaa458693eb98a4bf6fc, type: 3}
   IconColor: {r: 0.15379141, g: 0.754717, b: 0.2244025, a: 1}
   Icon: {fileID: 21300000, guid: 55dd2b2e21c82b64b81a033002305e88, type: 3}
