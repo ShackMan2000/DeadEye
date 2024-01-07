@@ -12,20 +12,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc4f08fd59684b93bc7b1caa7bab1e88, type: 3}
   m_Name: MultiDrone Rotate 45
   m_EditorClassIdentifier: 
+  GUID: 5255feaf-41a8-41ba-9bcb-dfd2797dfc1d
+  Prefab: {fileID: 0}
+  IconColor: {r: 0, g: 0, b: 0, a: 0}
+  Icon: {fileID: 0}
+  Name: 
+  Description: 
+  Difficulty: 0
+  MovementType: 0
   MovementSpeed: 3.19
-  RotationSpeed: 2.19
+  CorrectWeaponsToGetShot: []
+  pointsForKill: 10
+  RotateTowardsPlayer: 1
+  CanShoot: 0
+  shootingSettings:
+    BulletPrefab: {fileID: 0}
+    ShootWarningTime: 0
+    ShootingInterval: {x: 0, y: 0}
+  StatExplanation: 
+  BulletPrefab: {fileID: 0}
+  ShootWarningTime: 3
+  ShootingInterval: {x: 5, y: 10}
   LaserPivotRotation: 45
   LaserExpansionTime: 0.2
   LaserStayTime: 1
   LaserShrinkTime: 0.2
+  SideDronesHitRangeInUnits: 0
+  SideDronesMovementType: 0
   BackAndForthSpeed: 0
   BackAndForthDistance: 3.86
+  MovementCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   LaserKnockbackSpeed: 14
   LaserKnockbackTime: 0.6
   PlacementAxis: {x: 1, y: 1, z: 0}
   PlacementDistance: 1.32
   RotationAxis: {x: 1, y: 1, z: 0}
   SideDronesRotationSpeed: 1
-  SideDroneMovementSpeed: 88
   SideDroneMovementAxisWorld: {x: 0, y: 0, z: -1}
   SideDronePlaceBehind: 0

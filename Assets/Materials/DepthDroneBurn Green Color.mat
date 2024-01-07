@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DepthLaser
-  m_Shader: {fileID: 4800000, guid: 3032fc40988aafc4fa50d3bd6a0e90d2, type: 3}
+  m_Name: DepthDroneBurn Green Color
+  m_Shader: {fileID: 4800000, guid: 7a68f4c7442920d4d89f674c0adaabfc, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -23,8 +23,16 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _MainTexture:
+        m_Texture: {fileID: 2800000, guid: 715a7951bddde374992cece9f81dea7c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTextureBurn:
+        m_Texture: {fileID: 2800000, guid: ece0920ae30717f469e4a9f3e3ce1742, type: 3}
+        m_Scale: {x: 4.81, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _af_rec136:
-        m_Texture: {fileID: 2800000, guid: c74786fd2f2d66b40a1cdc27c3fb2a9e, type: 3}
+        m_Texture: {fileID: 2800000, guid: ece0920ae30717f469e4a9f3e3ce1742, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -46,16 +54,20 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _AlphaReveal: 0
-    - _Float0: 9.72
+    - _Burn: 0
+    - _EdgeThickness: 0.056
+    - _EnvironmentReflections: 1
+    - _Float0: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _SparksScale: 1.81
-    - _SparksScrollSpeedmmmm: -3
-    - _TotalLength: 3.38
+    - _SpecularHighlights: 1
+    - _UseTexture: 0
     m_Colors:
+    - _BurnColor: {r: 0.09839751, g: 7.8593287, b: 0, a: 0}
+    - _BurnTextureTiling: {r: 5.88, g: 8.98, b: 0, a: 0}
+    - _Color0: {r: 0, g: 0, b: 0, a: 0}
+    - _ColorMultiplyMainTexture: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _MainColor: {r: 0, g: 5.251702, b: 0.064071305, a: 1}
-    - _Sparkcolor: {r: 8.874086, g: 84.303955, b: 0, a: 0}
+    - _MainColor: {r: 0.09839751, g: 7.8593287, b: 0, a: 0}
   m_BuildTextureStacks: []

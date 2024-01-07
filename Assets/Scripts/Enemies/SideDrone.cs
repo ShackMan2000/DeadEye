@@ -1,11 +1,12 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 
 public class SideDrone : MonoBehaviour
 {
-    [SerializeField] Renderer render;
-   Material burnMaterial;
+    [SerializeField] List<Renderer> renderers;
+    Material burnMaterial;
     static readonly int Burn = Shader.PropertyToID("_Burn");
 
     public Vector3 StartPositionLocal { get; set; }
@@ -13,21 +14,19 @@ public class SideDrone : MonoBehaviour
     public void GetHitByLaser(Vector3 laserDirection, EnemySettings settings)
     {
         StartCoroutine(GetBurnedUpRoutine(laserDirection, settings));
-        
     }
-    
-    
+
+
     IEnumerator GetBurnedUpRoutine(Vector3 laserDirection, EnemySettings settings)
     {
         float time = 0;
-        
+
         while (time < settings.LaserExpansionTime / 4f)
         {
             time += Time.deltaTime;
             yield return null;
         }
-        
-       // render.material = burnMaterial;
+
         time = 0;
 
         while (time < settings.LaserKnockbackTime)
@@ -36,18 +35,36 @@ public class SideDrone : MonoBehaviour
             float progress = time / settings.LaserKnockbackTime;
             float speed = settings.LaserKnockbackSpeed * (1 - progress);
             transform.position += laserDirection * (speed * Time.deltaTime);
-            
-            render.material.SetFloat(Burn, progress);
-            
+
+            foreach (Renderer render in renderers)
+            {
+                Material[] materials = render.materials;
+
+                foreach (Material material in materials)
+                {
+                    material.SetFloat(Burn, progress);
+                }
+
+                render.materials = materials;
+            }
+
             yield return null;
         }
-        
+
         gameObject.SetActive(false);
-        
     }
 
     public void ResetBurnMaterial()
     {
-        render.material.SetFloat(Burn, 0);
-    }   
+        foreach (Renderer render in renderers)
+        {
+            Material[] materials = render.materials;
+
+            foreach (Material material in materials)
+            {
+                material.SetFloat(Burn, 0f);
+            }
+
+            render.materials = materials;
+        }    }
 }

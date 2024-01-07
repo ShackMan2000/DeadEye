@@ -19,7 +19,7 @@ public class MultiDrone : MonoBehaviour
 
     [SerializeField] List<SideDrone> sideDrones;
 
-    [SerializeField] Renderer coreRender;
+    [SerializeField] List<Renderer> coreRenderers;
 
 
     [SerializeField] Transform laserPivot;
@@ -36,10 +36,8 @@ public class MultiDrone : MonoBehaviour
     Coroutine showLasersRoutine;
 
     bool freezeSideDrones = false;
-    // must have a side thing[s], that is only damageable and destructable by the laser
-
-    // need this because freezing and unfreezing the side drones should use same time.time
     float totalTimePassed = 0;
+
     static readonly int Burn = Shader.PropertyToID("_Burn");
 
 
@@ -68,9 +66,21 @@ public class MultiDrone : MonoBehaviour
     [Button]
     void SetSideDronesAndLaserPositions()
     {
-        // for now assuming only 1 or 2 side drones, so just alternate between left and right
+
+        foreach (Renderer render in coreRenderers)
+        {
+
+            Material[] materials = render.materials;
+
+            foreach (Material material in materials)
+            {
+                material.SetFloat(Burn, 0f);
+            }
+
+            render.materials = materials;
+        }
+
         float placementDirection = 1f;
-        coreRender.material.SetFloat(Burn, 0f);
 
         foreach (Renderer laserRenderer in laserRenderers)
         {
@@ -89,8 +99,8 @@ public class MultiDrone : MonoBehaviour
             sideDrone.StartPositionLocal = startPosition;
 
             sideDrone.ResetBurnMaterial();
-            
-            if(sideDrone.transform.localRotation != Quaternion.identity)
+
+            if (sideDrone.transform.localRotation != Quaternion.identity)
             {
                 sideDrone.transform.localRotation = Quaternion.identity;
             }
@@ -174,7 +184,20 @@ public class MultiDrone : MonoBehaviour
         {
             timePassed += Time.deltaTime;
             float t = timePassed / burnTime;
-            coreRender.material.SetFloat(Burn, t);
+            
+            foreach (Renderer render in coreRenderers)
+            {
+
+                Material[] materials = render.materials;
+
+                foreach (Material material in materials)
+                {
+                    material.SetFloat(Burn, t);
+                }
+
+                render.materials = materials;
+            }
+            
             yield return null;
         }
 

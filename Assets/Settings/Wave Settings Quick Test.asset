@@ -12,18 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e747bcb2120240abbc7c68496d9f817d, type: 3}
   m_Name: Wave Settings Quick Test
   m_EditorClassIdentifier: 
-  EnemySpawnIntervalBase: 2
+  EnemySpawnIntervalBase: 2.53
   EnemySpawnIntervalDecreasePerLevel: 0.1
-  SpawnIntervalMin: 0
+  SpawnIntervalMin: 0.44
   SpawnIntervalMax: 0
   MaxActiveEnemies: 0
   AllEnemiesOptions:
-  - EnemySettings: {fileID: 11400000, guid: da5b322f5e172454dae94b7508591d01, type: 2}
-    MinimumWaveLevel: 0
-    SpawnAmountBase: 1
-    SpawnAmountIncreasePerLevel: 0
-  - EnemySettings: {fileID: 11400000, guid: afece67f50f078e43820d3bab65de207, type: 2}
+  - EnemySettings: {fileID: 11400000, guid: 84b19bbc9954502428a72299fc1f387d, type: 2}
     MinimumWaveLevel: 5
-    SpawnAmountBase: 3
+    SpawnAmountBase: 7
     SpawnAmountIncreasePerLevel: 0
   WarmupTime: 3
