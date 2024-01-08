@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc4f08fd59684b93bc7b1caa7bab1e88, type: 3}
-  m_Name: MD Shoot Rotate Hard Linger
+  m_Name: MD Shoot BackAndForth Linger Easy
   m_EditorClassIdentifier: 
-  GUID: 9b48cd39-2c2d-4abb-8873-5a4dc3ccba24
-  Prefab: {fileID: 3478252181989959152, guid: 27bc6e33df7550042a4ff55bdcbfe0ba, type: 3}
-  IconColor: {r: 0, g: 0, b: 0, a: 0}
-  Icon: {fileID: 21300000, guid: 906d8ad65cc3bc74e945402a7887930b, type: 3}
-  Name: Radar High
-  Description: Shoot it when all drones are aligned
+  GUID: 4f33a721-b169-4836-a174-6a2ec6ca4abf
+  Prefab: {fileID: 5196567718266365334, guid: efb2a446c68dcaa458693eb98a4bf6fc, type: 3}
+  IconColor: {r: 0.15379141, g: 0.754717, b: 0.2244025, a: 1}
+  Icon: {fileID: 21300000, guid: 55dd2b2e21c82b64b81a033002305e88, type: 3}
+  Name: Scanner Low
+  Description: Shoot when drones are aligned
   ExplosionPrefab: {fileID: -4500741688120215770, guid: 8376e3004e05550419c5a5901ea8b75d,
     type: 3}
-  Difficulty: 1
+  Difficulty: 0
   MovementType: 1
-  MovementSpeed: 3.81
+  MovementSpeed: 6.05
   CorrectWeaponsToGetShot:
   - {fileID: 11400000, guid: a996b2b426834944496a5628720e9cfb, type: 2}
   - {fileID: 11400000, guid: a934da441be51aa45941237a7fa5bd16, type: 2}
-  pointsForKill: 50
+  pointsForKill: 30
   RotateTowardsPlayer: 1
   CanShoot: 0
   shootingSettings:
@@ -42,20 +42,38 @@ MonoBehaviour:
   LaserStayTime: 1
   LaserShrinkTime: 0.2
   SideDronesHitRangeInUnits: 0.25
-  SideDronesMovementType: 1
-  BackAndForthSpeed: 0
-  BackAndForthDistance: 2.35
+  SideDronesMovementType: 0
+  BackAndForthSpeed: 0.3
+  BackAndForthDistance: 0.7
   MovementCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.016670227
+      value: -1.0022329
+      inSlope: 0.0043263696
+      outSlope: 0.0043263696
+      tangentMode: 0
+      weightedMode: 2
+      inWeight: 0
+      outWeight: 0.22461823
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.041200545
+      outSlope: 0.041200545
+      tangentMode: 0
+      weightedMode: 1
+      inWeight: 0.27005148
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   LaserKnockbackSpeed: 10
   LaserKnockbackTime: 0.4
   PlacementAxis: {x: 1, y: 0, z: 0}
-  PlacementDistance: 1.14
-  RotationAxis: {x: 0, y: 1, z: 0}
-  SideDronesRotationSpeed: 45
+  PlacementDistance: 0.7
+  RotationAxis: {x: 0, y: 0, z: 0}
+  SideDronesRotationSpeed: 0
   SideDroneMovementAxisWorld: {x: 0, y: 0, z: -1}
   SideDronePlaceBehind: 1

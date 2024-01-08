@@ -38,6 +38,11 @@ public class EnemyToggle : MonoBehaviour
         nameText.text = EnemySettings.Name;
         descriptionText.text = EnemySettings.Description;
         descriptionText.text += "\n" + EnemySettings.pointsForKill.ToString("F0") + " points for correct kill";
+        
+        if (EnemySettings.CanShoot)
+        {
+            descriptionText.text += "\nShoots at you";
+        }
         iconImage.sprite = EnemySettings.Icon;
     }
 

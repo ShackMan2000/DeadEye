@@ -21,10 +21,12 @@ public static class GameManager
     public static event Action OnWaveCompleted = delegate { };
     public static event Action OnWaveFailed = delegate { };
 
+    //failed or used quit button inbetween waves
+    public static event Action OnWaveGameFinished = delegate { };
+
     public static event Action OnStartingNewTimeTrialGame = delegate { };
     public static event Action OnTimeTrialCompleted = delegate { };
     public static event Action OnTimeTrialFailed = delegate { };
-
 
 
     [Button]
@@ -42,7 +44,6 @@ public static class GameManager
     }
 
 
-
     public static void StartNewWaveGame()
     {
         GameOver = false;
@@ -55,7 +56,6 @@ public static class GameManager
         EnterShootingMode();
         OnStartingWave?.Invoke();
     }
-
 
 
     // need to inform that player got killed, and then either wave mode or time trial reacts to it
@@ -84,6 +84,7 @@ public static class GameManager
         {
             GameOver = true;
             ExitShootingGameMode();
+            OnWaveGameFinished?.Invoke();
             OnWaveFailed?.Invoke();
         }
         else
@@ -91,7 +92,13 @@ public static class GameManager
             Debug.Log("Trying to call Wave failed, but game mode is not active. Should never happen");
         }
     }
-    
+
+
+    public static void QuitWaveGameBetweenWaves()
+    {
+        GameOver = true;
+        OnWaveGameFinished?.Invoke();
+    }
     
 
 

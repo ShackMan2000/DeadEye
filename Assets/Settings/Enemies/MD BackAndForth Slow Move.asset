@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc4f08fd59684b93bc7b1caa7bab1e88, type: 3}
   m_Name: MD BackAndForth Slow Move
   m_EditorClassIdentifier: 
-  GUID: 5d33a54f-0097-4397-a30e-1e3999d6cd49
+  GUID: b280cb4d-14db-4643-8e2f-eac13e08c66a
   Prefab: {fileID: 5196567718266365334, guid: efb2a446c68dcaa458693eb98a4bf6fc, type: 3}
   IconColor: {r: 0.15379141, g: 0.754717, b: 0.2244025, a: 1}
   Icon: {fileID: 21300000, guid: 55dd2b2e21c82b64b81a033002305e88, type: 3}
   Name: Scanner
-  Description: Shoot it when all drones are aligned
+  Description: Shoot when drones are aligned
   ExplosionPrefab: {fileID: -4500741688120215770, guid: 8376e3004e05550419c5a5901ea8b75d,
     type: 3}
   Difficulty: 0

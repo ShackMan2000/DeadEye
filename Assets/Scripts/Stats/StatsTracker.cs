@@ -17,6 +17,14 @@ public class StatsTracker : MonoBehaviour
     {
         GameManager.OnStartingNewWaveGame += CreateNewStatsForAllWaves;
         GameManager.OnStartingWave += OnWaveStarted;
+        GameManager.OnWaveGameFinished += SaveStatsWaveGame;
+
+        GameManager.OnStartingNewTimeTrialGame += CreateStatsForTimeTrialGame;
+        GameManager.OnTimeTrialCompleted += SaveStatsTimeTrialGame;
+        GameManager.OnTimeTrialFailed += SaveStatsTimeTrialGame;
+        
+        
+        
 
         EnemyBase.OnAnySingleEnemyDestroyedCorrectly += OnAnySingleEnemyDestroyedCorrectly;
         Shooter.ShotHitEnemy += OnShotFired;
@@ -36,8 +44,17 @@ public class StatsTracker : MonoBehaviour
         ScoreController.OnScoreChanged -= UpdateScore;
     }
 
+    
+    void CreateStatsForTimeTrialGame()
+    {
+        CreateNewStatsForAllWaves();
+        OnWaveStarted();
+    }
+    
+    
     void CreateNewStatsForAllWaves()
     {
+        Debug.Log("CreateNewStatsForAllWaves");
         StatsForEachWave = new List<Stats>();
     }
 
@@ -192,8 +209,20 @@ public class StatsTracker : MonoBehaviour
         return statsCombined;
     }
 
+    
+    
+    void SaveStatsWaveGame()
+    {
+        SaveStatsSummary(true);
+    }
+    
+    void SaveStatsTimeTrialGame()
+    {
+        SaveStatsSummary(false);
+    }
+    
 
-    public void SaveStatsSummary(bool isWaveGame)
+    void SaveStatsSummary(bool isWaveGame)
     {
         StatsSummaryPerGame statsSummaryPerGame = new StatsSummaryPerGame();
         statsSummaryPerGame.AccuracyPerEnemy = new List<AccuracyPerEnemy>();
@@ -239,7 +268,6 @@ public class StatsTracker : MonoBehaviour
 
 // stats need to be saved every time
 // a wave game fails
-// a wave game is quit (inbetween waves) bc of that would be good to add some extra functionality for the button, not just switch ui
 // a time trial succeeds
 // a time trial fails
 

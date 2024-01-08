@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class EnemySelector : MonoBehaviour
 {
-   // [SerializeField] GameSettings settings;
+    // [SerializeField] GameSettings settings;
 
 
     public List<EnemySettings> allEnemyOptions;
@@ -16,20 +16,13 @@ public class EnemySelector : MonoBehaviour
     [ShowInInspector] List<EnemyToggle> inactiveEnemyToggles = new List<EnemyToggle>();
 
 
+    public event Action<EnemySettings, bool> OnEnemySelected = delegate { };
+
     void Awake()
     {
         UpdateAllToggles();
     }
-    
-    
-    // wave controller and time trial inject in start based on the spawn settings, selector than keeps track of selection itself
-    // graph will inject it every time it toggles between waves and time trial.
-    // First time all enemies will be selected, this should be saved so when switching between game modes, the selection stays the same.
-    // might be best to have 2 lists? this is where the SO workflow would be better, so the graph can hold a list instance for each.
-    // otherwise the graph could save the current selection before injecting another one
-    
-    // what is the simplest method? not changing the selection at all. when clicking wave stats, it will inject the options and all are selected
-    // okay, so graph can keep track of what was disabled for wave and time trial and just update the list after injecting options
+
 
     public void InjectAllOptions(List<EnemySettings> options)
     {
@@ -39,8 +32,8 @@ public class EnemySelector : MonoBehaviour
         {
             allEnemyOptions.Add(enemySettings);
         }
-        
-        
+
+
         if (activeEnemyToggles.Count > allEnemyOptions.Count)
         {
             for (int i = allEnemyOptions.Count; i < activeEnemyToggles.Count; i++)
@@ -88,6 +81,19 @@ public class EnemySelector : MonoBehaviour
         {
             SelectedEnemies.Add(enemySettings);
         }
+
+        UpdateAllToggles();
+    }
+
+
+    public void SetSomeEnemiesSelected(List<EnemySettings> selectedEnemies)
+    {
+        SelectedEnemies = new List<EnemySettings>();
+        
+        foreach (var enemySettings in selectedEnemies)
+        {
+            SelectedEnemies.Add(enemySettings);
+        }
         
         UpdateAllToggles();
     }
@@ -102,6 +108,13 @@ public class EnemySelector : MonoBehaviour
     }
 
 
+    // the goal is that the user can disable some enemies. For now could simply have a list of disabled enemies
+    // then every time it switches between the game modes, it will create a filtered list with only the selected
+
+    // so the first time the graph creates a list for the waves and thus will have a list of all enemy settings that are graphed
+    // the user then might toggle some enemies, so that info must get to the graph so it can toggle the graph.
+    // could then 
+    // graph could listen to this
     public void ToggleSelected(EnemySettings enemySettings, bool selected)
     {
         if (selected)
@@ -113,6 +126,7 @@ public class EnemySelector : MonoBehaviour
             }
 
             SelectedEnemies.Add(enemySettings);
+            OnEnemySelected(enemySettings, true);
         }
         else
         {
@@ -123,7 +137,7 @@ public class EnemySelector : MonoBehaviour
             }
 
             SelectedEnemies.Remove(enemySettings);
+            OnEnemySelected(enemySettings, false);
         }
-
     }
 }

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GUID: 7dffd1ab-d4a2-4a7b-bbc6-37a2cccf072b
   Prefab: {fileID: 3478252181989959152, guid: 27bc6e33df7550042a4ff55bdcbfe0ba, type: 3}
-  IconColor: {r: 0, g: 0, b: 0, a: 0}
+  IconColor: {r: 0.7830189, g: 0.45810762, b: 0.07830191, a: 1}
   Icon: {fileID: 21300000, guid: 906d8ad65cc3bc74e945402a7887930b, type: 3}
   Name: Radar High
-  Description: Shoot it when all drones are aligned
+  Description: Shoot when drones are aligned
   ExplosionPrefab: {fileID: -4500741688120215770, guid: 8376e3004e05550419c5a5901ea8b75d,
     type: 3}
   Difficulty: 1

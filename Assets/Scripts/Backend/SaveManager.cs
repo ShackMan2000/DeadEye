@@ -55,7 +55,7 @@ namespace Backend
         {
             if(saveData == null)
             {
-                saveData = new SaveData();
+                saveData = LoadSaveData();
             }
             
             return saveData;
@@ -80,24 +80,20 @@ namespace Backend
 
 
         [Button]
-        public void LoadSaveData()
+        public SaveData LoadSaveData()
         {
             string dataAsJson = FileManager.ReadFile(saveDataFileName);
 
+            saveData = new SaveData();
          
-            if (dataAsJson == null)
-            {
-                
-            }
-            else
+            if (dataAsJson != null)
             {
                 JsonUtility.FromJsonOverwrite(dataAsJson, saveData);
             }
 
             DataIsLoaded = true;
-            
-         
-            //   SaveDataReady(Data);
+
+            return saveData;
         }
 
 

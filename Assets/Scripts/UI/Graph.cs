@@ -16,9 +16,7 @@ public class Graph : MonoBehaviour
 
     [SerializeField] EnemySettings accuracyAsEnemySettings;
 
-
-    //  public List<AccuracyPerEnemy> AccuraciesAllEnemies;
-
+    [SerializeField] EnemySelector enemySelector;
 
     [SerializeField] TextMeshProUGUI xLabelPrefab;
     [SerializeField] TextMeshProUGUI yLabelPrefab;
@@ -28,14 +26,21 @@ public class Graph : MonoBehaviour
 
     [SerializeField] float bufferZoneOnTopRelative = 0.1f;
 
-    //   [SerializeField] int showEveryXLabel = 1;
 
-
-    [SerializeField] List<GraphPerEnemy> graphsPerEnemy;
+    [SerializeField] List<GraphPerEnemy> graphsPerEnemy = new List<GraphPerEnemy>();
 
     [SerializeField] GameSettings gameSettings;
 
+    [SerializeField] Image waveButtonImage;
+    [SerializeField] Image timeTrialButtonImage;
+    [SerializeField] Color selectedButtonColor;
+    [SerializeField] Color unselectedButtonColor;
+    
+    
     [SerializeField] RectTransform graphArea;
+    
+    [SerializeField, ReadOnly] List<RectTransform> circlesPool = new List<RectTransform>();
+    [SerializeField, ReadOnly] List<RectTransform> linesPool = new List<RectTransform>();
 
 
     [SerializeField] float lineThickness;
@@ -48,21 +53,25 @@ public class Graph : MonoBehaviour
 
     Dictionary<EnemySettings, List<AccuracyEntry>> accuraciesPerEnemy;
 
-
     // need to use struct because some enemies won't have entries for some indexes, so can't just loop through list
     [Serializable]
     public struct AccuracyEntry
     {
         public int GameIndex;
         public float Accuracy;
-
         public AccuracyEntry(int gameIndex, float accuracy)
         {
             GameIndex = gameIndex;
             Accuracy = accuracy;
         }
     }
-
+    
+    class GraphPerEnemy
+    {
+        public EnemySettings EnemySettings;
+        public List<RectTransform> Circles;
+        public List<RectTransform> Lines;
+    }
 
     void Awake()
     {
@@ -76,10 +85,23 @@ public class Graph : MonoBehaviour
     {
         SaveData saveData = SaveManager.Instance.GetSaveData();
         CreateGraphsForGames(saveData.StatsForWaveGames);
+        
+        waveButtonImage.color = selectedButtonColor;
+        timeTrialButtonImage.color = unselectedButtonColor;
+    }
+    
+    public void CreateGraphsForTimeTrialGames()
+    {
+        SaveData saveData = SaveManager.Instance.GetSaveData();
+        CreateGraphsForGames(saveData.StatsForTimeTrialGames);
+        
+        waveButtonImage.color = unselectedButtonColor;
+        timeTrialButtonImage.color = selectedButtonColor;
     }
 
 
     public EnemySettings TESTEnemySettings;
+    
     [SerializeField] List<StatsSummaryPerGame> testStatsSummaries;
 
     [Button]
@@ -111,16 +133,18 @@ public class Graph : MonoBehaviour
 
     public void CreateGraphsForGames(List<StatsSummaryPerGame> statsSummaries)
     {
+        RemoveAllGraphs(); 
+        
+       
+        
         if (statsSummaries.Count == 0)
         {
             Debug.Log("Error, trying to show a graph but passed in empty list of stats summaries");
             return;
         }
 
-   
-        
-        graphsPerEnemy = new List<GraphPerEnemy>();
 
+        graphsPerEnemy = new List<GraphPerEnemy>();
 
         // todo convert accuracy into an enemy setting
 
@@ -152,13 +176,77 @@ public class Graph : MonoBehaviour
         foreach (var enemyStats in accuraciesPerEnemy)
         {
             CreateGraphForEnemy(enemyStats.Key, enemyStats.Value);
+            
+        }
+        
+        List<EnemySettings> allEnemyOptions = new List<EnemySettings>();
+        
+        foreach (var enemySettings in accuraciesPerEnemy.Keys)
+        {
+            allEnemyOptions.Add(enemySettings);
+        }
+        
+        enemySelector.InjectAllOptions(allEnemyOptions);
+        
+    }
+    
+    
+    
+    void RemoveAllGraphs()
+    {
+        List<EnemySettings> enemiesToRemove = new List<EnemySettings>();
+        foreach (var graphPerEnemy in graphsPerEnemy)
+        {
+            enemiesToRemove.Add(graphPerEnemy.EnemySettings);
+        }
+
+        foreach (var enemySettings in enemiesToRemove)
+        {
+            RemoveGraphForEnemy(enemySettings);
         }
     }
 
+    
+    void RemoveGraphForEnemy(EnemySettings enemySettings)
+    {
+        GraphPerEnemy graphPerEnemy = graphsPerEnemy.Find(x => x.EnemySettings == enemySettings);
+
+        if (graphPerEnemy == null)
+        {
+            Debug.Log("Error, trying to remove graph for enemy " + enemySettings.name + " but it doesn't exist");
+            return;
+        }
+
+        foreach (var circle in graphPerEnemy.Circles)
+        {
+            circle.gameObject.SetActive(false);
+            circlesPool.Add(circle);
+        }
+
+        foreach (var line in graphPerEnemy.Lines)
+        {
+            line.gameObject.SetActive(false);
+            linesPool.Add(line);
+        }
+
+        graphsPerEnemy.Remove(graphPerEnemy);
+    }
+    
+    
+    
 
     [Button]
     void AdjustXLabels(int highestGameNumber)
     {
+        // just have to combine both...
+        
+        // first make sure there are enough labels
+        // disable if there are too many labels
+        // leave a gap, so basically there is 0 but it has no label
+        // no need to add an extra one. polish later.
+
+
+
         int allLabelsCount = xLabels.Count;
 
         int labelStep = Mathf.CeilToInt(highestGameNumber / (float)xLabels.Count);
@@ -188,7 +276,11 @@ public class Graph : MonoBehaviour
 
     void CreateGraphForEnemy(EnemySettings enemySettings, List<AccuracyEntry> values)
     {
-        // recycle later...
+        // problem is that there are 2 graphs per enemy, one for each game mode
+        // alternatively could just create it on the fly and use a general pool for connectors and circles.
+        // so when disabling an enemy or toggling between the wave games, it will completely be moved to the pool
+        // a bit more CPU work but easier for now.
+        // so should keep a list of active graphs, circles and lines per enemy setting, so a graph...
 
         float yMaximum = 1f;
 
@@ -231,12 +323,7 @@ public class Graph : MonoBehaviour
         }
     }
 
-    class GraphPerEnemy
-    {
-        public EnemySettings EnemySettings;
-        public List<RectTransform> Circles;
-        public List<RectTransform> Lines;
-    }
+  
 
 
     GameObject CreateCircle(Vector2 anchoredPosition, Color color)
@@ -268,9 +355,9 @@ public class Graph : MonoBehaviour
         rectTransform.sizeDelta = new Vector2(distance, lineThickness);
         rectTransform.anchoredPosition = start + direction * distance * .5f;
 
-        //method from code monkey utils, check git for method if graph is needed
         rectTransform.localEulerAngles = new Vector3(0, 0, UtilsClass.GetAngleFromVectorFloat(direction));
     }
+
 
 
     [Button(ButtonStyle.Box), GUIColor("blue")]

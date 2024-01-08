@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GUID: 791caf60-6ad3-446e-93cf-9350ac05a3e9
   Prefab: {fileID: 5196567718266365334, guid: efb2a446c68dcaa458693eb98a4bf6fc, type: 3}
-  IconColor: {r: 0, g: 0, b: 0, a: 0}
+  IconColor: {r: 0.8490566, g: 0.6262404, b: 0.03684591, a: 1}
   Icon: {fileID: 21300000, guid: c172be35494ffb9498644d3afb0a5dbb, type: 3}
   Name: Scanner High
-  Description: Shoot it when all drones are aligned
+  Description: Shoot when drones are aligned
   ExplosionPrefab: {fileID: -4500741688120215770, guid: 8376e3004e05550419c5a5901ea8b75d,
     type: 3}
   Difficulty: 1
