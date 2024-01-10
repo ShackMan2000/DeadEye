@@ -8,7 +8,7 @@ namespace Backend
 {
     public class SaveManager : MonoBehaviour
     {
-        SaveData saveData;
+        public SaveData saveData;
 
         public bool DataIsLoaded;
 
@@ -94,6 +94,14 @@ namespace Backend
             DataIsLoaded = true;
 
             return saveData;
+        }
+        
+        
+        [Button]
+        public void ClearSaveData()
+        {
+            saveData = new SaveData();
+            WriteSaveData();
         }
 
 

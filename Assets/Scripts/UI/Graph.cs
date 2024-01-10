@@ -35,10 +35,10 @@ public class Graph : MonoBehaviour
     [SerializeField] Image timeTrialButtonImage;
     [SerializeField] Color selectedButtonColor;
     [SerializeField] Color unselectedButtonColor;
-    
-    
+
+
     [SerializeField] RectTransform graphArea;
-    
+
     [SerializeField, ReadOnly] List<RectTransform> circlesPool = new List<RectTransform>();
     [SerializeField, ReadOnly] List<RectTransform> linesPool = new List<RectTransform>();
 
@@ -59,13 +59,14 @@ public class Graph : MonoBehaviour
     {
         public int GameIndex;
         public float Accuracy;
+
         public AccuracyEntry(int gameIndex, float accuracy)
         {
             GameIndex = gameIndex;
             Accuracy = accuracy;
         }
     }
-    
+
     class GraphPerEnemy
     {
         public EnemySettings EnemySettings;
@@ -79,29 +80,40 @@ public class Graph : MonoBehaviour
         yLabelPrefab.gameObject.SetActive(false);
     }
 
+    void OnEnable()
+    {
+        CreateGraphsForWaveGames();
+        enemySelector.OnEnemySelected += ToggleGraphForEnemy;
+    }
+    
+    void OnDisable()
+    {
+        enemySelector.OnEnemySelected -= ToggleGraphForEnemy;
+    }
+
 
     [Button]
     public void CreateGraphsForWaveGames()
     {
         SaveData saveData = SaveManager.Instance.GetSaveData();
         CreateGraphsForGames(saveData.StatsForWaveGames);
-        
+
         waveButtonImage.color = selectedButtonColor;
         timeTrialButtonImage.color = unselectedButtonColor;
     }
-    
+
     public void CreateGraphsForTimeTrialGames()
     {
         SaveData saveData = SaveManager.Instance.GetSaveData();
         CreateGraphsForGames(saveData.StatsForTimeTrialGames);
-        
+
         waveButtonImage.color = unselectedButtonColor;
         timeTrialButtonImage.color = selectedButtonColor;
     }
 
 
     public EnemySettings TESTEnemySettings;
-    
+
     [SerializeField] List<StatsSummaryPerGame> testStatsSummaries;
 
     [Button]
@@ -133,10 +145,8 @@ public class Graph : MonoBehaviour
 
     public void CreateGraphsForGames(List<StatsSummaryPerGame> statsSummaries)
     {
-        RemoveAllGraphs(); 
-        
-       
-        
+        RemoveAllGraphs();
+
         if (statsSummaries.Count == 0)
         {
             Debug.Log("Error, trying to show a graph but passed in empty list of stats summaries");
@@ -173,25 +183,25 @@ public class Graph : MonoBehaviour
 
         AdjustXLabels(statsSummaries.Count);
 
+
         foreach (var enemyStats in accuraciesPerEnemy)
         {
             CreateGraphForEnemy(enemyStats.Key, enemyStats.Value);
-            
         }
-        
+
+
         List<EnemySettings> allEnemyOptions = new List<EnemySettings>();
-        
+
         foreach (var enemySettings in accuraciesPerEnemy.Keys)
         {
             allEnemyOptions.Add(enemySettings);
         }
-        
+
         enemySelector.InjectAllOptions(allEnemyOptions);
-        
+        enemySelector.SetAllEnemiesSelected();
     }
-    
-    
-    
+
+
     void RemoveAllGraphs()
     {
         List<EnemySettings> enemiesToRemove = new List<EnemySettings>();
@@ -206,7 +216,7 @@ public class Graph : MonoBehaviour
         }
     }
 
-    
+
     void RemoveGraphForEnemy(EnemySettings enemySettings)
     {
         GraphPerEnemy graphPerEnemy = graphsPerEnemy.Find(x => x.EnemySettings == enemySettings);
@@ -231,39 +241,31 @@ public class Graph : MonoBehaviour
 
         graphsPerEnemy.Remove(graphPerEnemy);
     }
-    
-    
-    
+
 
     [Button]
     void AdjustXLabels(int highestGameNumber)
     {
-        // just have to combine both...
         
-        // first make sure there are enough labels
-        // disable if there are too many labels
-        // leave a gap, so basically there is 0 but it has no label
-        // no need to add an extra one. polish later.
-
-
+        Canvas.ForceUpdateCanvases();
 
         int allLabelsCount = xLabels.Count;
 
         int labelStep = Mathf.CeilToInt(highestGameNumber / (float)xLabels.Count);
 
-        int numberOfLabels = Mathf.CeilToInt(highestGameNumber / (float)labelStep);
+        int labelsNeeded = Mathf.CeilToInt(highestGameNumber / (float)labelStep);
 
-        widthBetweenXEntries = graphArea.rect.width / (numberOfLabels - 1);
+
+        widthBetweenXEntries = graphArea.rect.width / (labelsNeeded + 1);
 
         widthXperUnit = widthBetweenXEntries / labelStep;
 
-
         for (int i = 0; i < allLabelsCount; i++)
         {
-            if (i < numberOfLabels)
+            if (i < labelsNeeded)
             {
                 xLabels[i].gameObject.SetActive(true);
-                xLabels[i].rectTransform.anchoredPosition = new Vector2(i * widthBetweenXEntries, xLabels[i].rectTransform.anchoredPosition.y);
+                xLabels[i].rectTransform.anchoredPosition = new Vector2((i + 1) * widthBetweenXEntries, xLabels[i].rectTransform.anchoredPosition.y);
                 xLabels[i].text = ((i + 1) * labelStep).ToString();
             }
             else
@@ -276,30 +278,23 @@ public class Graph : MonoBehaviour
 
     void CreateGraphForEnemy(EnemySettings enemySettings, List<AccuracyEntry> values)
     {
-        // problem is that there are 2 graphs per enemy, one for each game mode
-        // alternatively could just create it on the fly and use a general pool for connectors and circles.
-        // so when disabling an enemy or toggling between the wave games, it will completely be moved to the pool
-        // a bit more CPU work but easier for now.
-        // so should keep a list of active graphs, circles and lines per enemy setting, so a graph...
-
         float yMaximum = 1f;
 
         GraphPerEnemy graph = new GraphPerEnemy();
+
         graph.EnemySettings = enemySettings;
         graph.Circles = new List<RectTransform>();
+        graph.Lines = new List<RectTransform>();
         graphsPerEnemy.Add(graph);
 
-
         float graphHeight = graphArea.rect.height;
-
 
         GameObject lastCircleGameObject = null;
 
 
-
         for (int i = 0; i < values.Count; i++)
         {
-            float xPosition = values[i].GameIndex * widthXperUnit;
+            float xPosition = (values[i].GameIndex + 1) * widthXperUnit;
 
             float yPosition = (values[i].Accuracy / yMaximum) * graphHeight;
 
@@ -310,20 +305,44 @@ public class Graph : MonoBehaviour
 
             if (lastCircleGameObject != null)
             {
-                CreateDotConnection(lastCircleGameObject.GetComponent<RectTransform>().anchoredPosition,
+                RectTransform lineRect = CreateDotConnection(lastCircleGameObject.GetComponent<RectTransform>().anchoredPosition,
                     circleRectTransform.anchoredPosition, enemySettings.IconColor);
+                graph.Lines.Add(lineRect);
             }
 
             lastCircleGameObject = circleGameObject;
         }
 
-        foreach (var circle in graph.Circles)
+        
+        
+        // only needed if using transparency
+        // foreach (var circle in graph.Circles)
+        // {
+        //     circle.SetAsLastSibling();
+        // }
+    }
+    
+    
+    void ToggleGraphForEnemy(EnemySettings enemySettings, bool show)
+    {
+        GraphPerEnemy graphPerEnemy = graphsPerEnemy.Find(x => x.EnemySettings == enemySettings);
+
+        if (graphPerEnemy == null)
         {
-            circle.SetAsLastSibling();
+            Debug.Log("Error, trying to toggle graph for enemy " + enemySettings.name + " but it doesn't exist");
+            return;
+        }
+
+        foreach (var circle in graphPerEnemy.Circles)
+        {
+            circle.gameObject.SetActive(show);
+        }
+
+        foreach (var line in graphPerEnemy.Lines)
+        {
+            line.gameObject.SetActive(show);
         }
     }
-
-  
 
 
     GameObject CreateCircle(Vector2 anchoredPosition, Color color)
@@ -341,7 +360,7 @@ public class Graph : MonoBehaviour
     }
 
 
-    void CreateDotConnection(Vector2 start, Vector2 end, Color color)
+    RectTransform CreateDotConnection(Vector2 start, Vector2 end, Color color)
     {
         GameObject connection = new GameObject("dotConnection", typeof(Image));
         connection.transform.SetParent(graphArea, false);
@@ -356,8 +375,9 @@ public class Graph : MonoBehaviour
         rectTransform.anchoredPosition = start + direction * distance * .5f;
 
         rectTransform.localEulerAngles = new Vector3(0, 0, UtilsClass.GetAngleFromVectorFloat(direction));
-    }
 
+        return rectTransform;
+    }
 
 
     [Button(ButtonStyle.Box), GUIColor("blue")]

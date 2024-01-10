@@ -26,6 +26,7 @@ public class EnemySelector : MonoBehaviour
 
     public void InjectAllOptions(List<EnemySettings> options)
     {
+
         allEnemyOptions = new List<EnemySettings>();
 
         foreach (var enemySettings in options)
@@ -34,12 +35,15 @@ public class EnemySelector : MonoBehaviour
         }
 
 
+        
         if (activeEnemyToggles.Count > allEnemyOptions.Count)
         {
-            for (int i = allEnemyOptions.Count; i < activeEnemyToggles.Count; i++)
+            // loop backwards so we can remove from the list
+            for (int i = activeEnemyToggles.Count - 1; i >= allEnemyOptions.Count; i--)
             {
-                activeEnemyToggles[i].gameObject.SetActive(false);
                 inactiveEnemyToggles.Add(activeEnemyToggles[i]);
+                activeEnemyToggles[i].gameObject.SetActive(false);
+                activeEnemyToggles.RemoveAt(i);
             }
         }
 
