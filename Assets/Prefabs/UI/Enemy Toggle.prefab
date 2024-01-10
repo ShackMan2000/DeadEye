@@ -336,6 +336,7 @@ MonoBehaviour:
   toggleOffSprite: {fileID: 21300000, guid: 04cb1e13e289a0441955eac778733b99, type: 3}
   buttonImage: {fileID: 5409396454182383325}
   iconImage: {fileID: 226579268889177874}
+  frameImage: {fileID: 6945547361941627067}
   canvasGroup: {fileID: 6164968745717184874}
   unselectedAlpha: 0.8
 --- !u!222 &1814746777878278228
@@ -655,7 +656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.10980393, g: 0.10980393, b: 0.10980393, a: 1}
+  m_Color: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

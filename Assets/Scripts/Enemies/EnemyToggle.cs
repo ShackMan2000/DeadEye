@@ -18,6 +18,7 @@ public class EnemyToggle : MonoBehaviour
 
     [SerializeField] Image buttonImage;
     [SerializeField] Image iconImage;
+    [SerializeField] Image frameImage;
 
     [SerializeField] CanvasGroup canvasGroup;
     [SerializeField] float unselectedAlpha = 0.8f;
@@ -59,7 +60,7 @@ public class EnemyToggle : MonoBehaviour
 
     public void ClickToggle()
     {
-        if (enemySelector.SelectedEnemies.Count == 1)
+        if (isEnemySelected && enemySelector.SelectedEnemies.Count == 1 && enemySelector.PreventLastEnemyDeselection)
         {
             Debug.Log("Can't deselect last enemy");
             Debug.Log("its this one though, that's good " + (enemySelector.SelectedEnemies[0] == EnemySettings));
@@ -70,5 +71,10 @@ public class EnemyToggle : MonoBehaviour
         UpdateSelected(isEnemySelected);
 
         enemySelector.ToggleSelected(EnemySettings, isEnemySelected);
+    }
+
+    public void SetFrameToIconColor()
+    {
+        frameImage.color = EnemySettings.IconColor;
     }
 }

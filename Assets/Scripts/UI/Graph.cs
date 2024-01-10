@@ -199,6 +199,7 @@ public class Graph : MonoBehaviour
 
         enemySelector.InjectAllOptions(allEnemyOptions);
         enemySelector.SetAllEnemiesSelected();
+        enemySelector.SetAllToggleFramesToIconColor();
     }
 
 
@@ -278,7 +279,7 @@ public class Graph : MonoBehaviour
 
     void CreateGraphForEnemy(EnemySettings enemySettings, List<AccuracyEntry> values)
     {
-        float yMaximum = 1f;
+        float yMaximum = 1f + bufferZoneOnTopRelative;
 
         GraphPerEnemy graph = new GraphPerEnemy();
 

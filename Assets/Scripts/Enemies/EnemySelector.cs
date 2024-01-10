@@ -11,6 +11,8 @@ public class EnemySelector : MonoBehaviour
 
     public List<EnemySettings> allEnemyOptions;
     public List<EnemySettings> SelectedEnemies;
+    
+    public bool PreventLastEnemyDeselection = true;
 
     [SerializeField] List<EnemyToggle> activeEnemyToggles;
     [ShowInInspector] List<EnemyToggle> inactiveEnemyToggles = new List<EnemyToggle>();
@@ -111,14 +113,16 @@ public class EnemySelector : MonoBehaviour
         }
     }
 
+    public void SetAllToggleFramesToIconColor()
+    {
+        foreach (var toggle in activeEnemyToggles)
+        {
+            toggle.SetFrameToIconColor();
+        }
+    }
+    
 
-    // the goal is that the user can disable some enemies. For now could simply have a list of disabled enemies
-    // then every time it switches between the game modes, it will create a filtered list with only the selected
 
-    // so the first time the graph creates a list for the waves and thus will have a list of all enemy settings that are graphed
-    // the user then might toggle some enemies, so that info must get to the graph so it can toggle the graph.
-    // could then 
-    // graph could listen to this
     public void ToggleSelected(EnemySettings enemySettings, bool selected)
     {
         if (selected)

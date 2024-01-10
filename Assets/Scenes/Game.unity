@@ -8052,6 +8052,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy Selector Graph
       objectReference: {fileID: 0}
+    - target: {fileID: 3659830294989473724, guid: 27e436fbda3d3b0428c6b708817d785f,
+        type: 3}
+      propertyPath: PreventLastEnemyDeselection
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3941344504259212390, guid: 27e436fbda3d3b0428c6b708817d785f,
         type: 3}
       propertyPath: m_SizeDelta.y
