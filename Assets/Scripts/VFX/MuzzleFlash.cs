@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class MuzzleFlash : MonoBehaviour
@@ -9,22 +10,22 @@ public class MuzzleFlash : MonoBehaviour
     [SerializeField] ParticleSystem.MainModule mainModule;
 
 
-    [SerializeField] Shooter shooter;
+    [FormerlySerializedAs("shooter")] [SerializeField] Gun gun;
 
     void Awake()
     {
         mainModule = muzzleFlashParticleSystem.main;
-        mainModule.startColor = shooter.SelectedWeaponType.Color;
+        mainModule.startColor = gun.SelectedWeaponType.Color;
     }
 
     void OnEnable()
     {
-        shooter.OnShotFired += SpawnMuzzleFlash;
+        gun.OnShotFired += SpawnMuzzleFlash;
     }
 
     void OnDisable()
     {
-        shooter.OnShotFired -= SpawnMuzzleFlash;
+        gun.OnShotFired -= SpawnMuzzleFlash;
     }
 
     void SpawnMuzzleFlash(WeaponType weaponType)

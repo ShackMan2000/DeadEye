@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 
-public class Shooter : MonoBehaviour
+public class Gun : MonoBehaviour
 {
     public WeaponType SelectedWeaponType;
 
@@ -13,6 +12,7 @@ public class Shooter : MonoBehaviour
     [SerializeField] WeaponType leftGun;
     [SerializeField] WeaponType rightGun;
 
+    [SerializeField] Transform chamber;
 
     [SerializeField] AudioSource shootingAudioSource;
     [SerializeField] bool debugShotHits;
@@ -23,10 +23,17 @@ public class Shooter : MonoBehaviour
 
 
     public event Action<WeaponType> OnShotFired = delegate { };
+    public event Action<float> OnShotFiredWithDistance = delegate {  };
 
     public static event Action<Vector3, Vector3> OnHitObjectNotShootable = delegate { };
     public static event Action<bool> ShotHitEnemy = delegate { };
 
+    //
+    // bool isChamberRotating;
+    // float chamberRotationSpeed = 1000f;
+    // float chamberRotationLeft;
+    
+    public bool IsLockedByOverheat;
 
     public void ShootAndDetermineTarget(Vector3 direction)
     {
@@ -34,10 +41,12 @@ public class Shooter : MonoBehaviour
 
         ShotReceiver shotReceiver = null;
         GameObject hitObject = null;
+        float distanceToHitPoint = 100000f;
 
         if (Physics.Raycast(startPosition, direction, out RaycastHit hit, Mathf.Infinity))
         {
             hitObject = hit.collider.gameObject;
+            distanceToHitPoint = Vector3.Distance(startPosition, hit.point);
             // Try get is a little bit slower than geting a component that exists, but a lot faster than getting one that doesn't exist
             shotReceiver = hit.collider.TryGetComponent(out shotReceiver) ? shotReceiver : null;
 
@@ -57,12 +66,11 @@ public class Shooter : MonoBehaviour
         }
 
         OnShotFired?.Invoke(SelectedWeaponType);
+        OnShotFiredWithDistance?.Invoke(distanceToHitPoint);
 
-        if (debugShotHits)
-        {
-            Debug.Log("Fired a shot with  " + SelectedWeaponType + " and hit " + hitObject + " which has a shot receiver of " + shotReceiver);
-        }
     }
+
+
 
 
     bool isVibrating;
@@ -70,6 +78,11 @@ public class Shooter : MonoBehaviour
     void Update()
     {
         if (!GameManager.ShootingModeActive)
+        {
+            return;
+        }
+
+        if (IsLockedByOverheat)
         {
             return;
         }

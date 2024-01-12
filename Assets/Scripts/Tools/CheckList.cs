@@ -10,6 +10,8 @@ public class CheckList : MonoBehaviour
     
     public List<GameObject> MustBeEnabled;
 
+    public List<GameObject> RemoveColliders;
+
     [SerializeField] WaveController waveController;
     
     [SerializeField] WaveSettings testWaveSettings;
@@ -55,6 +57,40 @@ public class CheckList : MonoBehaviour
         }
         
         waveController.settings = notTestWaveSettings;
+    }
+    
+    
+
+public List<Collider> AllColliders;
+    [Button]
+    void FindAllColliders()
+    {
+      List<GameObject> removeCollidersWithChildren = new List<GameObject>();
+      
+        foreach (var go in RemoveColliders)
+        {
+            removeCollidersWithChildren.Add(go);
+            foreach (Transform child in go.transform)
+            {
+                removeCollidersWithChildren.Add(child.gameObject);
+            }
+        }
+        
+        
+        AllColliders = new List<Collider>();
+        foreach (var go in removeCollidersWithChildren)
+        {
+            AllColliders.AddRange(go.GetComponentsInChildren<Collider>());
+        }
+    }
+    
+    [Button]
+    void RemoveAllColliders()
+    {
+        foreach (var collider in AllColliders)
+        {
+            DestroyImmediate(collider);
+        }
     }
     
 }

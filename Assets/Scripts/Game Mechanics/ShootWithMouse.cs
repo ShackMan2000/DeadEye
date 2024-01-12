@@ -5,9 +5,9 @@ using UnityEngine.Serialization;
 public class ShootWithMouse : MonoBehaviour
 {
 
-    [SerializeField] Shooter leftDebugGun;
-    [SerializeField] Shooter rightDebugGun;
-    Shooter currentShooter;
+    [SerializeField] Gun leftDebugGun;
+    [SerializeField] Gun rightDebugGun;
+    Gun currentGun;
     
 
     [SerializeField] Camera centerEyeCamera;
@@ -20,7 +20,7 @@ public class ShootWithMouse : MonoBehaviour
 
     void Awake()
     {     
-        currentShooter = rightDebugGun;
+        currentGun = rightDebugGun;
 
 #if ! UNITY_EDITOR
         DEBUGShootWithMouse = false;
@@ -54,10 +54,10 @@ public class ShootWithMouse : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                Vector3 direction = hit.point - currentShooter.BulletSpawnPoint.position;
+                Vector3 direction = hit.point - currentGun.BulletSpawnPoint.position;
                 //Debug.Log("Hit " + hit.collider.gameObject.name + " at " + hit.point + " with direction " + direction);
 
-                currentShooter.ShootAndDetermineTarget(direction);
+                currentGun.ShootAndDetermineTarget(direction);
             }
         }
 
@@ -66,13 +66,13 @@ public class ShootWithMouse : MonoBehaviour
         // switch weapon on space bar
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (currentShooter == leftDebugGun)
+            if (currentGun == leftDebugGun)
             {
-                currentShooter = rightDebugGun;
+                currentGun = rightDebugGun;
             }
             else
             {
-                currentShooter = leftDebugGun;
+                currentGun = leftDebugGun;
             }
         }
     }

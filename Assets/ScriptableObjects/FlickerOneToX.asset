@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c133ba27d424346905d1db6796f0580, type: 3}
-  m_Name: Max Health
+  m_Name: FlickerOneToX
   m_EditorClassIdentifier: 
-  Options: 030000000500000000000000
+  Options: 000000000a00000014000000
   SelectedIndex: 0

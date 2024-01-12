@@ -27,7 +27,7 @@ public class StatsTracker : MonoBehaviour
         
 
         EnemyBase.OnAnySingleEnemyDestroyedCorrectly += OnAnySingleEnemyDestroyedCorrectly;
-        Shooter.ShotHitEnemy += OnShotFired;
+        Gun.ShotHitEnemy += OnShotFired;
         MultiDrone.OnMultiDroneShot += OnMultiDroneShot;
         ScoreController.OnScoreChanged += UpdateScore;
     }
@@ -39,7 +39,7 @@ public class StatsTracker : MonoBehaviour
         GameManager.OnStartingWave -= OnWaveStarted;
 
         EnemyBase.OnAnySingleEnemyDestroyedCorrectly -= OnAnySingleEnemyDestroyedCorrectly;
-        Shooter.ShotHitEnemy -= OnShotFired;
+        Gun.ShotHitEnemy -= OnShotFired;
         MultiDrone.OnMultiDroneShot -= OnMultiDroneShot;
         ScoreController.OnScoreChanged -= UpdateScore;
     }

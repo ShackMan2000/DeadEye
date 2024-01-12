@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,7 +12,7 @@ public class SelectOptionButton : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI buttonText;
 
-    public int Index;
+    [ReadOnly]public int Index;
 
     public event Action<SelectOptionButton> OnHealthOptionSelected = delegate { };
 

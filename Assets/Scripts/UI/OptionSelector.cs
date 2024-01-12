@@ -12,9 +12,12 @@ public class OptionSelector : MonoBehaviour
 
     [SerializeField] List<SelectOptionButton> buttons;
 
+    [SerializeField] List<int> optionsThatNeedWarning = new List<int>();
 
     [SerializeField] Color selectedColor;
     [SerializeField] Color notSelectedColor;
+
+    [SerializeField] GameObject warningPanel;
 
 
     // need to inject each option into a button
@@ -24,6 +27,7 @@ public class OptionSelector : MonoBehaviour
     void OnEnable()
     {
         InjectIndexesAndAddListener();
+        ToggleWarning();
     }
 
     void OnDisable()
@@ -79,6 +83,8 @@ public class OptionSelector : MonoBehaviour
                 btn.SetColor(notSelectedColor);
             }
         }
+        
+        ToggleWarning();
     }
 
 
@@ -97,6 +103,32 @@ public class OptionSelector : MonoBehaviour
             }
         }
     }
+    
+    
+    
+    
+    
+    
+    void ToggleWarning()
+    {
+        if(optionsThatNeedWarning == null || optionsThatNeedWarning.Count == 0)
+        {
+            return;
+        }
+        
+        if (optionsThatNeedWarning.Contains(selectableOption.SelectedIndex))
+        {
+            warningPanel.SetActive(true);
+        }
+        else
+        {
+            warningPanel.SetActive(false);
+        }
+
+    }
+    
+    
+    
     
     
     [Button]
