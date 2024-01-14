@@ -11,6 +11,7 @@
     <meta-data android:name="com.samsung.android.vr.application.mode" android:value="vr_only" />
   </application>
   <uses-feature android:name="android.hardware.vr.headtracking" android:version="1" android:required="true" />
-  <uses-feature android:name="oculus.software.eye_tracking" android:required="false" />
-  <uses-permission android:name="com.oculus.permission.EYE_TRACKING" />
+  <uses-feature android:name="com.oculus.feature.RENDER_MODEL" />
+  <uses-permission android:name="com.oculus.permission.RENDER_MODEL" />
+  <uses-feature android:name="com.oculus.feature.VIRTUAL_KEYBOARD" android:required="true" />
 </manifest>
