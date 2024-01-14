@@ -29,8 +29,10 @@ public class UIController : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.OnWaveCompleted += ShowStatsOnWaveCompleted;
-        GameManager.OnWaveFailed += ShowStatsOnWaveFailed;
+        // need a different one for game completed, not wave.
+        
+       // GameManager.OnWaveCompleted += ShowStatsOnWaveCompleted;
+        GameManager.OnWaveGameFailed += ShowStatsOnWaveGameFailed;
         
         GameManager.OnTimeTrialCompleted += ShowStatsOnTimeTrialCompleted;
         GameManager.OnTimeTrialFailed += ShowStatsOnTimeTrialFailed;
@@ -38,8 +40,8 @@ public class UIController : MonoBehaviour
 
     void OnDisable()
     {
-        GameManager.OnWaveCompleted -= ShowStatsOnWaveCompleted;
-        GameManager.OnWaveFailed -= ShowStatsOnWaveFailed;
+      //  GameManager.OnWaveCompleted -= ShowStatsOnWaveCompleted;
+        GameManager.OnWaveGameFailed -= ShowStatsOnWaveGameFailed;
         
         GameManager.OnTimeTrialCompleted -= ShowStatsOnTimeTrialCompleted;
         GameManager.OnTimeTrialFailed -= ShowStatsOnTimeTrialFailed;
@@ -112,7 +114,7 @@ public class UIController : MonoBehaviour
         statsDisplay.ShowStatsCurrentWave();
     }
 
-    void ShowStatsOnWaveFailed()
+    void ShowStatsOnWaveGameFailed()
     {
         ToggleIngamePanel(false);
         ToggleStatsPanel(true);

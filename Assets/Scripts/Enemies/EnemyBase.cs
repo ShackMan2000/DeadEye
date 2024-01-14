@@ -7,8 +7,6 @@ using UnityEngine;
 [SelectionBase]
 public class EnemyBase : MonoBehaviour
 {
-    // could do the settings directly in here, a list of options
-    // would need a bool first so wave controller can check if there is any option avaialble for this wave
 
     public EnemySettings Settings;
 
@@ -18,12 +16,9 @@ public class EnemyBase : MonoBehaviour
 
     public bool GetsDestroyedByGunshot;
 
-
     public event Action OnInitialized = delegate { };
     public event Action OnShotByAnyWeapon = delegate { };
     public static event Action<EnemySettings,Vector3> OnSpawnExplosion = delegate { };
-
-  //  public event Action OnShootAtPlayer = delegate { };
 
     public static event Action<EnemySettings, bool> OnAnySingleEnemyDestroyedCorrectly = delegate { };
 

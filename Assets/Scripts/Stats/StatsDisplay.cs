@@ -60,20 +60,20 @@ public class StatsDisplay : MonoBehaviour
     [Button]
     public void ShowStatsAllWaves()
     {
-        var stats = statsTracker.GetStatsForAllWavesCombined();
-
-        ShowStats(stats);
-
-        SetGeneralInfoTexts(stats, true);
-
-        showStatsCurrentWaveButton.image.color = unselectedButtonColor;
-        showStatsAllWavesButton.image.color = selectedButtonColor;
-
-        RectTransform rectTransform = showStatsCurrentWaveButton.GetComponent<RectTransform>();
-        rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, unselectedButtonHeight);
-
-        RectTransform rectTransform2 = showStatsAllWavesButton.GetComponent<RectTransform>();
-        rectTransform2.sizeDelta = new Vector2(rectTransform2.sizeDelta.x, unselectedButtonHeight * selectedButtonHeightMulti);
+        // var stats = statsTracker.GetStatsForAllWavesCombined();
+        //
+        // ShowStats(stats);
+        //
+        // SetGeneralInfoTexts(stats, true);
+        //
+        // showStatsCurrentWaveButton.image.color = unselectedButtonColor;
+        // showStatsAllWavesButton.image.color = selectedButtonColor;
+        //
+        // RectTransform rectTransform = showStatsCurrentWaveButton.GetComponent<RectTransform>();
+        // rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, unselectedButtonHeight);
+        //
+        // RectTransform rectTransform2 = showStatsAllWavesButton.GetComponent<RectTransform>();
+        // rectTransform2.sizeDelta = new Vector2(rectTransform2.sizeDelta.x, unselectedButtonHeight * selectedButtonHeightMulti);
     }
 
     [Button]
@@ -143,7 +143,7 @@ public class StatsDisplay : MonoBehaviour
             }
             else
             {
-                waveText.text = "Wave " + (stats.WaveIndex + 1).ToString() + " Complete!";
+                //waveText.text = "Wave " + (stats.GameIndex + 1).ToString() + " Complete!";
 
                 NextWaveButton.gameObject.SetActive(true);
                 BackToMenuButtonSmall.gameObject.SetActive(true);

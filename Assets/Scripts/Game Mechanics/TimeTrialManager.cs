@@ -127,6 +127,8 @@ public class TimeTrialManager : MonoBehaviour
 
     void Update()
     {
+        if(GameManager.IsPaused) return;
+        
         if (gameIsRunning)
         {
             timeLeft -= Time.deltaTime;

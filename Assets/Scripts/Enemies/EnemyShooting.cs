@@ -60,6 +60,7 @@ public class EnemyShooting : MonoBehaviour
         }
 
         yield return new WaitForSeconds(warningTime);
+        yield return new WaitUntil( () => !GameManager.IsPaused);
 
         if (enemyBase.Settings.BulletPrefab != null)
         {

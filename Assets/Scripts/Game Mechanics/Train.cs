@@ -38,14 +38,14 @@ public class Train : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.OnStartingWave += MoveTrainIntoScene;
-        GameManager.OnExitShootingMode += MoveTrainOutOfScene;
+    //    GameManager.OnStartingWave += MoveTrainIntoScene;
+       // GameManager.OnExitShootingMode += MoveTrainOutOfScene;
     }
 
     void OnDisable()
     {
-        GameManager.OnStartingWave -= MoveTrainIntoScene;
-        GameManager.OnExitShootingMode -= MoveTrainOutOfScene;
+       // GameManager.OnStartingWave -= MoveTrainIntoScene;
+      //  GameManager.OnExitShootingMode -= MoveTrainOutOfScene;
     }
 
 
@@ -56,7 +56,7 @@ public class Train : MonoBehaviour
 
 
     [Button]
-    void MoveTrainIntoScene()
+    public void MoveTrainIntoScene()
     {
         StopAllCoroutines();
         StartCoroutine(MoveTrainIntoSceneRoutine());
@@ -77,11 +77,14 @@ public class Train : MonoBehaviour
 
         while (progress < 1f)
         {
-            progress += movePerSecond * Time.deltaTime;
-            float positionOnPath = moveInSpeedCurve.Evaluate(progress);
-            positionOnPath = Mathf.Clamp01(positionOnPath * pathPositionToStopAt);
+            if(!GameManager.IsPaused)
+            {
+                progress += movePerSecond * Time.deltaTime;
+                float positionOnPath = moveInSpeedCurve.Evaluate(progress);
+                positionOnPath = Mathf.Clamp01(positionOnPath * pathPositionToStopAt);
 
-            trainController.RelativePosition = positionOnPath;
+                trainController.RelativePosition = positionOnPath;
+            }
             yield return null;
         }
     }
@@ -89,7 +92,7 @@ public class Train : MonoBehaviour
 
     
     [Button, GUIColor("red")]
-    void MoveTrainOutOfScene()
+   public void MoveTrainOutOfScene()
     {
         StopAllCoroutines();
         StartCoroutine(MoveTrainOutOfSceneRoutine());

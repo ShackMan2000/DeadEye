@@ -258,6 +258,8 @@ public class MultiDrone : MonoBehaviour
 
     void Update()
     {
+        if(GameManager.IsPaused) return;
+        
         if (settings == null || !freezeSideDrones)
         {
             totalTimePassed += Time.deltaTime;

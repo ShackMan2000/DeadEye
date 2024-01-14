@@ -41,7 +41,7 @@ public class EnemyBullet : MonoBehaviour
 
     void Update()
     {
-        if (isMoving)
+        if (!GameManager.IsPaused && isMoving)
         {
             transform.position += direction * (Speed * Time.deltaTime);
         }

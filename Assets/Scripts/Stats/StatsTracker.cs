@@ -11,20 +11,16 @@ public class StatsTracker : MonoBehaviour
 
     public Stats statsThisRound;
 
-    public List<Stats> StatsForEachWave;
+   // public List<Stats> StatsForEachWave;
 
     void OnEnable()
     {
-        GameManager.OnStartingNewWaveGame += CreateNewStatsForAllWaves;
-        GameManager.OnStartingWave += OnWaveStarted;
+        GameManager.OnStartingNewWaveGame += CreateNewStats;
         GameManager.OnWaveGameFinished += SaveStatsWaveGame;
 
-        GameManager.OnStartingNewTimeTrialGame += CreateStatsForTimeTrialGame;
+        GameManager.OnStartingNewTimeTrialGame += CreateNewStats;
         GameManager.OnTimeTrialCompleted += SaveStatsTimeTrialGame;
         GameManager.OnTimeTrialFailed += SaveStatsTimeTrialGame;
-        
-        
-        
 
         EnemyBase.OnAnySingleEnemyDestroyedCorrectly += OnAnySingleEnemyDestroyedCorrectly;
         Gun.ShotHitEnemy += OnShotFired;
@@ -35,8 +31,12 @@ public class StatsTracker : MonoBehaviour
 
     void OnDisable()
     {
-        GameManager.OnStartingNewWaveGame -= CreateNewStatsForAllWaves;
-        GameManager.OnStartingWave -= OnWaveStarted;
+        GameManager.OnStartingNewWaveGame -= CreateNewStats;
+        GameManager.OnWaveGameFinished -= SaveStatsWaveGame;
+        
+        GameManager.OnStartingNewTimeTrialGame -= CreateNewStats;
+        GameManager.OnTimeTrialFailed -= SaveStatsTimeTrialGame;
+        GameManager.OnTimeTrialCompleted -= SaveStatsTimeTrialGame;
 
         EnemyBase.OnAnySingleEnemyDestroyedCorrectly -= OnAnySingleEnemyDestroyedCorrectly;
         Gun.ShotHitEnemy -= OnShotFired;
@@ -44,28 +44,15 @@ public class StatsTracker : MonoBehaviour
         ScoreController.OnScoreChanged -= UpdateScore;
     }
 
-    
-    void CreateStatsForTimeTrialGame()
-    {
-        CreateNewStatsForAllWaves();
-        OnWaveStarted();
-    }
-    
-    
-    void CreateNewStatsForAllWaves()
-    {
-        Debug.Log("CreateNewStatsForAllWaves");
-        StatsForEachWave = new List<Stats>();
-    }
 
-    void OnWaveStarted()
+    void CreateNewStats()
     {
         statsThisRound = new Stats();
 
-        // first wave is 0
-        statsThisRound.WaveIndex = StatsForEachWave.Count;
-        StatsForEachWave.Add(statsThisRound);
     }
+
+    
+    
 
 
     void OnAnySingleEnemyDestroyedCorrectly(EnemySettings enemySettings, bool correctWeapon)
@@ -156,58 +143,58 @@ public class StatsTracker : MonoBehaviour
     }
 
 
-    public Stats GetStatsForAllWavesCombined()
-    {
-        Stats statsCombined = new Stats();
-
-        statsCombined.WaveIndex = StatsForEachWave.Count - 1;
-
-        foreach (var waveStats in StatsForEachWave)
-        {
-            statsCombined.ShotsFired += waveStats.ShotsFired;
-            statsCombined.ShotsHit += waveStats.ShotsHit;
-            statsCombined.Score += waveStats.Score;
-
-            foreach (var statsPerSingleEnemy in waveStats.StatsPerSingleEnemies)
-            {
-                int index = statsCombined.StatsPerSingleEnemies.FindIndex(x => x.EnemySettings == statsPerSingleEnemy.EnemySettings);
-
-                if (index == -1)
-                {
-                    StatsPerSingleEnemy statsPerSingleEnemyCombined = new StatsPerSingleEnemy();
-                    statsPerSingleEnemyCombined.EnemySettings = statsPerSingleEnemy.EnemySettings;
-
-                    statsCombined.StatsPerSingleEnemies.Add(statsPerSingleEnemyCombined);
-                    index = statsCombined.StatsPerSingleEnemies.Count - 1;
-                }
-
-                statsCombined.StatsPerSingleEnemies[index].DestroyedCorrectly += statsPerSingleEnemy.DestroyedCorrectly;
-                statsCombined.StatsPerSingleEnemies[index].DestroyedByMistake += statsPerSingleEnemy.DestroyedByMistake;
-            }
-
-            foreach (var statsMultiDrone in waveStats.StatsMultiDrones)
-            {
-                int index = statsCombined.StatsMultiDrones.FindIndex(x => x.EnemySettings == statsMultiDrone.EnemySettings);
-
-                if (index == -1)
-                {
-                    StatsMultiDrone statsMultiDroneCombined = new StatsMultiDrone();
-                    statsMultiDroneCombined.EnemySettings = statsMultiDrone.EnemySettings;
-                    statsMultiDroneCombined.rangeForEachShot = new List<float>();
-
-                    statsCombined.StatsMultiDrones.Add(statsMultiDroneCombined);
-
-                    index = statsCombined.StatsMultiDrones.Count - 1;
-                }
-
-                statsCombined.StatsMultiDrones[index].rangeForEachShot.AddRange(statsMultiDrone.rangeForEachShot);
-                statsCombined.StatsMultiDrones[index].rotationsRelativeWhenShot.AddRange(statsMultiDrone.rotationsRelativeWhenShot);
-            }
-        }
-
-
-        return statsCombined;
-    }
+    // public Stats GetStatsForAllWavesCombined()
+    // {
+    //     Stats statsCombined = new Stats();
+    //
+    //   //  statsCombined.GameIndex = StatsForEachWave.Count - 1;
+    //
+    //     foreach (var waveStats in StatsForEachWave)
+    //     {
+    //         statsCombined.ShotsFired += waveStats.ShotsFired;
+    //         statsCombined.ShotsHit += waveStats.ShotsHit;
+    //         statsCombined.Score += waveStats.Score;
+    //
+    //         foreach (var statsPerSingleEnemy in waveStats.StatsPerSingleEnemies)
+    //         {
+    //             int index = statsCombined.StatsPerSingleEnemies.FindIndex(x => x.EnemySettings == statsPerSingleEnemy.EnemySettings);
+    //
+    //             if (index == -1)
+    //             {
+    //                 StatsPerSingleEnemy statsPerSingleEnemyCombined = new StatsPerSingleEnemy();
+    //                 statsPerSingleEnemyCombined.EnemySettings = statsPerSingleEnemy.EnemySettings;
+    //
+    //                 statsCombined.StatsPerSingleEnemies.Add(statsPerSingleEnemyCombined);
+    //                 index = statsCombined.StatsPerSingleEnemies.Count - 1;
+    //             }
+    //
+    //             statsCombined.StatsPerSingleEnemies[index].DestroyedCorrectly += statsPerSingleEnemy.DestroyedCorrectly;
+    //             statsCombined.StatsPerSingleEnemies[index].DestroyedByMistake += statsPerSingleEnemy.DestroyedByMistake;
+    //         }
+    //
+    //         foreach (var statsMultiDrone in waveStats.StatsMultiDrones)
+    //         {
+    //             int index = statsCombined.StatsMultiDrones.FindIndex(x => x.EnemySettings == statsMultiDrone.EnemySettings);
+    //
+    //             if (index == -1)
+    //             {
+    //                 StatsMultiDrone statsMultiDroneCombined = new StatsMultiDrone();
+    //                 statsMultiDroneCombined.EnemySettings = statsMultiDrone.EnemySettings;
+    //                 statsMultiDroneCombined.rangeForEachShot = new List<float>();
+    //
+    //                 statsCombined.StatsMultiDrones.Add(statsMultiDroneCombined);
+    //
+    //                 index = statsCombined.StatsMultiDrones.Count - 1;
+    //             }
+    //
+    //             statsCombined.StatsMultiDrones[index].rangeForEachShot.AddRange(statsMultiDrone.rangeForEachShot);
+    //             statsCombined.StatsMultiDrones[index].rotationsRelativeWhenShot.AddRange(statsMultiDrone.rotationsRelativeWhenShot);
+    //         }
+    //     }
+    //
+    //
+    //     return statsCombined;
+    // }
 
     
     
@@ -227,7 +214,7 @@ public class StatsTracker : MonoBehaviour
         StatsSummaryPerGame statsSummaryPerGame = new StatsSummaryPerGame();
         statsSummaryPerGame.AccuracyPerEnemy = new List<AccuracyPerEnemy>();
 
-        Stats stats = GetStatsForAllWavesCombined();
+        Stats stats = statsThisRound;
         
         statsSummaryPerGame.Score = stats.Score;
         statsSummaryPerGame.Accuracy = stats.Accuracy;
@@ -275,7 +262,7 @@ public class StatsTracker : MonoBehaviour
 [System.Serializable]
 public class Stats
 {
-    public int WaveIndex;
+  //  public int GameIndex;
 
     public float Score;
 

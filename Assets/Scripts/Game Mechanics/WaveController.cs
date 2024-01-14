@@ -31,6 +31,7 @@ public class WaveController : MonoBehaviour
     [SerializeField] PlayerHealth playerHealth;
 
 
+    
     [SerializeField] EnemySelector enemySelector;
 
     public float WarmupTime => settings.WarmupTime;
@@ -47,8 +48,8 @@ public class WaveController : MonoBehaviour
     void OnEnable()
     {
         GameManager.OnStartingNewWaveGame += StartNewWaveGame;
-        GameManager.OnStartingWave += InitializeWave;
-        GameManager.OnWaveFailed += OnWaveFailed;
+        //GameManager.OnStartingWave += InitializeWave;
+     //   GameManager.OnWaveGameFailed += OnWaveGameFailed;
 
         playerHealth.OnHealthReduced += OnPlayerHealthReduced;
         EnemySpawner.OnActiveEnemiesCountChanged += CheckIfWaveCompleted;
@@ -57,8 +58,8 @@ public class WaveController : MonoBehaviour
     void OnDisable()
     {
         GameManager.OnStartingNewWaveGame -= StartNewWaveGame;
-        GameManager.OnStartingWave -= InitializeWave;
-        GameManager.OnWaveFailed -= OnWaveFailed;
+    //    GameManager.OnStartingWave -= InitializeWave;
+     //   GameManager.OnWaveGameFailed -= OnWaveGameFailed;
 
         playerHealth.OnHealthReduced -= OnPlayerHealthReduced;
         EnemySpawner.OnActiveEnemiesCountChanged -= CheckIfWaveCompleted;
@@ -72,7 +73,7 @@ public class WaveController : MonoBehaviour
         {
             enemyOptions.Add(spawnSettings.EnemySettings);
         }
-        
+
         enemySelector.InjectAllOptions(enemyOptions);
         enemySelector.SetAllEnemiesSelected();
     }
@@ -84,31 +85,14 @@ public class WaveController : MonoBehaviour
         enemySpawner.SetUpCurvyPaths(splinesEntryForMainLoops, splinesLingerEasy, splinesLingerHard);
 
         currentWaveIndex = -1;
-    }
-
-
-    public void InitializeWave()
-    {
-        currentWaveIndex++;
-
-        spawnIntervalCurrentWave = settings.EnemySpawnIntervalBase - settings.EnemySpawnIntervalDecreasePerLevel * currentWaveIndex;
-        // need a min!
-
-        enemySpawner.FreeAllSplines();
-
-
-        CreateEnemiesToSpawnForCurrentWave();
+        
         StartCoroutine(InitializeWaveRoutine());
     }
 
+
+
     void CreateEnemiesToSpawnForCurrentWave()
     {
-        // problem is that enemy selector needs a prefiltered list, not the settings.
-        // should only be changed in one spot. 
-        // wave controller passes it in => only need to change in wave spawn settings
-        // only downside is that wave controller needs to be active when game starts to create the list
-        // same with time trial
-        // graph can do more 
 
         enemiesToSpawnCurrentWave = new Dictionary<SpawnSettings, int>();
 
@@ -126,8 +110,8 @@ public class WaveController : MonoBehaviour
             }
         }
 
-        
-        if(enemiesToSpawnCurrentWave.Count == 0)
+
+        if (enemiesToSpawnCurrentWave.Count == 0)
         {
             foreach (SpawnSettings spawnSettings in settings.AllEnemiesOptions)
             {
@@ -141,8 +125,24 @@ public class WaveController : MonoBehaviour
     }
 
 
-    IEnumerator InitializeWaveRoutine()
+    IEnumerator InitializeWaveRoutine(float delay = 0f)
     {
+        currentWaveIndex++;
+
+        spawnIntervalCurrentWave = settings.EnemySpawnIntervalBase - settings.EnemySpawnIntervalDecreasePerLevel * currentWaveIndex;
+        // need a min!
+
+        enemySpawner.FreeAllSplines();
+
+        CreateEnemiesToSpawnForCurrentWave();
+        
+        if(delay > 0.1f)
+        {
+            yield return new WaitForSeconds(delay);
+        }
+        
+        train.MoveTrainIntoScene();
+
         yield return new WaitForSeconds(WarmupTime);
 
         isSpawning = true;
@@ -152,6 +152,7 @@ public class WaveController : MonoBehaviour
     void Update()
     {
         if (!isSpawning) return;
+        if (GameManager.IsPaused) return;
 
         timeTillNextSpawn -= Time.deltaTime;
 
@@ -197,6 +198,7 @@ public class WaveController : MonoBehaviour
         {
             waveFailed = true;
             GameManager.WaveFailed();
+            isSpawning = false;
         }
     }
 
@@ -205,15 +207,14 @@ public class WaveController : MonoBehaviour
     {
         if (activeEnemiesCount == 0 && !isSpawning)
         {
-            GameManager.WaveCompleted();
+            train.MoveTrainOutOfScene();
+            StartCoroutine(InitializeWaveRoutine(3f));
         }
     }
 
 
-    void OnWaveFailed()
+    void OnWaveGameFailed()
     {
-        isSpawning = false;
-
         // enemySpawner.MakeAllEnemiesInactive();
     }
 }
