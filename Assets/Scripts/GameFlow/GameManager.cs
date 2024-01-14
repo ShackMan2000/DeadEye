@@ -10,27 +10,27 @@ public static class GameManager
 
     public static bool IsPaused;
 
-    // kinda starting to think the better solution would have been an abstract class with most of that stuff here
-    // with wavecontroller and time trial controller inheriting.
-
 
     public static event Action OnEnterShootingMode = delegate { };
     public static event Action OnExitShootingMode = delegate { };
 
     public static event Action OnStartingNewWaveGame = delegate { };
-    public static event Action OnStartingWave = delegate { };
-  //  public static event Action OnWaveCompleted = delegate { };
-    
-    public static event Action OnWaveGameFailed = delegate { };
-    public static event Action OnWaveGameFinished = delegate { };
 
+    public static event Action OnStartingWave = delegate { };
+    //  public static event Action OnWaveCompleted = delegate { };
+
+    public static event Action OnWaveGameFailed = delegate { };
+    //public static event Action OnWaveGameFinished = delegate { };
+    // 
 
     public static event Action OnStartingNewTimeTrialGame = delegate { };
     public static event Action OnTimeTrialCompleted = delegate { };
     public static event Action OnTimeTrialFailed = delegate { };
-    
+
     public static event Action OnGamePaused = delegate { };
     public static event Action OnGameResumed = delegate { };
+
+    public static event Action OnGameFinished = delegate { };
 
 
     [Button]
@@ -48,10 +48,6 @@ public static class GameManager
     }
 
 
-    // need 2 different methods. One that toggles guns/controllers + flicker
-    // one that for the others, which should be more clearly about the game ending.
-    // don't need train bc that will be done through wave controller
-    
     public static void StartNewWaveGame()
     {
         GameOver = false;
@@ -59,18 +55,13 @@ public static class GameManager
         StartWave();
     }
 
+
     public static void StartWave()
     {
         EnterShootingMode();
         OnStartingWave?.Invoke();
     }
 
-
-    // need to inform that player got killed, and then either wave mode or time trial reacts to it
-    // either they are listening to it, or save mode here.
-    // since there are only 2 modes, they should do it
-
-    // also need to take into account that player might exit the wave game through the quit button, in 
 
     // public static void WaveCompleted()
     // {
@@ -92,8 +83,9 @@ public static class GameManager
         {
             GameOver = true;
             ExitShootingGameMode();
-            OnWaveGameFinished?.Invoke();
+            // OnWaveGameFinished?.Invoke();
             OnWaveGameFailed?.Invoke();
+            OnGameFinished?.Invoke();
         }
         else
         {
@@ -102,12 +94,13 @@ public static class GameManager
     }
 
 
-    public static void QuitWaveGameBetweenWaves()
+    //use that for panel, quite in pause menu
+    public static void QuitGameThroughPauseMenu()
     {
         GameOver = true;
-        OnWaveGameFinished?.Invoke();
+        IsPaused = false;
+        OnGameFinished?.Invoke();
     }
-    
 
 
     public static void StartNewTimeTrialGame()
@@ -132,20 +125,19 @@ public static class GameManager
         ExitShootingGameMode();
         OnTimeTrialFailed?.Invoke();
     }
-    
+
     public static void PauseGame()
     {
         IsPaused = true;
         ExitShootingGameMode();
         OnGamePaused?.Invoke();
     }
-    
-    
+
+
     public static void ResumeGame()
     {
         IsPaused = false;
         EnterShootingMode();
         OnGameResumed?.Invoke();
     }
-    
 }

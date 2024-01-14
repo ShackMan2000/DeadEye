@@ -27,6 +27,9 @@ public class Train : MonoBehaviour
     [FormerlySerializedAs("trainSpeedCurve")] [SerializeField] AnimationCurve moveInSpeedCurve;
 
     [SerializeField] AnimationCurve moveOutSpeedCurve;
+    
+    bool trainIsInScene;
+    bool movingTrainOutOfScene;
 
     // set to start of spline when a new wave starts.
     // set the wave number on the UI
@@ -40,12 +43,14 @@ public class Train : MonoBehaviour
     {
     //    GameManager.OnStartingWave += MoveTrainIntoScene;
        // GameManager.OnExitShootingMode += MoveTrainOutOfScene;
+       GameManager.OnGameFinished += CheckToMoveTrainOutOfScene;
     }
 
     void OnDisable()
     {
        // GameManager.OnStartingWave -= MoveTrainIntoScene;
       //  GameManager.OnExitShootingMode -= MoveTrainOutOfScene;
+        GameManager.OnGameFinished -= CheckToMoveTrainOutOfScene;
     }
 
 
@@ -66,6 +71,8 @@ public class Train : MonoBehaviour
 
     IEnumerator MoveTrainIntoSceneRoutine()
     {
+        Debug.Log("MoveTrainIntoSceneRoutine");
+        trainIsInScene = true;
         trainController.RelativePosition = 0f;
         waveNumberText.text = "Wave " + (waveController.currentWaveIndex + 1);
         trainController.gameObject.SetActive(true);
@@ -73,6 +80,7 @@ public class Train : MonoBehaviour
         // need to remap 0 to 0.8 to the curves's 0 to 1
         float movePerSecond = 1f / waveController.WarmupTime;
 
+        
         float progress = 0f;
 
         while (progress < 1f)
@@ -87,6 +95,8 @@ public class Train : MonoBehaviour
             }
             yield return null;
         }
+        
+        
     }
 
 
@@ -100,6 +110,7 @@ public class Train : MonoBehaviour
 
     IEnumerator MoveTrainOutOfSceneRoutine()
     {
+        movingTrainOutOfScene = true;
         float movePerSecond = 1f / moveOutTime;
 
         float progress = 0f;
@@ -115,8 +126,20 @@ public class Train : MonoBehaviour
         }
 
         trainController.gameObject.SetActive(false);
+        movingTrainOutOfScene = false;
+        trainIsInScene = false;
     }
 
+    
+    
+    void CheckToMoveTrainOutOfScene()
+    {
+        if (trainIsInScene && !movingTrainOutOfScene)
+        {
+            MoveTrainOutOfScene();
+        }
+    }
+    
 
    
     [Button]

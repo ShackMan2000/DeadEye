@@ -43,6 +43,8 @@ public class WaveController : MonoBehaviour
     bool isSpawning;
 
     bool waveFailed;
+    
+    bool waveGameIsRunning;
 
 
     void OnEnable()
@@ -53,6 +55,8 @@ public class WaveController : MonoBehaviour
 
         playerHealth.OnHealthReduced += OnPlayerHealthReduced;
         EnemySpawner.OnActiveEnemiesCountChanged += CheckIfWaveCompleted;
+        
+        GameManager.OnGameFinished += QuitAllCoroutines;
     }
 
     void OnDisable()
@@ -63,6 +67,8 @@ public class WaveController : MonoBehaviour
 
         playerHealth.OnHealthReduced -= OnPlayerHealthReduced;
         EnemySpawner.OnActiveEnemiesCountChanged -= CheckIfWaveCompleted;
+        
+        GameManager.OnGameFinished -= QuitAllCoroutines;
     }
 
 
@@ -76,6 +82,8 @@ public class WaveController : MonoBehaviour
 
         enemySelector.InjectAllOptions(enemyOptions);
         enemySelector.SetAllEnemiesSelected();
+        
+        waveGameIsRunning = false;
     }
 
     void StartNewWaveGame()
@@ -86,6 +94,7 @@ public class WaveController : MonoBehaviour
 
         currentWaveIndex = -1;
         
+        waveGameIsRunning = true;
         StartCoroutine(InitializeWaveRoutine());
     }
 
@@ -151,7 +160,13 @@ public class WaveController : MonoBehaviour
 
     void Update()
     {
+        if (!waveGameIsRunning)
+        {
+            return;
+        }
+        
         if (!isSpawning) return;
+        
         if (GameManager.IsPaused) return;
 
         timeTillNextSpawn -= Time.deltaTime;
@@ -194,6 +209,7 @@ public class WaveController : MonoBehaviour
         }
 
 
+        // right now this is the only way to save stats... 
         if (playerHealth.CurrentHealth <= 0 && playerHealth.MaxHealth != 0)
         {
             waveFailed = true;
@@ -205,6 +221,11 @@ public class WaveController : MonoBehaviour
 
     void CheckIfWaveCompleted(int activeEnemiesCount)
     {
+        if (!waveGameIsRunning)
+        {
+            return;
+        }
+        
         if (activeEnemiesCount == 0 && !isSpawning)
         {
             train.MoveTrainOutOfScene();
@@ -212,6 +233,11 @@ public class WaveController : MonoBehaviour
         }
     }
 
+    
+    void QuitAllCoroutines()
+    {
+        StopAllCoroutines();
+    }
 
     void OnWaveGameFailed()
     {

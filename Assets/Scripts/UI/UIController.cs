@@ -155,11 +155,7 @@ public class UIController : MonoBehaviour
     }
     
     
-    public void QuitWaveGameBetweenWaves()
-    {
-        ToggleMenuPanel(true);
-        GameManager.QuitWaveGameBetweenWaves();
-    }
+
 
 
     void EnableMeshCollider(bool activate)

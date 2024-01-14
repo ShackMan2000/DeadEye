@@ -16,8 +16,10 @@ public class StatsTracker : MonoBehaviour
     void OnEnable()
     {
         GameManager.OnStartingNewWaveGame += CreateNewStats;
-        GameManager.OnWaveGameFinished += SaveStatsWaveGame;
-
+       // GameManager.OnWaveGameFinished += SaveStatsWaveGame;
+       // as per request, quitting a wave game in the pause menu does not save stats, so failing is the only way right now
+        GameManager.OnWaveGameFailed += SaveStatsWaveGame;
+       
         GameManager.OnStartingNewTimeTrialGame += CreateNewStats;
         GameManager.OnTimeTrialCompleted += SaveStatsTimeTrialGame;
         GameManager.OnTimeTrialFailed += SaveStatsTimeTrialGame;
@@ -32,7 +34,7 @@ public class StatsTracker : MonoBehaviour
     void OnDisable()
     {
         GameManager.OnStartingNewWaveGame -= CreateNewStats;
-        GameManager.OnWaveGameFinished -= SaveStatsWaveGame;
+        GameManager.OnWaveGameFailed -= SaveStatsWaveGame;
         
         GameManager.OnStartingNewTimeTrialGame -= CreateNewStats;
         GameManager.OnTimeTrialFailed -= SaveStatsTimeTrialGame;
@@ -48,11 +50,8 @@ public class StatsTracker : MonoBehaviour
     void CreateNewStats()
     {
         statsThisRound = new Stats();
-
     }
 
-    
-    
 
 
     void OnAnySingleEnemyDestroyedCorrectly(EnemySettings enemySettings, bool correctWeapon)

@@ -22,12 +22,12 @@ public class EnemyBullet : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.OnExitShootingMode += DestroyBullet;
+        GameManager.OnGameFinished += DestroyBullet;
     }
     
     void OnDisable()
     {
-        GameManager.OnExitShootingMode -= DestroyBullet;
+        GameManager.OnGameFinished -= DestroyBullet;
     }
 
 

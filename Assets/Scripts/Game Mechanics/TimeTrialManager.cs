@@ -23,7 +23,7 @@ public class TimeTrialManager : MonoBehaviour
 
     public int MaxActiveActiveEnemies => waveSettings.MaxActiveEnemies;
 
-    float timeLeft;
+    [SerializeField] float timeLeft;
 
     [SerializeField] EnemySpawner enemySpawner;
 
@@ -41,12 +41,14 @@ public class TimeTrialManager : MonoBehaviour
     void OnEnable()
     {
         GameManager.OnStartingNewTimeTrialGame += OnStartingNewTimeTrialGame;
+        GameManager.OnGameFinished += FinishGame;
         playerHealth.OnHealthReduced += OnPlayerHealthReduced;
     }
 
     void OnDisable()
     {
         GameManager.OnStartingNewTimeTrialGame -= OnStartingNewTimeTrialGame;
+        GameManager.OnGameFinished -= FinishGame;
         playerHealth.OnHealthReduced -= OnPlayerHealthReduced;
     }
 
@@ -169,5 +171,11 @@ public class TimeTrialManager : MonoBehaviour
             gameIsRunning = false;
             GameManager.TimeTrialFailed();
         }
+    }
+    
+    
+    void FinishGame()
+    {
+        gameIsRunning = false;
     }
 }

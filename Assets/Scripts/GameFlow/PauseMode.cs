@@ -8,6 +8,9 @@ public class PauseMode : MonoBehaviour
     [SerializeField] GameObject pausePanel;
     // when the A button on either quest controller is pressed and game is not paused, pause it.
 
+    [SerializeField] UIController uiController;
+    
+    
     void Update()
     {
         if (!GameManager.ShootingModeActive || GameManager.IsPaused) return;
@@ -31,5 +34,12 @@ public class PauseMode : MonoBehaviour
     {
         GameManager.ResumeGame();
         pausePanel.SetActive(false);
+    }
+    
+    public void QuitGame()
+    {
+        GameManager.QuitGameThroughPauseMenu();
+        pausePanel.SetActive(false);
+        uiController.ToggleMenuPanel(true);
     }
 }
