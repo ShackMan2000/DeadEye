@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Sirenix.OdinInspector;
 
-public class StatsDisplay : MonoBehaviour
+public class OLDStatsDisplay : MonoBehaviour
 {
     [SerializeField] StatsTracker statsTracker;
     [SerializeField] ScoreController scoreController;

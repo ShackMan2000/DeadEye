@@ -144,7 +144,7 @@ public class TimeTrialManager : MonoBehaviour
                 gameIsRunning = false;
                 enemySpawner.MakeAllEnemiesInactive();
 
-                GameManager.TimeTrialCompleted();
+                GameManager.TimeTrialSuccess();
             }
 
             timeTillNextSpawn -= Time.deltaTime;

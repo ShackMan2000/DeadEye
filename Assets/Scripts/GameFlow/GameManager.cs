@@ -24,7 +24,7 @@ public static class GameManager
     // 
 
     public static event Action OnStartingNewTimeTrialGame = delegate { };
-    public static event Action OnTimeTrialCompleted = delegate { };
+    public static event Action OnTimeTrialSuccess = delegate { };
     public static event Action OnTimeTrialFailed = delegate { };
 
     public static event Action OnGamePaused = delegate { };
@@ -76,6 +76,14 @@ public static class GameManager
     //     }
     // }
 
+    
+    
+    //maybe best to have a game over panel that will show when the game finishes
+    // needs to know how exactly it was finished to show the text.
+    // probably easiest to just subscribe to all 3 events
+    
+    // next challenge would be that it needs the new stats and update the graph
+    // or rather open the stats panel and show the waves or time trial accordingly
 
     public static void WaveFailed()
     {
@@ -112,11 +120,11 @@ public static class GameManager
     }
 
 
-    public static void TimeTrialCompleted()
+    public static void TimeTrialSuccess()
     {
         GameOver = true;
         ExitShootingGameMode();
-        OnTimeTrialCompleted?.Invoke();
+        OnTimeTrialSuccess?.Invoke();
     }
 
     public static void TimeTrialFailed()

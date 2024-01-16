@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 
 
 [RequireComponent(typeof(RectTransform))]
-public class Graph : MonoBehaviour
+public class StatsPanel : MonoBehaviour
 {
     [SerializeField] Sprite circleSprite;
 
@@ -51,6 +51,8 @@ public class Graph : MonoBehaviour
     float widthXperUnit;
 
 
+    public bool isShowingWaveStats = true;
+
     Dictionary<EnemySettings, List<AccuracyEntry>> accuraciesPerEnemy;
 
     // need to use struct because some enemies won't have entries for some indexes, so can't just loop through list
@@ -82,10 +84,19 @@ public class Graph : MonoBehaviour
 
     void OnEnable()
     {
-        CreateGraphsForWaveGames();
         enemySelector.OnEnemySelected += ToggleGraphForEnemy;
+
+        if (isShowingWaveStats)
+        {
+            CreateGraphsForWaveGames();
+        }
+        else
+        {
+            CreateGraphsForTimeTrialGames();
+        }
+
     }
-    
+
     void OnDisable()
     {
         enemySelector.OnEnemySelected -= ToggleGraphForEnemy;
@@ -100,6 +111,8 @@ public class Graph : MonoBehaviour
 
         waveButtonImage.color = selectedButtonColor;
         timeTrialButtonImage.color = unselectedButtonColor;
+        
+        isShowingWaveStats = true;
     }
 
     public void CreateGraphsForTimeTrialGames()
@@ -109,38 +122,12 @@ public class Graph : MonoBehaviour
 
         waveButtonImage.color = unselectedButtonColor;
         timeTrialButtonImage.color = selectedButtonColor;
+        
+        isShowingWaveStats = false;
     }
 
 
-    public EnemySettings TESTEnemySettings;
 
-    [SerializeField] List<StatsSummaryPerGame> testStatsSummaries;
-
-    [Button]
-    public void CreateAndShowTestData(int count, float fillRate)
-    {
-        testStatsSummaries = new List<StatsSummaryPerGame>();
-
-        for (int i = 0; i < count; i++)
-        {
-            // this loop creates games. Each game does not need an entry for the enemy, that's the whole point
-            StatsSummaryPerGame statsSummaryPerGame = new StatsSummaryPerGame();
-            statsSummaryPerGame.AccuracyPerEnemy = new List<AccuracyPerEnemy>();
-            testStatsSummaries.Add(statsSummaryPerGame);
-
-            if (Random.Range(0f, 1f) < fillRate)
-            {
-                AccuracyPerEnemy accuracyPerEnemy = new AccuracyPerEnemy();
-                accuracyPerEnemy.GUID = TESTEnemySettings.GUID;
-                accuracyPerEnemy.EnemySettings = TESTEnemySettings;
-                accuracyPerEnemy.Accuracy = Random.Range(0f, 1f);
-
-                statsSummaryPerGame.AccuracyPerEnemy.Add(accuracyPerEnemy);
-            }
-        }
-
-        CreateGraphsForGames(testStatsSummaries);
-    }
 
 
     public void CreateGraphsForGames(List<StatsSummaryPerGame> statsSummaries)
@@ -247,7 +234,6 @@ public class Graph : MonoBehaviour
     [Button]
     void AdjustXLabels(int highestGameNumber)
     {
-        
         Canvas.ForceUpdateCanvases();
 
         int allLabelsCount = xLabels.Count;
@@ -314,16 +300,15 @@ public class Graph : MonoBehaviour
             lastCircleGameObject = circleGameObject;
         }
 
-        
-        
+
         // only needed if using transparency
         // foreach (var circle in graph.Circles)
         // {
         //     circle.SetAsLastSibling();
         // }
     }
-    
-    
+
+
     void ToggleGraphForEnemy(EnemySettings enemySettings, bool show)
     {
         GraphPerEnemy graphPerEnemy = graphsPerEnemy.Find(x => x.EnemySettings == enemySettings);
@@ -437,4 +422,35 @@ public class Graph : MonoBehaviour
 
         yLabelPrefab.gameObject.SetActive(false);
     }
+    
+    //
+    // public EnemySettings TESTEnemySettings;
+    //
+    // [SerializeField] List<StatsSummaryPerGame> testStatsSummaries;
+    //
+    // [Button]
+    // public void CreateAndShowTestData(int count, float fillRate)
+    // {
+    //     testStatsSummaries = new List<StatsSummaryPerGame>();
+    //
+    //     for (int i = 0; i < count; i++)
+    //     {
+    //         // this loop creates games. Each game does not need an entry for the enemy, that's the whole point
+    //         StatsSummaryPerGame statsSummaryPerGame = new StatsSummaryPerGame();
+    //         statsSummaryPerGame.AccuracyPerEnemy = new List<AccuracyPerEnemy>();
+    //         testStatsSummaries.Add(statsSummaryPerGame);
+    //
+    //         if (Random.Range(0f, 1f) < fillRate)
+    //         {
+    //             AccuracyPerEnemy accuracyPerEnemy = new AccuracyPerEnemy();
+    //             accuracyPerEnemy.GUID = TESTEnemySettings.GUID;
+    //             accuracyPerEnemy.EnemySettings = TESTEnemySettings;
+    //             accuracyPerEnemy.Accuracy = Random.Range(0f, 1f);
+    //
+    //             statsSummaryPerGame.AccuracyPerEnemy.Add(accuracyPerEnemy);
+    //         }
+    //     }
+    //
+    //     CreateGraphsForGames(testStatsSummaries);
+    // }
 }

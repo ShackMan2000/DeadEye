@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 
 public class UIController : MonoBehaviour
 {
-  //  [SerializeField] HealthDisplay healthDisplay;
+    //  [SerializeField] HealthDisplay healthDisplay;
 
     [SerializeField] StatsTracker statsTracker;
 
@@ -19,31 +19,28 @@ public class UIController : MonoBehaviour
     [SerializeField] GameObject waveIngamePanel;
 
     [SerializeField] GameObject timeLeft;
-    
-    [SerializeField] StatsDisplay statsDisplay;
-    
+
+    [SerializeField] GameOverPanel gameOverPanel;
+    // [SerializeField] StatsDisplay statsDisplay;
+
     [SerializeField] List<GameObject> panelsToHideOnStart;
 
-   // public static event Action OnEnableUnlimitedHealth = delegate { };
+    // public static event Action OnEnableUnlimitedHealth = delegate { };
 
 
     void OnEnable()
     {
-        // need a different one for game completed, not wave.
-        
-       // GameManager.OnWaveCompleted += ShowStatsOnWaveCompleted;
         GameManager.OnWaveGameFailed += ShowStatsOnWaveGameFailed;
-        
-        GameManager.OnTimeTrialCompleted += ShowStatsOnTimeTrialCompleted;
+
+        GameManager.OnTimeTrialSuccess += ShowStatsOnTimeTrialSuccess;
         GameManager.OnTimeTrialFailed += ShowStatsOnTimeTrialFailed;
     }
 
     void OnDisable()
     {
-      //  GameManager.OnWaveCompleted -= ShowStatsOnWaveCompleted;
         GameManager.OnWaveGameFailed -= ShowStatsOnWaveGameFailed;
-        
-        GameManager.OnTimeTrialCompleted -= ShowStatsOnTimeTrialCompleted;
+
+        GameManager.OnTimeTrialSuccess -= ShowStatsOnTimeTrialSuccess;
         GameManager.OnTimeTrialFailed -= ShowStatsOnTimeTrialFailed;
     }
 
@@ -54,9 +51,8 @@ public class UIController : MonoBehaviour
         {
             panel.SetActive(false);
         }
-        
+
         menuPanel.gameObject.SetActive(true);
-   
     }
 
 
@@ -65,7 +61,6 @@ public class UIController : MonoBehaviour
     {
         menuPanel.gameObject.SetActive(activate);
         waveIngamePanel.SetActive(!activate);
-        statsDisplay.gameObject.SetActive(!activate);
         EnableMeshCollider(activate);
     }
 
@@ -75,29 +70,26 @@ public class UIController : MonoBehaviour
     {
         ToggleMenuPanel(false);
         ToggleIngamePanel(true);
+        gameOverPanel.gameObject.SetActive(false);
 
         timeLeft.gameObject.SetActive(false);
-        
-        ToggleStatsPanel(false);
 
         GameManager.StartNewWaveGame();
     }
-    
-    
+
+
     [Button]
     public void StartNewTimeTrialGame()
     {
         ToggleMenuPanel(false);
         ToggleIngamePanel(true);
-        ToggleStatsPanel(false);
-        
+        gameOverPanel.gameObject.SetActive(false);
         timeLeft.gameObject.SetActive(true);
 
 
         GameManager.StartNewTimeTrialGame();
     }
-    
-    
+
 
     [Button]
     void ToggleIngamePanel(bool activate)
@@ -106,63 +98,43 @@ public class UIController : MonoBehaviour
     }
 
 
-    [Button]
-    void ShowStatsOnWaveCompleted()
-    {
-        ToggleIngamePanel(false);
-        ToggleStatsPanel(true);
-        statsDisplay.ShowStatsCurrentWave();
-    }
-
     void ShowStatsOnWaveGameFailed()
     {
-        ToggleIngamePanel(false);
-        ToggleStatsPanel(true);
-        statsDisplay.ShowStatsAllWaves();
+        // show the panel, route click through the menu stats button, cleanest
+        ToggleMenuPanel(true);
+        gameOverPanel.ShowWaveGameFailed();
     }
 
-    void ShowStatsOnTimeTrialCompleted()
+    void ShowStatsOnTimeTrialSuccess()
     {
-        ToggleIngamePanel(false);
-        ToggleStatsPanel(true);
-        statsDisplay.ShowStatsTimeTrial(true);
+        ToggleMenuPanel(true);
+        gameOverPanel.ShowTimeTrialSuccess();
     }
-    
+
     void ShowStatsOnTimeTrialFailed()
     {
-        ToggleIngamePanel(false);
-        ToggleStatsPanel(true);
-        statsDisplay.ShowStatsTimeTrial(false);
+        ToggleMenuPanel(true);
+        gameOverPanel.ShowTimeTrialFailed();
     }
 
-    void ToggleStatsPanel(bool show)
-    {
-        statsDisplay.gameObject.SetActive(show);
-        EnableMeshCollider(show);
-        waveIngamePanel.SetActive(!show);
-    }
-    
-    
+    // void ToggleStatsPanel(bool show)
+    // {
+    //     EnableMeshCollider(show);
+    //     waveIngamePanel.SetActive(!show);
+    // }
 
 
-    [Button]
-    public void StartNextWaveBtn()
-    {
-        ToggleStatsPanel(false);
-        EnableMeshCollider(false);
-        waveIngamePanel.gameObject.SetActive(true);
-        GameManager.StartWave();
-    }
-    
-    
+    // [Button]
+    // public void StartNextWaveBtn()
+    // {
+    //     EnableMeshCollider(false);
+    //     waveIngamePanel.gameObject.SetActive(true);
+    //     GameManager.StartWave();
+    // }
 
 
-
-    void EnableMeshCollider(bool activate)
+    public void EnableMeshCollider(bool activate)
     {
         meshCollider.enabled = activate;
     }
-
-
-  
 }

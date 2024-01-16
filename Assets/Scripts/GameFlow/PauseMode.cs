@@ -26,6 +26,7 @@ public class PauseMode : MonoBehaviour
         {
             GameManager.PauseGame();
             pausePanel.SetActive(true);
+            uiController.EnableMeshCollider(true);
         }
     }
 
@@ -34,6 +35,7 @@ public class PauseMode : MonoBehaviour
     {
         GameManager.ResumeGame();
         pausePanel.SetActive(false);
+        uiController.EnableMeshCollider(false);
     }
     
     public void QuitGame()

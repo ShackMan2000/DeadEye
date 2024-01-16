@@ -18,22 +18,22 @@ public class Gun : MonoBehaviour
     [SerializeField] bool debugShotHits;
 
     bool isPressed;
-   [SerializeField] float pressedThreshold = 0.9f;
-   [SerializeField] float releaseThreshold = 0.1f;
+    [SerializeField] float pressedThreshold = 0.9f;
+    [SerializeField] float releaseThreshold = 0.1f;
 
 
     public event Action<WeaponType> OnShotFired = delegate { };
-    public event Action<float> OnShotFiredWithDistance = delegate {  };
+    public event Action<float> OnShotFiredWithDistance = delegate { };
     public static event Action<WeaponType, Vector3, Vector3> OnShotHitSomething = delegate { };
 
-   // public static event Action<Vector3, Vector3> OnHitObjectNotShootable = delegate { };
+    // public static event Action<Vector3, Vector3> OnHitObjectNotShootable = delegate { };
     public static event Action<bool> ShotHitEnemy = delegate { };
 
     //
     // bool isChamberRotating;
     // float chamberRotationSpeed = 1000f;
     // float chamberRotationLeft;
-    
+
     public bool IsLockedByOverheat;
 
     public void ShootAndDetermineTarget(Vector3 direction)
@@ -45,7 +45,7 @@ public class Gun : MonoBehaviour
         float distanceToHitPoint = 100000f;
 
         // all layer except player
-        
+
         if (Physics.Raycast(startPosition, direction, out RaycastHit hit, 100f, ~(1 << 8)))
         {
             hitObject = hit.collider.gameObject;
@@ -56,7 +56,7 @@ public class Gun : MonoBehaviour
 
             if (shotReceiver == null)
             {
-              //  OnHitObjectNotShootable(hit.point, hit.normal);
+                //  OnHitObjectNotShootable(hit.point, hit.normal);
                 ShotHitEnemy?.Invoke(false);
             }
             else
@@ -66,20 +66,20 @@ public class Gun : MonoBehaviour
                 shotReceiver.GetShot(SelectedWeaponType);
                 ShotHitEnemy?.Invoke(true);
             }
+
+
+            OnShotHitSomething?.Invoke(SelectedWeaponType, hit.point, hit.normal);
+            
         }
 
         OnShotFired?.Invoke(SelectedWeaponType);
-        
-        
+
+
         // this is getting a bit messy...
-        OnShotHitSomething?.Invoke(SelectedWeaponType, hit.point, hit.normal);
-        
+
         // for the bullet streaks
         OnShotFiredWithDistance?.Invoke(distanceToHitPoint);
-
     }
-
-
 
 
     bool isVibrating;
@@ -95,8 +95,8 @@ public class Gun : MonoBehaviour
         {
             return;
         }
-        
-        
+
+
         float triggerValue;
 
         if (SelectedWeaponType == leftGun)
@@ -147,11 +147,12 @@ public class Gun : MonoBehaviour
             yield return new WaitForSeconds(vibrationDuration);
             OVRInput.SetControllerVibration(0f, 0f, OVRInput.Controller.RTouch);
         }
+
         isVibrating = false;
     }
 
 
-    public float frequencyTest =1f;
+    public float frequencyTest = 1f;
     public float amplitudeTest = 1f;
     public float vibrationDuration = 0.3f;
 

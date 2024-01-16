@@ -11,6 +11,8 @@ public class StatsTracker : MonoBehaviour
 
     public Stats statsThisRound;
 
+    
+    public static event Action OnSavedStats = delegate { }; 
    // public List<Stats> StatsForEachWave;
 
     void OnEnable()
@@ -21,7 +23,7 @@ public class StatsTracker : MonoBehaviour
         GameManager.OnWaveGameFailed += SaveStatsWaveGame;
        
         GameManager.OnStartingNewTimeTrialGame += CreateNewStats;
-        GameManager.OnTimeTrialCompleted += SaveStatsTimeTrialGame;
+        GameManager.OnTimeTrialSuccess += SaveStatsTimeTrialGame;
         GameManager.OnTimeTrialFailed += SaveStatsTimeTrialGame;
 
         EnemyBase.OnAnySingleEnemyDestroyedCorrectly += OnAnySingleEnemyDestroyedCorrectly;
@@ -38,7 +40,7 @@ public class StatsTracker : MonoBehaviour
         
         GameManager.OnStartingNewTimeTrialGame -= CreateNewStats;
         GameManager.OnTimeTrialFailed -= SaveStatsTimeTrialGame;
-        GameManager.OnTimeTrialCompleted -= SaveStatsTimeTrialGame;
+        GameManager.OnTimeTrialSuccess -= SaveStatsTimeTrialGame;
 
         EnemyBase.OnAnySingleEnemyDestroyedCorrectly -= OnAnySingleEnemyDestroyedCorrectly;
         Gun.ShotHitEnemy -= OnShotFired;
@@ -249,6 +251,8 @@ public class StatsTracker : MonoBehaviour
         }
         
         SaveManager.Instance.WriteSaveData();
+        
+        OnSavedStats?.Invoke();
     }
 }
 
