@@ -50,19 +50,32 @@ public class SaveData
 public class StatsSummaryPerGame
 {
     public float Score;
-    public float Accuracy;
-
-    public List<AccuracyPerEnemy> AccuracyPerEnemy = new List<AccuracyPerEnemy>();
-}
-
-
-
-[Serializable]
-public class AccuracyPerEnemy
-{
-    public string GUID;
     
-    // use GUID to be safe, but when the data is loaded set enemy settings
-    public EnemySettings EnemySettings;
-    public float Accuracy;
+    public float ShotsFired;
+    public float ShotsHitAnyEnemy;
+    public float AccuracyHitAnyEnemy => ShotsFired > 0 ? ShotsHitAnyEnemy / ShotsFired : 0;
+    
+    
+    public float multiDroneHitsCount;
+    public float multiDroneHitsAccuracySums;
+    public float AccuracyHitMultiDrone => multiDroneHitsCount > 0 ? multiDroneHitsAccuracySums / multiDroneHitsCount : 0;
+    
+    public float redBlueHitsCount;
+    public float redBlueHitsCountCorrectWeapon;
+    public float AccuracyRedBlueEnemy => redBlueHitsCount > 0 ? redBlueHitsCountCorrectWeapon / redBlueHitsCount : 0;
+
+  
+    
 }
+
+
+//
+// [Serializable]
+// public class AccuracyPerEnemy
+// {
+//     public string GUID;
+//     
+//     // use GUID to be safe, but when the data is loaded set enemy settings
+//     public EnemySettings EnemySettings;
+//     public float Accuracy;
+// }

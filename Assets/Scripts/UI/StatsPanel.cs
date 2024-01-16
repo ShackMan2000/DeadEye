@@ -15,6 +15,8 @@ public class StatsPanel : MonoBehaviour
     [SerializeField] Sprite circleSprite;
 
     [SerializeField] EnemySettings accuracyAsEnemySettings;
+    [SerializeField] EnemySettings depthDrones;
+    [SerializeField] EnemySettings blueAndRedEnemies;
 
     [SerializeField] EnemySelector enemySelector;
 
@@ -94,7 +96,6 @@ public class StatsPanel : MonoBehaviour
         {
             CreateGraphsForTimeTrialGames();
         }
-
     }
 
     void OnDisable()
@@ -111,7 +112,7 @@ public class StatsPanel : MonoBehaviour
 
         waveButtonImage.color = selectedButtonColor;
         timeTrialButtonImage.color = unselectedButtonColor;
-        
+
         isShowingWaveStats = true;
     }
 
@@ -122,51 +123,53 @@ public class StatsPanel : MonoBehaviour
 
         waveButtonImage.color = unselectedButtonColor;
         timeTrialButtonImage.color = selectedButtonColor;
-        
+
         isShowingWaveStats = false;
     }
 
 
-
-
+    // allright, gotta group graphs into 3 only
+    // use premade enemy settings for those, they have a list of groups
+    // actually they are all a bit different? nah, only accuracy is different
 
     public void CreateGraphsForGames(List<StatsSummaryPerGame> statsSummaries)
     {
         RemoveAllGraphs();
 
-        if (statsSummaries.Count == 0)
-        {
-            Debug.Log("Error, trying to show a graph but passed in empty list of stats summaries");
-            return;
-        }
-
+        // if (statsSummaries.Count == 0)
+        // {
+        //     Debug.Log("Error, trying to show a graph but passed in empty list of stats summaries");
+        //     return;
+        // }
 
         graphsPerEnemy = new List<GraphPerEnemy>();
 
-        // todo convert accuracy into an enemy setting
 
         accuraciesPerEnemy = new Dictionary<EnemySettings, List<AccuracyEntry>>();
 
+
+
+        List<AccuracyEntry> totalAccuracyEntries = new List<AccuracyEntry>();
+        List<AccuracyEntry> mulitDroneAccuracies = new List<AccuracyEntry>();
+        List<AccuracyEntry> redBlueAccuracies = new List<AccuracyEntry>();
+
+
         for (int i = 0; i < statsSummaries.Count; i++)
         {
-            foreach (var accuracyPerEnemy in statsSummaries[i].AccuracyPerEnemy)
-            {
-                accuracyPerEnemy.EnemySettings = gameSettings.GetEnemySettingsFromGUID(accuracyPerEnemy.GUID);
-                if (accuracyPerEnemy.EnemySettings == null)
-                {
-                    Debug.LogError("Error, couldn't find enemy settings for GUID " + accuracyPerEnemy.GUID);
-                    continue;
-                }
+            AccuracyEntry totalAccuracyEntry = new AccuracyEntry(i, statsSummaries[i].AccuracyHitAnyEnemy);
+            totalAccuracyEntries.Add(totalAccuracyEntry);
 
-                if (!accuraciesPerEnemy.ContainsKey(accuracyPerEnemy.EnemySettings))
-                {
-                    accuraciesPerEnemy.Add(accuracyPerEnemy.EnemySettings, new List<AccuracyEntry>());
-                }
+            AccuracyEntry multiDroneAccuracyEntry = new AccuracyEntry(i, statsSummaries[i].AccuracyHitMultiDrone);
+            mulitDroneAccuracies.Add(multiDroneAccuracyEntry);
 
-                AccuracyEntry accuracyEntry = new AccuracyEntry(i, accuracyPerEnemy.Accuracy);
-                accuraciesPerEnemy[accuracyPerEnemy.EnemySettings].Add(accuracyEntry);
-            }
+            AccuracyEntry redBlueAccuracyEntry = new AccuracyEntry(i, statsSummaries[i].AccuracyRedBlueEnemy);
+            redBlueAccuracies.Add(redBlueAccuracyEntry);
         }
+
+        accuraciesPerEnemy.Add(accuracyAsEnemySettings, totalAccuracyEntries);
+        accuraciesPerEnemy.Add(depthDrones, mulitDroneAccuracies);
+        accuraciesPerEnemy.Add(blueAndRedEnemies, redBlueAccuracies);
+
 
         AdjustXLabels(statsSummaries.Count);
 
@@ -190,7 +193,7 @@ public class StatsPanel : MonoBehaviour
     }
 
 
-    void RemoveAllGraphs()
+    public void RemoveAllGraphs()
     {
         List<EnemySettings> enemiesToRemove = new List<EnemySettings>();
         foreach (var graphPerEnemy in graphsPerEnemy)
@@ -422,7 +425,7 @@ public class StatsPanel : MonoBehaviour
 
         yLabelPrefab.gameObject.SetActive(false);
     }
-    
+
     //
     // public EnemySettings TESTEnemySettings;
     //

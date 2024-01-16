@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c133ba27d424346905d1db6796f0580, type: 3}
   m_Name: Time for Time Trial
   m_EditorClassIdentifier: 
-  Options: 010000000500000007000000
+  Options: 030000000500000007000000
   SelectedIndex: 0

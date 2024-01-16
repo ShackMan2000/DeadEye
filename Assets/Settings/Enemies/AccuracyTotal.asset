@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc4f08fd59684b93bc7b1caa7bab1e88, type: 3}
-  m_Name: Total Accuracy
+  m_Name: AccuracyTotal
   m_EditorClassIdentifier: 
   GUID: 333fc823-9e83-4bb1-97b0-1da96959fd5f
   Prefab: {fileID: 1630283835777933682, guid: 8dabb27a437907a45a267748c9002cc7, type: 3}
@@ -24,7 +24,7 @@ MonoBehaviour:
   MovementSpeed: 4.18
   CorrectWeaponsToGetShot:
   - {fileID: 11400000, guid: a996b2b426834944496a5628720e9cfb, type: 2}
-  pointsForKill: 10
+  pointsForKill: 0
   RotateTowardsPlayer: 0
   CanShoot: 0
   shootingSettings:

@@ -42,3 +42,4 @@ MonoBehaviour:
     MinimumWaveLevel: 0
     SpawnAmountBase: 2
     SpawnAmountIncreasePerLevel: 0
+  WarmupTime: 3

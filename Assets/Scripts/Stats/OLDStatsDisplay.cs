@@ -42,9 +42,9 @@ public class OLDStatsDisplay : MonoBehaviour
     [Button]
     public void ShowStatsCurrentWave()
     {
-        ShowStats(statsTracker.statsThisRound);
+       // ShowStats(statsTracker.statsThisRound);
 
-        SetGeneralInfoTexts(statsTracker.statsThisRound, true);
+       // SetGeneralInfoTexts(statsTracker.statsThisRound, true);
 
         showStatsCurrentWaveButton.image.color = selectedButtonColor;
         showStatsAllWavesButton.image.color = unselectedButtonColor;
@@ -80,9 +80,9 @@ public class OLDStatsDisplay : MonoBehaviour
     public void ShowStatsTimeTrial(bool completed)
     {
         Debug.Log("ShowStatsTimeTrial");
-        ShowStats(statsTracker.statsThisRound);
+       // ShowStats(statsTracker.statsThisRound);
         
-        SetGeneralInfoTexts(statsTracker.statsThisRound, false);
+     //   SetGeneralInfoTexts(statsTracker.statsThisRound, false);
         if (!completed)
         {
             waveText.text = "Time Trial Failed!";

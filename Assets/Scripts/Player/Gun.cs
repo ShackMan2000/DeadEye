@@ -43,8 +43,8 @@ public class Gun : MonoBehaviour
         ShotReceiver shotReceiver = null;
         GameObject hitObject = null;
         float distanceToHitPoint = 100000f;
-
-        // all layer except player
+        
+        bool shotHitEnemy = false;
 
         if (Physics.Raycast(startPosition, direction, out RaycastHit hit, 100f, ~(1 << 8)))
         {
@@ -54,17 +54,10 @@ public class Gun : MonoBehaviour
             shotReceiver = hit.collider.TryGetComponent(out shotReceiver) ? shotReceiver : null;
 
 
-            if (shotReceiver == null)
+            if (shotReceiver != null)
             {
-                //  OnHitObjectNotShootable(hit.point, hit.normal);
-                ShotHitEnemy?.Invoke(false);
-            }
-            else
-            {
-                // this will end the game, shot receiver tells enemy spawner  to disappear, which tells wave controller that wave is over
-                // nah, keep this, move mesh a level down and in here just make sure that we are not in shooting mode
+                shotHitEnemy = true;
                 shotReceiver.GetShot(SelectedWeaponType);
-                ShotHitEnemy?.Invoke(true);
             }
 
 
@@ -73,9 +66,7 @@ public class Gun : MonoBehaviour
         }
 
         OnShotFired?.Invoke(SelectedWeaponType);
-
-
-        // this is getting a bit messy...
+        ShotHitEnemy?.Invoke(shotHitEnemy);
 
         // for the bullet streaks
         OnShotFiredWithDistance?.Invoke(distanceToHitPoint);

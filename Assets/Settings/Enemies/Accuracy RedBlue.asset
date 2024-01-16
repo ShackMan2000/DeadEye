@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc4f08fd59684b93bc7b1caa7bab1e88, type: 3}
+  m_Name: Accuracy RedBlue
+  m_EditorClassIdentifier: 
+  GUID: 5cb1b595-50ed-47fe-86f8-15fee6a2503d
+  Prefab: {fileID: 1630283835777933682, guid: 8dabb27a437907a45a267748c9002cc7, type: 3}
+  IconColor: {r: 0.7520129, g: 0.15379141, b: 0.754717, a: 1}
+  Icon: {fileID: 21300000, guid: f21cdbdee687d1a449bf6a8eb692e0ae, type: 3}
+  Name: Red & Blue
+  Description: Shot with correct weapon
+  ExplosionPrefab: {fileID: 0}
+  Difficulty: 0
+  MovementType: 0
+  MovementSpeed: 4.18
+  CorrectWeaponsToGetShot:
+  - {fileID: 11400000, guid: a996b2b426834944496a5628720e9cfb, type: 2}
+  pointsForKill: 0
+  RotateTowardsPlayer: 0
+  CanShoot: 0
+  shootingSettings:
+    BulletPrefab: {fileID: 0}
+    ShootWarningTime: 0
+    ShootingInterval: {x: 0, y: 0}
+  StatExplanation: 
+  BulletPrefab: {fileID: 0}
+  ShootWarningTime: 3
+  ShootingInterval: {x: 5, y: 10}
+  LaserPivotRotation: 0
+  LaserExpansionTime: 0.2
+  LaserStayTime: 1
+  LaserShrinkTime: 0.2
+  SideDronesHitRangeInUnits: 0
+  SideDronesMovementType: 0
+  BackAndForthSpeed: 0
+  BackAndForthDistance: 0
+  MovementCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  LaserKnockbackSpeed: 14
+  LaserKnockbackTime: 0.6
+  PlacementAxis: {x: 1, y: 0, z: 0}
+  PlacementDistance: 1.97
+  RotationAxis: {x: 0, y: 1, z: 0}
+  SideDronesRotationSpeed: 105.3
+  SideDroneMovementAxisWorld: {x: 0, y: 0, z: -1}
+  SideDronePlaceBehind: -9.8

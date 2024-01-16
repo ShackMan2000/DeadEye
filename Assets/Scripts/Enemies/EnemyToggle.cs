@@ -38,7 +38,11 @@ public class EnemyToggle : MonoBehaviour
 
         nameText.text = EnemySettings.Name;
         descriptionText.text = EnemySettings.Description;
-        descriptionText.text += "\n" + EnemySettings.pointsForKill.ToString("F0") + " points for correct kill";
+        
+        if(EnemySettings.pointsForKill > 0)
+        {
+            descriptionText.text += "\n" + EnemySettings.pointsForKill.ToString("F0") + " points for correct kill";
+        }
         
         if (EnemySettings.CanShoot)
         {

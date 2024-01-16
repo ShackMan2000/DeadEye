@@ -16,7 +16,7 @@ MonoBehaviour:
   EnemySpawnIntervalDecreasePerLevel: 0.1
   SpawnIntervalMin: 0.44
   SpawnIntervalMax: 0
-  MaxActiveEnemies: 0
+  MaxActiveEnemies: 20
   AllEnemiesOptions:
   - EnemySettings: {fileID: 11400000, guid: 57a478a597c1b134c999897e5d273eab, type: 2}
     MinimumWaveLevel: 0
