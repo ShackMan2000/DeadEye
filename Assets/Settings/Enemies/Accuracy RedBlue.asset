@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GUID: 5cb1b595-50ed-47fe-86f8-15fee6a2503d
   Prefab: {fileID: 1630283835777933682, guid: 8dabb27a437907a45a267748c9002cc7, type: 3}
-  IconColor: {r: 0.7520129, g: 0.15379141, b: 0.754717, a: 1}
+  IconColor: {r: 0.6516396, g: 0.115646176, b: 0.8396226, a: 1}
   Icon: {fileID: 21300000, guid: f21cdbdee687d1a449bf6a8eb692e0ae, type: 3}
   Name: Red & Blue
   Description: Shot with correct weapon

@@ -20,7 +20,7 @@ public class EnemyBase : MonoBehaviour
     public event Action OnShotByAnyWeapon = delegate { };
     public static event Action<EnemySettings,Vector3> OnSpawnExplosion = delegate { };
 
-    public static event Action<EnemySettings, bool> OnAnySingleEnemyDestroyedCorrectly = delegate { };
+    public static event Action<EnemySettings, bool, Vector3> OnAnySingleEnemyDestroyedCorrectly = delegate { };
 
     public static event Action<EnemyBase, EnemyBase> OnAnyEnemyDestroyedPrefabType = delegate { };
 
@@ -48,12 +48,13 @@ public class EnemyBase : MonoBehaviour
         
         if (GetsDestroyedByGunshot)
         {
-            OnAnySingleEnemyDestroyedCorrectly(Settings, correctWeapon);
             OnSpawnExplosion(Settings, transform.position);
+            OnAnySingleEnemyDestroyedCorrectly(Settings, correctWeapon, transform.position);
 
             GetDestroyedByPlayer();
         }
 
+        
 
         OnShotByAnyWeapon();
     }

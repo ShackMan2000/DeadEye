@@ -9,7 +9,7 @@ public class ScoreController : MonoBehaviour
 
     [SerializeField] ScoreSettings scoreSettings;
 
-    
+
     [SerializeField] PlayerHealth playerHealth;
 
     [SerializeField] ScoreMulti currentMulti;
@@ -17,78 +17,87 @@ public class ScoreController : MonoBehaviour
     public static event Action<float> OnScoreChanged = delegate { };
     public static event Action<int> OnKillStreakChanged = delegate { };
 
-    
-    
-    
+    public static event Action<float, Vector3> OnPointsForKillAwarded = delegate { };
+
+
     void OnEnable()
     {
         EnemyBase.OnAnySingleEnemyDestroyedCorrectly += OnSingleEnemyDestroyed;
-        MultiDrone.OnMultiDroneShot += OnMultiDroneShot;
-        
+        MultiDrone.OnMultiDroneShot += CheckToResetScoreMulti;
+        MultiDrone.OnMultiDroneDestroyed += AwardMultiDronePoints;
+
         GameManager.OnStartingNewWaveGame += ResetScore;
         GameManager.OnStartingNewTimeTrialGame += ResetScore;
-        
+
         playerHealth.OnPlayerHitByBullet += ResetKillStreakAndMulti;
     }
 
     void OnDisable()
     {
         EnemyBase.OnAnySingleEnemyDestroyedCorrectly -= OnSingleEnemyDestroyed;
-        MultiDrone.OnMultiDroneShot -= OnMultiDroneShot;
-        
+        MultiDrone.OnMultiDroneShot -= CheckToResetScoreMulti;
+        MultiDrone.OnMultiDroneDestroyed -= AwardMultiDronePoints;
+
         GameManager.OnStartingNewWaveGame -= ResetScore;
         GameManager.OnStartingNewTimeTrialGame -= ResetScore;
-        
+
         playerHealth.OnPlayerHitByBullet -= ResetKillStreakAndMulti;
     }
 
-    
- 
 
-    
     void ResetScore()
     {
         Score = 0;
         KillStreak = 0;
         currentMulti = scoreSettings.ScoreMultipliers[0];
-        
+
         OnScoreChanged(Score);
         OnKillStreakChanged(KillStreak);
     }
-    
-    
+
+
     void ResetKillStreakAndMulti()
     {
         KillStreak = 0;
         currentMulti = scoreSettings.ScoreMultipliers[0];
         OnKillStreakChanged(KillStreak);
     }
-  
 
-    void OnMultiDroneShot(MultiDroneHitInfo hitInfo)
+
+    void CheckToResetScoreMulti(MultiDroneHitInfo hitInfo)
+    {
+        if (!hitInfo.IsCorrectRange)
+        {
+            KillStreak = 0;
+            UpdateScoreMulti();
+            OnKillStreakChanged(KillStreak);
+        }
+    }
+
+
+    void AwardMultiDronePoints(MultiDroneHitInfo hitInfo)
     {
         if (hitInfo.IsCorrectRange)
         {
+            float pointsForKill = hitInfo.Settings.pointsForKill * currentMulti.ScoreMultiplier;
+            Score += pointsForKill;
+            OnPointsForKillAwarded(pointsForKill, hitInfo.Position);
+            
             KillStreak++;
-            Score += hitInfo.Settings.pointsForKill;
+            UpdateScoreMulti();
             OnScoreChanged(Score);
         }
-        else
-        {
-            KillStreak = 0;
-        }
-
-        UpdateScoreMulti();
-
-        OnKillStreakChanged(KillStreak);
     }
 
-    void OnSingleEnemyDestroyed(EnemySettings enemySettings, bool correctWeapon)
+
+    void OnSingleEnemyDestroyed(EnemySettings enemySettings, bool correctWeapon, Vector3 position)
     {
         if (correctWeapon)
         {
+            float pointsForKill = enemySettings.pointsForKill * currentMulti.ScoreMultiplier;
+            Score += pointsForKill;
+            OnPointsForKillAwarded(pointsForKill, position);
             KillStreak++;
-            Score += enemySettings.pointsForKill;
         }
         else
         {
@@ -98,6 +107,7 @@ public class ScoreController : MonoBehaviour
         UpdateScoreMulti();
         OnScoreChanged(Score);
         OnKillStreakChanged(KillStreak);
+        // getting a bit messy but easiest for now to get position too
     }
 
 

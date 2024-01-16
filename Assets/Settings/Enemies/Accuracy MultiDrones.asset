@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GUID: b4716e31-a34f-4792-95ca-0a5f4a504c7a
   Prefab: {fileID: 1630283835777933682, guid: 8dabb27a437907a45a267748c9002cc7, type: 3}
-  IconColor: {r: 0.7520129, g: 0.15379141, b: 0.754717, a: 1}
+  IconColor: {r: 0.11246002, g: 0.764151, b: 0.1557202, a: 1}
   Icon: {fileID: 21300000, guid: cefbcfb65d7c41c40b6fe484ea70f3a8, type: 3}
   Name: Multi Drones
   Description: Alignment when shot

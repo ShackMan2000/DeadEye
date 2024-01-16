@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GUID: 333fc823-9e83-4bb1-97b0-1da96959fd5f
   Prefab: {fileID: 1630283835777933682, guid: 8dabb27a437907a45a267748c9002cc7, type: 3}
-  IconColor: {r: 0.7520129, g: 0.15379141, b: 0.754717, a: 1}
+  IconColor: {r: 0.7735849, g: 0.5040619, b: 0.099252425, a: 1}
   Icon: {fileID: 21300000, guid: 25e3131eab6c5874d959a0e4f6351aa0, type: 3}
   Name: Accuray
   Description: Hit any target when shooting

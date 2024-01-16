@@ -45,6 +45,7 @@ public class MultiDrone : MonoBehaviour
     public float DebugRotationRelative;
 
     public static event Action<MultiDroneHitInfo> OnMultiDroneShot = delegate { };
+    public static event Action<MultiDroneHitInfo> OnMultiDroneDestroyed = delegate { };
 
     void OnEnable()
     {
@@ -66,10 +67,8 @@ public class MultiDrone : MonoBehaviour
     [Button]
     void SetSideDronesAndLaserPositions()
     {
-
         foreach (Renderer render in coreRenderers)
         {
-
             Material[] materials = render.materials;
 
             foreach (Material material in materials)
@@ -129,22 +128,22 @@ public class MultiDrone : MonoBehaviour
 
         // get hit range relative -1 to 1, need to get it all the way to stats display, could just assign this prefab
 
-        if (Mathf.Abs(sideDroneInLocalSpace.z) <= settings.SideDronesHitRangeInUnits)
-        {
-            StartCoroutine(BurnCoreRoutine());
-            sideDrones[0].GetHitByLaser(sideDrones[0].transform.position - lasers[0].transform.position, settings);
-            sideDrones[1].GetHitByLaser(sideDrones[1].transform.position - lasers[1].transform.position, settings);
-        }
-
-
         MultiDroneHitInfo hitInfo = new MultiDroneHitInfo()
         {
             Settings = settings,
             OffsetOnShotRelative = SideDroneCurrentOffsetRelative,
-            RotationRelative = sideDronesCurrentRangeRelative
+            RotationRelative = sideDronesCurrentRangeRelative,
+            Position = transform.position
         };
 
         OnMultiDroneShot(hitInfo);
+
+        if (Mathf.Abs(sideDroneInLocalSpace.z) <= settings.SideDronesHitRangeInUnits)
+        {
+            StartCoroutine(BurnCoreRoutine(hitInfo));
+            sideDrones[0].GetHitByLaser(sideDrones[0].transform.position - lasers[0].transform.position, settings);
+            sideDrones[1].GetHitByLaser(sideDrones[1].transform.position - lasers[1].transform.position, settings);
+        }
     }
 
     // int CheckSideDronesViaRaycast()
@@ -176,20 +175,19 @@ public class MultiDrone : MonoBehaviour
     //     return sideDronesHit;
     // }
 
-    IEnumerator BurnCoreRoutine()
+    IEnumerator BurnCoreRoutine(MultiDroneHitInfo multiDroneHitInfo)
     {
         enemyBase.SpawnExplosion();
-        
+
         float timePassed = 0;
         float burnTime = settings.LaserExpansionTime + settings.LaserStayTime;
         while (timePassed < burnTime)
         {
             timePassed += Time.deltaTime;
             float t = timePassed / burnTime;
-            
+
             foreach (Renderer render in coreRenderers)
             {
-
                 Material[] materials = render.materials;
 
                 foreach (Material material in materials)
@@ -199,7 +197,7 @@ public class MultiDrone : MonoBehaviour
 
                 render.materials = materials;
             }
-            
+
             yield return null;
         }
 
@@ -209,6 +207,7 @@ public class MultiDrone : MonoBehaviour
         }
 
         enemyBase.GetDestroyedByPlayer();
+        OnMultiDroneDestroyed(multiDroneHitInfo);
     }
 
 
@@ -258,8 +257,8 @@ public class MultiDrone : MonoBehaviour
 
     void Update()
     {
-        if(GameManager.IsPaused) return;
-        
+        if (GameManager.IsPaused) return;
+
         if (settings == null || !freezeSideDrones)
         {
             totalTimePassed += Time.deltaTime;
@@ -340,4 +339,5 @@ public struct MultiDroneHitInfo
     public float RotationRelative;
 
     public bool IsCorrectRange => Mathf.Abs(OffsetOnShotRelative) <= Settings.SideDroneOffsetForKillRelative();
+    public Vector3 Position;
 }

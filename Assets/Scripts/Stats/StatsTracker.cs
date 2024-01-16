@@ -58,7 +58,7 @@ public class StatsTracker : MonoBehaviour
     }
 
 
-    void OnAnySingleEnemyDestroyedCorrectly(EnemySettings enemySettings, bool correctWeapon)
+    void OnAnySingleEnemyDestroyedCorrectly(EnemySettings enemySettings, bool correctWeapon, Vector3 positionToIgnore)
     {
         // int index = statsThisRound.StatsPerSingleEnemies.FindIndex(x => x.EnemySettings == enemySettings);
         //

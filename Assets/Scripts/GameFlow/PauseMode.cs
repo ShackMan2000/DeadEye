@@ -19,15 +19,15 @@ public class PauseMode : MonoBehaviour
         {
             GameManager.PauseGame();
             pausePanel.SetActive(true);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-
-        {
-            GameManager.PauseGame();
-            pausePanel.SetActive(true);
             uiController.EnableMeshCollider(true);
         }
+// if (Input.GetKeyDown(KeyCode.Space))
+        //
+        // {
+        //     GameManager.PauseGame();
+        //     pausePanel.SetActive(true);
+        // }
+        
     }
 
 
