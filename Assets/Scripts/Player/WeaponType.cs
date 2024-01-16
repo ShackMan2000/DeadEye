@@ -7,6 +7,8 @@ public class WeaponType : ScriptableObject
     // probably have leftGun, rightGun, and laser
 
     public Color Color;
+    
+    public Sparks SparksPrefab;
 
 
     public Sprite Icon;

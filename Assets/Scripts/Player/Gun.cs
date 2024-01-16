@@ -24,8 +24,9 @@ public class Gun : MonoBehaviour
 
     public event Action<WeaponType> OnShotFired = delegate { };
     public event Action<float> OnShotFiredWithDistance = delegate {  };
+    public static event Action<WeaponType, Vector3, Vector3> OnShotHitSomething = delegate { };
 
-    public static event Action<Vector3, Vector3> OnHitObjectNotShootable = delegate { };
+   // public static event Action<Vector3, Vector3> OnHitObjectNotShootable = delegate { };
     public static event Action<bool> ShotHitEnemy = delegate { };
 
     //
@@ -43,7 +44,9 @@ public class Gun : MonoBehaviour
         GameObject hitObject = null;
         float distanceToHitPoint = 100000f;
 
-        if (Physics.Raycast(startPosition, direction, out RaycastHit hit, Mathf.Infinity))
+        // all layer except player
+        
+        if (Physics.Raycast(startPosition, direction, out RaycastHit hit, 100f, ~(1 << 8)))
         {
             hitObject = hit.collider.gameObject;
             distanceToHitPoint = Vector3.Distance(startPosition, hit.point);
@@ -66,6 +69,12 @@ public class Gun : MonoBehaviour
         }
 
         OnShotFired?.Invoke(SelectedWeaponType);
+        
+        
+        // this is getting a bit messy...
+        OnShotHitSomething?.Invoke(SelectedWeaponType, hit.point, hit.normal);
+        
+        // for the bullet streaks
         OnShotFiredWithDistance?.Invoke(distanceToHitPoint);
 
     }

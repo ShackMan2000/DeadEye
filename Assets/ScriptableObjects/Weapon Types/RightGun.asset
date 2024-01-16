@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 
   Color: {r: 1, g: 0, b: 0, a: 1}
+  SparksPrefab: {fileID: 8124277066531844971, guid: 9eadd4e8840cef04fab94989409f0bbb,
+    type: 3}
   Icon: {fileID: 21300000, guid: 4b49dc8de0557c94699e94108401cc50, type: 3}
