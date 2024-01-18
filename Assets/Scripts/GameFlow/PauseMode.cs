@@ -15,7 +15,7 @@ public class PauseMode : MonoBehaviour
     {
         if (!GameManager.ShootingModeActive || GameManager.IsPaused) return;
 
-        if (OVRInput.GetDown(OVRInput.Button.One) || OVRInput.GetDown(OVRInput.Button.Three))
+        if (OVRInput.GetDown(OVRInput.Button.Start))
         {
             GameManager.PauseGame();
             pausePanel.SetActive(true);

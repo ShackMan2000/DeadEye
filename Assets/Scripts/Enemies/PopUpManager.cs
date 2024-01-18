@@ -24,13 +24,13 @@ public class PopUpManager : MonoBehaviour
     // allright, need to spawn a pop up above the drone
     void OnEnable()
     {
-        MultiDrone.OnMultiDroneShot += SpawnMultiDroneAccuracyPopUp;
+     //   MultiDrone.OnMultiDroneDestroyed += SpawnMultiDroneAccuracyPopUp;
         ScoreController.OnPointsForKillAwarded += SpawnPointsPopUp;
     }
 
     void OnDisable()
     {
-        MultiDrone.OnMultiDroneShot -= SpawnMultiDroneAccuracyPopUp;
+    //    MultiDrone.OnMultiDroneDestroyed -= SpawnMultiDroneAccuracyPopUp;
         ScoreController.OnPointsForKillAwarded -= SpawnPointsPopUp;
     }
 
@@ -53,6 +53,8 @@ public class PopUpManager : MonoBehaviour
 
     void SpawnMultiDroneAccuracyPopUp(MultiDroneHitInfo hitInfo)
     {
+        
+        
         // popUp.transform.position = hitInfo.Position + offset;
         //
         // popUp.transform.LookAt(playerPosition.Position);
