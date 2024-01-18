@@ -109,8 +109,8 @@ public class StatsTracker : MonoBehaviour
     {
         statsSummaryThisRound.multiDroneHitsCount++;
         // one will be 0...
-        statsSummaryThisRound.multiDroneHitsAccuracySums += MathF.Abs(hitInfo.RotationRelative);
-        statsSummaryThisRound.multiDroneHitsAccuracySums += MathF.Abs(hitInfo.OffsetOnShotRelative);
+     //   statsSummaryThisRound.multiDroneHitsAccuracySums += MathF.Abs(hitInfo.RotationRelative);
+        statsSummaryThisRound.multiDroneHitsAccuracySums += 1f - hitInfo.OffsetOnShotRelative;
 
         // int index = statsThisRound.StatsMultiDrones.FindIndex(x => x.EnemySettings == hitInfo.Settings);
         //

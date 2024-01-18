@@ -2,20 +2,23 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class PopUpManager : MonoBehaviour
 {
     [SerializeField] PlayerPosition playerPosition;
 
-    [SerializeField] PopUp popUpPrefab;
+    [FormerlySerializedAs("popUpPrefab")] [SerializeField] PopUp pointsPopUpPrefab;
+    [SerializeField] PopUp accuracyPopUpPrefab;
 
     [SerializeField] Vector3 offset;
 
-    List<PopUp> popUpPool = new List<PopUp>();
+    List<PopUp> pointsPopUpsPool = new List<PopUp>();
+    List<PopUp> accuracyPopUpsPool = new List<PopUp>();
 
-    // best tool to find offset?
-    // run in update
+    // 
+
 
 
     // allright, need to spawn a pop up above the drone
@@ -34,7 +37,7 @@ public class PopUpManager : MonoBehaviour
 
     void SpawnPointsPopUp(float points, Vector3 position)
     {
-        PopUp popUp = GetPopUp();
+        PopUp popUp = GetPointsPopUp();
         popUp.transform.position = position + offset;
         
         // look away from player
@@ -43,36 +46,38 @@ public class PopUpManager : MonoBehaviour
         
         float distanceToPlayer = Vector3.Distance(position, playerPosition.Position);
         
-        popUp.SetText(points.ToString("F0"), distanceToPlayer);
+        popUp.SetTextAndScale(points.ToString("F0"), distanceToPlayer);
+        popUp.GrowAndFade();
     }
 
 
     void SpawnMultiDroneAccuracyPopUp(MultiDroneHitInfo hitInfo)
     {
-        // if (popUpPrefab == null)
-        // {
-        //     Debug.LogError("PopUp prefab is null");
-        //     return;
-        // }
-        //
-        // PopUp popUp = GetPopUp();
         // popUp.transform.position = hitInfo.Position + offset;
-        // popUp.SetText(hitInfo.Accuracy.ToString());
-        // popUp.gameObject.SetActive(true);
+        //
+        // popUp.transform.LookAt(playerPosition.Position);
+        // popUp.transform.Rotate(0, 180, 0);
+        //
+        // float distanceToPlayer = Vector3.Distance(hitInfo.Position, playerPosition.Position);
+        //
+        //
+        // popUp.SetTextAndScale((hitInfo.OffsetOnShotRelative * 100f).ToString("F0") + "%", distanceToPlayer);
+        // popUp.GrowAndFade();
     }
 
 
-    PopUp GetPopUp()
+
+    PopUp GetPointsPopUp()
     {
-        if (popUpPool.Count > 0)
+        if (pointsPopUpsPool.Count > 0)
         {
-            PopUp popUp = popUpPool[0];
-            popUpPool.RemoveAt(0);
+            PopUp popUp = pointsPopUpsPool[0];
+            pointsPopUpsPool.RemoveAt(0);
             return popUp;
         }
         else
         {
-            PopUp popUp = Instantiate(popUpPrefab, transform);
+            PopUp popUp = Instantiate(pointsPopUpPrefab, transform);
             popUp.Initialize(this);
             return popUp;
         }
@@ -84,7 +89,7 @@ public class PopUpManager : MonoBehaviour
     [Button]
     void SetOffset()
     {
-        offset = popUpPrefab.transform.position - testDrone.position;
+        offset = pointsPopUpPrefab.transform.position - testDrone.position;
     }
 
     public bool testLookat;
@@ -93,10 +98,13 @@ public class PopUpManager : MonoBehaviour
     {
         if (testLookat)
         {
-            popUpPrefab.transform.LookAt(playerPosition.Position);
-            popUpPrefab.transform.Rotate(0, 180, 0);
+            pointsPopUpPrefab.transform.LookAt(playerPosition.Position);
+            pointsPopUpPrefab.transform.Rotate(0, 180, 0);
         }
     }
+    
+    // might be easiest to let the mulidrone handle the always pop up. Could just request one from popUpManager.
+    // or maybe have it's own...
 
     // spawn one with points when enemy destroyed, unless it was a single one with wrong weapon
 
@@ -110,7 +118,7 @@ public class PopUpManager : MonoBehaviour
     // and for multi drone shot need extra info of position
     public void ReturnToPool(PopUp popUp)
     {
-        popUpPool.Add(popUp);
+        pointsPopUpsPool.Add(popUp);
         popUp.gameObject.SetActive(false);
     }
 }

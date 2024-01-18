@@ -29,9 +29,15 @@ public class MultiDrone : MonoBehaviour
 
     [SerializeField] PlayerPosition playerPosition;
 
+    [SerializeField] float sideDronesCurrentRangeRelative;
+
+    [SerializeField] PopUp popUp;
+    
+    public bool IsShowingAccuracyPopUp;
+
+
     static readonly int AlphaReveal = Shader.PropertyToID("_AlphaReveal");
 
-    [SerializeField] float sideDronesCurrentRangeRelative;
 
     Coroutine showLasersRoutine;
 
@@ -47,6 +53,9 @@ public class MultiDrone : MonoBehaviour
     public static event Action<MultiDroneHitInfo> OnMultiDroneShot = delegate { };
     public static event Action<MultiDroneHitInfo> OnMultiDroneDestroyed = delegate { };
 
+
+ 
+
     void OnEnable()
     {
         enemyBase.OnShotByAnyWeapon += OnGettingShot;
@@ -55,6 +64,8 @@ public class MultiDrone : MonoBehaviour
         {
             SetSideDronesAndLaserPositions();
         }
+        
+        popUp.gameObject.SetActive(false);
     }
 
     void OnDisable()
@@ -112,8 +123,9 @@ public class MultiDrone : MonoBehaviour
     }
 
 
-    public Vector3 sideDroneInLocalSpace;
-    public float SideDroneCurrentOffsetRelative;
+    [ShowInInspector]
+    public Vector3 SideDroneInLocalSpace => pivot.InverseTransformPoint(sideDrones[0].transform.position);
+    public float SideDroneCurrentOffsetRelative => Mathf.Abs(SideDroneInLocalSpace.z / settings.MaxSideDroneOffsetInUnits());
 
 
     [Button]
@@ -121,10 +133,8 @@ public class MultiDrone : MonoBehaviour
     {
         showLasersRoutine = StartCoroutine(ShowLasersRoutine());
 
-        sideDroneInLocalSpace = pivot.InverseTransformPoint(sideDrones[0].transform.position);
+        // sideDroneInLocalSpace = pivot.InverseTransformPoint(sideDrones[0].transform.position);
 
-
-        SideDroneCurrentOffsetRelative = sideDroneInLocalSpace.z / settings.MaxSideDroneOffsetInUnits();
 
         // get hit range relative -1 to 1, need to get it all the way to stats display, could just assign this prefab
 
@@ -132,13 +142,13 @@ public class MultiDrone : MonoBehaviour
         {
             Settings = settings,
             OffsetOnShotRelative = SideDroneCurrentOffsetRelative,
-            RotationRelative = sideDronesCurrentRangeRelative,
+            //RotationRelative = sideDronesCurrentRangeRelative,
             Position = transform.position
         };
 
         OnMultiDroneShot(hitInfo);
 
-        if (Mathf.Abs(sideDroneInLocalSpace.z) <= settings.SideDronesHitRangeInUnits)
+        if (Mathf.Abs(SideDroneInLocalSpace.z) <= settings.SideDronesHitRangeInUnits)
         {
             StartCoroutine(BurnCoreRoutine(hitInfo));
             sideDrones[0].GetHitByLaser(sideDrones[0].transform.position - lasers[0].transform.position, settings);
@@ -146,38 +156,19 @@ public class MultiDrone : MonoBehaviour
         }
     }
 
-    // int CheckSideDronesViaRaycast()
-    // {
-    //     int sideDronesHit = 0;
-    //     foreach (Transform laser in lasers)
-    //     {
-    //         RaycastHit[] hits = Physics.RaycastAll(laser.position, laser.forward, laserDistance);
-    //
-    //         foreach (RaycastHit hit in hits)
-    //         {
-    //             if (hit.collider.gameObject.TryGetComponent(out SideDrone sideDrone))
-    //             {
-    //                 // to not hit other drones' side drones
-    //                 if (sideDrones.Contains(sideDrone))
-    //                 {
-    //                     sideDronesHit++;
-    //                     sideDrone.GetHitByLaser(laser.forward, settings);
-    //                 }
-    //             }
-    //         }
-    //     }
-    //
-    //     if (sideDronesHit > 0 && sideDronesHit != sideDrones.Count)
-    //     {
-    //         Debug.LogError("Side drones hit is not 0 or equal to side drones count. Probably an error because laser should hit all or none");
-    //     }
-    //
-    //     return sideDronesHit;
-    // }
 
     IEnumerator BurnCoreRoutine(MultiDroneHitInfo multiDroneHitInfo)
     {
         enemyBase.SpawnExplosion();
+        
+        // the issue is that the drones get pushed away based on their direction towards the laser, which is never perfect Z
+        // could push them away based on that though.
+        // alternative is to set the text only once when getting shot. which is better for performance too, so let's do that
+        // 
+        enemyBase.movement.PauseMovement();
+        
+        //pause editor
+        
 
         float timePassed = 0;
         float burnTime = settings.LaserExpansionTime + settings.LaserStayTime;
@@ -213,6 +204,10 @@ public class MultiDrone : MonoBehaviour
 
     IEnumerator ShowLasersRoutine()
     {
+        enemyBase.movement.PauseMovement();
+        // separate, only show it once here, the other method will call that permanently
+        ShowAccuracyPopUp();
+
         coreShotReceiver.ShootingBlocked = true;
 
         freezeSideDrones = true;
@@ -231,6 +226,7 @@ public class MultiDrone : MonoBehaviour
             yield return null;
         }
 
+
         timePassed = 0;
         while (timePassed < settings.LaserStayTime)
         {
@@ -238,6 +234,9 @@ public class MultiDrone : MonoBehaviour
             yield return null;
         }
 
+        popUp.gameObject.SetActive(false);
+        
+        
         timePassed = 0;
         while (timePassed < settings.LaserShrinkTime)
         {
@@ -252,6 +251,7 @@ public class MultiDrone : MonoBehaviour
         }
 
         freezeSideDrones = false;
+        enemyBase.movement.ResumeMovement();
         coreShotReceiver.ShootingBlocked = false;
     }
 
@@ -274,8 +274,43 @@ public class MultiDrone : MonoBehaviour
 
             DebugPositionRelative = sideDronesCurrentRangeRelative;
         }
+
+        
+        // convert this to some kind of permanent show. But do tutorial after list is done.
+        // if (IsShowingAccuracyPopUp)
+        // {
+        //     UpdatePopUp();
+        // }
     }
 
+
+    public void ShowAccuracyPopUp()
+    {
+        if (popUp == null)
+        {
+            Debug.Log("no pop up assigned");
+            return;
+        }
+        
+        popUp.gameObject.SetActive(true);
+        UpdatePopUp();
+
+    }
+
+    // actually don't have to separate text if it only shows while side drones stopped, which it should anyway. so just make it really fast
+    // question is just how to show it on shot.... already have routine!
+    // tutorial can override the hiding.
+
+    void UpdatePopUp()
+    {
+        string accuracyText = Mathf.RoundToInt((1f - SideDroneCurrentOffsetRelative) * 100f).ToString() + "%";
+        float distanceToPlayer = Vector3.Distance(transform.position, playerPosition.Position);
+       // popUp.SetPosition(transform.position);
+        popUp.SetTextAndScale(accuracyText, distanceToPlayer);
+
+        popUp.transform.LookAt(playerPosition.Position);
+        popUp.transform.Rotate(0, 180, 0);
+    }
 
     // public bool inHitRange;
     //
@@ -335,8 +370,10 @@ public class MultiDrone : MonoBehaviour
 public struct MultiDroneHitInfo
 {
     public EnemySettings Settings;
+
     public float OffsetOnShotRelative;
-    public float RotationRelative;
+    //  public float RotationRelative;
+
 
     public bool IsCorrectRange => Mathf.Abs(OffsetOnShotRelative) <= Settings.SideDroneOffsetForKillRelative();
     public Vector3 Position;

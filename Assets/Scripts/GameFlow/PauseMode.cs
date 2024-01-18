@@ -36,6 +36,7 @@ public class PauseMode : MonoBehaviour
         GameManager.ResumeGame();
         pausePanel.SetActive(false);
         uiController.EnableMeshCollider(false);
+        Application.OpenURL("www.zeit.de");
     }
     
     public void QuitGame()

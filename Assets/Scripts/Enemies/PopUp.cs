@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TMPro;
@@ -22,9 +23,15 @@ public class PopUp : MonoBehaviour
     [SerializeField] float timeToReachFullScale = 1f;
     [SerializeField] float timeToFade = 2f;
 
-    PopUpManager popUpManager;
+    [SerializeField] Vector3 offset;
 
     [SerializeField] TextMeshProUGUI infoText;
+    
+    public bool isAccuracyPopUp;
+    
+    PopUpManager popUpManager;
+    float adjustedTargetScale;
+
     // depth needs percentage when killed
     // and extra method for tutorial to update
     // probably best to have a script for that, can use pop up prefab, set position and value every frame
@@ -42,33 +49,42 @@ public class PopUp : MonoBehaviour
     }
 
 
-    float adjustedTargetScale;
-
-    public void SetText(string toString, float distanceToPlayer)
+    public void SetPosition(Vector3 position)
     {
+        transform.position = position + offset;
+    }
+    
+
+    public void SetTextAndScale(string toString, float distanceToPlayer)
+    {
+        infoText.color = originalColor;
+        
         float adjustTargetScale = 1f;
         
         if (distanceToPlayer > distanceForOriginalScale)
         {
             adjustTargetScale += ((distanceToPlayer / distanceForOriginalScale) -1f) * reduceScaleFactorLargeDistance;
         }
-        
 
         adjustedTargetScale = originalScale * adjustTargetScale;
 
         infoText.text = toString;
 
-        transform.localScale = Vector3.one * reducedScaleOnSpawning * adjustedTargetScale;
+        transform.localScale = Vector3.one * adjustedTargetScale;
 
         gameObject.SetActive(true);
+    }
+    
+
+    public void GrowAndFade()
+    {
         StartCoroutine(GrowRoutine());
     }
 
 
     IEnumerator GrowRoutine()
     {
-        infoText.color = originalColor;
-        
+        transform.localScale = reducedScaleOnSpawning * adjustedTargetScale * Vector3.one;
         float time = 0;
         while (time < timeToReachFullScale)
         {
@@ -96,5 +112,13 @@ public class PopUp : MonoBehaviour
     {
         originalScale = transform.localScale.x;
         originalColor = infoText.color;
+    }
+
+
+    void Update()
+    {
+        // needs a transform/drone
+        // set the position and rotation every frame (player position) could inject. So 
+        // update the accuracy ever frame, needs to read that from the drone
     }
 }

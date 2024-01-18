@@ -10,7 +10,7 @@ public class EnemyBase : MonoBehaviour
 
     public EnemySettings Settings;
 
-    [SerializeField] EnemyMovement movement;
+    public EnemyMovement movement;
 
     [SerializeField] ShotReceiver shotReceiver;
 

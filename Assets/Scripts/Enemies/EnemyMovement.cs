@@ -37,16 +37,16 @@ public class EnemyMovement : MonoBehaviour
     void OnEnable()
     {
         splineController.OnEndReached.AddListener(OnEndReached);
-        GameManager.OnGamePaused += OnGamePaused;
-        GameManager.OnGameResumed += OnGameResumed;
+        GameManager.OnGamePaused += PauseMovement;
+        GameManager.OnGameResumed += ResumeMovement;
     }
 
 
     void OnDisable()
     {
         splineController.OnEndReached.RemoveListener(OnEndReached);
-        GameManager.OnGamePaused -= OnGamePaused;
-        GameManager.OnGameResumed -= OnGameResumed;
+        GameManager.OnGamePaused -= PauseMovement;
+        GameManager.OnGameResumed -= ResumeMovement;
     }
 
 
@@ -83,7 +83,7 @@ public class EnemyMovement : MonoBehaviour
     }
 
 
-    void OnGamePaused()
+    public void PauseMovement()
     {
         if (splineController != null)
         {
@@ -91,9 +91,9 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    void OnGameResumed()
+    public void ResumeMovement()
     {
-        if (splineController != null)
+        if (splineController != null && !GameManager.IsPaused)
         {
             splineController.Speed = settings.MovementSpeed;
         }
