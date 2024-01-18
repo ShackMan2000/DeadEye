@@ -21,12 +21,12 @@ public class PauseMode : MonoBehaviour
             pausePanel.SetActive(true);
             uiController.EnableMeshCollider(true);
         }
-// if (Input.GetKeyDown(KeyCode.Space))
-        //
-        // {
-        //     GameManager.PauseGame();
-        //     pausePanel.SetActive(true);
-        // }
+if (Input.GetKeyDown(KeyCode.Space))
+        
+        {
+            GameManager.PauseGame();
+            pausePanel.SetActive(true);
+        }
         
     }
 
@@ -36,7 +36,6 @@ public class PauseMode : MonoBehaviour
         GameManager.ResumeGame();
         pausePanel.SetActive(false);
         uiController.EnableMeshCollider(false);
-        Application.OpenURL("www.zeit.de");
     }
     
     public void QuitGame()

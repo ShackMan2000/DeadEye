@@ -40,14 +40,12 @@ public class TimeTrialManager : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.OnStartingNewTimeTrialGame += OnStartingNewTimeTrialGame;
         GameManager.OnGameFinished += FinishGame;
         playerHealth.OnHealthReduced += OnPlayerHealthReduced;
     }
 
     void OnDisable()
     {
-        GameManager.OnStartingNewTimeTrialGame -= OnStartingNewTimeTrialGame;
         GameManager.OnGameFinished -= FinishGame;
         playerHealth.OnHealthReduced -= OnPlayerHealthReduced;
     }
@@ -63,11 +61,17 @@ public class TimeTrialManager : MonoBehaviour
 
         enemySelector.InjectAllOptions(enemyOptions);
         enemySelector.SetAllEnemiesSelected();
+        
+        gameObject.SetActive(false);
     }
 
 
-    void OnStartingNewTimeTrialGame()
+    public void StartNewTimeTrialGame()
     {
+        gameObject.SetActive(true);
+        
+        GameManager.StartNewTimeTrialGame();
+        
         timeLeft = StartTimeInSeconds;
         gameIsRunning = true;
         timeLeftText.gameObject.SetActive(true);
@@ -133,8 +137,17 @@ public class TimeTrialManager : MonoBehaviour
         
         if (gameIsRunning)
         {
-            timeLeft -= Time.deltaTime;
+            timeTillNextSpawn -= Time.deltaTime;
 
+            if (timeTillNextSpawn <= 0)
+            {
+                SpawnRandomEnemy();
+                timeTillNextSpawn = Random.Range(waveSettings.SpawnIntervalMin, waveSettings.SpawnIntervalMax);
+            }
+            
+            
+            
+            timeLeft -= Time.deltaTime;
 
             timeLeftText.text = timeLeft.ToString("F1") + "s";
 
@@ -145,15 +158,9 @@ public class TimeTrialManager : MonoBehaviour
                 enemySpawner.MakeAllEnemiesInactive();
 
                 GameManager.TimeTrialSuccess();
+                gameObject.SetActive(false);
             }
 
-            timeTillNextSpawn -= Time.deltaTime;
-
-            if (timeTillNextSpawn <= 0)
-            {
-                SpawnRandomEnemy();
-                timeTillNextSpawn = Random.Range(waveSettings.SpawnIntervalMin, waveSettings.SpawnIntervalMax);
-            }
         }
     }
 
@@ -170,6 +177,7 @@ public class TimeTrialManager : MonoBehaviour
         {
             gameIsRunning = false;
             GameManager.TimeTrialFailed();
+            gameObject.SetActive(false);
         }
     }
     

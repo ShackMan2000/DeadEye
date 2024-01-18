@@ -31,7 +31,6 @@ public class WaveController : MonoBehaviour
     [SerializeField] PlayerHealth playerHealth;
 
 
-    
     [SerializeField] EnemySelector enemySelector;
 
     public float WarmupTime => settings.WarmupTime;
@@ -42,33 +41,21 @@ public class WaveController : MonoBehaviour
 
     bool isSpawning;
 
-    bool waveFailed;
-    
     bool waveGameIsRunning;
 
 
     void OnEnable()
     {
-        GameManager.OnStartingNewWaveGame += StartNewWaveGame;
-        //GameManager.OnStartingWave += InitializeWave;
-     //   GameManager.OnWaveGameFailed += OnWaveGameFailed;
-
         playerHealth.OnHealthReduced += OnPlayerHealthReduced;
         EnemySpawner.OnActiveEnemiesCountChanged += CheckIfWaveCompleted;
-        
-        GameManager.OnGameFinished += QuitAllCoroutines;
+        GameManager.OnGameFinished += FinishWaveGame;
     }
 
     void OnDisable()
     {
-        GameManager.OnStartingNewWaveGame -= StartNewWaveGame;
-    //    GameManager.OnStartingWave -= InitializeWave;
-     //   GameManager.OnWaveGameFailed -= OnWaveGameFailed;
-
         playerHealth.OnHealthReduced -= OnPlayerHealthReduced;
         EnemySpawner.OnActiveEnemiesCountChanged -= CheckIfWaveCompleted;
-        
-        GameManager.OnGameFinished -= QuitAllCoroutines;
+        GameManager.OnGameFinished -= FinishWaveGame;
     }
 
 
@@ -82,27 +69,29 @@ public class WaveController : MonoBehaviour
 
         enemySelector.InjectAllOptions(enemyOptions);
         enemySelector.SetAllEnemiesSelected();
-        
-        waveGameIsRunning = false;
+
+        gameObject.SetActive(false);
     }
 
-    void StartNewWaveGame()
+    public void StartNewWaveGame()
     {
+        gameObject.SetActive(true);
+
+        GameManager.StartNewWaveGame();
+
         playerHealth.ResetHealth();
 
         enemySpawner.SetUpCurvyPaths(splinesEntryForMainLoops, splinesLingerEasy, splinesLingerHard);
 
         currentWaveIndex = -1;
-        
+
         waveGameIsRunning = true;
         StartCoroutine(InitializeWaveRoutine());
     }
 
 
-
     void CreateEnemiesToSpawnForCurrentWave()
     {
-
         enemiesToSpawnCurrentWave = new Dictionary<SpawnSettings, int>();
 
         bool ignoreSelection = enemySelector.SelectedEnemies.Count == 0;
@@ -144,12 +133,12 @@ public class WaveController : MonoBehaviour
         enemySpawner.FreeAllSplines();
 
         CreateEnemiesToSpawnForCurrentWave();
-        
-        if(delay > 0.1f)
+
+        if (delay > 0.1f)
         {
             yield return new WaitForSeconds(delay);
         }
-        
+
         train.MoveTrainIntoScene();
 
         yield return new WaitForSeconds(WarmupTime);
@@ -164,9 +153,9 @@ public class WaveController : MonoBehaviour
         {
             return;
         }
-        
+
         if (!isSpawning) return;
-        
+
         if (GameManager.IsPaused) return;
 
         timeTillNextSpawn -= Time.deltaTime;
@@ -202,30 +191,40 @@ public class WaveController : MonoBehaviour
 
     void OnPlayerHealthReduced()
     {
-        // just in case bullet hits the same time...
-        if (waveFailed)
+        // just in case bullet hits the same time
+        if (!waveGameIsRunning)
         {
             return;
         }
 
-
-        // right now this is the only way to save stats... 
         if (playerHealth.CurrentHealth <= 0 && playerHealth.MaxHealth != 0)
         {
-            waveFailed = true;
             GameManager.WaveFailed();
-            isSpawning = false;
+            FinishWaveGame();
         }
+    }
+
+    
+    // this way can also be called through quit in pause menu and it won't count as a failed game
+    void FinishWaveGame()
+    {
+        waveGameIsRunning = false;
+        isSpawning = false;
+        gameObject.SetActive(false);
+        
+        StopAllCoroutines();
+        train.MoveTrainOutOfScene();
     }
 
 
     void CheckIfWaveCompleted(int activeEnemiesCount)
     {
+        Debug.Log("CheckIfWaveCompleted");
         if (!waveGameIsRunning)
         {
             return;
         }
-        
+
         if (activeEnemiesCount == 0 && !isSpawning)
         {
             train.MoveTrainOutOfScene();
@@ -233,14 +232,6 @@ public class WaveController : MonoBehaviour
         }
     }
 
-    
-    void QuitAllCoroutines()
-    {
-        StopAllCoroutines();
-    }
 
-    void OnWaveGameFailed()
-    {
-        // enemySpawner.MakeAllEnemiesInactive();
-    }
+  
 }

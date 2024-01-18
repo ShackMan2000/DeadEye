@@ -35,8 +35,8 @@ MonoBehaviour:
   StatExplanation: 
   BulletPrefab: {fileID: 1061070169017869953, guid: 311e46496773a9d4daac2f7a57ed3c79,
     type: 3}
-  ShootWarningTime: 3
-  ShootingInterval: {x: 2, y: 7}
+  ShootWarningTime: 4
+  ShootingInterval: {x: 1, y: 4}
   LaserPivotRotation: 0
   LaserExpansionTime: 0.2
   LaserStayTime: 1

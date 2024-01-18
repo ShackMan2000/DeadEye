@@ -859,7 +859,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &19127557
 Transform:
   m_ObjectHideFlags: 0
@@ -16048,7 +16048,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &563598425
 Transform:
   m_ObjectHideFlags: 0
@@ -24209,6 +24209,8 @@ MonoBehaviour:
   - {fileID: 303233409}
   MustBeEnabled:
   - {fileID: 1302926323}
+  - {fileID: 1402115634}
+  - {fileID: 1433885802}
   RemoveColliders:
   - {fileID: 443094097}
   waveController: {fileID: 1402115636}
@@ -41115,7 +41117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeOptions: {fileID: 11400000, guid: 81b3458cb9a24db4d9e95c01defffe5f, type: 2}
-  waveSettings: {fileID: 11400000, guid: 6b9b850081bf8564693e4799a5cecb4f, type: 2}
+  waveSettings: {fileID: 11400000, guid: e5b1b5e1c602ce14daf594daf53139a9, type: 2}
   splines:
   - {fileID: 1831247154}
   - {fileID: 723581674}
@@ -42349,6 +42351,8 @@ MonoBehaviour:
   waveIngamePanel: {fileID: 777103257845970066}
   timeLeft: {fileID: 381057257}
   gameOverPanel: {fileID: 303233413}
+  waveController: {fileID: 1402115636}
+  timeTrialManager: {fileID: 1433885803}
   panelsToHideOnStart:
   - {fileID: 1293469879}
   - {fileID: 1719271558}
@@ -109439,6 +109443,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2145622880420749962, guid: fe2ca45c2d7569d43aa1514e7c6055e3,
+        type: 3}
+      propertyPath: speed
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 2145622880420749962, guid: fe2ca45c2d7569d43aa1514e7c6055e3,
+        type: 3}
+      propertyPath: maxTimeVisible
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 2315094262686239860, guid: fe2ca45c2d7569d43aa1514e7c6055e3,
         type: 3}

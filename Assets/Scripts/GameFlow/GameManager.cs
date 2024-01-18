@@ -132,6 +132,7 @@ public static class GameManager
         GameOver = true;
         ExitShootingGameMode();
         OnTimeTrialFailed?.Invoke();
+        OnGameFinished?.Invoke();
     }
 
     public static void PauseGame()

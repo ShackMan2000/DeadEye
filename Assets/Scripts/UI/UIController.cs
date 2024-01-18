@@ -23,6 +23,10 @@ public class UIController : MonoBehaviour
     [SerializeField] GameOverPanel gameOverPanel;
     // [SerializeField] StatsDisplay statsDisplay;
 
+
+    [SerializeField] WaveController waveController;
+    [SerializeField] TimeTrialManager timeTrialManager;
+    
     [SerializeField] List<GameObject> panelsToHideOnStart;
 
     // public static event Action OnEnableUnlimitedHealth = delegate { };
@@ -74,7 +78,7 @@ public class UIController : MonoBehaviour
 
         timeLeft.gameObject.SetActive(false);
 
-        GameManager.StartNewWaveGame();
+        waveController.StartNewWaveGame();
     }
 
 
@@ -85,9 +89,10 @@ public class UIController : MonoBehaviour
         ToggleIngamePanel(true);
         gameOverPanel.gameObject.SetActive(false);
         timeLeft.gameObject.SetActive(true);
+        
+        timeTrialManager.StartNewTimeTrialGame();
 
 
-        GameManager.StartNewTimeTrialGame();
     }
 
 

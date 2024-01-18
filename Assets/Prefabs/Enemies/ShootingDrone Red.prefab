@@ -58,6 +58,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1959089509567523396, guid: 09d2b14aadeaf874bbfb98ae1342613b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c3df15e78763cb14294202b2259d1555, type: 2}
+    - target: {fileID: 3486094168587344604, guid: 09d2b14aadeaf874bbfb98ae1342613b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c3df15e78763cb14294202b2259d1555, type: 2}
     - target: {fileID: 3506425195894798882, guid: 09d2b14aadeaf874bbfb98ae1342613b,
         type: 3}
       propertyPath: CorrectWeaponsToGetShot.Array.data[0]

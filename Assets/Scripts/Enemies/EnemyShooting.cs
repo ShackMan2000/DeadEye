@@ -16,6 +16,15 @@ public class EnemyShooting : MonoBehaviour
 
     [SerializeField] GameSettings gameSettings;
 
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip chargingSound;
+    [SerializeField] AudioClip blastSound;
+
+
+    // first figure out how long that charging sound should play
+    // which means have to initialize the shooting quite early
+    // when it's time to shoot, change the sound clip to blast. That's all, the swooshing sound is in the bullet
+
     EnemySettings settings => enemyBase.Settings;
 
     static float globalTimeLastShot;
@@ -26,16 +35,22 @@ public class EnemyShooting : MonoBehaviour
     void OnEnable()
     {
         enemyBase.OnInitialized += InitializeShooting;
+        GameManager.OnGamePaused += PauseSound;
+        GameManager.OnGameResumed += ResumeSound;
 
         foreach (Renderer r in gunRenderer)
         {
             r.material.SetFloat(Glow, 0f);
         }
+        
+                audioSource.Stop();
     }
 
     void OnDisable()
     {
         enemyBase.OnInitialized -= InitializeShooting;
+        GameManager.OnGamePaused -= PauseSound;
+        GameManager.OnGameResumed -= ResumeSound;
     }
 
     void InitializeShooting()
@@ -53,30 +68,54 @@ public class EnemyShooting : MonoBehaviour
 
         float warningTime = enemyBase.Settings.ShootWarningTime;
 
+        audioSource.clip = chargingSound;
+        audioSource.Play();
+
 
         foreach (Renderer r in gunRenderer)
         {
-            r.material.SetFloat(Glow, 1f);
+            r.material.SetFloat(Glow, 0.8f);
         }
 
         yield return new WaitForSeconds(warningTime);
-        yield return new WaitUntil( () => !GameManager.IsPaused);
+        yield return new WaitUntil(() => !GameManager.IsPaused);
 
         if (enemyBase.Settings.BulletPrefab != null)
         {
             EnemyBullet bullet = Instantiate(enemyBase.Settings.BulletPrefab);
             bullet.Initialize(bulletSpawnPoint.position, playerPosition.Position);
         }
+        
+        audioSource.clip = blastSound;
+        audioSource.Play();
 
 
         foreach (Renderer r in gunRenderer)
         {
             r.material.SetFloat(Glow, 0f);
         }
-        
-        if(gameObject.activeSelf)
+
+        if (gameObject.activeSelf)
         {
             StartCoroutine(ShootAtPlayerCoroutine());
+        }
+    }
+
+
+    void PauseSound()
+    {
+        if (audioSource.isPlaying)
+        {
+            audioSource.Pause();
+        }
+        
+    }
+    
+    void ResumeSound()
+    {
+        if (!audioSource.isPlaying)
+        {
+            audioSource.UnPause();
         }
     }
 }
