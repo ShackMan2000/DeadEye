@@ -16,18 +16,28 @@ public class EnemyBullet : MonoBehaviour
     
     public static event Action OnAnyEnemyBulletHitPlayer = delegate { };
 
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] float secondsBeforeImpactToPlaySwooshSound;
     
-    // could also tell it directly about the player. Thing is there is no player script yet...
-    // could be the position updater...
+    
+
+    // should start playing the swoosh sound
+    // need to know how many seconds before impact it should start playing
+    // how many seconds till impact, so count that down
 
     void OnEnable()
     {
         GameManager.OnGameFinished += DestroyBullet;
+        GameManager.OnGamePaused += PauseSound;
+        GameManager.OnGameResumed += ResumeSound;
     }
     
     void OnDisable()
     {
         GameManager.OnGameFinished -= DestroyBullet;
+        GameManager.OnGamePaused -= PauseSound;
+        GameManager.OnGameResumed -= ResumeSound;
+        
     }
 
 
@@ -37,6 +47,17 @@ public class EnemyBullet : MonoBehaviour
         transform.position = position;
         direction = (playerPositionPosition - position).normalized;
         transform.rotation = Quaternion.LookRotation(direction);
+        
+        float timeTillImpact = Vector3.Distance(position, playerPositionPosition) / Speed;
+        
+        if (timeTillImpact > secondsBeforeImpactToPlaySwooshSound)
+        {
+            audioSource.PlayDelayed(timeTillImpact - secondsBeforeImpactToPlaySwooshSound);
+        }
+        else
+        {
+            audioSource.Play();
+        }
     }
 
     void Update()
@@ -56,6 +77,17 @@ public class EnemyBullet : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    
+    void PauseSound()
+    {
+        audioSource.Pause();
+    }
+    
+    void ResumeSound()
+    {
+        audioSource.UnPause();
+    }
+    
     
     void DestroyBullet()
     {
