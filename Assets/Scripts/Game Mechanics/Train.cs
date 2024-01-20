@@ -28,6 +28,9 @@ public class Train : MonoBehaviour
 
     [SerializeField] AnimationCurve moveOutSpeedCurve;
     
+    [SerializeField] Gate entryGate;
+    
+    
     bool trainIsInScene;
     bool movingTrainOutOfScene;
 
@@ -71,7 +74,8 @@ public class Train : MonoBehaviour
 
     IEnumerator MoveTrainIntoSceneRoutine()
     {
-        Debug.Log("MoveTrainIntoSceneRoutine");
+        entryGate.PlayTrainEntersGateSound();
+        
         trainIsInScene = true;
         trainController.RelativePosition = 0f;
         waveNumberText.text = "Wave " + (waveController.currentWaveIndex + 1);

@@ -42,6 +42,9 @@ public class WaveController : MonoBehaviour
     bool isSpawning;
 
     bool waveGameIsRunning;
+    
+    
+    public static  event Action OnWaveCompleted = delegate { };
 
 
     void OnEnable()
@@ -219,7 +222,6 @@ public class WaveController : MonoBehaviour
 
     void CheckIfWaveCompleted(int activeEnemiesCount)
     {
-        Debug.Log("CheckIfWaveCompleted");
         if (!waveGameIsRunning)
         {
             return;
@@ -227,6 +229,7 @@ public class WaveController : MonoBehaviour
 
         if (activeEnemiesCount == 0 && !isSpawning)
         {
+            OnWaveCompleted?.Invoke();
             train.MoveTrainOutOfScene();
             StartCoroutine(InitializeWaveRoutine(3f));
         }

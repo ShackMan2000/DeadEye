@@ -12,8 +12,11 @@ public class SaveData
     
     public List<StatsSummaryPerGame> StatsForWaveGames =   new List<StatsSummaryPerGame>();
     public List<StatsSummaryPerGame> StatsForTimeTrialGames = new List<StatsSummaryPerGame>();
-   
-  
+
+
+    public float HighScoreWaves;
+    public float HighScoreTimeTrial;
+    
     public bool TutorialCompleted;
 
     public string LastSaveTimeStampString;

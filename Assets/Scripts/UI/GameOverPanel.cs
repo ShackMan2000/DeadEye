@@ -11,7 +11,10 @@ public class GameOverPanel : MonoBehaviour
     [SerializeField] StatsPanel statsPanel;
 
     [SerializeField] TextMeshProUGUI headerText;
+    [SerializeField] TextMeshProUGUI scoreText;
 
+    [SerializeField] StatsTracker statsTracker;
+    
     // set text, activate panel
     // show main ui and show stats there
     // update the stats when stats tracker saves, might happen after this
@@ -56,6 +59,7 @@ public class GameOverPanel : MonoBehaviour
         showingWaveStats = true;
         
         headerText.text = "Wave Game Over";
+        scoreText.text = "Score: " + statsTracker.statsSummaryThisRound.Score;
         
     }
 
@@ -68,6 +72,8 @@ public class GameOverPanel : MonoBehaviour
         
         showingWaveStats = false;
         headerText.text = "Time Trial Completed!";
+        scoreText.text = "Score: " + statsTracker.statsSummaryThisRound.Score;
+
     }
 
     public void ShowTimeTrialFailed()
@@ -79,5 +85,7 @@ public class GameOverPanel : MonoBehaviour
         
         showingWaveStats = false;
         headerText.text = "Time Trial Failed";
+        scoreText.text = "Score: " + statsTracker.statsSummaryThisRound.Score;
+
     }
 }

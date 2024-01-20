@@ -11,6 +11,12 @@ public class SparksSpawner : MonoBehaviour
 
     List<Sparks> redSparksPool = new List<Sparks>();
 
+    [SerializeField] AudioClip hitEnemySound;
+    [SerializeField] AudioClip hitGroundSound;
+    
+    
+// turn into struct. So it can have more information what it hit
+// hit enemy or not. If enemy, metal sound, otherwise ground sound. pass audioclip into sparks initialize.
 
     void OnEnable()
     {
@@ -22,8 +28,15 @@ public class SparksSpawner : MonoBehaviour
         Gun.OnShotHitSomething -= SpawnBulletImpact;
     }
 
-    void SpawnBulletImpact(WeaponType weaponType, Vector3 position, Vector3 faceNormal)
+    void SpawnBulletImpact(Gun.ShotHitInfo shotHitInfo)
     {
+        WeaponType weaponType = shotHitInfo.weaponType;
+        Vector3 position = shotHitInfo.hitPoint;
+        Vector3 faceNormal = shotHitInfo.hitNormal;
+        
+        AudioClip audioClip = shotHitInfo.hitEnemy ? hitEnemySound : hitGroundSound;
+        
+        
         if (weaponType == blueWeaponType)
         {
             Sparks blueSparks;
@@ -41,7 +54,7 @@ public class SparksSpawner : MonoBehaviour
                 blueSparksPool.RemoveAt(0);
             }
 
-            blueSparks.PlaySparks();
+            blueSparks.PlaySparks(audioClip);
         }
         
 
@@ -62,7 +75,7 @@ public class SparksSpawner : MonoBehaviour
                 redSparksPool.RemoveAt(0);
             }
 
-            redSparks.PlaySparks();
+            redSparks.PlaySparks(audioClip);
         }
     }
     

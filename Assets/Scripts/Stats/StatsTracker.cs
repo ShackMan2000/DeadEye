@@ -14,8 +14,9 @@ public class StatsTracker : MonoBehaviour
     public StatsSummaryPerGame statsSummaryThisRound;
 
     public static event Action OnSavedStats = delegate { };
-    // public List<Stats> StatsForEachWave;
 
+    public static event Action OnNewHighScore = delegate { };
+    // public List<Stats> StatsForEachWave;
 
 
     void OnEnable()
@@ -70,8 +71,8 @@ public class StatsTracker : MonoBehaviour
         //     statsThisRound.StatsPerSingleEnemies.Add(statsPerSingleEnemy);
         //     index = statsThisRound.StatsPerSingleEnemies.Count - 1;
         // }
-        
-        statsSummaryThisRound. redBlueHitsCount++;
+
+        statsSummaryThisRound.redBlueHitsCount++;
 
         if (correctWeapon)
         {
@@ -109,7 +110,7 @@ public class StatsTracker : MonoBehaviour
     {
         statsSummaryThisRound.multiDroneHitsCount++;
         // one will be 0...
-     //   statsSummaryThisRound.multiDroneHitsAccuracySums += MathF.Abs(hitInfo.RotationRelative);
+        //   statsSummaryThisRound.multiDroneHitsAccuracySums += MathF.Abs(hitInfo.RotationRelative);
         statsSummaryThisRound.multiDroneHitsAccuracySums += 1f - hitInfo.OffsetOnShotRelative;
 
         // int index = statsThisRound.StatsMultiDrones.FindIndex(x => x.EnemySettings == hitInfo.Settings);
@@ -248,10 +249,21 @@ public class StatsTracker : MonoBehaviour
         if (isWaveGame)
         {
             SaveManager.Instance.GetSaveData().StatsForWaveGames.Add(statsSummaryThisRound);
+            if (statsSummaryThisRound.Score > SaveManager.Instance.GetSaveData().HighScoreWaves)
+            {
+                SaveManager.Instance.GetSaveData().HighScoreWaves = statsSummaryThisRound.Score;
+                OnNewHighScore?.Invoke();
+            }
         }
         else
         {
             SaveManager.Instance.GetSaveData().StatsForTimeTrialGames.Add(statsSummaryThisRound);
+
+            if (statsSummaryThisRound.Score > SaveManager.Instance.GetSaveData().HighScoreTimeTrial)
+            {
+                SaveManager.Instance.GetSaveData().HighScoreTimeTrial = statsSummaryThisRound.Score;
+                OnNewHighScore?.Invoke();
+            }
         }
 
         SaveManager.Instance.WriteSaveData();
@@ -259,8 +271,6 @@ public class StatsTracker : MonoBehaviour
         OnSavedStats?.Invoke();
     }
 }
-
-
 
 
 [System.Serializable]

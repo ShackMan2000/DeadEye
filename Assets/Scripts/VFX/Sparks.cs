@@ -14,6 +14,8 @@ public class Sparks : MonoBehaviour
     [SerializeField] ParticleSystem sparksParticleSystem;
     public WeaponType WeaponType;
 
+    
+    [SerializeField] AudioSource audioSource;
 
     public void Initialize(SparksSpawner sparksSpawner, WeaponType wt)
     {
@@ -22,9 +24,12 @@ public class Sparks : MonoBehaviour
     }
     
     
-    public void PlaySparks()
+    public void PlaySparks(AudioClip audioClip)
     {
         gameObject.SetActive(true);
+        audioSource.clip = audioClip;
+        audioSource.Play();
+        
         StartCoroutine(PlayAndDisableSparksCoroutine());
     }
     

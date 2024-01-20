@@ -19,6 +19,7 @@ public class EnemyMovement : MonoBehaviour
 
 
     public static event Action<CurvySpline> OnSplineFreedUp = delegate { };
+    public static event Action OnEnemyLeftThroughGate = delegate { };
 
 
     [SerializeField] CurvySpline spline;
@@ -104,6 +105,7 @@ public class EnemyMovement : MonoBehaviour
         {
             if (removeWhenReachingPathEnd)
             {
+                OnEnemyLeftThroughGate?.Invoke();
                 enemyBase.DeactivateViaManager();
             }
         }

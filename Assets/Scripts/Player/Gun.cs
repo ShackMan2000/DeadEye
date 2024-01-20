@@ -24,11 +24,20 @@ public class Gun : MonoBehaviour
 
     public event Action<WeaponType> OnShotFired = delegate { };
     public event Action<float> OnShotFiredWithDistance = delegate { };
-    public static event Action<WeaponType, Vector3, Vector3> OnShotHitSomething = delegate { };
+    public static event Action<ShotHitInfo> OnShotHitSomething = delegate { };
 
     // public static event Action<Vector3, Vector3> OnHitObjectNotShootable = delegate { };
     public static event Action<bool> ShotHitEnemy = delegate { };
 
+    
+    public struct ShotHitInfo
+    {
+        public bool hitEnemy;
+        public Vector3 hitPoint;
+        public Vector3 hitNormal;
+        public WeaponType weaponType;
+    }
+    
     //
     // bool isChamberRotating;
     // float chamberRotationSpeed = 1000f;
@@ -60,8 +69,15 @@ public class Gun : MonoBehaviour
                 shotReceiver.GetShot(SelectedWeaponType);
             }
 
+            ShotHitInfo shotHitInfo = new ShotHitInfo
+            {
+                hitEnemy = shotHitEnemy,
+                hitPoint = hit.point,
+                hitNormal = hit.normal,
+                weaponType = SelectedWeaponType
+            };
 
-            OnShotHitSomething?.Invoke(SelectedWeaponType, hit.point, hit.normal);
+            OnShotHitSomething?.Invoke(shotHitInfo);
             
         }
 
