@@ -21,13 +21,14 @@ public class ControllerGunsToggle : MonoBehaviour
     }
 
 
-    void Start()
+    void Awake()
     {
         ShowControllers();
     }
 
     void ShowControllers()
     {
+        Debug.Log("ShowControllers");
         foreach (GameObject gun in guns)
         {
             gun.SetActive(false);
@@ -42,6 +43,7 @@ public class ControllerGunsToggle : MonoBehaviour
 
     public void ShowGuns()
     {
+        Debug.Log("ShowGuns");
         foreach (GameObject gun in guns)
         {
             gun.SetActive(true);

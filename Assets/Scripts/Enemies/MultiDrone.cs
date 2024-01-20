@@ -32,8 +32,8 @@ public class MultiDrone : MonoBehaviour
     [SerializeField] float sideDronesCurrentRangeRelative;
 
     [SerializeField] PopUp popUp;
-    
-    public bool IsShowingAccuracyPopUp;
+
+    public bool alwaysShowAccuracyPopUp;
 
 
     static readonly int AlphaReveal = Shader.PropertyToID("_AlphaReveal");
@@ -54,8 +54,6 @@ public class MultiDrone : MonoBehaviour
     public static event Action<MultiDroneHitInfo> OnMultiDroneDestroyed = delegate { };
 
 
- 
-
     void OnEnable()
     {
         enemyBase.OnShotByAnyWeapon += OnGettingShot;
@@ -64,8 +62,8 @@ public class MultiDrone : MonoBehaviour
         {
             SetSideDronesAndLaserPositions();
         }
-        
-        popUp.gameObject.SetActive(false);
+
+        popUp.gameObject.SetActive(alwaysShowAccuracyPopUp);
     }
 
     void OnDisable()
@@ -125,6 +123,7 @@ public class MultiDrone : MonoBehaviour
 
     [ShowInInspector]
     public Vector3 SideDroneInLocalSpace => pivot.InverseTransformPoint(sideDrones[0].transform.position);
+
     public float SideDroneCurrentOffsetRelative => Mathf.Abs(SideDroneInLocalSpace.z / settings.MaxSideDroneOffsetInUnits());
 
 
@@ -160,15 +159,17 @@ public class MultiDrone : MonoBehaviour
     IEnumerator BurnCoreRoutine(MultiDroneHitInfo multiDroneHitInfo)
     {
         enemyBase.SpawnExplosion();
-        
+
         // the issue is that the drones get pushed away based on their direction towards the laser, which is never perfect Z
         // could push them away based on that though.
         // alternative is to set the text only once when getting shot. which is better for performance too, so let's do that
         // 
         enemyBase.movement.PauseMovement();
-        
+
         //pause editor
-        
+
+        // so in the turorial mode the number doesn't get updated anymore
+        alwaysShowAccuracyPopUp = false;
 
         float timePassed = 0;
         float burnTime = settings.LaserExpansionTime + settings.LaserStayTime;
@@ -234,9 +235,12 @@ public class MultiDrone : MonoBehaviour
             yield return null;
         }
 
-        popUp.gameObject.SetActive(false);
-        
-        
+        if (!alwaysShowAccuracyPopUp)
+        {
+            popUp.gameObject.SetActive(false);
+        }
+
+
         timePassed = 0;
         while (timePassed < settings.LaserShrinkTime)
         {
@@ -275,7 +279,11 @@ public class MultiDrone : MonoBehaviour
             DebugPositionRelative = sideDronesCurrentRangeRelative;
         }
 
-        
+        if(alwaysShowAccuracyPopUp)
+        {
+            UpdatePopUp();
+        }
+
         // convert this to some kind of permanent show. But do tutorial after list is done.
         // if (IsShowingAccuracyPopUp)
         // {
@@ -291,10 +299,9 @@ public class MultiDrone : MonoBehaviour
             Debug.Log("no pop up assigned");
             return;
         }
-        
+
         popUp.gameObject.SetActive(true);
         UpdatePopUp();
-
     }
 
     // actually don't have to separate text if it only shows while side drones stopped, which it should anyway. so just make it really fast
@@ -305,7 +312,7 @@ public class MultiDrone : MonoBehaviour
     {
         string accuracyText = Mathf.RoundToInt((1f - SideDroneCurrentOffsetRelative) * 100f).ToString() + "%";
         float distanceToPlayer = Vector3.Distance(transform.position, playerPosition.Position);
-       // popUp.SetPosition(transform.position);
+        // popUp.SetPosition(transform.position);
         popUp.SetTextAndScale(accuracyText, distanceToPlayer);
 
         popUp.transform.LookAt(playerPosition.Position);

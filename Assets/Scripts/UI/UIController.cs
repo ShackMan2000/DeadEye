@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Backend;
 using UnityEngine;
 using UnityEngine.UI;
 using Sirenix.OdinInspector;
@@ -17,12 +18,14 @@ public class UIController : MonoBehaviour
     [SerializeField] GameObject menuPanel;
 
     [SerializeField] GameObject waveIngamePanel;
+    [SerializeField] GameObject tutorialInstructionsPanel;
 
     [SerializeField] GameObject timeLeft;
 
     [SerializeField] GameOverPanel gameOverPanel;
     // [SerializeField] StatsDisplay statsDisplay;
 
+    [SerializeField] Tutorial tutorial;
 
     [SerializeField] WaveController waveController;
     [SerializeField] TimeTrialManager timeTrialManager;
@@ -56,7 +59,15 @@ public class UIController : MonoBehaviour
             panel.SetActive(false);
         }
 
-        menuPanel.gameObject.SetActive(true);
+        if(SaveManager.Instance.GetSaveData().TutorialCompleted)
+        {
+            ToggleMenuPanel(true);
+        }
+        else
+        {
+            StartTutorial();
+        }
+        
     }
 
 
@@ -81,6 +92,23 @@ public class UIController : MonoBehaviour
         waveController.StartNewWaveGame();
     }
 
+
+    public void StartTutorial()
+    {
+        ToggleMenuPanel(false);
+        ToggleIngamePanel(false);
+        tutorialInstructionsPanel.SetActive(true);
+        gameOverPanel.gameObject.SetActive(false);
+
+        tutorial.StartTutorial();
+    }
+    
+    public void FinishedTutorial()
+    {
+        tutorialInstructionsPanel.SetActive(false);
+        ToggleMenuPanel(true);
+    }
+    
 
     [Button]
     public void StartNewTimeTrialGame()
@@ -122,24 +150,13 @@ public class UIController : MonoBehaviour
         gameOverPanel.ShowTimeTrialFailed();
     }
 
-    // void ToggleStatsPanel(bool show)
-    // {
-    //     EnableMeshCollider(show);
-    //     waveIngamePanel.SetActive(!show);
-    // }
 
-
-    // [Button]
-    // public void StartNextWaveBtn()
-    // {
-    //     EnableMeshCollider(false);
-    //     waveIngamePanel.gameObject.SetActive(true);
-    //     GameManager.StartWave();
-    // }
 
 
     public void EnableMeshCollider(bool activate)
     {
         meshCollider.enabled = activate;
     }
+
+
 }

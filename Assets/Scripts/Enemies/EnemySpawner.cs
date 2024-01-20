@@ -150,7 +150,12 @@ public class EnemySpawner : MonoBehaviour
 
     void OnEnemyDestroyedPrefabType(EnemyBase destroyedEnemy, EnemyBase enemyPrefab)
     {
-        if (activeEnemies.ContainsKey(enemyPrefab))
+        if (destroyedEnemy == null || enemyPrefab == null)
+        {
+            return;
+        }
+
+            if (activeEnemies.ContainsKey(enemyPrefab))
         {
             activeEnemies[enemyPrefab].Remove(destroyedEnemy);
 

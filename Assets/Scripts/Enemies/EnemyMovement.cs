@@ -94,7 +94,7 @@ public class EnemyMovement : MonoBehaviour
 
     public void ResumeMovement()
     {
-        if (splineController != null && !GameManager.IsPaused)
+        if (splineController != null && settings != null && !GameManager.IsPaused)
         {
             splineController.Speed = settings.MovementSpeed;
         }
@@ -113,6 +113,10 @@ public class EnemyMovement : MonoBehaviour
 
         public void OnDestroyed()
         {
+            if (settings == null)
+            {
+                return;
+            }
             if (settings.MovementType == EnemyMovementType.Linger)
             {
                 OnSplineFreedUp?.Invoke(splineController.Spline);
